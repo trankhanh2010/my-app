@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from "react";
-import bedService from "../../../services/bedService";
-import { format, parse } from "date-fns";
-import { FaLock, FaCheck } from 'react-icons/fa';
+
 import config from "../../../config";
+
+import bedService from "../../../services/bedService";
+import bedRoomService from "../../../services/bedRoomService"; 
+import bedTypeService from "../../../services/bedTypeService";
+
+import Select from "react-select";
+import { format } from "date-fns";
+import { FaLock, FaCheck, FaTrash } from 'react-icons/fa';
 
 const isDB = config.apiService.bed.typeGetApi === 'db';
 const isElastic = config.apiService.bed.typeGetApi === 'elastic';
+const bedRoomIsDB = config.apiService.bedRoom.typeGetApi === 'db';
+const bedRoomIsElastic = config.apiService.bedRoom.typeGetApi === 'elastic';
+const bedTypeIsDB = config.apiService.bed.typeGetApi === 'db';
+const bedTypeIsElastic = config.apiService.bed.typeGetApi === 'elastic';
+
 const BedList = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -14,12 +25,21 @@ const BedList = () => {
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [totalItems, setTotalItems] = useState(0);
+    const [isActive, setIsActive] = useState(1);
+    const [isDelete, setIsDelete] = useState(0);
     const [orderBy, setOrderBy] = useState("modifyTime");
     const [orderDirection, setOrderDirection] = useState("desc");
     const [keyword, setKeyword] = useState(null);
 
     const [selectedBed, setSelectedBed] = useState(null);
+
     const [bedDetails, setBedDetails] = useState(null);
+
+    const [bedRooms, setBedRooms] = useState([]);
+    const [bedRoomKeyword, setBedRoomKeyword] = useState(null);
+
+    const [bedTypes, setBedTypes] = useState([]);
+    const [bedTypeKeyword, setBedTypeKeyword] = useState(null);
 
     const start = (page - 1) * limit;
 
@@ -31,11 +51,16 @@ const BedList = () => {
             // console.log(config.apiService.bed.typeGetApi); 
             // console.log("Data fetched:", beds.data); // Debug dữ liệu
             // console.log("Data fetched:", beds.param.Count); // Debug dữ liệu
-            if(isDB){
-                setData(beds.data); 
+            if (isDB) {
+                setData(beds.data);
             }
-            if(isElastic){
-                setData(beds.data.map((item) => item._source));
+            if (isElastic) {
+                setData(
+                    beds.data.map((item) => ({
+                        ...item._source, // Lấy dữ liệu chính
+                        highlight: item.highlight || {}, // Lấy highlight nếu có
+                    }))
+                );
             }
             setTotalItems(beds.param.Count); // Tổng bản ghi
             setLoading(false);
@@ -51,11 +76,65 @@ const BedList = () => {
         }
     };
 
+    // Lấy danh sách buồng bệnh
+    const fetchBedRooms = async () => {
+        try {
+            const bedRooms = await bedRoomService.getAllSelect(bedRoomKeyword || null);
+            if (bedRoomIsDB) {
+                setBedRooms(bedRooms.data);
+            }
+            if (bedRoomIsElastic) {
+                setBedRooms(
+                    bedRooms.data.map((item) => ({
+                        ...item._source, // Lấy dữ liệu chính
+                        highlight: item.highlight || {}, // Lấy highlight nếu có
+                    }))
+                );
+            }
+        } catch (err) {
+            console.error("Lỗi khi tải buồng bệnh:", err);
+        }
+    };
+
+    // Lấy danh sách loại giường
+    const fetchBedTypes = async () => {
+        try {
+            const bedTypes = await bedTypeService.getAllSelect(bedTypeKeyword || null);
+            if (bedTypeIsDB) {
+                setBedTypes(bedTypes.data);
+            }
+            if (bedTypeIsElastic) {
+                setBedTypes(
+                    bedTypes.data.map((item) => ({
+                        ...item._source, // Lấy dữ liệu chính
+                        highlight: item.highlight || {}, // Lấy highlight nếu có
+                    }))
+                );
+            }
+        } catch (err) {
+            console.error("Lỗi khi tải loại giường:", err);
+        }
+    };
+
     const handleBedSelect = (bed) => {
         setSelectedBed(bed);
         setBedDetails(bed);
     };
 
+    const handleDelete = async (bedId, bedName) => {
+        const confirm = window.confirm(`Bạn có chắc chắn muốn xóa bản ghi "${bedName}" không?`);
+        if (!confirm) return;
+
+        try {
+            await bedService.deleteBed(bedId); // Gọi API xóa
+            alert("Xóa thành công!");
+            fetchData(); // Load lại danh sách sau khi xóa
+        } catch (err) {
+            console.error("Lỗi khi xóa bản ghi:", err);
+            alert("Lỗi khi xóa bản ghi.");
+        }
+    };
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -81,12 +160,25 @@ const BedList = () => {
     };
 
     useEffect(() => {
+        fetchBedRooms();
+        fetchBedTypes();
+    }, []);
+
+    useEffect(() => {
         const delayDebounce = setTimeout(() => {
-          fetchData();
+            fetchBedRooms();
         }, 200); // Chờ 200ms trước khi gọi API
-    
+
         return () => clearTimeout(delayDebounce); // Xóa timeout nếu dependency thay đổi
-      }, [page, limit, orderBy, orderDirection, keyword]); // Gọi lại khi có thay đổi
+    }, [bedRoomKeyword]); // Gọi lại khi có thay đổi
+
+    useEffect(() => {
+        const delayDebounce = setTimeout(() => {
+            fetchData();
+        }, 200); // Chờ 200ms trước khi gọi API
+
+        return () => clearTimeout(delayDebounce); // Xóa timeout nếu dependency thay đổi
+    }, [page, limit, orderBy, orderDirection, keyword]); // Gọi lại khi có thay đổi
 
     if (loading) return <p className="text-center text-xl">Đang tải dữ liệu...</p>;
     if (error) return <p className="text-red-500">{error}</p>;
@@ -185,7 +277,8 @@ const BedList = () => {
                     </div>
                     <button
                         onClick={() => setPage(page + 1)}
-                        className="bg-gray-300 p-2 rounded"
+                        disabled={page >= totalPages}
+                        className="bg-gray-300 p-2 rounded disabled:opacity-50"
                     >
                         Trang sau
                     </button>
@@ -206,6 +299,7 @@ const BedList = () => {
                                 <th className="px-2 py-1 w-[10%]">Tên buồng</th>
                                 <th className="px-2 py-1 w-[5%]">Mã khoa</th>
                                 <th className="px-2 py-1 w-[10%]">Tên khoa</th>
+                                <th className="px-2 py-1 w-[10%]">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -215,8 +309,22 @@ const BedList = () => {
                                     className={`hover:bg-gray-50 cursor-pointer ${selectedBed?.id === bed.id ? "bg-blue-100" : ""}`}
                                     onClick={() => handleBedSelect(bed)}
                                 >
-                                    <td className="border-b px-2 py-1">{bed.bedCode}</td>
-                                    <td className="border-b px-2 py-1">{bed.bedName}</td>
+                                    <td
+                                        className="border-b px-2 py-1"
+                                        dangerouslySetInnerHTML={{
+                                            __html: bed.highlight?.bedCode
+                                                ? bed.highlight.bedCode[0] // Sử dụng highlight nếu có
+                                                : bed.bedCode, // Nếu không có highlight thì hiển thị mã giường bình thường
+                                        }}
+                                    ></td>
+                                    <td
+                                        className="border-b px-2 py-1"
+                                        dangerouslySetInnerHTML={{
+                                            __html: bed.highlight?.bedName
+                                                ? bed.highlight.bedName[0] // Sử dụng highlight nếu có
+                                                : bed.bedName, // Nếu không có highlight thì hiển thị mã giường bình thường
+                                        }}
+                                    ></td>
                                     <td className="border-b px-2 py-1">
                                         <span className={`px-2 py-1 rounded text-white ${bed.isActive == 1 ? 'bg-green-500' : 'bg-red-500'}`}>
                                             {bed.isActive == 1 ? (
@@ -234,10 +342,32 @@ const BedList = () => {
                                     </td>
                                     <td className="border-b px-2 py-1">{bed.bedTypeCode}</td>
                                     <td className="border-b px-2 py-1">{bed.bedTypeName}</td>
-                                    <td className="border-b px-2 py-1">{bed.bedRoomCode}</td>
-                                    <td className="border-b px-2 py-1">{bed.bedRoomName}</td>
+                                    <td
+                                        className="border-b px-2 py-1"
+                                        dangerouslySetInnerHTML={{
+                                            __html: bed.highlight?.bedRoomCode
+                                                ? bed.highlight.bedRoomCode[0] // Sử dụng highlight nếu có
+                                                : bed.bedRoomCode, // Nếu không có highlight thì hiển thị mã giường bình thường
+                                        }}
+                                    ></td>
+                                    <td
+                                        className="border-b px-2 py-1"
+                                        dangerouslySetInnerHTML={{
+                                            __html: bed.highlight?.bedRoomName
+                                                ? bed.highlight.bedRoomName[0] // Sử dụng highlight nếu có
+                                                : bed.bedRoomName, // Nếu không có highlight thì hiển thị mã giường bình thường
+                                        }}
+                                    ></td>
                                     <td className="border-b px-2 py-1">{bed.departmentCode}</td>
                                     <td className="border-b px-2 py-1">{bed.departmentName}</td>
+                                    <td>
+                                        <button
+                                            onClick={() => handleDelete(bed.id, bed.bedName)}
+                                            className="bg-red-500 text-white p-2 rounded"
+                                        >
+                                            <FaTrash className="inline mr-1" /> Xóa
+                                        </button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -273,21 +403,70 @@ const BedList = () => {
 
                         <div>
                             <label className="block text-sm font-medium">Loại giường</label>
-                            <input
-                                type="text"
-                                value={bedDetails.bedTypeId}
-                                onChange={(e) => setBedDetails({ ...bedDetails, bedTypeId: e.target.value })}
-                                className="w-full p-2 border border-gray-300 rounded"
+                            <Select
+                                options={bedTypes.map((bedType) => ({
+                                    value: bedType.id,
+                                    label: (
+                                        <span
+                                          dangerouslySetInnerHTML={{
+                                            __html: bedType.highlight?.bedTypeName
+                                              ? bedType.highlight.bedTypeName[0]  // Nếu có highlight, sử dụng highlight
+                                              : bedType.bedTypeName,         // Nếu không có highlight, sử dụng tên bình thường
+                                          }}
+                                        />
+                                      ),
+                                }))}
+                                value={
+                                    bedDetails.bedTypeId
+                                        ? {
+                                            value: bedDetails.bedTypeId,
+                                            label: bedTypes.find((bedType) => bedType.id === bedDetails.bedTypeId)?.bedTypeName || "",
+                                        }
+                                        : null
+                                }
+                                onChange={(selectedOption) =>
+                                    setBedDetails({ ...bedDetails, bedTypeId: selectedOption?.value })
+                                }
+                                filterOption={() => true}  // Tắt lọc tự động từ `react-select`
+                                isClearable
+                                placeholder="Chọn loại giường"
+                                className="w-full"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium">Buồng bệnh</label>
-                            <input
-                                type="text"
-                                value={bedDetails.bedRoomName}
-                                onChange={(e) => setBedDetails({ ...bedDetails, bedRoomId: e.target.value })}
-                                className="w-full p-2 border border-gray-300 rounded"
+                            <label className="block text-sm font-medium">Buồng bệnh</label>
+                            <Select
+                                options={bedRooms.map((bedRoom) => ({
+                                    value: bedRoom.id,
+                                    label: (
+                                        <span
+                                          dangerouslySetInnerHTML={{
+                                            __html: bedRoom.highlight?.bedRoomName
+                                              ? bedRoom.highlight.bedRoomName[0]  // Nếu có highlight, sử dụng highlight
+                                              : bedRoom.bedRoomName,         // Nếu không có highlight, sử dụng tên bình thường
+                                          }}
+                                        />
+                                      ),
+                                }))}
+                                value={
+                                    bedDetails.bedRoomId
+                                        ? {
+                                            value: bedDetails.bedRoomId,
+                                            label: bedRooms.find((bedRoom) => bedRoom.id === bedDetails.bedRoomId)?.bedRoomName || "",
+                                        }
+                                        : null
+                                }
+                                filterOption={() => true}  // Tắt lọc tự động từ `react-select`
+                                onChange={(selectedOption) =>
+                                    setBedDetails({ ...bedDetails, bedRoomId: selectedOption?.value })
+                                }
+                                onInputChange={(inputValue) => {
+                                    setBedRoomKeyword(inputValue); // Cập nhật từ khóa tìm kiếm khi người dùng nhập
+                                }}
+                                isClearable
+                                placeholder="Chọn buồng bệnh"
+                                className="w-full"
                             />
                         </div>
 
