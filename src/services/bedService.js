@@ -107,6 +107,36 @@ const getBeds = async (start, limit, orderBy, orderDirection, keyword) => {
     throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài
   }
 };
+const create = async (bedData) => {
+  try {
+      const response = await axios.post(`${laravelAppApiUrl}/api/v1/bed`, bedData, {
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+          },
+      });
+      return response.data; // Trả về dữ liệu từ API
+  } catch (error) {
+      console.error("Lỗi khi tạo giường:", error);
+      throw error; // Ném lỗi để xử lý ở cấp cao hơn
+  }
+};
+
+// Hàm cập nhật giường
+const update = async (bedId, bedData) => {
+  try {
+      const response = await axios.put(`${laravelAppApiUrl}/api/v1/bed/${bedId}`, bedData, {
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+          },
+      });
+      return response.data; // Trả về dữ liệu từ API
+  } catch (error) {
+      console.error("Lỗi khi cập nhật giường:", error);
+      throw error; // Ném lỗi để xử lý ở cấp cao hơn
+  }
+};
 
 const deleteBed = async (id) => {
   const url = `${laravelAppApiUrl}/api/v1/bed/${id}`;
@@ -118,5 +148,7 @@ const deleteBed = async (id) => {
 };
 export default {
   getBeds,
+  create,
+  update,
   deleteBed,
 };
