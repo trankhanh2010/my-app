@@ -36,6 +36,32 @@ const useBedList = () => {
     const start = (page - 1) * limit;
     const totalPages = Math.ceil(totalItems / limit);
 
+    const [isModalConfirmDeleteOpen, setIsModalConfirmDeleteOpen] = useState(false);  // Trạng thái mở modal
+    const [bedToDelete, setBedToDelete] = useState(null); // Giường cần xóa
+
+    const [alertSucces, setAlertSucces] = useState({ message: ""}); // Trạng thái của alert
+    const [alertError, setAlertError] = useState({ message: ""}); // Trạng thái của alert
+
+    // Mở modal và thiết lập giường cần xóa
+    const openDeleteModal = (bed) => {
+        setBedToDelete(bed); 
+        setIsModalConfirmDeleteOpen(true);  // Mở modal
+    };
+
+    // Đóng modal
+    const closeModalConfirmDelete = () => {
+        setIsModalConfirmDeleteOpen(false);
+        setBedToDelete(null); // Reset giường khi đóng modal
+    };
+
+    // Hàm xác nhận xóa từ modal
+    const confirmDelete = () => {
+        if (bedToDelete) {
+            handleDelete(bedToDelete.id, bedToDelete.bedName); // Gọi handleDelete để xóa
+            closeModalConfirmDelete(); // Đóng modal sau khi xóa
+        }
+    };
+
     const fetchData = async () => {
         try {
             const beds = await bedService.getBeds(start, limit, orderBy, orderDirection, keyword || null);
@@ -143,11 +169,11 @@ const useBedList = () => {
         };
         try {
             await bedService.create(bedData); // Gọi API xóa
-            alert("Thêm mới thành công!");
+            setAlertSucces({ message: "Thêm mới thành công!"});
             fetchData(); // Load lại danh sách sau khi xóa
         } catch (err) {
             console.error("Lỗi khi thêm mới bản ghi:", err);
-            alert("Lỗi khi thêm mới bản ghi.");
+            setAlertError({ message: "Lỗi khi thêm mới bản ghi!"});
         }
     };
 
@@ -165,25 +191,22 @@ const useBedList = () => {
         };
         try {
             await bedService.update(bedDetails.id, bedData); // Gọi API xóa
-            alert("Cập nhật thành công!");
+            setAlertSucces({ message: "Cập nhật thành công!"});
             fetchData(); // Load lại danh sách sau khi xóa
         } catch (err) {
             console.error("Lỗi khi cập nhật bản ghi:", err);
-            alert("Lỗi khi cập nhật bản ghi.");
+            setAlertError({ message: "Lỗi khi cập nhật bản ghi!"});
         }
     };
 
     const handleDelete = async (bedId, bedName) => {
-        const confirm = window.confirm(`Bạn có chắc chắn muốn xóa bản ghi "${bedName}" không?`);
-        if (!confirm) return;
-
         try {
             await bedService.deleteBed(bedId); // Gọi API xóa
-            alert("Xóa thành công!");
+            setAlertSucces({ message: "Xóa thành công!"});
             fetchData(); // Load lại danh sách sau khi xóa
         } catch (err) {
             console.error("Lỗi khi xóa bản ghi:", err);
-            alert("Lỗi khi xóa bản ghi.");
+            setAlertError({ message: "Lỗi khi xóa bản ghi!"});
         }
     };
 
@@ -227,6 +250,11 @@ const useBedList = () => {
         bedRooms,
         bedTypes,
         totalPages,
+        isModalConfirmDeleteOpen,
+        bedToDelete,
+        alertSucces,
+        alertError,
+        confirmDelete,
         setPage,
         setLimit,
         setKeyword,
@@ -238,6 +266,10 @@ const useBedList = () => {
         setBedTypeKeyword,
         setBedTypes,
         setBedRooms,
+        setBedToDelete,
+        closeModalConfirmDelete,
+        openDeleteModal,
+        setIsModalConfirmDeleteOpen,
         convertToDate,
         handleBedSelect,
         handleAddNew,
@@ -247,6 +279,8 @@ const useBedList = () => {
         fetchData,
         fetchBedRooms,
         fetchBedTypes,
+        setAlertSucces,
+        setAlertError,
     };
 };
 

@@ -1,13 +1,18 @@
 import React from "react";
 import { FaLock, FaCheck, FaTrash } from "react-icons/fa";
+import ModalConfirmDelete from "../../../../components/common/Modal/ModalConfirmDelete";
 
 const BedTable = ({ 
     format,
     data, 
     convertToDate,
     handleBedSelect,
-    handleDelete,
-    selectedBed
+    selectedBed,
+    bedToDelete,
+    closeModalConfirmDelete,
+    confirmDelete,
+    isModalConfirmDeleteOpen,
+    openDeleteModal,
 }) => {
     return (
         <div class="relative overflow-x-auto">
@@ -89,7 +94,7 @@ const BedTable = ({
                         <td className="border-b px-2 py-1">{bed.departmentName}</td>
                         <td>
                             <button
-                                onClick={() => handleDelete(bed.id, bed.bedName)}
+                                onClick={() => openDeleteModal(bed)}
                                 className="bg-red-500 text-white p-2 rounded"
                             >
                                 <FaTrash className="inline mr-1" /> Xóa
@@ -99,6 +104,13 @@ const BedTable = ({
                 ))}
             </tbody>
         </table>
+        {/* Modal xác nhận xóa */}
+        <ModalConfirmDelete
+                isOpen={isModalConfirmDeleteOpen}
+                onConfirm={confirmDelete}  // Gọi confirmDelete nếu xác nhận
+                onCancel={closeModalConfirmDelete}  // Đóng modal nếu không xác nhận
+                message={`${bedToDelete?.bedName} (${bedToDelete?.bedCode})`} // Truyền tên giường vào modal
+        />
     </div>
     );
 };

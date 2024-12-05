@@ -1,4 +1,5 @@
 import React from "react";
+
 import TotalPages from "../../../../components/common/Paginate/TotalPages";
 import RecordPerPage from "../../../../components/common/Paginate/RecordPerPage";
 import PrevPage from "../../../../components/common/Paginate/PrevPage";
@@ -8,6 +9,11 @@ import Search from "../../../../components/common/Filter/Search";
 import OrderBy from "../../../../components/common/Filter/OrderBy";
 import OrderDirection from "../../../../components/common/Filter/OrderDirection";
 import TotalRecord from "../../../../components/common/Filter/TotalRecord";
+
+import ButtonAddNew from "../../../../components/common/Button/ButtonAddNew";
+
+import AlertSucces from "../../../../components/common/Alert/AlertSucces";
+import AlertError from "../../../../components/common/Alert/AlertError";
 
 import useBedList from "../../../../hooks/bed/useBedList";
 import BedTable from "../../../../components/category/bed/BedList/BedTable";
@@ -30,6 +36,11 @@ const BedList = () => {
         bedRooms,
         bedTypes,
         totalPages,
+        isModalConfirmDeleteOpen,
+        bedToDelete,
+        alertSucces,
+        alertError,
+        confirmDelete,
         setPage,
         setLimit,
         setKeyword,
@@ -41,15 +52,21 @@ const BedList = () => {
         setBedTypeKeyword,
         setBedTypes,
         setBedRooms,
+        setBedToDelete,
+        closeModalConfirmDelete,
+        openDeleteModal,
+        setIsModalConfirmDeleteOpen,
         convertToDate,
         handleBedSelect,
         handleAddNew,
         handleCreate,
-        handleDelete,
         handleUpdate,
+        handleDelete,
         fetchData,
         fetchBedRooms,
         fetchBedTypes,
+        setAlertSucces,
+        setAlertError,
         
     } = useBedList();
 
@@ -86,12 +103,9 @@ const BedList = () => {
                         orderDirection = {orderDirection}
                         setOrderDirection = {setOrderDirection}
                     />
-                    <button
-                        onClick={handleAddNew}
-                        className="bg-green-500 text-white py-2 px-4 rounded"
-                    >
-                        Thêm mới
-                    </button>
+                    <ButtonAddNew
+                        handleAddNew = {handleAddNew}
+                    />
                 </div>
                 <div className="mt-4 flex justify-between mb-4">
                     <PrevPage   
@@ -112,8 +126,12 @@ const BedList = () => {
                     data = {data}
                     convertToDate = {convertToDate}
                     handleBedSelect = {handleBedSelect}
-                    handleDelete = {handleDelete}
                     selectedBed = {selectedBed}
+                    bedToDelete = {bedToDelete}
+                    closeModalConfirmDelete = {closeModalConfirmDelete}
+                    confirmDelete = {confirmDelete}
+                    isModalConfirmDeleteOpen = {isModalConfirmDeleteOpen}
+                    openDeleteModal = {openDeleteModal}
                 />
             </div>
 
@@ -129,6 +147,20 @@ const BedList = () => {
                     handleUpdate = {handleUpdate}
                 />
             </div>
+
+
+            {alertSucces.message && (
+                <AlertSucces
+                    message={alertSucces.message}
+                    onClose={() => setAlertSucces({ message: "", type: "" })}
+                />
+            )}
+            {alertError.message && (
+                <AlertError
+                    message={alertError.message}
+                    onClose={() => setAlertError({ message: "", type: "" })}
+                />
+            )}
         </div>
     );
 };

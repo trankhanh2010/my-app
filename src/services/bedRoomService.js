@@ -3,7 +3,7 @@ import CryptoJS from 'crypto-js';
 import config from "../config";
 const laravelAppApiUrl = config.laravelAppApiUrl;
 // Dịch vụ để gọi API lấy danh sách giường bệnh
-const token = '1a7ee9193800e2389325ead5365c7c5191a1b87615eff6e30d22306e1af99e61';
+const token = '733057f0758409f998151419800540fcc9d50f2ba458e7b18234c49474937767';
 const getBedRooms = async (start, limit, orderBy, orderDirection, keyword) => {
   let param;
   const isDB = config.apiService.bedRoom.typeGetApi === 'db';
