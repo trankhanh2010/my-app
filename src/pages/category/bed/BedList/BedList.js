@@ -12,8 +12,7 @@ import TotalRecord from "../../../../components/common/Filter/TotalRecord";
 
 import ButtonAddNew from "../../../../components/common/Button/ButtonAddNew";
 
-import AlertSucces from "../../../../components/common/Alert/AlertSucces";
-import AlertError from "../../../../components/common/Alert/AlertError";
+import Alert from "../../../../components/common/Alert/Alert";
 
 import useBedList from "../../../../hooks/bed/useBedList";
 import BedTable from "../../../../components/category/bed/BedList/BedTable";
@@ -38,8 +37,7 @@ const BedList = () => {
         totalPages,
         isModalConfirmDeleteOpen,
         bedToDelete,
-        alertSucces,
-        alertError,
+        alerts,
         confirmDelete,
         setPage,
         setLimit,
@@ -53,10 +51,13 @@ const BedList = () => {
         setBedTypes,
         setBedRooms,
         setBedToDelete,
+        setAlerts,
         closeModalConfirmDelete,
         openDeleteModal,
         setIsModalConfirmDeleteOpen,
         convertToDate,
+        addAlert,
+        removeAlert,
         handleBedSelect,
         handleAddNew,
         handleCreate,
@@ -65,8 +66,6 @@ const BedList = () => {
         fetchData,
         fetchBedRooms,
         fetchBedTypes,
-        setAlertSucces,
-        setAlertError,
         
     } = useBedList();
 
@@ -149,18 +148,17 @@ const BedList = () => {
             </div>
 
 
-            {alertSucces.message && (
-                <AlertSucces
-                    message={alertSucces.message}
-                    onClose={() => setAlertSucces({ message: "", type: "" })}
-                />
-            )}
-            {alertError.message && (
-                <AlertError
-                    message={alertError.message}
-                    onClose={() => setAlertError({ message: "", type: "" })}
-                />
-            )}
+            <div className="fixed top-8 right-4 space-y-4">
+                {alerts.map((alert) => (
+                    <Alert
+                        key={alert.id}
+                        message={alert.message}
+                        type={alert.type}
+                        onClose={() => removeAlert(alert.id)}
+                    />
+                ))}
+            </div>
+
         </div>
     );
 };
