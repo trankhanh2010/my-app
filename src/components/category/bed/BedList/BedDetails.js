@@ -1,7 +1,9 @@
 import React from "react";
 import Select from "react-select";
+import ModalConfirmUpdate from "../../../../components/common/Modal/ModalConfirmUpdate";
 
 const BedDetails = ({ 
+    selectedBed,
     bedDetails,
     setBedDetails,
     bedTypes,
@@ -10,13 +12,18 @@ const BedDetails = ({
     setBedTypeKeyword,
     handleCreate,
     handleUpdate,
+    openUpdateModal,
+    isModalConfirmUpdateOpen,
+    confirmUpdate,
+    closeModalConfirmUpdate
 }) => {
     if (!bedDetails) return <p className="text-gray-500">Chưa chọn giường</p>;
      // Hàm trung gian xử lý submit
     const handleFormSubmit = (e) => {
         e.preventDefault(); // Ngăn việc reload trang
         if (bedDetails.id) {
-            handleUpdate(bedDetails); // Gọi hàm cập nhật
+            // Mở modal xác nhận
+            openUpdateModal(bedDetails)
         } else {
             handleCreate(bedDetails); // Gọi hàm tạo mới
         }
@@ -147,6 +154,13 @@ const BedDetails = ({
                 {bedDetails.id ? "Cập nhật" : "Thêm mới"}  {/* Hiển thị "Cập nhật" nếu có id, nếu không thì "Thêm mới" */}
             </button>
         </div>
+         {/* Modal xác nhận cập nhật */}
+         <ModalConfirmUpdate
+                isOpen={isModalConfirmUpdateOpen}
+                onConfirm={confirmUpdate}  // Gọi confirmUpdate nếu xác nhận
+                onCancel={closeModalConfirmUpdate}  // Đóng modal nếu không xác nhận
+                message={`${selectedBed?.bedName} (${selectedBed?.bedCode})`} // Truyền tên giường vào modal
+        />
     </form>
     );
 };

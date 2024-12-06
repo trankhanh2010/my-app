@@ -36,9 +36,12 @@ const BedList = () => {
         bedTypes,
         totalPages,
         isModalConfirmDeleteOpen,
+        isModalConfirmUpdateOpen,
         bedToDelete,
+        bedToUpdate,
         alerts,
         confirmDelete,
+        confirmUpdate,
         setPage,
         setLimit,
         setKeyword,
@@ -51,10 +54,14 @@ const BedList = () => {
         setBedTypes,
         setBedRooms,
         setBedToDelete,
+        setBedToUpdate,
         setAlerts,
         closeModalConfirmDelete,
         openDeleteModal,
+        closeModalConfirmUpdate,
+        openUpdateModal,
         setIsModalConfirmDeleteOpen,
+        setIsModalConfirmUpdateOpen,
         convertToDate,
         addAlert,
         removeAlert,
@@ -136,6 +143,7 @@ const BedList = () => {
 
             <div className="w-full md:w-auto border-l border-gray-300 pl-4 mt-4 md:mt-0 flex-grow">
                 <BedDetails
+                    selectedBed = {selectedBed}
                     bedDetails = {bedDetails}
                     setBedDetails = {setBedDetails}
                     bedTypes = {bedTypes}
@@ -144,6 +152,10 @@ const BedList = () => {
                     setBedTypeKeyword = {setBedTypeKeyword}
                     handleCreate = {handleCreate}
                     handleUpdate = {handleUpdate}
+                    openUpdateModal = {openUpdateModal}
+                    isModalConfirmUpdateOpen = {isModalConfirmUpdateOpen}
+                    confirmUpdate = {confirmUpdate}
+                    closeModalConfirmUpdate = {closeModalConfirmUpdate}
                 />
             </div>
 

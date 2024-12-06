@@ -37,7 +37,10 @@ const useBedList = () => {
     const totalPages = Math.ceil(totalItems / limit);
 
     const [isModalConfirmDeleteOpen, setIsModalConfirmDeleteOpen] = useState(false);  // Trạng thái mở modal
+    const [isModalConfirmUpdateOpen, setIsModalConfirmUpdateOpen] = useState(false);  // Trạng thái mở modal
+
     const [bedToDelete, setBedToDelete] = useState(null); // Giường cần xóa
+    const [bedToUpdate, setBedToUpdate] = useState(null); // Dữ liệu muốn cập nhật thành
 
     const [alerts, setAlerts] = useState([]);
 
@@ -73,6 +76,25 @@ const useBedList = () => {
         }
     };
 
+    // Mở modal và thiết lập giường cần cập nhật
+    const openUpdateModal = (bed) => {
+        setBedToUpdate(bed); 
+        setIsModalConfirmUpdateOpen(true);  // Mở modal
+    };
+
+    // Đóng modal
+    const closeModalConfirmUpdate = () => {
+        setIsModalConfirmUpdateOpen(false);
+        setBedToUpdate(null); // Reset giường khi đóng modal
+    };
+
+    // Hàm xác nhận cập nhật từ modal
+    const confirmUpdate = () => {
+        if (bedToUpdate) {
+            handleUpdate(bedToUpdate); // Gọi handleDelete để xóa
+            closeModalConfirmUpdate(); // Đóng modal sau khi xóa
+        }
+    };
     const fetchData = async () => {
         try {
             const beds = await bedService.getBeds(start, limit, orderBy, orderDirection, keyword || null);
@@ -90,10 +112,6 @@ const useBedList = () => {
             setTotalItems(beds.param.Count); // Tổng bản ghi
             setLoading(false);
 
-            if (!selectedBed && beds.length > 0) {
-                setSelectedBed(beds[0]); // Chọn bản ghi đầu tiên nếu chưa có bản ghi nào được chọn
-                setBedDetails(beds[0]);
-            }
         } catch (err) {
             console.error("Fetch error:", err);
             setError("Lỗi khi tải dữ liệu.");
@@ -189,8 +207,6 @@ const useBedList = () => {
     };
 
     const handleUpdate = async (bedDetails) => {
-        const confirm = window.confirm(`Bạn có chắc chắn muốn cập nhật bản ghi ?`);
-        if (!confirm) return;
         const bedData = {
             bed_code: bedDetails.bedCode,
             bed_name: bedDetails.bedName,
@@ -203,7 +219,7 @@ const useBedList = () => {
         try {
             await bedService.update(bedDetails.id, bedData); // Gọi API xóa
             addAlert("Cập nhật bản ghi thành công!", "success");
-            fetchData(); // Load lại danh sách sau khi xóa
+            fetchData(); // Load lại danh sách sau khi cập nhật
         } catch (err) {
             console.error("Lỗi khi cập nhật bản ghi:", err);
             addAlert("Lỗi khi cập nhật bản ghi!", "error");
@@ -215,6 +231,7 @@ const useBedList = () => {
             await bedService.deleteBed(bedId); // Gọi API xóa
             addAlert("Xóa bản ghi thành công!", "success");
             fetchData(); // Load lại danh sách sau khi xóa
+            handleBedSelect(null)
         } catch (err) {
             console.error("Lỗi khi xóa bản ghi:", err);
             addAlert("Lỗi khi xóa bản ghi!", "error");
@@ -245,6 +262,14 @@ const useBedList = () => {
         return () => clearTimeout(delayDebounce); // Xóa timeout nếu dependency thay đổi
     }, [page, limit, orderBy, orderDirection, keyword]); // Gọi lại khi có thay đổi
 
+    useEffect(() => {
+        if (data && selectedBed) {
+            const updatedBed = data.find((bed) => bed.id == selectedBed.id);
+            if (updatedBed) {
+                handleBedSelect(updatedBed); // Cập nhật lại selectedBed
+            }
+        }
+    }, [data]); // Chạy lại mỗi khi 'data' thay đổi
     return {
         format,
         data,
@@ -262,9 +287,12 @@ const useBedList = () => {
         bedTypes,
         totalPages,
         isModalConfirmDeleteOpen,
+        isModalConfirmUpdateOpen,
         bedToDelete,
+        bedToUpdate,
         alerts,
         confirmDelete,
+        confirmUpdate,
         setPage,
         setLimit,
         setKeyword,
@@ -277,10 +305,14 @@ const useBedList = () => {
         setBedTypes,
         setBedRooms,
         setBedToDelete,
+        setBedToUpdate,
         setAlerts,
         closeModalConfirmDelete,
         openDeleteModal,
+        closeModalConfirmUpdate,
+        openUpdateModal,
         setIsModalConfirmDeleteOpen,
+        setIsModalConfirmUpdateOpen,
         convertToDate,
         addAlert,
         removeAlert,
