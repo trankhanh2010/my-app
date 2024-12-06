@@ -15,7 +15,8 @@ const BedDetails = ({
     openUpdateModal,
     isModalConfirmUpdateOpen,
     confirmUpdate,
-    closeModalConfirmUpdate
+    closeModalConfirmUpdate,
+    calculateChanges,
 }) => {
     if (!bedDetails) return <p className="text-gray-500">Chưa chọn giường</p>;
      // Hàm trung gian xử lý submit
@@ -76,9 +77,14 @@ const BedDetails = ({
                         : null
                 }
                 filterOption={() => true}  // Tắt lọc tự động từ `react-select`
-                onChange={(selectedOption) =>
-                    setBedDetails({ ...bedDetails, bedTypeId: selectedOption?.value })
-                }
+                onChange={(selectedOption) => {
+                    const selectedBedType = bedTypes.find(bedType => bedType.id === selectedOption?.value);
+                    setBedDetails({
+                        ...bedDetails,
+                        bedTypeId: selectedOption?.value,
+                        bedTypeName: selectedBedType ? selectedBedType.bedTypeName : '',  // Cập nhật bedTypeName từ selectedBedType
+                    });
+                }}
                 onInputChange={(inputValue) => {
                     setBedTypeKeyword(inputValue); // Cập nhật từ khóa tìm kiếm khi người dùng nhập
                 }}
@@ -112,9 +118,14 @@ const BedDetails = ({
                         : null
                 }
                 filterOption={() => true}  // Tắt lọc tự động từ `react-select`
-                onChange={(selectedOption) =>
-                    setBedDetails({ ...bedDetails, bedRoomId: selectedOption?.value })
-                }
+                onChange={(selectedOption) => {
+                    const selectedBedRoom = bedRooms.find(bedRoom => bedRoom.id === selectedOption?.value);
+                    setBedDetails({
+                        ...bedDetails,
+                        bedRoomId: selectedOption?.value,
+                        bedRoomName: selectedBedRoom ? selectedBedRoom.bedRoomName : '',  // Cập nhật bedTypeName từ selectedBedType
+                    });
+                }}
                 onInputChange={(inputValue) => {
                     setBedRoomKeyword(inputValue); // Cập nhật từ khóa tìm kiếm khi người dùng nhập
                 }}
@@ -160,6 +171,7 @@ const BedDetails = ({
                 onConfirm={confirmUpdate}  // Gọi confirmUpdate nếu xác nhận
                 onCancel={closeModalConfirmUpdate}  // Đóng modal nếu không xác nhận
                 message={`${selectedBed?.bedName} (${selectedBed?.bedCode})`} // Truyền tên giường vào modal
+                changes={calculateChanges(selectedBed, bedDetails)}
         />
     </form>
     );

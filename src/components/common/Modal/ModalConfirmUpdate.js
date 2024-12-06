@@ -1,6 +1,6 @@
 import React from "react";
 
-const ModalConfirmUpdate = ({ isOpen, onConfirm, onCancel, message }) => {
+const ModalConfirmUpdate = ({ isOpen, onConfirm, onCancel, message, changes }) => {
     if (!isOpen) return null;
 
     return (
@@ -23,6 +23,25 @@ const ModalConfirmUpdate = ({ isOpen, onConfirm, onCancel, message }) => {
                         />
                     </svg>
                     <h3 className="mb-5 text-lg font-normal text-gray-700">{`Bạn chắc chắn muốn cập nhật bản ghi ${message} ?`}</h3>
+                    <div className="text-left mb-4">
+                        <ul className="list-disc pl-5">
+                            {changes && changes.length > 0 ? (
+                                <ul className="list-disc pl-5">
+                                    {changes.map((change, index) => (
+                                        <li key={index} className="mb-2">
+                                            <span className="font-semibold">{change.field}:</span>{" "}
+                                            <span className="text-gray-500">
+                                                từ <span className="text-red-500">{change.oldValue}</span> thành{" "}
+                                                <span className="text-green-500">{change.newValue}</span>
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p className="text-gray-500">Không có thay đổi nào.</p>
+                            )}
+                        </ul>
+                    </div>
                     <button
                         onClick={onConfirm}
                         className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 mr-2"

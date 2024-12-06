@@ -40,6 +40,8 @@ const BedList = () => {
         bedToDelete,
         bedToUpdate,
         alerts,
+        changes,
+        calculateChanges,
         confirmDelete,
         confirmUpdate,
         setPage,
@@ -56,6 +58,7 @@ const BedList = () => {
         setBedToDelete,
         setBedToUpdate,
         setAlerts,
+        setChanges,
         closeModalConfirmDelete,
         openDeleteModal,
         closeModalConfirmUpdate,
@@ -156,6 +159,7 @@ const BedList = () => {
                     isModalConfirmUpdateOpen = {isModalConfirmUpdateOpen}
                     confirmUpdate = {confirmUpdate}
                     closeModalConfirmUpdate = {closeModalConfirmUpdate}
+                    calculateChanges = {calculateChanges}
                 />
             </div>
 

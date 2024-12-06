@@ -13,6 +13,34 @@ const useBedList = () => {
     const bedTypeIsDB = config.apiService.bed.typeGetApi === 'db';
     const bedTypeIsElastic = config.apiService.bed.typeGetApi === 'elastic';
 
+    const fieldLabels = {
+        id: "Id",
+        createTime: "Ngày tạo",
+        modifyTime: "Ngày cập nhật",
+        creator: "Người tạo",
+        modifier: "Người cập nhật",
+        appCreator: "Phần mềm tạo",
+        appModifier: "Phần mềm cập nhật",
+        isActive: "Trạng thái",
+        isDelete: "Xóa",
+        bedCode: "Mã giường",
+        bedName: "Tên giường",
+        bedRoomId: "Id buồng bệnh",
+        bedTypeId: "Id loại giường",
+        maxCapacity: "Sức chứa tối đa",
+        x: "x",
+        y: "y",
+        treatmentRoomId: "Id phòng",
+        isBedStretcher: "Giường cáng",
+        bedTypeName: "Tên loại giường",
+        bedTypeCode: "Mã loại giường",
+        bedRoomName: "Tên phòng",
+        bedRoomCode: "Mã phòng",
+        departmentName: "Tên khoa",
+        departmentCode: "Mã khoa"
+    };
+    const [changes, setChanges] = useState([]);
+
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -44,6 +72,36 @@ const useBedList = () => {
 
     const [alerts, setAlerts] = useState([]);
 
+    const calculateChanges = (oldData, newData) => {
+        const changes = [];
+        const fieldsToSkip = [
+            'treatmentRoomId', 
+            'bedTypeId',
+            'bedRoomId'
+        ]; // Danh sách các trường cần bỏ qua
+    
+        for (const key in oldData) {
+            // Kiểm tra xem trường có nằm trong danh sách bỏ qua không
+            if (fieldsToSkip.includes(key)) {
+                continue; // Bỏ qua so sánh nếu trường nằm trong danh sách
+            }
+    
+            // So sánh giá trị sau khi chuyển đổi thành chuỗi để tránh vấn đề về kiểu dữ liệu
+            const oldValue = oldData[key] != null ? oldData[key].toString() : "";
+            const newValue = newData[key] != null ? newData[key].toString() : "";
+    
+            if (oldValue !== newValue) {
+                changes.push({
+                    field: fieldLabels[key] || key, // Dùng nhãn hoặc tên gốc nếu không có nhãn
+                    oldValue: oldValue,
+                    newValue: newValue,
+                });
+            }
+        }
+        return changes;
+    };
+    
+
     // Hàm thêm thông báo
     const addAlert = (message, type = "success") => {
         const id = new Date().getTime(); // Tạo ID duy nhất
@@ -58,7 +116,7 @@ const useBedList = () => {
 
     // Mở modal và thiết lập giường cần xóa
     const openDeleteModal = (bed) => {
-        setBedToDelete(bed); 
+        setBedToDelete(bed);
         setIsModalConfirmDeleteOpen(true);  // Mở modal
     };
 
@@ -78,7 +136,7 @@ const useBedList = () => {
 
     // Mở modal và thiết lập giường cần cập nhật
     const openUpdateModal = (bed) => {
-        setBedToUpdate(bed); 
+        setBedToUpdate(bed);
         setIsModalConfirmUpdateOpen(true);  // Mở modal
     };
 
@@ -91,8 +149,8 @@ const useBedList = () => {
     // Hàm xác nhận cập nhật từ modal
     const confirmUpdate = () => {
         if (bedToUpdate) {
-            handleUpdate(bedToUpdate); // Gọi handleDelete để xóa
-            closeModalConfirmUpdate(); // Đóng modal sau khi xóa
+            handleUpdate(bedToUpdate);
+            closeModalConfirmUpdate();
         }
     };
     const fetchData = async () => {
@@ -291,6 +349,8 @@ const useBedList = () => {
         bedToDelete,
         bedToUpdate,
         alerts,
+        changes,
+        calculateChanges,
         confirmDelete,
         confirmUpdate,
         setPage,
@@ -307,6 +367,7 @@ const useBedList = () => {
         setBedToDelete,
         setBedToUpdate,
         setAlerts,
+        setChanges,
         closeModalConfirmDelete,
         openDeleteModal,
         closeModalConfirmUpdate,
