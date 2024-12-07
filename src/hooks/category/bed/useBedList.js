@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import config from "../../config";
-import bedService from "../../services/bedService";
-import bedRoomService from "../../services/bedRoomService";
-import bedTypeService from "../../services/bedTypeService";
+import config from "../../../config";
+import bedService from "../../../services/bedService";
+import bedRoomService from "../../../services/bedRoomService";
+import bedTypeService from "../../../services/bedTypeService";
 import { format } from "date-fns";
 
 const useBedList = () => {

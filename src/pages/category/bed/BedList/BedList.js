@@ -14,7 +14,7 @@ import ButtonAddNew from "../../../../components/common/Button/ButtonAddNew";
 
 import Alert from "../../../../components/common/Alert/Alert";
 
-import useBedList from "../../../../hooks/bed/useBedList";
+import useBedList from "../../../../hooks/category/bed/useBedList";
 import BedTable from "../../../../components/category/bed/BedList/BedTable";
 import BedDetails from "../../../../components/category/bed/BedList/BedDetails";
 
