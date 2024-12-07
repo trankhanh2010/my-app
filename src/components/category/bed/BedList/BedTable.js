@@ -8,11 +8,11 @@ const BedTable = ({
     format,
     data,
     convertToDate,
-    handleBedSelect,
-    selectedBed,
-    bedDetails,
-    setBedDetails,
-    bedToDelete,
+    handleRecordSelect,
+    selectedRecord,
+    recordDetails,
+    setRecordDetails,
+    recordToDelete,
     closeModalConfirmDelete,
     confirmDelete,
     isModalConfirmDeleteOpen,
@@ -22,7 +22,7 @@ const BedTable = ({
     confirmUpdate,
     closeModalConfirmUpdate,
     calculateChanges,
-    bedToUpdate,
+    recordToUpdate,
 }) => {
     return (
         <div class="relative overflow-x-auto">
@@ -48,8 +48,8 @@ const BedTable = ({
                     {data.map((bed) => (
                         <tr
                             key={bed.id}
-                            className={`hover:bg-gray-50 cursor-pointer ${selectedBed?.id === bed.id ? "bg-blue-100" : ""}`}
-                            onClick={() => handleBedSelect(bed)
+                            className={`hover:bg-gray-50 cursor-pointer ${selectedRecord?.id === bed.id ? "bg-blue-100" : ""}`}
+                            onClick={() => handleRecordSelect(bed)
                             }
                         >
                             <td
@@ -118,7 +118,7 @@ const BedTable = ({
                                                 ...bed,
                                                 isActive: bed.isActive == 1 ? 0 : 1, 
                                             };
-                                            setBedDetails(updatedBed)
+                                            setRecordDetails(updatedBed)
                                             openUpdateModal(updatedBed);
                                         }}
                                         className={`${bed.isActive == 1 ? "bg-amber-500" : "bg-green-500"} text-white p-2 rounded mt-1 mb-1`}
@@ -142,15 +142,15 @@ const BedTable = ({
                 isOpen={isModalConfirmDeleteOpen}
                 onConfirm={confirmDelete}  // Gọi confirmDelete nếu xác nhận
                 onCancel={closeModalConfirmDelete}  // Đóng modal nếu không xác nhận
-                message={`${bedToDelete?.bedName} (${bedToDelete?.bedCode})`} // Truyền tên giường vào modal
+                message={`${recordToDelete?.bedName} (${recordToDelete?.bedCode})`} // Truyền tên giường vào modal
             />
             {/* Modal xác nhận cập nhật */}
             <ModalConfirmUpdate
                 isOpen={isModalConfirmUpdateOpen}
                 onConfirm={confirmUpdate}  // Gọi confirmUpdate nếu xác nhận
                 onCancel={closeModalConfirmUpdate}  // Đóng modal nếu không xác nhận
-                message={`${selectedBed?.bedName} (${selectedBed?.bedCode})`} // Truyền tên giường vào modal
-                changes={calculateChanges(selectedBed, bedToUpdate ?? bedDetails)}
+                message={`${selectedRecord?.bedName} (${selectedRecord?.bedCode})`} // Truyền tên giường vào modal
+                changes={calculateChanges(selectedRecord, recordToUpdate ?? recordDetails)}
             />
         </div>
     );

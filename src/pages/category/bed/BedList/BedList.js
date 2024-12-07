@@ -139,11 +139,11 @@ const BedList = () => {
                     format = {format}
                     data = {data}
                     convertToDate = {convertToDate}
-                    handleBedSelect = {handleBedSelect}
-                    selectedBed = {selectedBed}
-                    bedDetails = {bedDetails}
-                    setBedDetails = {setBedDetails}
-                    bedToDelete = {bedToDelete}
+                    handleRecordSelect = {handleBedSelect}
+                    selectedRecord = {selectedBed}
+                    recordDetails = {bedDetails}
+                    setRecordDetails = {setBedDetails}
+                    recordToDelete = {bedToDelete}
                     closeModalConfirmDelete = {closeModalConfirmDelete}
                     confirmDelete = {confirmDelete}
                     isModalConfirmDeleteOpen = {isModalConfirmDeleteOpen}
@@ -153,15 +153,15 @@ const BedList = () => {
                     confirmUpdate = {confirmUpdate}
                     closeModalConfirmUpdate = {closeModalConfirmUpdate}
                     calculateChanges = {calculateChanges}
-                    bedToUpdate = {bedToUpdate}
+                    recordToUpdate = {bedToUpdate}
                 />
             </div>
 
             <div className="w-full md:w-3/12 border-l border-gray-300 pl-4 mt-4 md:mt-0 flex-grow">
                 <BedDetails
                     fieldLabels = {fieldLabels}
-                    bedDetails = {bedDetails}
-                    setBedDetails = {setBedDetails}
+                    recordDetails = {bedDetails}
+                    setRecordDetails = {setBedDetails}
                     bedTypes = {bedTypes}
                     bedRooms = {bedRooms}
                     setBedRoomKeyword = {setBedRoomKeyword}
