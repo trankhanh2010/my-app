@@ -3,8 +3,6 @@ import { FaLock, FaUnlock, FaCheck, FaTrash } from "react-icons/fa";
 import ModalConfirmDelete from "../../../../components/common/Modal/ModalConfirmDelete";
 import ModalConfirmUpdate from "../../../../components/common/Modal/ModalConfirmUpdate";
 
-import BedDetails from "./BedDetails";
-
 const BedTable = ({
     fieldLabels,
     format,
@@ -24,6 +22,7 @@ const BedTable = ({
     confirmUpdate,
     closeModalConfirmUpdate,
     calculateChanges,
+    bedToUpdate,
 }) => {
     return (
         <div class="relative overflow-x-auto">
@@ -112,7 +111,6 @@ const BedTable = ({
                                     >
                                         <FaTrash className="inline mr-1" /> Xóa
                                     </button>
-
                                     <button
                                         onClick={() => {
                                              // Tạo bản sao của bed và thay đổi giá trị isActive
@@ -152,7 +150,7 @@ const BedTable = ({
                 onConfirm={confirmUpdate}  // Gọi confirmUpdate nếu xác nhận
                 onCancel={closeModalConfirmUpdate}  // Đóng modal nếu không xác nhận
                 message={`${selectedBed?.bedName} (${selectedBed?.bedCode})`} // Truyền tên giường vào modal
-                changes={calculateChanges(selectedBed, bedDetails)}
+                changes={calculateChanges(selectedBed, bedToUpdate ?? bedDetails)}
             />
         </div>
     );

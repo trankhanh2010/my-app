@@ -153,6 +153,7 @@ const BedList = () => {
                     confirmUpdate = {confirmUpdate}
                     closeModalConfirmUpdate = {closeModalConfirmUpdate}
                     calculateChanges = {calculateChanges}
+                    bedToUpdate = {bedToUpdate}
                 />
             </div>
 
