@@ -3,6 +3,7 @@ import { FaLock, FaCheck, FaTrash } from "react-icons/fa";
 import ModalConfirmDelete from "../../../../components/common/Modal/ModalConfirmDelete";
 
 const BedTable = ({ 
+    fieldLabels,
     format,
     data, 
     convertToDate,
@@ -20,18 +21,18 @@ const BedTable = ({
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     {/* Tiêu đề bảng */}
-                    <th className="px-2 py-1 w-[5%]">Mã giường</th>
-                    <th className="px-2 py-1 w-[15%]">Tên giường</th>
-                    <th className="px-2 py-1 w-[3%]">Trạng thái</th>
-                    <th className="px-2 py-1 w-[5%]">Ngày tạo</th>
-                    <th className="px-2 py-1 w-[5%]">Ngày cập nhật</th>
-                    <th className="px-2 py-1 w-[5%]">Mã loại giường</th>
-                    <th className="px-2 py-1 w-[5%]">Tên loại giường</th>
-                    <th className="px-2 py-1 w-[10%]">Mã buồng</th>
-                    <th className="px-2 py-1 w-[10%]">Tên buồng</th>
-                    <th className="px-2 py-1 w-[5%]">Mã khoa</th>
-                    <th className="px-2 py-1 w-[10%]">Tên khoa</th>
-                    <th className="px-2 py-1 w-[10%]">Hành động</th>
+                    <th className="px-2 py-1 w-[5%]">   {fieldLabels.bedCode}</th>
+                    <th className="px-2 py-1 w-[15%]">  {fieldLabels.bedName}</th>
+                    <th className="px-2 py-1 w-[3%]">   {fieldLabels.isActive}</th>
+                    <th className="px-2 py-1 w-[5%]">   {fieldLabels.createTime}</th>
+                    <th className="px-2 py-1 w-[5%]">   {fieldLabels.modifyTime}</th>
+                    <th className="px-2 py-1 w-[5%]">   {fieldLabels.bedTypeCode}</th>
+                    <th className="px-2 py-1 w-[5%]">   {fieldLabels.bedTypeName}</th>
+                    <th className="px-2 py-1 w-[10%]">  {fieldLabels.bedRoomCode}</th>
+                    <th className="px-2 py-1 w-[10%]">  {fieldLabels.bedRoomName}</th>
+                    <th className="px-2 py-1 w-[5%]">   {fieldLabels.departmentCode}</th>
+                    <th className="px-2 py-1 w-[10%]">  {fieldLabels.departmentName}</th>
+                    <th className="px-2 py-1 w-[22%]">Hành động</th>
                 </tr>
             </thead>
             <tbody>

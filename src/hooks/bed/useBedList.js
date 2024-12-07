@@ -13,37 +13,15 @@ const useBedList = () => {
     const bedTypeIsDB = config.apiService.bed.typeGetApi === 'db';
     const bedTypeIsElastic = config.apiService.bed.typeGetApi === 'elastic';
 
-    const fieldLabels = {
-        id: "Id",
-        createTime: "Ngày tạo",
-        modifyTime: "Ngày cập nhật",
-        creator: "Người tạo",
-        modifier: "Người cập nhật",
-        appCreator: "Phần mềm tạo",
-        appModifier: "Phần mềm cập nhật",
-        isActive: "Trạng thái",
-        isDelete: "Xóa",
-        bedCode: "Mã giường",
-        bedName: "Tên giường",
-        bedRoomId: "Id buồng bệnh",
-        bedTypeId: "Id loại giường",
-        maxCapacity: "Sức chứa tối đa",
-        x: "x",
-        y: "y",
-        treatmentRoomId: "Id phòng",
-        isBedStretcher: "Giường cáng",
-        bedTypeName: "Tên loại giường",
-        bedTypeCode: "Mã loại giường",
-        bedRoomName: "Tên phòng",
-        bedRoomCode: "Mã phòng",
-        departmentName: "Tên khoa",
-        departmentCode: "Mã khoa"
-    };
+
+
     const [changes, setChanges] = useState([]);
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState(null);
+    const [errorForm, setErrorForm] = useState([]);
 
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
@@ -72,24 +50,122 @@ const useBedList = () => {
 
     const [alerts, setAlerts] = useState([]);
 
+    const fieldLabels = {
+        id: "Id",
+        createTime: "Ngày tạo",
+        modifyTime: "Ngày cập nhật",
+        creator: "Người tạo",
+        modifier: "Người cập nhật",
+        appCreator: "Phần mềm tạo",
+        appModifier: "Phần mềm cập nhật",
+        isActive: "Trạng thái",
+        isDelete: "Xóa",
+        bedCode: "Mã giường",
+        bedName: "Tên giường",
+        bedRoomId: "Id buồng bệnh",
+        bedTypeId: "Id loại giường",
+        maxCapacity: "Số lượng nằm ghép tối đa",
+        x: "x",
+        y: "y",
+        treatmentRoomId: "Id phòng",
+        isBedStretcher: "Giường cáng",
+        bedTypeName: "Tên loại giường",
+        bedTypeCode: "Mã loại giường",
+        bedRoomName: "Tên phòng",
+        bedRoomCode: "Mã phòng",
+        departmentName: "Tên khoa",
+        departmentCode: "Mã khoa"
+    };
+
+    const fieldConfig = {
+        bedCode: {
+            maxLength: 10,
+            errorMessageMaxLength: `${fieldLabels.bedCode} có số ký tự tối đa là 10!`,
+            errorMessageRequired: `${fieldLabels.bedCode} không được bỏ trống!`,
+        },
+        bedName: {
+            maxLength: 200,
+            errorMessageMaxLength: `${fieldLabels.bedName} có số ký tự tối đa là 200!`,
+            errorMessageRequired: `${fieldLabels.bedName} không được bỏ trống!`,
+        },
+        bedTypeId: {
+            errorMessageRequired: `${fieldLabels.bedTypeId} không được bỏ trống!`,
+        },
+        bedRoomId: {
+            errorMessageRequired: `${fieldLabels.bedRoomId} không được bỏ trống!`,
+        },
+        maxCapacity: {
+            errorMessageGT0: `${fieldLabels.maxCapacity} phải lớn hơn bằng 0!`,
+            errorMessageIsBedStretcher: `${fieldLabels.maxCapacity} phải bằng 1 nếu là giường cáng!`,
+        },
+    };
+
+    const validateForm = (data) => {
+        let error = {};  // Khởi tạo lỗi là một object 
+    
+        // Kiểm tra lỗi cho bedCode
+        if (data.bedCode.trim() === "") {
+            if (!error.bedCode) error.bedCode = [];  // Khởi tạo mảng nếu chưa có
+            error.bedCode.push(fieldConfig.bedCode.errorMessageRequired);  // Thêm lỗi 
+        }
+        if (data.bedCode.length > fieldConfig.bedCode.maxLength) {
+            if (!error.bedCode) error.bedCode = [];  // Khởi tạo mảng nếu chưa có
+            error.bedCode.push(fieldConfig.bedCode.errorMessageMaxLength);  // Thêm lỗi 
+        }
+
+        // Kiểm tra lỗi cho bedName
+        if (data.bedName.trim() === "") {
+            if (!error.bedName) error.bedName = [];  // Khởi tạo mảng nếu chưa có
+            error.bedName.push(fieldConfig.bedName.errorMessageRequired);  // Thêm lỗi 
+        }
+        if (data.bedName.length > fieldConfig.bedName.maxLength) {
+            if (!error.bedName) error.bedName = [];  // Khởi tạo mảng nếu chưa có
+            error.bedName.push(fieldConfig.bedName.errorMessageMaxLength);  // Thêm lỗi 
+        }
+
+        // Kiểm tra lỗi cho bedTypeId
+        if (data.bedTypeId === undefined || data.bedTypeId === null) {
+            if (!error.bedTypeId) error.bedTypeId = [];  // Khởi tạo mảng nếu chưa có
+            error.bedTypeId.push(fieldConfig.bedTypeId.errorMessageRequired);  // Thêm lỗi 
+        }
+
+        // Kiểm tra lỗi cho bedRoomId
+        if (data.bedRoomId === undefined || data.bedRoomId === null) {
+            if (!error.bedRoomId) error.bedRoomId = [];  // Khởi tạo mảng nếu chưa có
+            error.bedRoomId.push(fieldConfig.bedRoomId.errorMessageRequired);  // Thêm lỗi 
+        }
+
+        // Kiểm tra lỗi cho maxCapacity
+        if (data.maxCapacity < 0) {
+            if (!error.maxCapacity) error.maxCapacity = [];  // Khởi tạo mảng nếu chưa có
+            error.maxCapacity.push(fieldConfig.maxCapacity.errorMessageGT0);  // Thêm lỗi 
+        }
+        if (data.maxCapacity != 1 && data.isBedStretcher == 1) {
+            if (!error.maxCapacity) error.maxCapacity = [];  // Khởi tạo mảng nếu chưa có
+            error.maxCapacity.push(fieldConfig.maxCapacity.errorMessageIsBedStretcher);  // Thêm lỗi 
+        }
+        return error;
+    };
+    
+
     const calculateChanges = (oldData, newData) => {
         const changes = [];
         const fieldsToSkip = [
-            'treatmentRoomId', 
+            'treatmentRoomId',
             'bedTypeId',
             'bedRoomId'
         ]; // Danh sách các trường cần bỏ qua
-    
+
         for (const key in oldData) {
             // Kiểm tra xem trường có nằm trong danh sách bỏ qua không
             if (fieldsToSkip.includes(key)) {
                 continue; // Bỏ qua so sánh nếu trường nằm trong danh sách
             }
-    
+
             // So sánh giá trị sau khi chuyển đổi thành chuỗi để tránh vấn đề về kiểu dữ liệu
             const oldValue = oldData[key] != null ? oldData[key].toString() : "";
             const newValue = newData[key] != null ? newData[key].toString() : "";
-    
+
             if (oldValue !== newValue) {
                 changes.push({
                     field: fieldLabels[key] || key, // Dùng nhãn hoặc tên gốc nếu không có nhãn
@@ -100,7 +176,7 @@ const useBedList = () => {
         }
         return changes;
     };
-    
+
 
     // Hàm thêm thông báo
     const addAlert = (message, type = "success") => {
@@ -246,6 +322,7 @@ const useBedList = () => {
     };
 
     const handleCreate = async (bedDetails) => {
+        setIsProcessing(true);
         const bedData = {
             bed_code: bedDetails.bedCode,
             bed_name: bedDetails.bedName,
@@ -262,9 +339,11 @@ const useBedList = () => {
             console.error("Lỗi khi thêm mới bản ghi:", err);
             addAlert("Lỗi khi thêm mới bản ghi!", "error");
         }
+        setIsProcessing(false);
     };
 
     const handleUpdate = async (bedDetails) => {
+        setIsProcessing(true);
         const bedData = {
             bed_code: bedDetails.bedCode,
             bed_name: bedDetails.bedName,
@@ -282,9 +361,11 @@ const useBedList = () => {
             console.error("Lỗi khi cập nhật bản ghi:", err);
             addAlert("Lỗi khi cập nhật bản ghi!", "error");
         }
+        setIsProcessing(false);
     };
 
     const handleDelete = async (bedId, bedName) => {
+        setIsProcessing(true);
         try {
             await bedService.deleteBed(bedId); // Gọi API xóa
             addAlert("Xóa bản ghi thành công!", "success");
@@ -294,6 +375,7 @@ const useBedList = () => {
             console.error("Lỗi khi xóa bản ghi:", err);
             addAlert("Lỗi khi xóa bản ghi!", "error");
         }
+        setIsProcessing(false);
     };
 
     useEffect(() => {
@@ -328,10 +410,15 @@ const useBedList = () => {
             }
         }
     }, [data]); // Chạy lại mỗi khi 'data' thay đổi
+
     return {
+        fieldLabels,
+        fieldConfig,
         format,
+        validateForm,
         data,
         loading,
+        isProcessing,
         error,
         page,
         limit,

@@ -20,9 +20,13 @@ import BedDetails from "../../../../components/category/bed/BedList/BedDetails";
 
 const BedList = () => {
     const {
+        fieldLabels,
+        fieldConfig,
         format,
+        validateForm,
         data,
         loading,
+        isProcessing,
         error,
         page,
         limit,
@@ -83,7 +87,7 @@ const BedList = () => {
     if (error) return <p>{error}</p>;
 
     return (
-        <div className="flex flex-wrap gap-8 w-full p-4">
+        <div className={`flex flex-wrap gap-8 w-full p-4 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
             <div className="w-full md:w-8/12">
                 <div className="mb-4 flex flex-wrap gap-4">
                     <TotalPages
@@ -131,6 +135,7 @@ const BedList = () => {
                     />
                 </div>
                 <BedTable
+                    fieldLabels = {fieldLabels}
                     format = {format}
                     data = {data}
                     convertToDate = {convertToDate}
@@ -144,8 +149,10 @@ const BedList = () => {
                 />
             </div>
 
-            <div className="w-full md:w-auto border-l border-gray-300 pl-4 mt-4 md:mt-0 flex-grow">
+            <div className="w-full md:w-3/12 border-l border-gray-300 pl-4 mt-4 md:mt-0 flex-grow">
                 <BedDetails
+                    fieldLabels = {fieldLabels}
+                    fieldConfig = {fieldConfig}
                     selectedBed = {selectedBed}
                     bedDetails = {bedDetails}
                     setBedDetails = {setBedDetails}
@@ -160,6 +167,7 @@ const BedList = () => {
                     confirmUpdate = {confirmUpdate}
                     closeModalConfirmUpdate = {closeModalConfirmUpdate}
                     calculateChanges = {calculateChanges}
+                    validateForm = {validateForm}
                 />
             </div>
 

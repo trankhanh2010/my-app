@@ -8,7 +8,7 @@ const PrevPage = ({
         <button
             onClick={() => setPage(page - 1)}
             disabled={page <= 1}
-            className="bg-gray-300 p-2 rounded disabled:opacity-50"
+            className={`bg-gray-300 hover:bg-gray-400 p-2 rounded disabled:opacity-50 ${page <= 1 ? "cursor-not-allowed" : ""}`}
         >
             Trang trước
         </button>
