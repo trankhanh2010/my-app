@@ -34,15 +34,15 @@ const BedList = () => {
         keyword,
         orderBy,
         orderDirection,
-        selectedBed,
-        bedDetails,
+        selectedRecord,
+        recordDetails,
         bedRooms,
         bedTypes,
         totalPages,
         isModalConfirmDeleteOpen,
         isModalConfirmUpdateOpen,
-        bedToDelete,
-        bedToUpdate,
+        recordToDelete,
+        recordToUpdate,
         alerts,
         changes,
         calculateChanges,
@@ -53,14 +53,14 @@ const BedList = () => {
         setKeyword,
         setOrderBy,
         setOrderDirection,
-        setSelectedBed,
-        setBedDetails,
+        setSelectedRecord,
+        setRecordDetails,
         setBedRoomKeyword,
         setBedTypeKeyword,
         setBedTypes,
         setBedRooms,
-        setBedToDelete,
-        setBedToUpdate,
+        setRecordToDelete,
+        setRecordToUpdate,
         setAlerts,
         setChanges,
         closeModalConfirmDelete,
@@ -72,7 +72,7 @@ const BedList = () => {
         convertToDate,
         addAlert,
         removeAlert,
-        handleBedSelect,
+        handleRecordSelect,
         handleAddNew,
         handleCreate,
         handleUpdate,
@@ -80,7 +80,7 @@ const BedList = () => {
         fetchData,
         fetchBedRooms,
         fetchBedTypes,
-        
+
     } = useBedList();
 
     if (loading) return <p>Đang tải dữ liệu...</p>;
@@ -91,14 +91,14 @@ const BedList = () => {
             <div className="w-full md:w-8/12">
                 <div className="mb-4 flex flex-wrap gap-4">
                     <TotalPages
-                        page = {page}
-                        totalPages = {totalPages}
-                        setPage = {setPage}
+                        page={page}
+                        totalPages={totalPages}
+                        setPage={setPage}
                     />
                     <RecordPerPage
-                        limit = {limit}
-                        setLimit = {setLimit}
-                        options = {[
+                        limit={limit}
+                        setLimit={setLimit}
+                        options={[
                             { value: 10, label: "10" },
                             { value: 20, label: "20" },
                             { value: 50, label: "50" },
@@ -106,69 +106,69 @@ const BedList = () => {
                     />
                     <Search
                         keyword={keyword}
-                        setKeyword = {setKeyword}
+                        setKeyword={setKeyword}
                     />
                     <OrderBy
                         orderBy={orderBy}
-                        setOrderBy = {setOrderBy}
+                        setOrderBy={setOrderBy}
                     />
                     <OrderDirection
-                        orderDirection = {orderDirection}
-                        setOrderDirection = {setOrderDirection}
+                        orderDirection={orderDirection}
+                        setOrderDirection={setOrderDirection}
                     />
                     <ButtonAddNew
-                        handleAddNew = {handleAddNew}
+                        handleAddNew={handleAddNew}
                     />
                 </div>
                 <div className="mt-4 flex justify-between mb-4">
-                    <PrevPage   
-                        page = {page}
-                        setPage = {setPage}
+                    <PrevPage
+                        page={page}
+                        setPage={setPage}
                     />
                     <TotalRecord
-                        totalItems = {totalItems}
+                        totalItems={totalItems}
                     />
-                    <NextPage   
-                        page = {page}
-                        setPage = {setPage}
-                        totalPages = {totalPages}
+                    <NextPage
+                        page={page}
+                        setPage={setPage}
+                        totalPages={totalPages}
                     />
                 </div>
                 <BedTable
-                    fieldLabels = {fieldLabels}
-                    format = {format}
-                    data = {data}
-                    convertToDate = {convertToDate}
-                    handleRecordSelect = {handleBedSelect}
-                    selectedRecord = {selectedBed}
-                    recordDetails = {bedDetails}
-                    setRecordDetails = {setBedDetails}
-                    recordToDelete = {bedToDelete}
-                    closeModalConfirmDelete = {closeModalConfirmDelete}
-                    confirmDelete = {confirmDelete}
-                    isModalConfirmDeleteOpen = {isModalConfirmDeleteOpen}
-                    openDeleteModal = {openDeleteModal}
-                    openUpdateModal = {openUpdateModal}
-                    isModalConfirmUpdateOpen = {isModalConfirmUpdateOpen}
-                    confirmUpdate = {confirmUpdate}
-                    closeModalConfirmUpdate = {closeModalConfirmUpdate}
-                    calculateChanges = {calculateChanges}
-                    recordToUpdate = {bedToUpdate}
+                    fieldLabels={fieldLabels}
+                    format={format}
+                    data={data}
+                    convertToDate={convertToDate}
+                    handleRecordSelect={handleRecordSelect}
+                    selectedRecord={selectedRecord}
+                    recordDetails={recordDetails}
+                    setRecordDetails={setRecordDetails}
+                    recordToDelete={recordToDelete}
+                    closeModalConfirmDelete={closeModalConfirmDelete}
+                    confirmDelete={confirmDelete}
+                    isModalConfirmDeleteOpen={isModalConfirmDeleteOpen}
+                    openDeleteModal={openDeleteModal}
+                    openUpdateModal={openUpdateModal}
+                    isModalConfirmUpdateOpen={isModalConfirmUpdateOpen}
+                    confirmUpdate={confirmUpdate}
+                    closeModalConfirmUpdate={closeModalConfirmUpdate}
+                    calculateChanges={calculateChanges}
+                    recordToUpdate={recordToUpdate}
                 />
             </div>
 
             <div className="w-full md:w-3/12 border-l border-gray-300 pl-4 mt-4 md:mt-0 flex-grow">
                 <BedDetails
-                    fieldLabels = {fieldLabels}
-                    recordDetails = {bedDetails}
-                    setRecordDetails = {setBedDetails}
-                    bedTypes = {bedTypes}
-                    bedRooms = {bedRooms}
-                    setBedRoomKeyword = {setBedRoomKeyword}
-                    setBedTypeKeyword = {setBedTypeKeyword}
-                    handleCreate = {handleCreate}
-                    openUpdateModal = {openUpdateModal}
-                    validateForm = {validateForm}
+                    fieldLabels={fieldLabels}
+                    recordDetails={recordDetails}
+                    setRecordDetails={setRecordDetails}
+                    bedTypes={bedTypes}
+                    bedRooms={bedRooms}
+                    setBedRoomKeyword={setBedRoomKeyword}
+                    setBedTypeKeyword={setBedTypeKeyword}
+                    handleCreate={handleCreate}
+                    openUpdateModal={openUpdateModal}
+                    validateForm={validateForm}
                 />
             </div>
 

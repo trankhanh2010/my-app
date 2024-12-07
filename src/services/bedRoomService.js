@@ -4,7 +4,7 @@ import config from "../config";
 const laravelAppApiUrl = config.laravelAppApiUrl;
 // Dịch vụ để gọi API lấy danh sách giường bệnh
 const token = '733057f0758409f998151419800540fcc9d50f2ba458e7b18234c49474937767';
-const getBedRooms = async (start, limit, orderBy, orderDirection, keyword) => {
+const get = async (start, limit, orderBy, orderDirection, keyword) => {
   let param;
   const isDB = config.apiService.bedRoom.typeGetApi === 'db';
   const isElastic = config.apiService.bedRoom.typeGetApi === 'elastic';
@@ -97,7 +97,7 @@ const getBedRooms = async (start, limit, orderBy, orderDirection, keyword) => {
   }
 };
 
-const deleteBedRoom = async (id) => {
+const deleteRecord = async (id) => {
   const url = `${laravelAppApiUrl}/api/v1/bed-room/${id}`;
   return axios.delete(url, {
     headers: {
@@ -205,7 +205,7 @@ const getAllSelect = async (keyword) => {
   }
 };
 export default {
-  getBedRooms,
-  deleteBedRoom,
+  get,
+  deleteRecord,
   getAllSelect,
 };

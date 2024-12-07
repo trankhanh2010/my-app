@@ -78,10 +78,10 @@ const BedTable = ({
                                 </span>
                             </td>
                             <td className="border-b px-2 py-1">
-                                {bed.createTime ? format(convertToDate(bed.createTime), "dd/MM/yyyy HH:mm") : ""}
+                                {bed.createTime ? format(convertToDate(bed.createTime), "dd/MM/yyyy HH:mm::ss") : ""}
                             </td>
                             <td className="border-b px-2 py-1">
-                                {bed.modifyTime ? format(convertToDate(bed.modifyTime), "dd/MM/yyyy HH:mm") : ""}
+                                {bed.modifyTime ? format(convertToDate(bed.modifyTime), "dd/MM/yyyy HH:mm::ss") : ""}
                             </td>
                             <td className="border-b px-2 py-1">{bed.bedTypeCode}</td>
                             <td className="border-b px-2 py-1">{bed.bedTypeName}</td>

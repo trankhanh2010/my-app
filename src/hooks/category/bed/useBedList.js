@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import config from "../../../config";
+import useMasterCategoryList from '../../master/useMasterCategoryList';
 import bedService from "../../../services/bedService";
 import bedRoomService from "../../../services/bedRoomService";
 import bedTypeService from "../../../services/bedTypeService";
@@ -13,42 +14,11 @@ const useBedList = () => {
     const bedTypeIsDB = config.apiService.bed.typeGetApi === 'db';
     const bedTypeIsElastic = config.apiService.bed.typeGetApi === 'elastic';
 
-
-
-    const [changes, setChanges] = useState([]);
-
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [isProcessing, setIsProcessing] = useState(false);
-    const [error, setError] = useState(null);
-    const [errorForm, setErrorForm] = useState([]);
-
-    const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(10);
-    const [totalItems, setTotalItems] = useState(0);
-    const [keyword, setKeyword] = useState(null);
-    const [orderBy, setOrderBy] = useState("modifyTime");
-    const [orderDirection, setOrderDirection] = useState("desc");
-
-    const [selectedBed, setSelectedBed] = useState(null);
-    const [bedDetails, setBedDetails] = useState(null);
-
     const [bedRooms, setBedRooms] = useState([]);
     const [bedRoomKeyword, setBedRoomKeyword] = useState(null);
 
     const [bedTypes, setBedTypes] = useState([]);
     const [bedTypeKeyword, setBedTypeKeyword] = useState(null);
-
-    const start = (page - 1) * limit;
-    const totalPages = Math.ceil(totalItems / limit);
-
-    const [isModalConfirmDeleteOpen, setIsModalConfirmDeleteOpen] = useState(false);  // Trạng thái mở modal
-    const [isModalConfirmUpdateOpen, setIsModalConfirmUpdateOpen] = useState(false);  // Trạng thái mở modal
-
-    const [bedToDelete, setBedToDelete] = useState(null); // Giường cần xóa
-    const [bedToUpdate, setBedToUpdate] = useState(null); // Dữ liệu muốn cập nhật thành
-
-    const [alerts, setAlerts] = useState([]);
 
     const fieldLabels = {
         id: "Id",
@@ -102,7 +72,7 @@ const useBedList = () => {
 
     const validateForm = (data) => {
         let error = {};  // Khởi tạo lỗi là một object 
-    
+
         // Kiểm tra lỗi cho bedCode
         if (data.bedCode.trim() === "") {
             if (!error.bedCode) error.bedCode = [];  // Khởi tạo mảng nếu chưa có
@@ -146,112 +116,150 @@ const useBedList = () => {
         }
         return error;
     };
-    
 
-    const calculateChanges = (oldData, newData) => {
-        const changes = [];
-        const fieldsToSkip = [
-            'treatmentRoomId',
-            'bedTypeId',
-            'bedRoomId'
-        ]; // Danh sách các trường cần bỏ qua
+    const fieldsToSkipList = [
+        'treatmentRoomId',
+        'bedTypeId',
+        'bedRoomId'
+    ]; // Danh sách các trường cần bỏ qua
 
-        for (const key in oldData) {
-            // Kiểm tra xem trường có nằm trong danh sách bỏ qua không
-            if (fieldsToSkip.includes(key)) {
-                continue; // Bỏ qua so sánh nếu trường nằm trong danh sách
-            }
-
-            // So sánh giá trị sau khi chuyển đổi thành chuỗi để tránh vấn đề về kiểu dữ liệu
-            const oldValue = oldData[key] != null ? oldData[key].toString() : "";
-            const newValue = newData[key] != null ? newData[key].toString() : "";
-
-            if (oldValue !== newValue) {
-                changes.push({
-                    field: fieldLabels[key] || key, // Dùng nhãn hoặc tên gốc nếu không có nhãn
-                    oldValue: oldValue,
-                    newValue: newValue,
-                });
-            }
-        }
-        return changes;
+    const handleRecordSelect = (bed) => {
+        setSelectedRecord(bed);
+        setRecordDetails(bed);
     };
 
-
-    // Hàm thêm thông báo
-    const addAlert = (message, type = "success") => {
-        const id = new Date().getTime(); // Tạo ID duy nhất
-        setAlerts((prevAlerts) => [...prevAlerts, { id, message, type }]);
-        setTimeout(() => removeAlert(id), 3000); // Tự động xóa sau 3 giây
+    const handleAddNew = () => {
+        setRecordDetails({
+            bedCode: "",
+            bedName: "",
+            bedTypeId: null,
+            bedRoomId: null,
+            maxCapacity: "",
+            isBedStretcher: "0", // Giá trị mặc định là "Không"
+        });
     };
 
-    // Hàm xóa thông báo
-    const removeAlert = (id) => {
-        setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id));
-    };
-
-    // Mở modal và thiết lập giường cần xóa
-    const openDeleteModal = (bed) => {
-        setBedToDelete(bed);
-        setIsModalConfirmDeleteOpen(true);  // Mở modal
-    };
-
-    // Đóng modal
-    const closeModalConfirmDelete = () => {
-        setIsModalConfirmDeleteOpen(false);
-        setBedToDelete(null); // Reset giường khi đóng modal
-    };
-
-    // Hàm xác nhận xóa từ modal
-    const confirmDelete = () => {
-        if (bedToDelete) {
-            handleDelete(bedToDelete.id, bedToDelete.bedName); // Gọi handleDelete để xóa
-            closeModalConfirmDelete(); // Đóng modal sau khi xóa
-        }
-    };
-
-    // Mở modal và thiết lập giường cần cập nhật
-    const openUpdateModal = (bed) => {
-        setBedToUpdate(bed);
-        setIsModalConfirmUpdateOpen(true);  // Mở modal
-    };
-
-    // Đóng modal
-    const closeModalConfirmUpdate = () => {
-        setIsModalConfirmUpdateOpen(false);
-        setBedToUpdate(null); // Reset giường khi đóng modal
-    };
-
-    // Hàm xác nhận cập nhật từ modal
-    const confirmUpdate = () => {
-        if (bedToUpdate) {
-            handleUpdate(bedToUpdate);
-            closeModalConfirmUpdate();
-        }
-    };
-    const fetchData = async () => {
+    const handleCreate = async (recordDetails) => {
+        setIsProcessing(true);
+        const bedData = {
+            bed_code: recordDetails.bedCode,
+            bed_name: recordDetails.bedName,
+            bed_type_id: Number(recordDetails.bedTypeId),
+            bed_room_id: Number(recordDetails.bedRoomId),
+            max_capacity: Number(recordDetails.maxCapacity),
+            is_bed_stretcher: (recordDetails.isBedStretcher),
+        };
         try {
-            const beds = await bedService.getBeds(start, limit, orderBy, orderDirection, keyword || null);
-            if (isDB) {
-                setData(beds.data);
-            }
-            if (isElastic) {
-                setData(
-                    beds.data.map((item) => ({
-                        ...item._source, // Lấy dữ liệu chính
-                        highlight: item.highlight || {}, // Lấy highlight nếu có
-                    }))
-                );
-            }
-            setTotalItems(beds.param.Count); // Tổng bản ghi
-            setLoading(false);
-
+            await bedService.create(bedData); // Gọi API xóa
+            addAlert("Thêm mới thành công!", "success");
+            fetchData(); // Load lại danh sách sau khi xóa
         } catch (err) {
-            console.error("Fetch error:", err);
-            setError("Lỗi khi tải dữ liệu.");
-            setLoading(false);
+            console.error("Lỗi khi thêm mới bản ghi:", err);
+            addAlert("Lỗi khi thêm mới bản ghi!", "error");
         }
+        setIsProcessing(false);
     };
+
+    const handleUpdate = async (recordDetails) => {
+        setIsProcessing(true);
+        const bedData = {
+            bed_code: recordDetails.bedCode,
+            bed_name: recordDetails.bedName,
+            bed_type_id: Number(recordDetails.bedTypeId),
+            bed_room_id: Number(recordDetails.bedRoomId),
+            max_capacity: Number(recordDetails.maxCapacity),
+            is_bed_stretcher: Number(recordDetails.isBedStretcher),
+            is_active: Number(recordDetails.isActive),
+        };
+        try {
+            await bedService.update(recordDetails.id, bedData); // Gọi API xóa
+            addAlert("Cập nhật bản ghi thành công!", "success");
+            fetchData(); // Load lại danh sách sau khi cập nhật
+        } catch (err) {
+            console.error("Lỗi khi cập nhật bản ghi:", err);
+            addAlert("Lỗi khi cập nhật bản ghi!", "error");
+        }
+        setIsProcessing(false);
+    };
+
+    const handleDelete = async (bedId, bedName) => {
+        setIsProcessing(true);
+        try {
+            await bedService.deleteRecord(bedId); // Gọi API xóa
+            addAlert("Xóa bản ghi thành công!", "success");
+            fetchData(); // Load lại danh sách sau khi xóa
+            handleRecordSelect(null)
+        } catch (err) {
+            console.error("Lỗi khi xóa bản ghi:", err);
+            addAlert("Lỗi khi xóa bản ghi!", "error");
+        }
+        setIsProcessing(false);
+    };
+
+    // Lấy từ hookMaster qua
+    const {
+        changes,
+        setChanges,
+        data,
+        setData,
+        loading,
+        setLoading,
+        isProcessing,
+        setIsProcessing,
+        error,
+        setError,
+        page,
+        setPage,
+        limit,
+        setLimit,
+        totalItems,
+        setTotalItems,
+        keyword,
+        setKeyword,
+        orderBy,
+        setOrderBy,
+        orderDirection,
+        setOrderDirection,
+        selectedRecord,
+        setSelectedRecord,
+        recordDetails,
+        setRecordDetails,
+        start,
+        totalPages,
+        isModalConfirmDeleteOpen,
+        setIsModalConfirmDeleteOpen,
+        isModalConfirmUpdateOpen,
+        setIsModalConfirmUpdateOpen,
+        recordToDelete,
+        setRecordToDelete,
+        recordToUpdate,
+        setRecordToUpdate,
+        alerts,
+        setAlerts,
+        calculateChanges,
+        addAlert,
+        removeAlert,
+        openDeleteModal,
+        closeModalConfirmDelete,
+        confirmDelete,
+        openUpdateModal,
+        closeModalConfirmUpdate,
+        confirmUpdate,
+        fetchData,
+        convertToDate,
+
+    } = useMasterCategoryList(
+        fieldLabels,
+        fieldsToSkipList,
+        handleRecordSelect,
+        handleAddNew,
+        handleCreate,
+        handleUpdate,
+        handleDelete,
+        bedService,
+        isDB,
+        isElastic,
+    );
 
     // Lấy danh sách buồng bệnh
     const fetchBedRooms = async () => {
@@ -292,92 +300,6 @@ const useBedList = () => {
         }
     };
 
-    // Hàm chuyển đổi chuỗi thời gian "YYYYMMDDHHMMSS" thành đối tượng Date
-    const convertToDate = (dateString) => {
-        if (!dateString) return null;
-        const year = dateString.substring(0, 4);
-        const month = dateString.substring(4, 6);
-        const day = dateString.substring(6, 8);
-        const hour = dateString.substring(8, 10);
-        const minute = dateString.substring(10, 12);
-        const second = dateString.substring(12, 14);
-
-        return new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}`);
-    };
-
-    const handleBedSelect = (bed) => {
-        setSelectedBed(bed);
-        setBedDetails(bed);
-    };
-
-    const handleAddNew = () => {
-        setBedDetails({
-            bedCode: "",
-            bedName: "",
-            bedTypeId: null,
-            bedRoomId: null,
-            maxCapacity: "",
-            isBedStretcher: "0", // Giá trị mặc định là "Không"
-        });
-    };
-
-    const handleCreate = async (bedDetails) => {
-        setIsProcessing(true);
-        const bedData = {
-            bed_code: bedDetails.bedCode,
-            bed_name: bedDetails.bedName,
-            bed_type_id: Number(bedDetails.bedTypeId),
-            bed_room_id: Number(bedDetails.bedRoomId),
-            max_capacity: Number(bedDetails.maxCapacity),
-            is_bed_stretcher: (bedDetails.isBedStretcher),
-        };
-        try {
-            await bedService.create(bedData); // Gọi API xóa
-            addAlert("Thêm mới thành công!", "success");
-            fetchData(); // Load lại danh sách sau khi xóa
-        } catch (err) {
-            console.error("Lỗi khi thêm mới bản ghi:", err);
-            addAlert("Lỗi khi thêm mới bản ghi!", "error");
-        }
-        setIsProcessing(false);
-    };
-
-    const handleUpdate = async (bedDetails) => {
-        setIsProcessing(true);
-        const bedData = {
-            bed_code: bedDetails.bedCode,
-            bed_name: bedDetails.bedName,
-            bed_type_id: Number(bedDetails.bedTypeId),
-            bed_room_id: Number(bedDetails.bedRoomId),
-            max_capacity: Number(bedDetails.maxCapacity),
-            is_bed_stretcher: Number(bedDetails.isBedStretcher),
-            is_active: Number(bedDetails.isActive),
-        };
-        try {
-            await bedService.update(bedDetails.id, bedData); // Gọi API xóa
-            addAlert("Cập nhật bản ghi thành công!", "success");
-            fetchData(); // Load lại danh sách sau khi cập nhật
-        } catch (err) {
-            console.error("Lỗi khi cập nhật bản ghi:", err);
-            addAlert("Lỗi khi cập nhật bản ghi!", "error");
-        }
-        setIsProcessing(false);
-    };
-
-    const handleDelete = async (bedId, bedName) => {
-        setIsProcessing(true);
-        try {
-            await bedService.deleteBed(bedId); // Gọi API xóa
-            addAlert("Xóa bản ghi thành công!", "success");
-            fetchData(); // Load lại danh sách sau khi xóa
-            handleBedSelect(null)
-        } catch (err) {
-            console.error("Lỗi khi xóa bản ghi:", err);
-            addAlert("Lỗi khi xóa bản ghi!", "error");
-        }
-        setIsProcessing(false);
-    };
-
     useEffect(() => {
         const delayDebounce = setTimeout(() => {
             fetchBedRooms();
@@ -403,10 +325,10 @@ const useBedList = () => {
     }, [page, limit, orderBy, orderDirection, keyword]); // Gọi lại khi có thay đổi
 
     useEffect(() => {
-        if (data && selectedBed) {
-            const updatedBed = data.find((bed) => bed.id == selectedBed.id);
+        if (data && selectedRecord) {
+            const updatedBed = data.find((bed) => bed.id == selectedRecord.id);
             if (updatedBed) {
-                handleBedSelect(updatedBed); // Cập nhật lại selectedBed
+                handleRecordSelect(updatedBed); // Cập nhật lại selectedRecord
             }
         }
     }, [data]); // Chạy lại mỗi khi 'data' thay đổi
@@ -426,15 +348,15 @@ const useBedList = () => {
         keyword,
         orderBy,
         orderDirection,
-        selectedBed,
-        bedDetails,
+        selectedRecord,
+        recordDetails,
         bedRooms,
         bedTypes,
         totalPages,
         isModalConfirmDeleteOpen,
         isModalConfirmUpdateOpen,
-        bedToDelete,
-        bedToUpdate,
+        recordToDelete,
+        recordToUpdate,
         alerts,
         changes,
         calculateChanges,
@@ -445,14 +367,14 @@ const useBedList = () => {
         setKeyword,
         setOrderBy,
         setOrderDirection,
-        setSelectedBed,
-        setBedDetails,
+        setSelectedRecord,
+        setRecordDetails,
         setBedRoomKeyword,
         setBedTypeKeyword,
         setBedTypes,
         setBedRooms,
-        setBedToDelete,
-        setBedToUpdate,
+        setRecordToDelete,
+        setRecordToUpdate,
         setAlerts,
         setChanges,
         closeModalConfirmDelete,
@@ -464,7 +386,7 @@ const useBedList = () => {
         convertToDate,
         addAlert,
         removeAlert,
-        handleBedSelect,
+        handleRecordSelect,
         handleAddNew,
         handleCreate,
         handleUpdate,
