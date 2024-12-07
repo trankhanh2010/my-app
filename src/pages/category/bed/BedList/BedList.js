@@ -141,19 +141,24 @@ const BedList = () => {
                     convertToDate = {convertToDate}
                     handleBedSelect = {handleBedSelect}
                     selectedBed = {selectedBed}
+                    bedDetails = {bedDetails}
+                    setBedDetails = {setBedDetails}
                     bedToDelete = {bedToDelete}
                     closeModalConfirmDelete = {closeModalConfirmDelete}
                     confirmDelete = {confirmDelete}
                     isModalConfirmDeleteOpen = {isModalConfirmDeleteOpen}
                     openDeleteModal = {openDeleteModal}
+                    openUpdateModal = {openUpdateModal}
+                    isModalConfirmUpdateOpen = {isModalConfirmUpdateOpen}
+                    confirmUpdate = {confirmUpdate}
+                    closeModalConfirmUpdate = {closeModalConfirmUpdate}
+                    calculateChanges = {calculateChanges}
                 />
             </div>
 
             <div className="w-full md:w-3/12 border-l border-gray-300 pl-4 mt-4 md:mt-0 flex-grow">
                 <BedDetails
                     fieldLabels = {fieldLabels}
-                    fieldConfig = {fieldConfig}
-                    selectedBed = {selectedBed}
                     bedDetails = {bedDetails}
                     setBedDetails = {setBedDetails}
                     bedTypes = {bedTypes}
@@ -161,12 +166,7 @@ const BedList = () => {
                     setBedRoomKeyword = {setBedRoomKeyword}
                     setBedTypeKeyword = {setBedTypeKeyword}
                     handleCreate = {handleCreate}
-                    handleUpdate = {handleUpdate}
                     openUpdateModal = {openUpdateModal}
-                    isModalConfirmUpdateOpen = {isModalConfirmUpdateOpen}
-                    confirmUpdate = {confirmUpdate}
-                    closeModalConfirmUpdate = {closeModalConfirmUpdate}
-                    calculateChanges = {calculateChanges}
                     validateForm = {validateForm}
                 />
             </div>

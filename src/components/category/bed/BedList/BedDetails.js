@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import Select from "react-select";
-import ModalConfirmUpdate from "../../../../components/common/Modal/ModalConfirmUpdate";
+import ButtonCreateOrUpdate from "../../../../components/common/Button/ButtonCreateOrUpdate";
 
 const BedDetails = ({
     fieldLabels,
-    fieldConfig,
-    selectedBed,
     bedDetails,
     setBedDetails,
     bedTypes,
@@ -13,13 +11,7 @@ const BedDetails = ({
     setBedRoomKeyword,
     setBedTypeKeyword,
     handleCreate,
-    handleUpdate,
     openUpdateModal,
-    isModalConfirmUpdateOpen,
-    confirmUpdate,
-    closeModalConfirmUpdate,
-    calculateChanges,
-    handleBedSelect,
     validateForm,
 }) => {
     if (!bedDetails) return <p className="text-gray-500">Chưa chọn giường</p>;
@@ -236,25 +228,12 @@ const BedDetails = ({
                 </div>
             </div>
             <div className="flex justify-end">
-                <button
-                    disabled={Object.keys(validateForm(bedDetails)).length > 0}
-                    type="submit"
-                    className={`py-2 px-4 rounded 
-                        ${bedDetails.id ? "bg-blue-500 hover:bg-blue-600" : "bg-green-500 hover:bg-green-600"}
-                        text-white 
-                        ${Object.keys(validateForm(bedDetails)).length > 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"}`}
-                >
-                    {bedDetails.id ? "Cập nhật" : "Thêm mới"}  {/* Hiển thị "Cập nhật" nếu có id, nếu không thì "Thêm mới" */}
-                </button>
+                <ButtonCreateOrUpdate
+                    recordDetails = {bedDetails}
+                    validateForm={validateForm}
+                />
             </div>
-            {/* Modal xác nhận cập nhật */}
-            <ModalConfirmUpdate
-                isOpen={isModalConfirmUpdateOpen}
-                onConfirm={confirmUpdate}  // Gọi confirmUpdate nếu xác nhận
-                onCancel={closeModalConfirmUpdate}  // Đóng modal nếu không xác nhận
-                message={`${selectedBed?.bedName} (${selectedBed?.bedCode})`} // Truyền tên giường vào modal
-                changes={calculateChanges(selectedBed, bedDetails)}
-            />
+            
         </form>
     );
 };
