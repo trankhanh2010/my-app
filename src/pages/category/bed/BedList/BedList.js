@@ -45,6 +45,8 @@ const BedList = () => {
         recordToUpdate,
         alerts,
         changes,
+        errorUniqueCode,
+        setErrorUniqueCode,
         calculateChanges,
         confirmDelete,
         confirmUpdate,
@@ -78,9 +80,10 @@ const BedList = () => {
         handleUpdate,
         handleDelete,
         fetchData,
-        checkCode,
+        checkUniqueCode,
         fetchBedRooms,
         fetchBedTypes,
+
 
     } = useBedList();
 
@@ -170,7 +173,9 @@ const BedList = () => {
                     handleCreate={handleCreate}
                     openUpdateModal={openUpdateModal}
                     validateForm={validateForm}
-                    checkCode={checkCode}
+                    checkUniqueCode={checkUniqueCode}
+                    errorUniqueCode={errorUniqueCode}
+                    setErrorUniqueCode={setErrorUniqueCode}
                 />
             </div>
 

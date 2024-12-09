@@ -13,9 +13,21 @@ const BedDetails = ({
     handleCreate,
     openUpdateModal,
     validateForm,
-    checkCode,
+    checkUniqueCode,
+    errorUniqueCode,
+    setErrorUniqueCode
 }) => {
     if (!recordDetails) return <p className="text-gray-500">Chưa chọn giường</p>;
+    // Validate Form
+    let debounceTimeout;
+    const errors = validateForm(recordDetails);
+    const handleBlur = async (code, id) => {
+        // Hủy bỏ timeout cũ nếu người dùng đang tiếp tục gõ
+        clearTimeout(debounceTimeout);
+        setTimeout(async () => {
+            setErrorUniqueCode(await checkUniqueCode(code, id));
+         },200)
+    }
     // Hàm trung gian xử lý submit
     const handleFormSubmit = (e) => {
         e.preventDefault(); // Ngăn việc reload trang
@@ -35,20 +47,23 @@ const BedDetails = ({
                     <input
                         type="text"
                         value={recordDetails.bedCode}
-                        onChange={(e) => setRecordDetails({ ...recordDetails, bedCode: e.target.value })}
-                        onBlur={(e) => checkCode(e.target.value, recordDetails.id)} // Gọi API kiểm tra khi mất tiêu điểm
+                        onChange={(e) => {
+                            setRecordDetails({ ...recordDetails, bedCode: e.target.value });
+                            handleBlur(e.target.value, recordDetails.id)
+                        }}
                         className={`w-full p-2 border rounded 
-                            ${validateForm(recordDetails).bedCode && validateForm(recordDetails).bedCode.length > 0 ? "border-red-500" : "border-gray-300"
+                            ${(errors.bedCode && errors.bedCode.length > 0) || errorUniqueCode ? "border-red-500" : "border-gray-300"
                             }`}
                     />
-                    {/* Thông báo lỗi*/}
-                    {validateForm(recordDetails).bedCode && (
+                    {/* Thông báo lỗi */}
+                    {(errors.bedCode && errors.bedCode.length > 0) || errorUniqueCode ? (
                         <div className="space-y-1 mt-1">
-                            {validateForm(recordDetails).bedCode.map((errorMessage, index) => (
+                            {(errors.bedCode || []).map((errorMessage, index) => (
                                 <p key={index} className="text-red-500 text-sm">{errorMessage}</p>
                             ))}
+                            {errorUniqueCode && <p className="text-red-500 text-sm">{errorUniqueCode}</p>}
                         </div>
-                    )}
+                    ) : null}
                 </div>
             </div>
 
@@ -61,13 +76,13 @@ const BedDetails = ({
                         value={recordDetails.bedName}
                         onChange={(e) => setRecordDetails({ ...recordDetails, bedName: e.target.value })}
                         className={`w-full p-2 border rounded 
-                        ${validateForm(recordDetails).bedName && validateForm(recordDetails).bedName.length > 0 ? "border-red-500" : "border-gray-300"
+                        ${errors.bedName && errors.bedName.length > 0 ? "border-red-500" : "border-gray-300"
                             }`}
                     />
                     {/* Thông báo lỗi*/}
-                    {validateForm(recordDetails).bedName && (
+                    {errors.bedName && (
                         <div className="space-y-1 mt-1">
-                            {validateForm(recordDetails).bedName.map((errorMessage, index) => (
+                            {errors.bedName.map((errorMessage, index) => (
                                 <p key={index} className="text-red-500 text-sm">{errorMessage}</p>
                             ))}
                         </div>
@@ -118,15 +133,15 @@ const BedDetails = ({
                         styles={{
                             control: (base) => ({
                                 ...base,
-                                borderColor: `${validateForm(recordDetails).bedTypeId && validateForm(recordDetails).bedTypeId.length > 0 ? "#ef4444" : "#ccc"
+                                borderColor: `${errors.bedTypeId && errors.bedTypeId.length > 0 ? "#ef4444" : "#ccc"
                                     }`
                             }),
                         }}
                     />
                     {/* Thông báo lỗi*/}
-                    {validateForm(recordDetails).bedTypeId && (
+                    {errors.bedTypeId && (
                         <div className="space-y-1 mt-1">
-                            {validateForm(recordDetails).bedTypeId.map((errorMessage, index) => (
+                            {errors.bedTypeId.map((errorMessage, index) => (
                                 <p key={index} className="text-red-500 text-sm">{errorMessage}</p>
                             ))}
                         </div>
@@ -176,15 +191,15 @@ const BedDetails = ({
                         styles={{
                             control: (base) => ({
                                 ...base,
-                                borderColor: `${validateForm(recordDetails).bedRoomId && validateForm(recordDetails).bedRoomId.length > 0 ? "#ef4444" : "#ccc"
+                                borderColor: `${errors.bedRoomId && errors.bedRoomId.length > 0 ? "#ef4444" : "#ccc"
                                     }`
                             }),
                         }}
                     />
                     {/* Thông báo lỗi*/}
-                    {validateForm(recordDetails).bedRoomId && (
+                    {errors.bedRoomId && (
                         <div className="space-y-1 mt-1">
-                            {validateForm(recordDetails).bedRoomId.map((errorMessage, index) => (
+                            {errors.bedRoomId.map((errorMessage, index) => (
                                 <p key={index} className="text-red-500 text-sm">{errorMessage}</p>
                             ))}
                         </div>
@@ -203,13 +218,13 @@ const BedDetails = ({
                             value={recordDetails.maxCapacity}
                             onChange={(e) => setRecordDetails({ ...recordDetails, maxCapacity: e.target.value })}
                             className={`w-full p-2 border rounded 
-                            ${validateForm(recordDetails).maxCapacity && validateForm(recordDetails).maxCapacity.length > 0 ? "border-red-500" : "border-gray-300"
+                            ${errors.maxCapacity && errors.maxCapacity.length > 0 ? "border-red-500" : "border-gray-300"
                                 }`}
                         />
                         {/* Thông báo lỗi*/}
-                        {validateForm(recordDetails).maxCapacity && (
+                        {errors.maxCapacity && (
                             <div className="space-y-1 mt-1">
-                                {validateForm(recordDetails).maxCapacity.map((errorMessage, index) => (
+                                {errors.maxCapacity.map((errorMessage, index) => (
                                     <p key={index} className="text-red-500 text-sm">{errorMessage}</p>
                                 ))}
                             </div>
@@ -231,11 +246,12 @@ const BedDetails = ({
             </div>
             <div className="flex justify-end">
                 <ButtonCreateOrUpdate
-                    recordDetails = {recordDetails}
-                    validateForm={validateForm}
+                    recordDetails={recordDetails}
+                    errors={errors}
+                    errorUniqueCode={errorUniqueCode}
                 />
             </div>
-            
+
         </form>
     );
 };

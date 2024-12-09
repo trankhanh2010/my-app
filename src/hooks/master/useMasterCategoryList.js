@@ -11,6 +11,7 @@ const useMasterCategoryList = (
     apiService,
     isDB,
     isElastic,
+    recordCode,
 ) => {
     const [changes, setChanges] = useState([]);
 
@@ -25,7 +26,7 @@ const useMasterCategoryList = (
     const [keyword, setKeyword] = useState(null);
     const [orderBy, setOrderBy] = useState("modifyTime");
     const [orderDirection, setOrderDirection] = useState("desc");
-
+    const [errorUniqueCode, setErrorUniqueCode] = useState(null)
     const [selectedRecord, setSelectedRecord] = useState(null);
     const [recordDetails, setRecordDetails] = useState(null);
 
@@ -138,13 +139,18 @@ const useMasterCategoryList = (
         }
     };
 
-    const checkCode = async(code, id = null) => {
-        try {
-            const response = await apiService.checkCode(code, id);
-            console.log(response)
-        } catch (err) {
-            console.error("Fetch error:", err);
-            setError("Lỗi khi tải dữ liệu.");
+    const checkUniqueCode = async (code, id = null) => {
+        if(code != ""){
+            try {
+                const response = await apiService.checkUniqueCode(code, id);
+                if (!response.data.available) {
+                    return `${recordCode} đã được sử dụng`;
+                }
+                return null;  // Không có lỗi, mã hợp lệ
+            } catch (err) {
+                console.error("Fetch error:", err);
+                setError("Lỗi khi tải dữ liệu.");
+            }
         }
     }
     // Hàm chuyển đổi chuỗi thời gian "YYYYMMDDHHMMSS" thành đối tượng Date
@@ -196,6 +202,8 @@ const useMasterCategoryList = (
         setRecordToDelete,
         recordToUpdate,
         setRecordToUpdate,
+        errorUniqueCode,
+        setErrorUniqueCode,
         alerts,
         setAlerts,
         calculateChanges,
@@ -208,7 +216,7 @@ const useMasterCategoryList = (
         closeModalConfirmUpdate,
         confirmUpdate,
         fetchData,
-        checkCode,
+        checkUniqueCode,
         convertToDate,
     };
 };
