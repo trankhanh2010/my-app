@@ -70,50 +70,53 @@ const useBedList = () => {
         },
     };
 
-    const validateForm = (data) => {
+    const validateForm = (data, type = 'normal', id = null) => {
         let error = {};  // Khởi tạo lỗi là một object 
+        switch (type) {
+            case "normal":
+                // Kiểm tra lỗi cho bedCode
+                if (data.bedCode.trim() === "") {
+                    if (!error.bedCode) error.bedCode = [];  // Khởi tạo mảng nếu chưa có
+                    error.bedCode.push(fieldConfig.bedCode.errorMessageRequired);  // Thêm lỗi 
+                }
+                if (data.bedCode.length > fieldConfig.bedCode.maxLength) {
+                    if (!error.bedCode) error.bedCode = [];  // Khởi tạo mảng nếu chưa có
+                    error.bedCode.push(fieldConfig.bedCode.errorMessageMaxLength);  // Thêm lỗi 
+                }
 
-        // Kiểm tra lỗi cho bedCode
-        if (data.bedCode.trim() === "") {
-            if (!error.bedCode) error.bedCode = [];  // Khởi tạo mảng nếu chưa có
-            error.bedCode.push(fieldConfig.bedCode.errorMessageRequired);  // Thêm lỗi 
-        }
-        if (data.bedCode.length > fieldConfig.bedCode.maxLength) {
-            if (!error.bedCode) error.bedCode = [];  // Khởi tạo mảng nếu chưa có
-            error.bedCode.push(fieldConfig.bedCode.errorMessageMaxLength);  // Thêm lỗi 
+                // Kiểm tra lỗi cho bedName
+                if (data.bedName.trim() === "") {
+                    if (!error.bedName) error.bedName = [];  // Khởi tạo mảng nếu chưa có
+                    error.bedName.push(fieldConfig.bedName.errorMessageRequired);  // Thêm lỗi 
+                }
+                if (data.bedName.length > fieldConfig.bedName.maxLength) {
+                    if (!error.bedName) error.bedName = [];  // Khởi tạo mảng nếu chưa có
+                    error.bedName.push(fieldConfig.bedName.errorMessageMaxLength);  // Thêm lỗi 
+                }
+
+                // Kiểm tra lỗi cho bedTypeId
+                if (data.bedTypeId === undefined || data.bedTypeId === null) {
+                    if (!error.bedTypeId) error.bedTypeId = [];  // Khởi tạo mảng nếu chưa có
+                    error.bedTypeId.push(fieldConfig.bedTypeId.errorMessageRequired);  // Thêm lỗi 
+                }
+
+                // Kiểm tra lỗi cho bedRoomId
+                if (data.bedRoomId === undefined || data.bedRoomId === null) {
+                    if (!error.bedRoomId) error.bedRoomId = [];  // Khởi tạo mảng nếu chưa có
+                    error.bedRoomId.push(fieldConfig.bedRoomId.errorMessageRequired);  // Thêm lỗi 
+                }
+
+                // Kiểm tra lỗi cho maxCapacity
+                if (data.maxCapacity < 0) {
+                    if (!error.maxCapacity) error.maxCapacity = [];  // Khởi tạo mảng nếu chưa có
+                    error.maxCapacity.push(fieldConfig.maxCapacity.errorMessageGT0);  // Thêm lỗi 
+                }
+                if (data.maxCapacity != 1 && data.isBedStretcher == 1) {
+                    if (!error.maxCapacity) error.maxCapacity = [];  // Khởi tạo mảng nếu chưa có
+                    error.maxCapacity.push(fieldConfig.maxCapacity.errorMessageIsBedStretcher);  // Thêm lỗi 
+                }
         }
 
-        // Kiểm tra lỗi cho bedName
-        if (data.bedName.trim() === "") {
-            if (!error.bedName) error.bedName = [];  // Khởi tạo mảng nếu chưa có
-            error.bedName.push(fieldConfig.bedName.errorMessageRequired);  // Thêm lỗi 
-        }
-        if (data.bedName.length > fieldConfig.bedName.maxLength) {
-            if (!error.bedName) error.bedName = [];  // Khởi tạo mảng nếu chưa có
-            error.bedName.push(fieldConfig.bedName.errorMessageMaxLength);  // Thêm lỗi 
-        }
-
-        // Kiểm tra lỗi cho bedTypeId
-        if (data.bedTypeId === undefined || data.bedTypeId === null) {
-            if (!error.bedTypeId) error.bedTypeId = [];  // Khởi tạo mảng nếu chưa có
-            error.bedTypeId.push(fieldConfig.bedTypeId.errorMessageRequired);  // Thêm lỗi 
-        }
-
-        // Kiểm tra lỗi cho bedRoomId
-        if (data.bedRoomId === undefined || data.bedRoomId === null) {
-            if (!error.bedRoomId) error.bedRoomId = [];  // Khởi tạo mảng nếu chưa có
-            error.bedRoomId.push(fieldConfig.bedRoomId.errorMessageRequired);  // Thêm lỗi 
-        }
-
-        // Kiểm tra lỗi cho maxCapacity
-        if (data.maxCapacity < 0) {
-            if (!error.maxCapacity) error.maxCapacity = [];  // Khởi tạo mảng nếu chưa có
-            error.maxCapacity.push(fieldConfig.maxCapacity.errorMessageGT0);  // Thêm lỗi 
-        }
-        if (data.maxCapacity != 1 && data.isBedStretcher == 1) {
-            if (!error.maxCapacity) error.maxCapacity = [];  // Khởi tạo mảng nếu chưa có
-            error.maxCapacity.push(fieldConfig.maxCapacity.errorMessageIsBedStretcher);  // Thêm lỗi 
-        }
         return error;
     };
 
@@ -246,6 +249,7 @@ const useBedList = () => {
         closeModalConfirmUpdate,
         confirmUpdate,
         fetchData,
+        checkCode,
         convertToDate,
 
     } = useMasterCategoryList(
@@ -392,6 +396,7 @@ const useBedList = () => {
         handleUpdate,
         handleDelete,
         fetchData,
+        checkCode,
         fetchBedRooms,
         fetchBedTypes,
 

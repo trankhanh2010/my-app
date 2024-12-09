@@ -13,6 +13,7 @@ const BedDetails = ({
     handleCreate,
     openUpdateModal,
     validateForm,
+    checkCode,
 }) => {
     if (!recordDetails) return <p className="text-gray-500">Chưa chọn giường</p>;
     // Hàm trung gian xử lý submit
@@ -35,6 +36,7 @@ const BedDetails = ({
                         type="text"
                         value={recordDetails.bedCode}
                         onChange={(e) => setRecordDetails({ ...recordDetails, bedCode: e.target.value })}
+                        onBlur={(e) => checkCode(e.target.value, recordDetails.id)} // Gọi API kiểm tra khi mất tiêu điểm
                         className={`w-full p-2 border rounded 
                             ${validateForm(recordDetails).bedCode && validateForm(recordDetails).bedCode.length > 0 ? "border-red-500" : "border-gray-300"
                             }`}

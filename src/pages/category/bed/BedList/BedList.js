@@ -78,6 +78,7 @@ const BedList = () => {
         handleUpdate,
         handleDelete,
         fetchData,
+        checkCode,
         fetchBedRooms,
         fetchBedTypes,
 
@@ -169,6 +170,7 @@ const BedList = () => {
                     handleCreate={handleCreate}
                     openUpdateModal={openUpdateModal}
                     validateForm={validateForm}
+                    checkCode={checkCode}
                 />
             </div>
 
