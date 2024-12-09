@@ -12,7 +12,7 @@ import TotalRecord from "../../../../components/common/Filter/TotalRecord";
 
 import ButtonAddNew from "../../../../components/common/Button/ButtonAddNew";
 
-import Alert from "../../../../components/common/Alert/Alert";
+import ManegerAlert from "../../../../components/common/Alert/ManegerAlert";
 
 import useBedList from "../../../../hooks/category/bed/useBedList";
 import BedTable from "../../../../components/category/bed/BedList/BedTable";
@@ -179,17 +179,11 @@ const BedList = () => {
                 />
             </div>
 
+            <ManegerAlert
+                alerts={alerts}
+                removeAlert={removeAlert}
+            />
 
-            <div className="fixed top-8 right-4 space-y-4">
-                {alerts.map((alert) => (
-                    <Alert
-                        key={alert.id}
-                        message={alert.message}
-                        type={alert.type}
-                        onClose={() => removeAlert(alert.id)}
-                    />
-                ))}
-            </div>
 
         </div>
     );
