@@ -146,9 +146,21 @@ const deleteRecord = async (id) => {
     },
   });
 };
+
+const checkCode = async (code, id = null) => {
+  const url = id 
+  ? `${laravelAppApiUrl}/api/v1/bed-check?code=${code}&id=${id}` 
+  : `${laravelAppApiUrl}/api/v1/bed-check?code=${code}`;  
+  return axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 export default {
   get,
   create,
   update,
   deleteRecord,
+  checkCode,
 };
