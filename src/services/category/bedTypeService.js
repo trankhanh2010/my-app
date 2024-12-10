@@ -1,11 +1,7 @@
-import axios from 'axios';
-import CryptoJS from 'crypto-js';
+import api, { encodeParams } from '../api/api';
 import config from "../../config";
-import useMasterService from '../master/useMasterService';
 
-const laravelAppApiUrl = config.laravelAppApiUrl;
 // Dịch vụ để gọi API lấy danh sách giường bệnh
-const token = useMasterService.getAuthToken()
 const get = async (start, limit, orderBy, orderDirection, keyword) => {
   let param;
   const isDB = config.apiService.bedType.typeGetApi === 'db';
@@ -79,20 +75,11 @@ const get = async (start, limit, orderBy, orderDirection, keyword) => {
     }
   }
 
-  const paramBase64 = CryptoJS.enc.Base64.stringify(
-    CryptoJS.enc.Utf8.parse(JSON.stringify(param))
-  );
+  const paramBase64 = encodeParams(param);
   // console.log(paramBase64);
 
   try {
-    const response = await axios.get(
-      `${laravelAppApiUrl}/api/v1/bed-type?param=${paramBase64}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await api.get(`/api/v1/bed-type?param=${paramBase64}`);
     return response.data;  // Trả về dữ liệu nhận được từ API
   } catch (error) {
     throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài
@@ -100,12 +87,8 @@ const get = async (start, limit, orderBy, orderDirection, keyword) => {
 };
 
 const deleteRecord = async (id) => {
-  const url = `${laravelAppApiUrl}/api/v1/bed-type/${id}`;
-  return axios.delete(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const url = `/api/v1/bed-type/${id}`;
+  return api.delete(url);
 };
 
 const getAllSelect = async (keyword) => {
@@ -187,20 +170,11 @@ const getAllSelect = async (keyword) => {
     }
   }
 
-  const paramBase64 = CryptoJS.enc.Base64.stringify(
-    CryptoJS.enc.Utf8.parse(JSON.stringify(param))
-  );
+  const paramBase64 = encodeParams(param);
   // console.log(paramBase64);
 
   try {
-    const response = await axios.get(
-      `${laravelAppApiUrl}/api/v1/bed-type?param=${paramBase64}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await api.get(`/api/v1/bed-type?param=${paramBase64}`);
     return response.data;  // Trả về dữ liệu nhận được từ API
   } catch (error) {
     throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài
