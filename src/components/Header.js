@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import LogoutButton from "./common/Button/ButtonLogout";
 const Header = () => {
   return (
     <header className="bg-blue-600 text-white py-4">
@@ -14,6 +14,12 @@ const Header = () => {
           </li>
           <li>
             <Link to="/bed" className="hover:text-gray-300">Giường Bệnh</Link>
+          </li>
+          <li>
+            <Link to="/login" className="hover:text-gray-300">Đăng nhập</Link>
+          </li>
+          <li>
+          <LogoutButton/>
           </li>
         </ul>
       </nav>

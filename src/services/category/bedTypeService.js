@@ -1,16 +1,18 @@
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import config from "../config";
+import config from "../../config";
+import useMasterService from '../master/useMasterService';
+
 const laravelAppApiUrl = config.laravelAppApiUrl;
 // Dịch vụ để gọi API lấy danh sách giường bệnh
-const token = '733057f0758409f998151419800540fcc9d50f2ba458e7b18234c49474937767';
+const token = useMasterService.getAuthToken()
 const get = async (start, limit, orderBy, orderDirection, keyword) => {
   let param;
-  const isDB = config.apiService.bedRoom.typeGetApi === 'db';
-  const isElastic = config.apiService.bedRoom.typeGetApi === 'elastic';
+  const isDB = config.apiService.bedType.typeGetApi === 'db';
+  const isElastic = config.apiService.bedType.typeGetApi === 'elastic';
 
   // Lấy dữ liệu từ DB
-  if (isDB) {
+  if(isDB){
     param = {
       CommonParam: {
         Start: start,
@@ -27,9 +29,9 @@ const get = async (start, limit, orderBy, orderDirection, keyword) => {
   }
 
   // Lấy dữ liệu từ ElasticSearch
-  if (isElastic) {
+  if(isElastic){
     // Khi tìm theo từ khóa
-    if (keyword !== null) {
+    if(keyword !== null){
       param = {
         CommonParam: {
           Start: start,
@@ -39,20 +41,20 @@ const get = async (start, limit, orderBy, orderDirection, keyword) => {
         ApiData: {
           ElasticSearchType: "bool",
           ElasticShould: [
-            { wildcard: { bedRoomCode: keyword } },
-            { match: { bedRoomCode: keyword } },
-            { match_phrase: { bedRoomCode: keyword } },
-            { prefix: { bedRoomCode: keyword } },
-            { query_string: { bedRoomCode: keyword } },
+            {wildcard: {bedTypeCode: keyword}},
+            {match: {bedTypeCode: keyword}},
+            {match_phrase: {bedTypeCode: keyword}},
+            {prefix: {bedTypeCode: keyword}},
+            {query_string: {bedTypeCode: keyword}},
 
-            { wildcard: { bedRoomName: keyword } },
-            { match: { bedRoomName: keyword } },
-            { match_phrase: { bedRoomName: keyword } },
-            { prefix: { bedRoomName: keyword } },
-            { query_string: { bedRoomName: keyword } },
+            {wildcard: {bedTypeName: keyword}},
+            {match: {bedTypeName: keyword}},
+            {match_phrase: {bedTypeName: keyword}},
+            {prefix: {bedTypeName: keyword}},
+            {query_string: {bedTypeName: keyword}},
 
           ],
-          ElasticFields: ["bedRoomCode", "bedRoomName"],
+          ElasticFields: ["bedTypeCode", "bedTypeName"],
           OrderBy: {
             [orderBy]: orderDirection,  // Thay đổi tùy theo người dùng chọn
           },
@@ -61,7 +63,7 @@ const get = async (start, limit, orderBy, orderDirection, keyword) => {
     }
 
     // Khi không có từ khóa
-    if (keyword === null) {
+    if(keyword === null){
       param = {
         CommonParam: {
           Start: start,
@@ -84,7 +86,7 @@ const get = async (start, limit, orderBy, orderDirection, keyword) => {
 
   try {
     const response = await axios.get(
-      `${laravelAppApiUrl}/api/v1/bed-room?param=${paramBase64}`,
+      `${laravelAppApiUrl}/api/v1/bed-type?param=${paramBase64}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -98,7 +100,7 @@ const get = async (start, limit, orderBy, orderDirection, keyword) => {
 };
 
 const deleteRecord = async (id) => {
-  const url = `${laravelAppApiUrl}/api/v1/bed-room/${id}`;
+  const url = `${laravelAppApiUrl}/api/v1/bed-type/${id}`;
   return axios.delete(url, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -108,8 +110,8 @@ const deleteRecord = async (id) => {
 
 const getAllSelect = async (keyword) => {
   let param;
-  const isDB = config.apiService.bedRoom.typeGetApi === 'db';
-  const isElastic = config.apiService.bedRoom.typeGetApi === 'elastic';
+  const isDB = config.apiService.bedType.typeGetApi === 'db';
+  const isElastic = config.apiService.bedType.typeGetApi === 'elastic';
 
   // Lấy dữ liệu từ DB
   if (isDB) {
@@ -123,7 +125,7 @@ const getAllSelect = async (keyword) => {
         isDelete: 0,
         KeyWord: keyword,
         OrderBy: {
-          bedRoomName: "desc",
+          bedTypeName: "desc",
         },
       },
     };
@@ -141,25 +143,25 @@ const getAllSelect = async (keyword) => {
         ApiData: {
           ElasticSearchType: "bool",
           ElasticShould: [
-            { wildcard: { bedRoomCode: keyword } },
-            { match: { bedRoomCode: keyword } },
-            { match_phrase: { bedRoomCode: keyword } },
-            { prefix: { bedRoomCode: keyword } },
-            { query_string: { bedRoomCode: keyword } },
+            { wildcard: { bedTypeCode: keyword } },
+            { match: { bedTypeCode: keyword } },
+            { match_phrase: { bedTypeCode: keyword } },
+            { prefix: { bedTypeCode: keyword } },
+            { query_string: { bedTypeCode: keyword } },
 
-            { wildcard: { bedRoomName: keyword } },
-            { match: { bedRoomName: keyword } },
-            { match_phrase: { bedRoomName: keyword } },
-            { prefix: { bedRoomName: keyword } },
-            { query_string: { bedRoomName: keyword } },
+            { wildcard: { bedTypeName: keyword } },
+            { match: { bedTypeName: keyword } },
+            { match_phrase: { bedTypeName: keyword } },
+            { prefix: { bedTypeName: keyword } },
+            { query_string: { bedTypeName: keyword } },
           ],
           ElasticMustNot: [
             { term: { isActive: 0 } },
             { term: { isDelete: 1 } },
           ],
-          ElasticFields: ["bedRoomCode", "bedRoomName"],
+          ElasticFields: ["bedTypeCode", "bedTypeName"],
           OrderBy: {
-            bedRoomName: "desc",
+            bedTypeName: "desc",
           },
         },
       };
@@ -178,7 +180,7 @@ const getAllSelect = async (keyword) => {
             { term: { isDelete: 1 } },
           ],
           OrderBy: {
-            bedRoomName: "desc",
+            bedTypeName: "desc",
           },
         },
       };
@@ -192,7 +194,7 @@ const getAllSelect = async (keyword) => {
 
   try {
     const response = await axios.get(
-      `${laravelAppApiUrl}/api/v1/bed-room?param=${paramBase64}`,
+      `${laravelAppApiUrl}/api/v1/bed-type?param=${paramBase64}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

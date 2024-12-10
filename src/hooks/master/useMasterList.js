@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import useMasterService from "../../services/master/useMasterService";
 
 const useMasterCategoryList = (
     fieldLabels = [],
@@ -13,6 +15,15 @@ const useMasterCategoryList = (
     isElastic,
     recordCode,
 ) => {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const token = useMasterService.getAuthToken();
+        if (!token) {
+          // Nếu không có token, điều hướng về trang đăng nhập
+          navigate('/login');
+        }
+      }, [navigate]);
+
     const [changes, setChanges] = useState([]);
 
     const [data, setData] = useState([]);
@@ -165,6 +176,9 @@ const useMasterCategoryList = (
 
         return new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}`);
     };
+    useEffect(() => {
+        setErrorUniqueCode(null); // Reset lỗi unique khi bản ghi thay đổi
+    }, [recordDetails]);
     return {
         changes,
         setChanges,

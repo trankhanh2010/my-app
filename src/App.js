@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import Login from './pages/auth/login.js';
+
 import BedList from './pages/category/bed/BedList/BedList.js';
 
 const App = () => {
@@ -12,6 +14,8 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+
         <Route path="/bed" element={<BedList />} />
       </Routes>
       <Footer />

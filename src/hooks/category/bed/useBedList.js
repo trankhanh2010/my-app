@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import config from "../../../config";
-import useMasterCategoryList from '../../master/useMasterCategoryList';
-import bedService from "../../../services/bedService";
-import bedRoomService from "../../../services/bedRoomService";
-import bedTypeService from "../../../services/bedTypeService";
+import useMasterList from '../../master/useMasterList';
+import bedService from "../../../services/category/bedService";
+import bedRoomService from "../../../services/category/bedRoomService";
+import bedTypeService from "../../../services/category/bedTypeService";
 import { format } from "date-fns";
 
 const useBedList = () => {
@@ -254,7 +254,7 @@ const useBedList = () => {
         checkUniqueCode,
         convertToDate,
 
-    } = useMasterCategoryList(
+    } = useMasterList(
         fieldLabels,
         fieldsToSkipList,
         handleRecordSelect,

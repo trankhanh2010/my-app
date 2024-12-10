@@ -1,9 +1,11 @@
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import config from "../config";
+import config from "../../config";
+import useMasterService from '../master/useMasterService';
+
 const laravelAppApiUrl = config.laravelAppApiUrl;
 // Dịch vụ để gọi API lấy danh sách giường bệnh
-const token = '733057f0758409f998151419800540fcc9d50f2ba458e7b18234c49474937767';
+const token = useMasterService.getAuthToken()
 const get = async (start, limit, orderBy, orderDirection, keyword) => {
   let param;
   const isDB = config.apiService.bed.typeGetApi === 'db';
