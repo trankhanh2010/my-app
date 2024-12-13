@@ -162,16 +162,16 @@ const useMasterCategoryList = (
     // Lấy dữ liệu theo con trỏ
     const fetchDataCursor = async () => {
         try {
+            setLoading(true); // Bắt đầu tải dữ liệu
             const response = await apiService.getCusor(lastId, limitCusor, filter || []);
             if (isDB) {
-                setDataCursor(response.data);
+                setDataCursor((prevData) => [...prevData, ...response.data]); // Nối dữ liệu mới với dữ liệu hiện tại
             }
-            setLoading(false);
-
+            setLoading(false); // Kết thúc tải dữ liệu
         } catch (err) {
             console.error("Fetch error:", err);
             setError("Lỗi khi tải dữ liệu.");
-            setLoading(false);
+            setLoading(false); // Kết thúc tải dữ liệu ngay cả khi lỗi
         }
     };
     

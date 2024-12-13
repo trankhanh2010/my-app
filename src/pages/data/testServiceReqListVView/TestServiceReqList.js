@@ -12,10 +12,14 @@ const TestServiceReqList = () => {
         format,
         dataCursor,
         loading,
+        loadingFetchTestServiceTypeList,
         isProcessing,
         error,
+        errorFetchTestServiceTypeList,
         limitCursor,
         selectedRecord,
+        lastId,
+        setLastId,
         recordDetails,
         testServiceTypeList,
         patientId,
@@ -31,14 +35,20 @@ const TestServiceReqList = () => {
         fetchDataCursor,
 
     } = useTestServiceReqList();
+    const handleLoadMore = () => {
+        if (dataCursor && dataCursor.length > 0) {
+            const lastRecordId = Number(dataCursor[dataCursor.length - 1].id); // Lấy id cuối cùng
+            setLastId(lastRecordId); // Cập nhật lastId
+        }
+    };
+
     if (loading) return <p>Đang tải dữ liệu...</p>;
     if (error) return <p>{error}</p>;
 
     return (
-        <div className={`flex flex-wrap gap-8 w-full p-4 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
+        <div className={`flex flex-wrap gap-1 w-full p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
             <div className="w-full md:w-4/12">
                 <div className="mb-4 flex flex-wrap gap-4">
-
                     <RecordPerPage
                         limit={limitCursor}
                         setLimit={setLimitCusor}
@@ -48,6 +58,15 @@ const TestServiceReqList = () => {
                             { value: 50, label: "50" },
                         ]}
                     />
+                    <div className="mt-4 text-center">
+                    <button
+                        onClick={handleLoadMore}
+                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+                        disabled={isProcessing || !dataCursor || dataCursor.length === 0}
+                    >
+                        Tải thêm
+                    </button>
+                </div>
                 </div>
                 <TestServiceReqListTable
                     fieldLabels={fieldLabels}
@@ -74,6 +93,8 @@ const TestServiceReqList = () => {
                     expandedGroups={expandedGroups}
                     setExpandedGroups={setExpandedGroups}
                     selectedRecord={selectedRecord}
+                    loadingFetchTestServiceTypeList={loadingFetchTestServiceTypeList}
+                    errorFetchTestServiceTypeList={errorFetchTestServiceTypeList}
                 />
             </div>
         </div>

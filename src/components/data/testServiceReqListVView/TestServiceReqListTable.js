@@ -17,9 +17,9 @@ const TestServiceReqListTable = ({
         return "text-gray-500"; // Màu mặc định
     };
     return (
-        <div class="relative overflow-x-auto overflow-y-auto max-h-screen">
+        <div class="relative overflow-x-auto overflow-y-auto max-h-[90vh]">
             <table className="table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead className="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         {/* Tiêu đề bảng */}
                         <th className="px-2 py-1 w-[5%] sticky left-0 bg-gray-50 dark:bg-gray-700 z-10">
@@ -43,7 +43,7 @@ const TestServiceReqListTable = ({
                         <th className="px-2 py-1 w-[5%]">   {fieldLabels.creator}</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-xs">
                     {data.map((record) => (
                         <tr
                             key={record.id}

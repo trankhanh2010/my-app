@@ -18,6 +18,8 @@ const useTestServiceReqList = () => {
         patientType: {},
         serviceType: {}
     });
+    const [loadingFetchTestServiceTypeList, setLoadingFetchTestServiceTypeList] = useState(true);
+    const [errorFetchTestServiceTypeList, setErrorFetchTestServiceTypeList] = useState(false);
 
     const fieldLabels = {
         id: "Id",
@@ -100,12 +102,18 @@ const useTestServiceReqList = () => {
 
     const fetchTestServiceTypeList = async () => {
         try {
+            setLoadingFetchTestServiceTypeList(true)
             const testServiceTypeList = await testServiceTypeListService.getAllSelect(patientId || 0);
             if (testServiceTypeListVViewIsDB) {
                 setTestServiceTypeList(testServiceTypeList.data);
             }
+            setLoadingFetchTestServiceTypeList(false)
+            setErrorFetchTestServiceTypeList(false)
         } catch (err) {
+            setErrorFetchTestServiceTypeList(true)
             console.error("Lỗi khi tải testServiceTypeList:", err);
+        } finally{
+            setLoadingFetchTestServiceTypeList(false)
         }
     };
     const handleRecordSelect = (record) => {
@@ -129,6 +137,8 @@ const useTestServiceReqList = () => {
         limitCusor,
         setLimitCusor,
         selectedRecord,
+        filter,
+        setFilter,
         setSelectedRecord,
         recordDetails,
         setRecordDetails,
@@ -178,13 +188,16 @@ const useTestServiceReqList = () => {
         format,
         dataCursor,
         loading,
+        loadingFetchTestServiceTypeList,
         error,
         setError,
         isProcessing,
-        error,
+        errorFetchTestServiceTypeList,
         limitCusor,
         selectedRecord,
         recordDetails,
+        lastId,
+        setLastId,
         alerts,
         testServiceTypeList,
         patientId,
