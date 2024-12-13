@@ -1,22 +1,22 @@
 import React from "react";
 
-import TotalPages from "../../../../components/common/Paginate/TotalPages";
-import RecordPerPage from "../../../../components/common/Paginate/RecordPerPage";
-import PrevPage from "../../../../components/common/Paginate/PrevPage";
-import NextPage from "../../../../components/common/Paginate/NextPage";
+import TotalPages from "../../../components/common/Paginate/TotalPages";
+import RecordPerPage from "../../../components/common/Paginate/RecordPerPage";
+import PrevPage from "../../../components/common/Paginate/PrevPage";
+import NextPage from "../../../components/common/Paginate/NextPage";
 
-import Search from "../../../../components/common/Filter/Search";
-import OrderBy from "../../../../components/common/Filter/OrderBy";
-import OrderDirection from "../../../../components/common/Filter/OrderDirection";
-import TotalRecord from "../../../../components/common/Filter/TotalRecord";
+import Search from "../../../components/common/Filter/Search";
+import OrderBy from "../../../components/common/Filter/OrderBy";
+import OrderDirection from "../../../components/common/Filter/OrderDirection";
+import TotalRecord from "../../../components/common/Filter/TotalRecord";
 
-import ButtonAddNew from "../../../../components/common/Button/ButtonAddNew";
+import ButtonAddNew from "../../../components/common/Button/ButtonAddNew";
 
-import ManegerAlert from "../../../../components/common/Alert/ManegerAlert";
+import ManegerAlert from "../../../components/common/Alert/ManegerAlert";
 
-import useBedList from "../../../../hooks/category/bed/useBedList";
-import BedTable from "../../../../components/category/bed/BedList/BedTable";
-import BedDetails from "../../../../components/category/bed/BedList/BedDetails";
+import useBedList from "../../../hooks/category/bed/useBedList";
+import BedTable from "../../../components/category/bed/BedTable";
+import BedDetails from "../../../components/category/bed/BedDetails";
 
 const BedList = () => {
     const {

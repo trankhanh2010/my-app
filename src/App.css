@@ -1,3 +1,6 @@
+body {
+  font-family: Verdana, sans-serif;
+}
 em {
   background-color: yellow; /* Nền màu vàng */
   padding: 0 3px; /* Khoảng cách giữa văn bản và nền */

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Select from "react-select";
-import ButtonCreateOrUpdate from "../../../../components/common/Button/ButtonCreateOrUpdate";
+import ButtonCreateOrUpdate from "../../common/Button/ButtonCreateOrUpdate";
 
 const BedDetails = ({
     fieldLabels,

@@ -6,7 +6,7 @@ import useMasterService from '../master/useMasterService';
 // Tạo instance của Axios
 const api = axios.create({
     baseURL: config.laravelAppApiUrl, // URL API gốc
-    timeout: 10000, // Thời gian timeout
+    timeout: 100000, // Thời gian timeout
 });
 
 // Interceptor cho request
@@ -24,7 +24,7 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        // Xử lý lỗi, ví dụ lỗi 401
+        // Xử lý lỗi 401
         if (error.response?.status === 401) {
             console.error("Unauthorized! Token có thể đã hết hạn.");
             useMasterService.removeAuthToken();

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import useMasterService from "../../services/master/useMasterService";
+import { format } from "date-fns";
 
 const useMasterCategoryList = (
     fieldLabels = [],
@@ -23,26 +24,33 @@ const useMasterCategoryList = (
           navigate('/login');
         }
       }, [navigate]);
-
+    
     const [changes, setChanges] = useState([]);
 
     const [data, setData] = useState([]);
+    const [dataCursor, setDataCursor] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState(null);
 
+    // Phân trang theo start - limit
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [totalItems, setTotalItems] = useState(0);
     const [keyword, setKeyword] = useState(null);
     const [orderBy, setOrderBy] = useState("modifyTime");
     const [orderDirection, setOrderDirection] = useState("desc");
-    const [errorUniqueCode, setErrorUniqueCode] = useState(null)
-    const [selectedRecord, setSelectedRecord] = useState(null);
-    const [recordDetails, setRecordDetails] = useState(null);
-
     const start = (page - 1) * limit;
     const totalPages = Math.ceil(totalItems / limit);
+
+    // Phân trang theo con trỏ
+    const [lastId, setLastId] = useState(0);
+    const [limitCusor, setLimitCusor] = useState(10);
+    const [filter, setFilter] = useState([])
+
+    const [errorUniqueCode, setErrorUniqueCode] = useState(null);   // Bản ghi đang được chọn
+    const [selectedRecord, setSelectedRecord] = useState(null);     // Dữ liệu bản ghi muốn cập nhật thành
+    const [recordDetails, setRecordDetails] = useState(null);
 
     const [isModalConfirmDeleteOpen, setIsModalConfirmDeleteOpen] = useState(false);  // Trạng thái mở modal
     const [isModalConfirmUpdateOpen, setIsModalConfirmUpdateOpen] = useState(false);  // Trạng thái mở modal
@@ -126,6 +134,7 @@ const useMasterCategoryList = (
         }
     };
 
+    // Lấy dữ liệu theo start - limit
     const fetchData = async () => {
         try {
             const response = await apiService.get(start, limit, orderBy, orderDirection, keyword || null);
@@ -150,6 +159,22 @@ const useMasterCategoryList = (
         }
     };
 
+    // Lấy dữ liệu theo con trỏ
+    const fetchDataCursor = async () => {
+        try {
+            const response = await apiService.getCusor(lastId, limitCusor, filter || []);
+            if (isDB) {
+                setDataCursor(response.data);
+            }
+            setLoading(false);
+
+        } catch (err) {
+            console.error("Fetch error:", err);
+            setError("Lỗi khi tải dữ liệu.");
+            setLoading(false);
+        }
+    };
+    
     const checkUniqueCode = async (code, id = null) => {
         if(code != ""){
             try {
@@ -180,10 +205,13 @@ const useMasterCategoryList = (
         setErrorUniqueCode(null); // Reset lỗi unique khi bản ghi thay đổi
     }, [recordDetails]);
     return {
+        format,
         changes,
         setChanges,
         data,
         setData,
+        dataCursor,
+        setDataCursor,
         loading,
         setLoading,
         isProcessing,
@@ -219,6 +247,12 @@ const useMasterCategoryList = (
         errorUniqueCode,
         setErrorUniqueCode,
         alerts,
+        lastId,
+        setLastId,
+        limitCusor,
+        setLimitCusor,
+        filter,
+        setFilter,
         setAlerts,
         calculateChanges,
         addAlert,
@@ -230,6 +264,7 @@ const useMasterCategoryList = (
         closeModalConfirmUpdate,
         confirmUpdate,
         fetchData,
+        fetchDataCursor,
         checkUniqueCode,
         convertToDate,
     };

@@ -4,9 +4,10 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import Login from './pages/auth/login.js';
+import Login from './pages/auth/login';
 
-import BedList from './pages/category/bed/BedList/BedList.js';
+import BedList from './pages/category/bed/BedList';
+import TestServiceReqList from './pages/data/testServiceReqListVView/TestServiceReqList';
 
 const App = () => {
   return (
@@ -17,6 +18,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
 
         <Route path="/bed" element={<BedList />} />
+
+        <Route path="/test-service-req-list" element={<TestServiceReqList />} />
       </Routes>
       <Footer />
     </Router>

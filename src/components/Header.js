@@ -16,6 +16,9 @@ const Header = () => {
             <Link to="/bed" className="hover:text-gray-300">Giường Bệnh</Link>
           </li>
           <li>
+            <Link to="/test-service-req-list" className="hover:text-gray-300">Viện phí</Link>
+          </li>
+          <li>
             <Link to="/login" className="hover:text-gray-300">Đăng nhập</Link>
           </li>
           <li>

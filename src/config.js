@@ -3,6 +3,7 @@ const config = {
     tokenAppApiUrl: process.env.REACT_APP_TOKEN_APP_API_URL,
 
     apiService: {
+        // category
         bed: {
             typeGetApi: 'elastic'
         },
@@ -11,6 +12,14 @@ const config = {
         },
         bedType: {
             typeGetApi: 'elastic'
+        },
+
+        // data
+        testServiceReqListVView: {
+            typeGetApi: 'db'
+        },
+        testServiceTypeListVView: {
+            typeGetApi: 'db'
         },
     }
   };

@@ -4,7 +4,6 @@ import useMasterList from '../../master/useMasterList';
 import bedService from "../../../services/category/bedService";
 import bedRoomService from "../../../services/category/bedRoomService";
 import bedTypeService from "../../../services/category/bedTypeService";
-import { format } from "date-fns";
 
 const useBedList = () => {
     const isDB = config.apiService.bed.typeGetApi === 'db';
@@ -126,9 +125,9 @@ const useBedList = () => {
         'bedRoomId'
     ]; // Danh sách các trường cần bỏ qua
 
-    const handleRecordSelect = (bed) => {
-        setSelectedRecord(bed);
-        setRecordDetails(bed);
+    const handleRecordSelect = (record) => {
+        setSelectedRecord(record);
+        setRecordDetails(record);
     };
 
     const handleAddNew = () => {
@@ -201,6 +200,7 @@ const useBedList = () => {
 
     // Lấy từ hookMaster qua
     const {
+        format,
         changes,
         setChanges,
         data,
