@@ -14,6 +14,11 @@ const useTestServiceReqList = () => {
     // State lưu giá trị từ khóa tìm kiếm trong bảng dưới
     const [searchTerm, setSearchTerm] = useState("");
 
+    const [expandedGroups, setExpandedGroups] = useState({
+        patientType: {},
+        serviceType: {}
+    });
+
     const fieldLabels = {
         id: "Id",
         createTime: "Ngày tạo",
@@ -78,14 +83,18 @@ const useTestServiceReqList = () => {
             isSpecimen: "isSpecimen",
             isNoExecute: "isNoExecute",
             serviceTypeName: "Loại dịch vụ",
-            amount: "Số lượng",
+            amount: "SL",
             price: "Đơn giá",
+            virTotalPrice: "Thành tiền",
+            virTotalHeinPrice: "BH trả",
+            virTotalPatientPrice: "BN trả",
             patientTypeName: "Đối tượng",
-            vatRatio: "VAT %",
+            vatRatio: "%VAT",
+            discount: "Chiết khấu",
             isExpend: "Hao phí",
-            tdlServiceReqCode: "Mã yêu cầu",
-            tdlServiceCode: "Mã dịch vụ",
-            tdlServiceName: "Tên dịch vụ"    
+            tdlServiceReqCode: "Mã YC",
+            tdlServiceCode: "Mã DV",
+            tdlServiceName: "Tên DV"    
         },
     };
 
@@ -182,6 +191,8 @@ const useTestServiceReqList = () => {
         setPatientId,
         searchTerm,
         setSearchTerm,
+        expandedGroups,
+        setExpandedGroups,
         setLimitCusor,
         setSelectedRecord,
         setRecordDetails,

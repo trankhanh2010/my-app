@@ -22,6 +22,8 @@ const TestServiceReqList = () => {
         setPatientId,
         searchTerm,
         setSearchTerm,
+        expandedGroups,
+        setExpandedGroups,
         setLimitCusor,
         convertToDate,
         handleRecordSelect,
@@ -69,6 +71,9 @@ const TestServiceReqList = () => {
                     testServiceTypeList={testServiceTypeList}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
+                    expandedGroups={expandedGroups}
+                    setExpandedGroups={setExpandedGroups}
+                    selectedRecord={selectedRecord}
                 />
             </div>
         </div>
