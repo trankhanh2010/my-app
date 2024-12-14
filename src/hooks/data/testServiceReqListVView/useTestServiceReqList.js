@@ -10,10 +10,36 @@ const useTestServiceReqList = () => {
 
     const [testServiceTypeList, setTestServiceTypeList] = useState([]);
     const [patientId, setPatientId] = useState(0);
+    const [applyFilterCursor, setApplyFilterCursor] = useState(false);
     const [filterCursor, setFilterCursor] = useState({
         fromTime: null,
         toTime: null,
+        tdlPatientId: null,
+        executeDepartmentCode: null,
+        isSpecimen: null,
+        isNoExcute: null,
     });
+    const [fromTime, setFromTime] = useState();
+    const [toTime, setToTime] = useState();
+    const validateDateRange = (from, to) => {
+        const fromDate = new Date(from);
+        const toDate = new Date(to);
+        const range = (toDate - fromDate) / (1000 * 60 * 60 * 24)
+        return range <= 7 && range >= 0;
+    };
+    const [tdlPatientId, setTdlPatientId] = useState(null);
+    const [executeDepartmentCode, setExecuteDepartmentCode] = useState(null);
+    const [isSpecimen, setIsSpecimen] = useState(null);
+    const [isNoExcute, setIsNoExcute] = useState(null);
+
+    // Chuyển đổi ngày sang định dạng YYYYMMDDHHMMSS
+    const formatDate = (date, string) => {
+        const d = new Date(date);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}${month}${day}${string}`;
+    };
     // State lưu giá trị từ khóa tìm kiếm trong bảng dưới
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -137,8 +163,8 @@ const useTestServiceReqList = () => {
         setError,
         lastId,
         setLastId,
-        limitCusor,
-        setLimitCusor,
+        limitCursor,
+        setLimitCursor,
         selectedRecord,
         filter,
         setFilter,
@@ -164,16 +190,27 @@ const useTestServiceReqList = () => {
         isDB,
         null,
         null,
+        filterCursor,
     );
 
     useEffect(() => {
-        const delayDebounce = setTimeout(() => {
-            fetchDataCursor();
-        }, 200); // Chờ 200ms trước khi gọi API
+        fetchDataCursor();
+    }, [lastId, filterCursor]); // Gọi lại khi có thay đổi
 
-        return () => clearTimeout(delayDebounce); // Xóa timeout nếu dependency thay đổi
-    }, [lastId, limitCusor]); // Gọi lại khi có thay đổi
-
+    useEffect(() => {
+        // nếu ngày cách nhau không quá 7 ngày
+        if(applyFilterCursor){
+            if(fromTime && toTime && validateDateRange(fromTime, toTime)){
+                setFilterCursor({
+                    fromTime: formatDate(fromTime, '000000'),
+                    toTime: formatDate(toTime, '235959'),
+                })
+            }
+        }
+        setLastId(0)
+        setDataCursor([])
+        setApplyFilterCursor(false)
+    }, [applyFilterCursor]); 
 
     useEffect(() => { 
         const fetchData = async () => { 
@@ -196,7 +233,7 @@ const useTestServiceReqList = () => {
         setError,
         isProcessing,
         errorFetchTestServiceTypeList,
-        limitCusor,
+        limitCursor,
         selectedRecord,
         recordDetails,
         lastId,
@@ -209,7 +246,15 @@ const useTestServiceReqList = () => {
         setSearchTerm,
         expandedGroups,
         setExpandedGroups,
-        setLimitCusor,
+        setLimitCursor,
+        filterCursor,
+        setFilterCursor,
+        fromTime, setFromTime,
+        toTime, setToTime,
+        tdlPatientId, setTdlPatientId,
+        executeDepartmentCode, setExecuteDepartmentCode,
+        isSpecimen, setIsSpecimen,
+        isNoExcute, setIsNoExcute,
         setSelectedRecord,
         setRecordDetails,
         setAlerts,
@@ -218,6 +263,7 @@ const useTestServiceReqList = () => {
         removeAlert,
         handleRecordSelect,
         fetchDataCursor,
+        setApplyFilterCursor,
     };
 };
 

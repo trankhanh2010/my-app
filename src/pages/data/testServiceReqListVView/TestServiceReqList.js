@@ -26,15 +26,24 @@ const TestServiceReqList = () => {
         testServiceTypeList,
         patientId,
         setPatientId,
+        fromTime, setFromTime,
+        toTime, setToTime,
+        tdlPatientId, setTdlPatientId,
+        executeDepartmentCode, setExecuteDepartmentCode,
+        isSpecimen, setIsSpecimen,
+        isNoExcute, setIsNoExcute,
         searchTerm,
         setSearchTerm,
         expandedGroups,
         setExpandedGroups,
-        setLimitCusor,
+        setLimitCursor,
+        filterCursor,
+        setFilterCursor,
         convertToDate,
         handleRecordSelect,
         setRecordDetails,
         fetchDataCursor,
+        setApplyFilterCursor,
 
     } = useTestServiceReqList();
     const handleLoadMore = () => {
@@ -49,11 +58,11 @@ const TestServiceReqList = () => {
 
     return (
         <div className={`flex flex-wrap gap-1 w-full p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
-            <div className="w-full md:w-4/12">
+            <div className="w-full md:w-4/12 md:mr-1 md:border-r md:pr-2">
                 <div className="mb-4 flex flex-wrap gap-4">
                     <RecordPerPage
                         limit={limitCursor}
-                        setLimit={setLimitCusor}
+                        setLimit={setLimitCursor}
                         options={[
                             { value: 10, label: "10" },
                             { value: 20, label: "20" },
@@ -67,6 +76,32 @@ const TestServiceReqList = () => {
                             disabled={isProcessing || !dataCursor || dataCursor.length === 0}
                         >
                             Tải thêm
+                        </button>
+                    </div>
+                    <div className="mt-4">
+                        <label htmlFor="fromTime" className="mr-2">Từ ngày:</label>
+                        <input
+                            type="date"
+                            value={fromTime}
+                            onChange={(e) => setFromTime(e.target.value )}
+                            className="p-2 border rounded"
+                        />
+                    </div>
+                    <div className="mt-4">
+                        <label htmlFor="toTime" className="mr-2">Đến ngày:</label>
+                        <input
+                            type="date"
+                            value={toTime}
+                            onChange={(e) => setToTime(e.target.value )}
+                            className="p-2 border rounded"
+                        />
+                    </div>
+                    <div className="text-center">
+                        <button
+                            onClick={() => setApplyFilterCursor(true)}
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+                        >
+                            Lọc
                         </button>
                     </div>
                 </div>
@@ -83,7 +118,7 @@ const TestServiceReqList = () => {
                         setPatientId={setPatientId}
                     />
                 </div>
-                <div className="w-full flex flex-col whitespace-pre-line break-words min-h-[40vh]">
+                <div className="w-full flex flex-col whitespace-pre-line break-words min-h-[30vh]">
                     <InfoTransaction
                         recordDetails={recordDetails}
                         testServiceTypeList={testServiceTypeList}

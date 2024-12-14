@@ -21,7 +21,6 @@ const formattedDate = getFormattedDate();
 const getCusor = async (lastId = 0, limit = 20, filter) => {
   let param;
   const isDB = config.apiService.testServiceReqListVView.typeGetApi === 'db';
-
   // Lấy dữ liệu từ DB
   if(isDB){
     param = {
@@ -33,11 +32,11 @@ const getCusor = async (lastId = 0, limit = 20, filter) => {
       },
       ApiData: {
         IsDelete: 0,
-        FromTime: 20221229000000,
-        ToTime:   20221229235959,
+        FromTime: Number(filter.fromTime),
+        ToTime:   Number(filter.toTime),
         ExecuteDepartmentCode: "XN",
-        IsSpecimen: true,
-        IsNoExcute: false,
+        IsSpecimen: null,
+        IsNoExcute: null,
         
         OrderBy: {
           ["id"]: "asc",  
@@ -45,7 +44,6 @@ const getCusor = async (lastId = 0, limit = 20, filter) => {
       },
     };
   }
-
   const paramBase64 = encodeParams(param);
   // console.log(paramBase64);
 

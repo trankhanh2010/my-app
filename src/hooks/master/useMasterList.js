@@ -15,6 +15,7 @@ const useMasterCategoryList = (
     isDB,
     isElastic,
     recordCode,
+    filterCursor,
 ) => {
     const navigate = useNavigate();
     useEffect(() => {
@@ -45,7 +46,7 @@ const useMasterCategoryList = (
 
     // Phân trang theo con trỏ
     const [lastId, setLastId] = useState(0);
-    const [limitCusor, setLimitCusor] = useState(10);
+    const [limitCursor, setLimitCursor] = useState(10);
     const [filter, setFilter] = useState([])
 
     const [errorUniqueCode, setErrorUniqueCode] = useState(null);   // Bản ghi đang được chọn
@@ -163,7 +164,7 @@ const useMasterCategoryList = (
     const fetchDataCursor = async () => {
         try {
             setLoading(true); // Bắt đầu tải dữ liệu
-            const response = await apiService.getCusor(lastId, limitCusor, filter || []);
+            const response = await apiService.getCusor(lastId, limitCursor, filterCursor);
             if (isDB) {
                 setDataCursor((prevData) => [...prevData, ...response.data]); // Nối dữ liệu mới với dữ liệu hiện tại
             }
@@ -249,8 +250,8 @@ const useMasterCategoryList = (
         alerts,
         lastId,
         setLastId,
-        limitCusor,
-        setLimitCusor,
+        limitCursor,
+        setLimitCursor,
         filter,
         setFilter,
         setAlerts,
