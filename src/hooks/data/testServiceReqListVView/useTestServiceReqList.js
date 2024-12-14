@@ -10,7 +10,10 @@ const useTestServiceReqList = () => {
 
     const [testServiceTypeList, setTestServiceTypeList] = useState([]);
     const [patientId, setPatientId] = useState(0);
-
+    const [filterCursor, setFilterCursor] = useState({
+        fromTime: null,
+        toTime: null,
+    });
     // State lưu giá trị từ khóa tìm kiếm trong bảng dưới
     const [searchTerm, setSearchTerm] = useState("");
 

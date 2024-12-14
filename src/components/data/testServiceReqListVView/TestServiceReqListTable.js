@@ -1,5 +1,4 @@
 import React from "react";
-import { FaLock, FaCheck } from "react-icons/fa";
 
 const TestServiceReqListTable = ({
     fieldLabels,
@@ -8,8 +7,6 @@ const TestServiceReqListTable = ({
     convertToDate,
     handleRecordSelect,
     selectedRecord,
-    recordDetails,
-    setRecordDetails,
     setPatientId,
 }) => {
     const getTextColor = (record) => {
@@ -17,7 +14,6 @@ const TestServiceReqListTable = ({
         return "text-gray-500"; // Màu mặc định
     };
     return (
-        <div class="relative overflow-x-auto overflow-y-auto max-h-[90vh]">
             <table className="table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -90,7 +86,6 @@ const TestServiceReqListTable = ({
                     ))}
                 </tbody>
             </table>
-        </div>
     );
 };
 
