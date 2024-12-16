@@ -7,3 +7,51 @@ em {
   border-radius: 3px; /* Góc bo tròn */
   font-style: normal; /* Không in nghiêng */
 }
+/* Container cho spinner */
+.spinner-container {
+  position: absolute; /* Hoặc relative nếu container cha cần định vị */
+  top: 0;
+  left: 0;
+  width: 100%; /* Chiếm toàn bộ không gian của container cha */
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8); /* Tùy chọn: Nền mờ */
+  z-index: 1; /* Đảm bảo hiển thị trên nội dung bên trong container */
+}
+
+/* Spinner */
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1); /* Màu nền */
+  border-left-color: #3498db;           /* Màu xoay */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Container căn giữa */
+.centered-container {
+  flex: 1;
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center;     /* Căn giữa theo chiều dọc */
+}
+.no-record {
+  text-align: center;
+  font-size: 16px;
+  color: #999;
+  padding: 20px;
+}
+.error {
+  text-align: center;
+  font-size: 16px;
+  color: red;
+  padding: 20px;
+}

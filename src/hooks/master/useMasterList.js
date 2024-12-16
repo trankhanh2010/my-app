@@ -44,6 +44,9 @@ const useMasterCategoryList = (
     const start = (page - 1) * limit;
     const totalPages = Math.ceil(totalItems / limit);
 
+    const [refreshTrigger, setRefreshTrigger] = useState(false);
+    const [filterTrigger, setFilterTrigger] = useState(false);
+
     // Phân trang theo con trỏ
     const [lastId, setLastId] = useState(0);
     const [limitCursor, setLimitCursor] = useState(10);
@@ -268,6 +271,10 @@ const useMasterCategoryList = (
         fetchDataCursor,
         checkUniqueCode,
         convertToDate,
+        refreshTrigger,
+        setRefreshTrigger,
+        filterTrigger, 
+        setFilterTrigger,
     };
 };
 

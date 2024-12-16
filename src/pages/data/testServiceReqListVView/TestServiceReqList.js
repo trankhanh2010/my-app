@@ -6,6 +6,7 @@ import InfoTransaction from "../../../components/data/testServiceReqListVView/In
 import InfoPatient from "../../../components/data/testServiceReqListVView/InfoPatient";
 import SearchTestServiceReqTypeListTable from "../../../components/data/testServiceReqListVView/SearchTestServiceReqTypeListTable";
 import TestServiceReqTypeListTable from "../../../components/data/testServiceReqListVView/TestServiceReqTypeListTable";
+import Search from "../../../components/common/Filter/Search";
 
 const TestServiceReqList = () => {
     const {
@@ -44,16 +45,23 @@ const TestServiceReqList = () => {
         setRecordDetails,
         fetchDataCursor,
         setApplyFilterCursor,
+        patientCode, setPatientCode,
+        treatmentCode, setTreatmentCode,
+        refreshTrigger,
+        setRefreshTrigger,
+        filterTrigger, 
+        setFilterTrigger,
 
     } = useTestServiceReqList();
     const handleLoadMore = () => {
         if (dataCursor && dataCursor.length > 0) {
             const lastRecordId = Number(dataCursor[dataCursor.length - 1].id); // Lấy id cuối cùng
             setLastId(lastRecordId); // Cập nhật lastId
+            setRefreshTrigger(true);
         }
     };
 
-    if (loading) return <p>Đang tải dữ liệu...</p>;
+    // if (loading) return  <div className="spinner"></div> // Hiển thị spinner khi đang tải;
     if (error) return <p>{error}</p>;
 
     return (
@@ -98,11 +106,28 @@ const TestServiceReqList = () => {
                     </div>
                     <div className="text-center">
                         <button
-                            onClick={() => setApplyFilterCursor(true)}
+                            onClick={() =>{
+                                setApplyFilterCursor(true);
+                                setFilterTrigger(true);
+                            } }
                             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
                         >
                             Lọc
                         </button>
+                    </div>
+                    <div>
+                        <Search 
+                            keyword={patientCode}
+                            setKeyword={setPatientCode}
+                            label={"Nhập mã bệnh nhân"}
+                        />
+                    </div>
+                    <div>
+                        <Search 
+                            keyword={treatmentCode}
+                            setKeyword={setTreatmentCode}
+                            label={"Nhập mã điều trị"}
+                        />
                     </div>
                 </div>
                 <div class="relative overflow-x-auto overflow-y-auto max-h-[40vh] min-h-[40vh] mb-2">
@@ -116,6 +141,7 @@ const TestServiceReqList = () => {
                         recordDetails={recordDetails}
                         setRecordDetails={setRecordDetails}
                         setPatientId={setPatientId}
+                        loading={loading}
                     />
                 </div>
                 <div className="w-full flex flex-col whitespace-pre-line break-words min-h-[30vh]">

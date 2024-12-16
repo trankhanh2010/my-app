@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import config from "../../../config";
 import useMasterList from '../../master/useMasterList';
 import testServiceReqListService from "../../../services/data/testServiceReqListService";
@@ -14,13 +14,17 @@ const useTestServiceReqList = () => {
     const [filterCursor, setFilterCursor] = useState({
         fromTime: null,
         toTime: null,
-        tdlPatientId: null,
+        patientCode: null,
+        treatmentCode: null,
         executeDepartmentCode: null,
         isSpecimen: null,
         isNoExcute: null,
     });
     const [fromTime, setFromTime] = useState();
     const [toTime, setToTime] = useState();
+    const [treatmentCode, setTreatmentCode] = useState();
+    const [patientCode, setPatientCode] = useState();
+
     const validateDateRange = (from, to) => {
         const fromDate = new Date(from);
         const toDate = new Date(to);
@@ -177,6 +181,10 @@ const useTestServiceReqList = () => {
         removeAlert,
         fetchDataCursor,
         convertToDate,
+        refreshTrigger,
+        setRefreshTrigger,
+        filterTrigger, 
+        setFilterTrigger,
 
     } = useMasterList(
         [],
@@ -195,22 +203,43 @@ const useTestServiceReqList = () => {
 
     useEffect(() => {
         fetchDataCursor();
-    }, [lastId, filterCursor]); // Gọi lại khi có thay đổi
+    }, [filterCursor]); // Gọi lại khi có thay đổi
 
     useEffect(() => {
-        // nếu ngày cách nhau không quá 7 ngày
-        if(applyFilterCursor){
-            if(fromTime && toTime && validateDateRange(fromTime, toTime)){
-                setFilterCursor({
-                    fromTime: formatDate(fromTime, '000000'),
-                    toTime: formatDate(toTime, '235959'),
-                })
-            }
+        if(refreshTrigger){
+            fetchDataCursor();
         }
-        setLastId(0)
-        setDataCursor([])
-        setApplyFilterCursor(false)
-    }, [applyFilterCursor]); 
+
+        setRefreshTrigger(false)
+    }, [refreshTrigger]); // Gọi lại khi có thay đổi
+
+    useEffect(() => {
+        if(filterTrigger){
+            const newFilterCursor = {};
+            if (treatmentCode) {
+                newFilterCursor.treatmentCode = treatmentCode;
+            }
+            if (patientCode) {
+                newFilterCursor.patientCode = patientCode;
+            }
+            // nếu ngày cách nhau không quá 7 ngày
+            if (applyFilterCursor) {
+                if (fromTime && toTime && validateDateRange(fromTime, toTime)) {
+                    newFilterCursor.fromTime = formatDate(fromTime, '000000');
+                    newFilterCursor.toTime = formatDate(toTime, '235959');
+                }
+            }
+        
+            if (Object.keys(newFilterCursor).length > 0) {
+                setFilterCursor(newFilterCursor);
+            }
+            setLastId(0)
+            setDataCursor([])
+            setApplyFilterCursor(false)
+        }
+        
+        setFilterTrigger(false)
+    }, [filterTrigger]); 
 
     useEffect(() => { 
         const fetchData = async () => { 
@@ -264,6 +293,12 @@ const useTestServiceReqList = () => {
         handleRecordSelect,
         fetchDataCursor,
         setApplyFilterCursor,
+        patientCode, setPatientCode,
+        treatmentCode, setTreatmentCode,
+        refreshTrigger,
+        setRefreshTrigger,
+        filterTrigger, 
+        setFilterTrigger,
     };
 };
 

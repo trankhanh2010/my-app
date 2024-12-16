@@ -1,4 +1,5 @@
 import React from "react";
+import Loading from "../../common/Info/Loading";
 
 const TestServiceReqListTable = ({
     fieldLabels,
@@ -8,7 +9,9 @@ const TestServiceReqListTable = ({
     handleRecordSelect,
     selectedRecord,
     setPatientId,
+    loading,
 }) => {
+    if (loading) return <Loading/>
     const getTextColor = (record) => {
         if (record.feeLockTime) return "text-red-500";
         return "text-gray-500"; // Màu mặc định

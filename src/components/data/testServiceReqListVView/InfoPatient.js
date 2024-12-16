@@ -1,4 +1,5 @@
 import React from "react";
+import NoRecordInfo from "../../common/Info/NoRecordInfo";
 
 const InfoPatient = ({
     fieldLabels,
@@ -6,7 +7,7 @@ const InfoPatient = ({
     format,
     convertToDate,
 }) => {
-    if (!recordDetails) return <p className="text-gray-500">Chưa chọn bản ghi</p>;
+    if (!recordDetails) return  <NoRecordInfo/>
     return (
         <div className="text-xs">
             {/* Phần bảng trên */}

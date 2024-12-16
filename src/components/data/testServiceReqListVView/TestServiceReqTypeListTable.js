@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Loading from "../../common/Info/Loading";
+import ErrorInfo from "../../common/Info/ErrorInfo";
 
 const TestServiceReqTypeListTable = ({
     fieldLabels,
@@ -9,8 +11,8 @@ const TestServiceReqTypeListTable = ({
     loadingFetchTestServiceTypeList,
     errorFetchTestServiceTypeList,
 }) => {
-    if (loadingFetchTestServiceTypeList) return <p className="text-gray-500">Đang tải dữ liệu</p>;
-    if (errorFetchTestServiceTypeList) return <p className="text-gray-500">Có lỗi khi tải dữ liệu</p>;
+    if (loadingFetchTestServiceTypeList) return <Loading/>
+    if (errorFetchTestServiceTypeList) return <ErrorInfo/>
     // Lọc danh sách dựa trên từ khóa tìm kiếm
     const filteredList = testServiceTypeList.filter((record) =>
         record.tdlServiceName.toLowerCase().includes(searchTerm.toLowerCase()) ||

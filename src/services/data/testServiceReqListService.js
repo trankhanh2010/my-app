@@ -38,12 +38,16 @@ const getCusor = async (lastId = 0, limit = 20, filter) => {
         IsSpecimen: null,
         IsNoExcute: null,
         
+        TreatmentCode: filter.treatmentCode,
+        PatientCode: filter.patientCode,
+
         OrderBy: {
           ["id"]: "asc",  
         },
       },
     };
   }
+  // console.log(param)
   const paramBase64 = encodeParams(param);
   // console.log(paramBase64);
 

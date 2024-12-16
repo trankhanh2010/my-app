@@ -3,6 +3,7 @@ import React from "react";
 const Search = ({
     keyword,
     setKeyword,
+    label,
 }) => {
     return (
         <input
@@ -10,7 +11,7 @@ const Search = ({
             type="text"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)} // Cập nhật giá trị keyword
-            placeholder="Nhập từ khóa tìm kiếm"
+            placeholder={`${label ? label : "Nhập từ khóa tìm kiếm..."}`}
         />
     );
 };

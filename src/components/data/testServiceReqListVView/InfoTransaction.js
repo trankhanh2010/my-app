@@ -1,4 +1,7 @@
 import React from "react";
+import NoRecordInfo from "../../common/Info/NoRecordInfo";
+import Loading from "../../common/Info/Loading";
+import ErrorInfo from "../../common/Info/ErrorInfo";
 
 const InfoTransaction = ({
     recordDetails,
@@ -7,9 +10,9 @@ const InfoTransaction = ({
     loadingFetchTestServiceTypeList,
     errorFetchTestServiceTypeList,
 }) => {
-    if (!recordDetails) return <p className="text-gray-500">Chưa chọn bản ghi</p>;
-    if (loadingFetchTestServiceTypeList) return <p className="text-gray-500">Đang tải dữ liệu</p>;
-    if (errorFetchTestServiceTypeList) return <p className="text-gray-500">Có lỗi khi tải dữ liệu</p>;
+    if (!recordDetails) return <NoRecordInfo/>
+    if (loadingFetchTestServiceTypeList) return <Loading/>
+    if (errorFetchTestServiceTypeList) return <ErrorInfo/>
     // Tổng các tiền
     const totalVirPrice = testServiceTypeList.reduce((total, record) => total + (Number(record.virTotalPrice) || 0), 0);
     const totalHeinPrice = testServiceTypeList.reduce((total, record) => total + (Number(record.virTotalHeinPrice) || 0), 0);
