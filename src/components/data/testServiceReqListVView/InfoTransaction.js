@@ -2,6 +2,7 @@ import React from "react";
 import NoRecordInfo from "../../common/Info/NoRecordInfo";
 import Loading from "../../common/Info/Loading";
 import ErrorInfo from "../../common/Info/ErrorInfo";
+import GroupFieldSpanWithText from "../../common/Data/InfoRecord/GroupFieldSpanWithText";
 
 const InfoTransaction = ({
     recordDetails,
@@ -22,86 +23,44 @@ const InfoTransaction = ({
 
     return (
         <div className="text-xs">
-            <div className="flex flex-col md:flex-row md:space-x-2 border border-gray-300 p-2">
-                <div className="w-full flex flex-col md:w-[50%] md:border-r">
-                <span className="font-semibold uppercase">Tổng chi phí: </span>
-                <p className="p-1 mr-2 bg-gray-100 flex-grow">{totalVirPrice.toLocaleString()}</p>
-                </div>
-                <div className="w-full flex flex-col md:w-[50%]">
-                <span className="font-semibold uppercase">BHYT thanh toán: </span>
-                <p className="p-1 mr-2 bg-gray-100 flex-grow">{totalHeinPrice.toLocaleString()}</p>
-                </div>
-            </div>
-            <div className="flex flex-col md:flex-row md:space-x-2 border border-gray-300 p-2">
-                <div className="w-full flex flex-col md:w-[50%] md:border-r">
-                <span className="font-semibold uppercase">Nguồn khác thanh toán: </span>
-                <p className="p-1 mr-2 bg-gray-100 flex-grow">{totalOtherSourcePrice.toLocaleString()}</p>
-                </div>
-                <div className="w-full flex flex-col md:w-[50%]">
-                <span className="font-semibold uppercase">Công ty thanh toán: </span>
-                <p className="p-1 mr-2 bg-gray-100 flex-grow">null</p>
-                </div>
-            </div>
-            <div className="flex flex-col md:flex-row md:space-x-2 border border-gray-300 p-2">
-                <div className="w-full flex flex-col md:w-[50%] md:border-r">
-                <span className="font-semibold uppercase">BN phải thanh toán: </span>
-                <p className="p-1 mr-2 bg-gray-100 flex-grow">{totalPatientPrice.toLocaleString()}</p>
-                </div>
-                <div className="w-full flex flex-col md:w-[50%]">
-                <span className="font-semibold uppercase">Miễn giảm: </span>
-                <p className="p-1 mr-2 bg-gray-100 flex-grow">{totalDiscount.toLocaleString()}</p>
-                </div>
-            </div>
-            <div className="flex flex-col md:flex-row md:space-x-2 border border-gray-300 p-2">
-                <div className="w-full flex flex-col md:w-[100%]">
-                <span className="font-semibold text-red-600 uppercase">BN cần nộp thêm: </span>
-                            <p className="p-1 flex-grow text-red-600 font-semibold  bg-gray-100 mr-2">
-                                {(totalPatientPrice - selectedRecord.totalTreatmentBillAmount).toLocaleString()}
-                            </p>
-                </div>
-            </div>
-            <div className="flex flex-col md:flex-row md:space-x-2 border border-gray-300 p-2">
-                <div className="w-full flex flex-col md:w-[50%] md:border-r">
-                <span className="font-semibold text-blue-600 uppercase">Đã thu: </span>
-                            <p className="p-1 flex-grow text-blue-600 font-semibold  bg-gray-100 mr-2">
-                                {Number(selectedRecord.totalTreatmentBillAmount).toLocaleString()}
-                            </p>
-                </div>
-                <div className="w-full flex flex-col md:w-[50%]">
-                <span className="font-semibold uppercase">Tạm ứng: </span>
-                            <p className="p-1 mr-2 bg-gray-100 flex-grow">
-                                {Number(selectedRecord.totalTreatmentTu).toLocaleString()}
-                            </p>
-                </div>
-            </div>
-            <div className="flex flex-col md:flex-row md:space-x-2 border border-gray-300 p-2">
-                <div className="w-full flex flex-col md:w-[50%] md:border-r">
-                <span className="font-semibold uppercase">Thanh toán: </span>
-                            <p className="p-1 flex-grow  bg-gray-100 mr-2">
-                                {Number(selectedRecord.totalTreatmentTt).toLocaleString()}
-                            </p>
-                </div>
-                <div className="w-full flex flex-col md:w-[50%]">
-                <span className="font-semibold uppercase">Công nợ: </span>
-                            <p className="p-1 mr-2 bg-gray-100 flex-grow">
-                                {Number(selectedRecord.totalTreatmentNo).toLocaleString()}
-                            </p>
-                </div>
-            </div>
-            <div className="flex flex-col md:flex-row md:space-x-2 border border-gray-300 p-2">
-                <div className="w-full flex flex-col md:w-[50%] md:border-r">
-                <span className="font-semibold uppercase">Hoàn ứng: </span>
-                            <p className="p-1 flex-grow  bg-gray-100 mr-2">
-                                {Number(selectedRecord.totalTreatmentHu).toLocaleString()}
-                            </p>
-                </div>
-                <div className="w-full flex flex-col md:w-[50%]">
-                <span className="font-semibold uppercase">Kết chuyển: </span>
-                            <p className="p-1 mr-2 bg-gray-100 flex-grow">
-                                {Number(selectedRecord.totalTreatmentKcAmount).toLocaleString()}
-                            </p>
-                </div>
-            </div>
+            <GroupFieldSpanWithText 
+                css='mt-1'
+                fields={[
+                    {fieldName:'Tổng chi phí', fieldValue:totalVirPrice.toLocaleString(), divCss:`md:w-[1/3] md:border-r`},
+                    {fieldName:'BHYT thanh toán', fieldValue:totalHeinPrice.toLocaleString(), divCss:`md:w-[1/3] md:border-r`},
+                    {fieldName:'Nguồn khác thanh toán', fieldValue:totalOtherSourcePrice.toLocaleString(), divCss:`md:w-[1/3]`},
+                ]}
+            />
+            <GroupFieldSpanWithText 
+                css='mt-1'
+                fields={[
+                    {fieldName:'Công ty thanh toán', fieldValue:null, divCss:`md:w-[1/3] md:border-r`},
+                    {fieldName:'BN phải thanh toán', fieldValue:totalPatientPrice.toLocaleString(), divCss:`md:w-[1/3] md:border-r`},
+                    {fieldName:'Miễn giảm', fieldValue:totalDiscount.toLocaleString(), divCss:`md:w-[1/3]`},
+                ]}
+            />
+            <GroupFieldSpanWithText 
+                css='mt-1'
+                fields={[
+                    {fieldName:'BN cần nộp thêm', fieldValue:(totalPatientPrice - selectedRecord.totalTreatmentBillAmount).toLocaleString(), divCss:`md:w-[100%]`, spanCss:`text-red-600`, pCss:`text-red-600 font-semibold`},
+                ]}
+            />
+            <GroupFieldSpanWithText 
+                css='mt-1'
+                fields={[
+                    {fieldName:'Đã thu', fieldValue:Number(selectedRecord.totalTreatmentBillAmount).toLocaleString(), divCss:`md:w-[1/3] md:border-r`, spanCss:`text-blue-600`, pCss:`text-blue-600 font-semibold`},
+                    {fieldName:'Tạm ứng', fieldValue:Number(selectedRecord.totalTreatmentTu).toLocaleString(), divCss:`md:w-[1/3] md:border-r`},
+                    {fieldName:'Thanh toán', fieldValue:Number(selectedRecord.totalTreatmentTt).toLocaleString(), divCss:`md:w-[1/3]`},
+                ]}
+            />
+            <GroupFieldSpanWithText 
+                css='mt-1'
+                fields={[
+                    {fieldName:'Công nợ', fieldValue:Number(selectedRecord.totalTreatmentNo).toLocaleString(), divCss:`md:w-[1/3] md:border-r`},
+                    {fieldName:'Hoàn ứng', fieldValue:Number(selectedRecord.totalTreatmentHu).toLocaleString(), divCss:`md:w-[1/3] md:border-r`},
+                    {fieldName:'Kết chuyển', fieldValue:Number(selectedRecord.totalTreatmentKcAmount).toLocaleString(), divCss:`md:w-[1/3]`},
+                ]}
+            />
         </div>
     );
 };

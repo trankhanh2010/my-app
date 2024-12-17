@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
+import "react-datepicker/dist/react-datepicker.css";
+
 import useTestServiceReqList from "../../../hooks/data/testServiceReqListVView/useTestServiceReqList";
-import RecordPerPage from "../../../components/common/Paginate/RecordPerPage";
 import TestServiceReqListTable from "../../../components/data/testServiceReqListVView/TestServiceReqListTable";
 import InfoTransaction from "../../../components/data/testServiceReqListVView/InfoTransaction";
 import InfoPatient from "../../../components/data/testServiceReqListVView/InfoPatient";
 import SearchTestServiceReqTypeListTable from "../../../components/data/testServiceReqListVView/SearchTestServiceReqTypeListTable";
 import TestServiceReqTypeListTable from "../../../components/data/testServiceReqListVView/TestServiceReqTypeListTable";
-import Search from "../../../components/common/Filter/Search";
+import Filter from "../../../components/data/testServiceReqListVView/Filter";
 
 const TestServiceReqList = () => {
     const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
@@ -54,16 +55,10 @@ const TestServiceReqList = () => {
         setFilterTrigger,
         scrollPosition,
         setScrollPosition,
+        handleRawChange,
     }
         = useTestServiceReqList();
     const debounceTimeout = useRef(null);
-    const handleLoadMore = () => {
-        if (dataCursor && dataCursor.length > 0) {
-            const lastRecordId = Number(dataCursor[dataCursor.length - 1].id); // Lấy id cuối cùng
-            setLastId(lastRecordId); // Cập nhật lastId
-            setRefreshTrigger(true);
-        }
-    };
     const handleScroll = (e) => {
         const scrollTop = e.target.scrollTop;
         // Nếu có sự kiện cuộn trước đó đang chờ xử lý, hủy bỏ nó
@@ -85,82 +80,34 @@ const TestServiceReqList = () => {
 
     return (
         <div className={`flex flex-wrap gap-1 w-full p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
-            <div className="w-full md:w-4/12 md:mr-1 md:border-r md:pr-2">
-                <div className="mb-4 flex flex-wrap gap-4">
-                    <RecordPerPage
-                        limit={limitCursor}
-                        setLimit={setLimitCursor}
-                        options={[
-                            { value: 10, label: "10" },
-                            { value: 20, label: "20" },
-                            { value: 50, label: "50" },
-                        ]}
+            <div className="w-full md:w-5/12 md:mr-1 md:border-r md:pr-2">
+                {/* Phần điều khiển và lọc */}
+                <div className="min-h-[20vh]">
+                    <Filter
+                        dataCursor={dataCursor}
+                        isProcessing={isProcessing}
+                        limitCursor={limitCursor}
+                        setLastId={setLastId}
+                        recordDetails={recordDetails}
+                        fromTime={fromTime}
+                        setFromTime={setFromTime}
+                        toTime={toTime}
+                        setToTime={setToTime}
+                        setLimitCursor={setLimitCursor}
+                        setApplyFilterCursor={setApplyFilterCursor}
+                        patientCode={patientCode}
+                        setPatientCode={setPatientCode}
+                        treatmentCode={treatmentCode}
+                        setTreatmentCode={setTreatmentCode}
+                        setRefreshTrigger={setRefreshTrigger}
+                        setFilterTrigger={setFilterTrigger}
+                        handleRawChange={handleRawChange}
                     />
-                    <div className="text-center">
-                        <button
-                            onClick={handleLoadMore}
-                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 truncate"
-                            disabled={isProcessing || !dataCursor || dataCursor.length === 0}
-                        >
-                            Tải thêm
-                        </button>
-                    </div>
-                    <div className="text-center">
-                            <button
-                                onClick={() => {
-                                    setApplyFilterCursor(true);
-                                    setFilterTrigger(true);
-                                }}
-                                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 truncate"
-                            >
-                                Lọc
-                            </button>
-                        </div>
-                    <div className="w-full flex">
-                        <div className="mt-1 w-full flex flex-col md:w-[50%]">
-                            <label htmlFor="fromTime" className="mr-2">Từ ngày:</label>
-                            <input
-                                type="date"
-                                value={fromTime}
-                                onChange={(e) => setFromTime(e.target.value)}
-                                className="p-1 border rounded"
-                            />
-                        </div>
-                        <div className="mt-1 w-full flex flex-col md:w-[50%] md:ml-2">
-                            <label htmlFor="toTime" className="mr-2">Đến ngày:</label>
-                            <input
-                                type="date"
-                                value={toTime}
-                                onChange={(e) => setToTime(e.target.value)}
-                                className="p-1 border rounded"
-                            />
-                        </div>
-                    </div>
-                    <div className="w-full flex">
-                        <div className="mt-1 w-full flex flex-col md:w-[50%]">
-                            <div>
-                                <Search
-                                    keyword={patientCode}
-                                    setKeyword={setPatientCode}
-                                    label={"Nhập mã bệnh nhân"}
-                                />
-                            </div>
-                        </div>
-                        <div className="mt-1 w-full flex flex-col md:w-[50%] md:ml-2">
-                            <div>
-                                <Search
-                                    keyword={treatmentCode}
-                                    setKeyword={setTreatmentCode}
-                                    label={"Nhập mã điều trị"}
-                                />
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
-                <div class="relative overflow-x-auto overflow-y-auto max-h-[30vh] min-h-[30vh] mb-2"
-                    ref={scrollContainerRef} // Gán ref cho thẻ div
-                    // Lấy vị trí khi scroll
+                {/* Danh sách dữ liệu */}
+                <div
+                    className="relative overflow-x-auto overflow-y-auto max-h-[40vh] min-h-[40vh] mb-2 flex flex-col"
+                    ref={scrollContainerRef}
                     onScroll={handleScroll}
                 >
                     <TestServiceReqListTable
@@ -176,7 +123,9 @@ const TestServiceReqList = () => {
                         loading={loading}
                     />
                 </div>
-                <div className="w-full flex flex-col whitespace-pre-line break-words min-h-[30vh]">
+
+                {/* Thông tin giao dịch */}
+                <div className="w-full flex flex-col relative overflow-x-auto overflow-y-auto whitespace-pre-line break-words min-h-[40vh] max-h-[40vh]">
                     <InfoTransaction
                         recordDetails={recordDetails}
                         testServiceTypeList={testServiceTypeList}
@@ -186,8 +135,7 @@ const TestServiceReqList = () => {
                     />
                 </div>
             </div>
-
-            <div className="w-full md:w-7/12 mt-4 md:mt-0 flex-grow">
+            <div className="w-full md:w-6/12 mt-4 md:mt-0 flex-grow">
                 {/*Thông tin bệnh nhân*/}
                 <div className="w-full min-h-[35vh] relative overflow-x-auto overflow-y-auto max-h-[35vh]">
                     <InfoPatient
@@ -198,7 +146,7 @@ const TestServiceReqList = () => {
                     />
                 </div>
                 {/* Phần bảng thông tin dịch vụ */}
-                <div className="mt-2 w-full flex flex-col whitespace-pre-line break-words">
+                <div className="mt-1 w-full flex flex-col whitespace-pre-line break-words">
                     <SearchTestServiceReqTypeListTable
                         searchTerm={searchTerm}
                         setSearchTerm={setSearchTerm}

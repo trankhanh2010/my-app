@@ -138,7 +138,7 @@ const BedList = () => {
                         totalPages={totalPages}
                     />
                 </div>
-                <div class="relative overflow-x-auto overflow-y-auto min-h-[50vh] max-h-[50vh]">
+                <div class="relative overflow-x-auto overflow-y-auto min-h-[50vh] max-h-[50vh] flex flex-row">
                     <BedTable
                         fieldLabels={fieldLabels}
                         format={format}
@@ -166,7 +166,7 @@ const BedList = () => {
                 </div>
             </div>
 
-            <div className="w-full md:w-3/12 border-l border-gray-300 pl-4 mt-4 md:mt-0 flex-grow min-h-[80vh]">
+            <div className="w-full md:w-3/12 border-l border-gray-300 pl-4 mt-4 md:mt-0 flex-grow min-h-[80vh] flex flex-col">
                 <BedDetails
                     fieldLabels={fieldLabels}
                     recordDetails={recordDetails}

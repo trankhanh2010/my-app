@@ -205,6 +205,38 @@ const useMasterCategoryList = (
 
         return new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}`);
     };
+    // Chuyển về đúng thời gian khi nhập
+    const formatInputToDate = (input) => {
+        // Loại bỏ khoảng trắng
+        const sanitizedInput = input.replace(/\s+/g, "");
+
+        // Nếu định dạng là ddMMyyyy (30102024)
+        if (/^\d{8}$/.test(sanitizedInput)) {
+            const day = sanitizedInput.slice(0, 2);
+            const month = sanitizedInput.slice(2, 4);
+            const year = sanitizedInput.slice(4);
+            return `${day}/${month}/${year}`;
+        }
+
+        // Nếu định dạng là dd/MM/yyyy hoặc dd-MM-yyyy
+        if (/^\d{2}[\/-]\d{2}[\/-]\d{4}$/.test(sanitizedInput)) {
+            return sanitizedInput.replace(/-/g, "/"); // Đổi "-" thành "/"
+        }
+
+        // Trả về giá trị gốc nếu không đúng định dạng
+        return input;
+    };
+    // Xử lý dữ liệu thời gian người dùng nhập vào
+    const handleRawChange = (e, setDate) => {
+        const formattedDate = formatInputToDate(e.target.value); // Chuyển đổi định dạng
+        e.target.value = formattedDate; // Cập nhật lại giá trị hiển thị
+        const [day, month, year] = formattedDate.split("/");
+        const parsedDate = new Date(`${year}-${month}-${day}`);
+        if (!isNaN(parsedDate)) {
+            setDate(parsedDate); // Cập nhật giá trị nếu hợp lệ
+        }
+    };
+
     useEffect(() => {
         setErrorUniqueCode(null); // Reset lỗi unique khi bản ghi thay đổi
     }, [recordDetails]);
@@ -275,6 +307,8 @@ const useMasterCategoryList = (
         setRefreshTrigger,
         filterTrigger, 
         setFilterTrigger,
+        handleRawChange,
+        formatInputToDate,
     };
 };
 

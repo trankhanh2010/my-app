@@ -31,7 +31,7 @@ const useTestServiceReqList = () => {
         const fromDate = new Date(from);
         const toDate = new Date(to);
         const range = (toDate - fromDate) / (1000 * 60 * 60 * 24)
-        return range <= 7 && range >= 0;
+        return range <= 60 && range >= 0;
     };
     const [tdlPatientId, setTdlPatientId] = useState(null);
     const [executeDepartmentCode, setExecuteDepartmentCode] = useState(null);
@@ -187,6 +187,8 @@ const useTestServiceReqList = () => {
         setRefreshTrigger,
         filterTrigger, 
         setFilterTrigger,
+        handleRawChange,
+        formatInputToDate,
 
     } = useMasterList(
         [],
@@ -304,6 +306,7 @@ const useTestServiceReqList = () => {
         setFilterTrigger,
         scrollPosition, 
         setScrollPosition,
+        handleRawChange,
     };
 };
 

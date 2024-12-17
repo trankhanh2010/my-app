@@ -1,5 +1,7 @@
 import React from "react";
 import Loading from "../../common/Info/Loading";
+import Thead from "../../common/Data/TableList/Thead";
+import GroupTd from "../../common/Data/TableList/GroupTd";
 
 const TestServiceReqListTable = ({
     fieldLabels,
@@ -19,30 +21,28 @@ const TestServiceReqListTable = ({
     };
     return (
             <table className="table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead className="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        {/* Tiêu đề bảng */}
-                        <th className="px-2 py-1 w-[5%] sticky left-0 bg-gray-50 dark:bg-gray-700 z-10 truncate">
-                            {fieldLabels.treatmentCode}</th>
-                        <th className="px-2 py-1 w-[10%] truncate">   {fieldLabels.patientName}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.gender}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.dateOfBirth}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.patientCode}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.address}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.heinCardNumber}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.patientPhone}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.patientMilitaryRankName}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.patientCareerName}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.patientWorkPlaceName}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.patientTypeName}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.treatmentResultName}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.feeLockLoginname}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.feeLockTime}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.inTime}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.outTime}</th>
-                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.creator}</th>
-                    </tr>
-                </thead>
+                <Thead 
+                    fields={[
+                            {fieldName:fieldLabels.treatmentCode, css:`w-[10%] sticky left-0 bg-gray-50 dark:bg-gray-700 z-10 truncate`},
+                            {fieldName:fieldLabels.patientName, css:`w-[5%]`},
+                            {fieldName:fieldLabels.gender, css:`w-[5%]`},
+                            {fieldName:fieldLabels.dateOfBirth, css:`w-[5%]`},
+                            {fieldName:fieldLabels.patientCode, css:`w-[5%]`},
+                            {fieldName:fieldLabels.address, css:`w-[5%]`},
+                            {fieldName:fieldLabels.heinCardNumber, css:`w-[5%]`},
+                            {fieldName:fieldLabels.patientPhone, css:`w-[5%]`},
+                            {fieldName:fieldLabels.patientMilitaryRankName, css:`w-[5%]`},
+                            {fieldName:fieldLabels.patientCareerName, css:`w-[5%]`},
+                            {fieldName:fieldLabels.patientWorkPlaceName, css:`w-[5%]`},
+                            {fieldName:fieldLabels.patientTypeName, css:`w-[5%]`},
+                            {fieldName:fieldLabels.treatmentResultName, css:`w-[5%]`},
+                            {fieldName:fieldLabels.feeLockLoginname, css:`w-[5%]`},
+                            {fieldName:fieldLabels.feeLockTime, css:`w-[5%]`},
+                            {fieldName:fieldLabels.inTime, css:`w-[10%]`},
+                            {fieldName:fieldLabels.outTime, css:`w-[10%]`},
+                            {fieldName:fieldLabels.creator, css:`w-[5%]`},
+                    ]}
+                />
                 <tbody className="text-xs">
                     {data.map((record) => (
                         <tr
@@ -54,38 +54,28 @@ const TestServiceReqListTable = ({
                                 }
                             }
                         >
-                            <td
-                                className={`border-b px-2 py-1 font-bold sticky left-0 z-10 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} ${getTextColor(record)}`}
-                            >
-                                {record.treatmentCode}
-                            </td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)} truncate`}>{record.patientName}</td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>{record.gender}</td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>
-                                {record.dateOfBirth ? format(convertToDate(record.dateOfBirth), "dd/MM/yyyy") : ""}
-                            </td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>{record.patientCode}</td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)} truncate max-w-[250px]`} title={record.address}>
-                                {record.address}
-                            </td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>{record.heinCardNumber}</td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>{record.patientPhone}</td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>{record.patientMilitaryRankName}</td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>{record.patientCareerName}</td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>{record.patientWorkPlaceName}</td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>{record.patientTypeName}</td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>{record.treatmentResultName}</td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>{record.feeLockLoginname}</td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>
-                                {record.feeLockTime ? format(convertToDate(record.feeLockTime), "dd/MM/yyyy hh:mm:ss") : ""}
-                            </td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>
-                                {record.inTime ? format(convertToDate(record.inTime), "dd/MM/yyyy hh:mm:ss") : ""}
-                            </td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>
-                                {record.outTime ? format(convertToDate(record.outTime), "dd/MM/yyyy hh:mm:ss") : ""}
-                            </td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>{record.creator}</td>
+                            <GroupTd
+                                fields={[
+                                    {fieldValue:record.treatmentCode, css:`font-bold sticky left-0 z-10 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} ${getTextColor(record)}`},
+                                    {fieldValue:record.patientName, css:`${getTextColor(record)} truncate`},
+                                    {fieldValue:record.gender, css:`${getTextColor(record)}`},
+                                    {fieldValue:record.dateOfBirth ? format(convertToDate(record.dateOfBirth), "dd/MM/yyyy") : "", css:`${getTextColor(record)}`},
+                                    {fieldValue:record.patientCode, css:`${getTextColor(record)}`},
+                                    {fieldValue:record.address, css:`${getTextColor(record)} truncate`},
+                                    {fieldValue:record.heinCardNumber, css:`${getTextColor(record)}`},
+                                    {fieldValue:record.patientPhone, css:`${getTextColor(record)}`},
+                                    {fieldValue:record.patientMilitaryRankName, css:`${getTextColor(record)}`},
+                                    {fieldValue:record.patientCareerName, css:`${getTextColor(record)}`},
+                                    {fieldValue:record.patientWorkPlaceName, css:`${getTextColor(record)}`},
+                                    {fieldValue:record.patientTypeName, css:`${getTextColor(record)}`},
+                                    {fieldValue:record.treatmentResultName, css:`${getTextColor(record)}`},
+                                    {fieldValue:record.feeLockLoginname, css:`${getTextColor(record)}`},
+                                    {fieldValue:record.feeLockTime ? format(convertToDate(record.feeLockTime), "dd/MM/yyyy hh:mm:ss") : "", css:`${getTextColor(record)}`},
+                                    {fieldValue:record.inTime ? format(convertToDate(record.inTime), "dd/MM/yyyy hh:mm:ss") : "", css:`${getTextColor(record)}`},
+                                    {fieldValue:record.outTime ? format(convertToDate(record.outTime), "dd/MM/yyyy hh:mm:ss") : "", css:`${getTextColor(record)}`},
+                                    {fieldValue:record.creator, css:`${getTextColor(record)}`},
+                                ]}
+                            />                                                                                                        
                         </tr>
                     ))}
                 </tbody>
