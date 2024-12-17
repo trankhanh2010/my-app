@@ -18,6 +18,8 @@ const InfoTransaction = ({
     const totalHeinPrice = testServiceTypeList.reduce((total, record) => total + (Number(record.virTotalHeinPrice) || 0), 0);
     const totalOtherSourcePrice = testServiceTypeList.reduce((total, record) => total + (Number(record.otherSourcePrice) || 0), 0);
     const totalPatientPrice = testServiceTypeList.reduce((total, record) => total + (Number(record.virTotalPatientPrice) || 0), 0);
+    const totalDiscount = testServiceTypeList.reduce((total, record) => total + (Number(record.discount) || 0), 0);
+
     return (
         <div className="text-xs">
             <div className="flex flex-col md:flex-row md:space-x-2 border border-gray-300 p-2">
@@ -47,7 +49,7 @@ const InfoTransaction = ({
                 </div>
                 <div className="w-full flex flex-col md:w-[50%]">
                 <span className="font-semibold uppercase">Miễn giảm: </span>
-                <p className="p-1 mr-2 bg-gray-100 flex-grow">null</p>
+                <p className="p-1 mr-2 bg-gray-100 flex-grow">{totalDiscount.toLocaleString()}</p>
                 </div>
             </div>
             <div className="flex flex-col md:flex-row md:space-x-2 border border-gray-300 p-2">
@@ -69,6 +71,34 @@ const InfoTransaction = ({
                 <span className="font-semibold uppercase">Tạm ứng: </span>
                             <p className="p-1 mr-2 bg-gray-100 flex-grow">
                                 {Number(selectedRecord.totalTreatmentTu).toLocaleString()}
+                            </p>
+                </div>
+            </div>
+            <div className="flex flex-col md:flex-row md:space-x-2 border border-gray-300 p-2">
+                <div className="w-full flex flex-col md:w-[50%] md:border-r">
+                <span className="font-semibold uppercase">Thanh toán: </span>
+                            <p className="p-1 flex-grow  bg-gray-100 mr-2">
+                                {Number(selectedRecord.totalTreatmentTt).toLocaleString()}
+                            </p>
+                </div>
+                <div className="w-full flex flex-col md:w-[50%]">
+                <span className="font-semibold uppercase">Công nợ: </span>
+                            <p className="p-1 mr-2 bg-gray-100 flex-grow">
+                                {Number(selectedRecord.totalTreatmentNo).toLocaleString()}
+                            </p>
+                </div>
+            </div>
+            <div className="flex flex-col md:flex-row md:space-x-2 border border-gray-300 p-2">
+                <div className="w-full flex flex-col md:w-[50%] md:border-r">
+                <span className="font-semibold uppercase">Hoàn ứng: </span>
+                            <p className="p-1 flex-grow  bg-gray-100 mr-2">
+                                {Number(selectedRecord.totalTreatmentHu).toLocaleString()}
+                            </p>
+                </div>
+                <div className="w-full flex flex-col md:w-[50%]">
+                <span className="font-semibold uppercase">Kết chuyển: </span>
+                            <p className="p-1 mr-2 bg-gray-100 flex-grow">
+                                {Number(selectedRecord.totalTreatmentKcAmount).toLocaleString()}
                             </p>
                 </div>
             </div>

@@ -75,17 +75,17 @@ const TestServiceReqTypeListTable = ({
                     <table className="table-auto w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead className="text-xs sticky top-0 text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th className="px-2 py-1 w-[23%] pl-6">{fieldLabels.testServiceTypeList.tdlServiceName}</th>
-                                <th className="px-2 py-1 w-[5%] pl-6">{fieldLabels.testServiceTypeList.amount}</th>
-                                <th className="px-2 py-1 w-[10%] pl-6">{fieldLabels.testServiceTypeList.price}</th>
-                                <th className="px-2 py-1 w-[15%] pl-6">{fieldLabels.testServiceTypeList.virTotalPrice}</th>
-                                <th className="px-2 py-1 w-[15%] pl-6">{fieldLabels.testServiceTypeList.virTotalHeinPrice}</th>
-                                <th className="px-2 py-1 w-[15%] pl-6">{fieldLabels.testServiceTypeList.virTotalPatientPrice}</th>
-                                <th className="px-2 py-1 w-[2%] pl-6">{fieldLabels.testServiceTypeList.vatRatio}</th>
-                                <th className="px-2 py-1 w-[5%] pl-6">{fieldLabels.testServiceTypeList.tdlServiceCode}</th>
-                                <th className="px-2 py-1 w-[5%] pl-6">{fieldLabels.testServiceTypeList.discount}</th>
-                                <th className="px-2 py-1 w-[5%] pl-6">{fieldLabels.testServiceTypeList.isExpend}</th>
-                                <th className="px-2 py-1 w-[5%] pl-6">{fieldLabels.testServiceTypeList.tdlServiceReqCode}</th>
+                                <th className="px-2 py-1 w-[23%] pl-6 truncate">{fieldLabels.testServiceTypeList.tdlServiceName}</th>
+                                <th className="px-2 py-1 w-[5%] pl-6 truncate">{fieldLabels.testServiceTypeList.amount}</th>
+                                <th className="px-2 py-1 w-[10%] pl-6 truncate">{fieldLabels.testServiceTypeList.price}</th>
+                                <th className="px-2 py-1 w-[15%] pl-6 truncate">{fieldLabels.testServiceTypeList.virTotalPrice}</th>
+                                <th className="px-2 py-1 w-[15%] pl-6 truncate">{fieldLabels.testServiceTypeList.virTotalHeinPrice}</th>
+                                <th className="px-2 py-1 w-[15%] pl-6 truncate">{fieldLabels.testServiceTypeList.virTotalPatientPrice}</th>
+                                <th className="px-2 py-1 w-[2%] pl-6 truncate">{fieldLabels.testServiceTypeList.vatRatio}</th>
+                                <th className="px-2 py-1 w-[5%] pl-6 truncate">{fieldLabels.testServiceTypeList.tdlServiceCode}</th>
+                                <th className="px-2 py-1 w-[5%] pl-6 truncate">{fieldLabels.testServiceTypeList.discount}</th>
+                                <th className="px-2 py-1 w-[5%] pl-6 truncate">{fieldLabels.testServiceTypeList.isExpend}</th>
+                                <th className="px-2 py-1 w-[5%] pl-6 truncate">{fieldLabels.testServiceTypeList.tdlServiceReqCode}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -186,8 +186,8 @@ const TestServiceReqTypeListTable = ({
                                                     <td className={`border-b px-2 py-1 pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`}>{record.vatRatio}</td>
                                                     <td className={`border-b px-2 py-1 pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`}>{record.tdlServiceCode}</td>
                                                     <td className={`border-b px-2 py-1 pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`}>{Number(record.discount).toLocaleString()}</td>
-                                                    <td className={`border-b px-2 py-1 pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""} ${record.isExpend == 1 ? 'text-green-600' : 'text-red-600'}`}>
-                                                        {record.isExpend == 1 ? '✓' : '✘'}
+                                                    <td className={`border-b px-2 py-1 pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`}>
+                                                        <span className={`${record.isExpend == 1 ? 'text-green-600' : 'text-red-600'}`}>{record.isExpend == 1 ? '✓' : '✘'}</span>
                                                     </td>
                                                     <td className={`border-b px-2 py-1 pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`}>{record.tdlServiceReqCode}</td>
                                                 </tr>

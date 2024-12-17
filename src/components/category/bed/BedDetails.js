@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import ButtonCreateOrUpdate from "../../common/Button/ButtonCreateOrUpdate";
+import NoRecordInfo from "../../common/Info/NoRecordInfo";
+import Loading from "../../common/Info/Loading";
 
 const BedDetails = ({
     fieldLabels,
@@ -15,9 +17,11 @@ const BedDetails = ({
     validateForm,
     checkUniqueCode,
     errorUniqueCode,
-    setErrorUniqueCode
+    setErrorUniqueCode,
+    isProcessing,
 }) => {
-    if (!recordDetails) return <p className="text-gray-500">Chưa chọn giường</p>;
+    if (!recordDetails) return <NoRecordInfo/>;
+    if (isProcessing) return <Loading/>;
     // Validate Form
     let debounceTimeout;
     const errors = validateForm(recordDetails);

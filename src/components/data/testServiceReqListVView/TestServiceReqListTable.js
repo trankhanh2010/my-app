@@ -13,6 +13,7 @@ const TestServiceReqListTable = ({
 }) => {
     if (loading) return <Loading/>
     const getTextColor = (record) => {
+        // Màu khi khóa viện phí
         if (record.feeLockTime) return "text-red-500";
         return "text-gray-500"; // Màu mặc định
     };
@@ -21,25 +22,25 @@ const TestServiceReqListTable = ({
                 <thead className="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         {/* Tiêu đề bảng */}
-                        <th className="px-2 py-1 w-[5%] sticky left-0 bg-gray-50 dark:bg-gray-700 z-10">
+                        <th className="px-2 py-1 w-[5%] sticky left-0 bg-gray-50 dark:bg-gray-700 z-10 truncate">
                             {fieldLabels.treatmentCode}</th>
-                        <th className="px-2 py-1 w-[10%]">   {fieldLabels.patientName}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.gender}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.dateOfBirth}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.patientCode}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.address}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.heinCardNumber}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.patientPhone}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.patientMilitaryRankName}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.patientCareerName}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.patientWorkPlaceName}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.patientTypeName}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.treatmentResultName}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.feeLockLoginname}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.feeLockTime}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.inTime}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.outTime}</th>
-                        <th className="px-2 py-1 w-[5%]">   {fieldLabels.creator}</th>
+                        <th className="px-2 py-1 w-[10%] truncate">   {fieldLabels.patientName}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.gender}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.dateOfBirth}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.patientCode}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.address}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.heinCardNumber}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.patientPhone}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.patientMilitaryRankName}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.patientCareerName}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.patientWorkPlaceName}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.patientTypeName}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.treatmentResultName}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.feeLockLoginname}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.feeLockTime}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.inTime}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.outTime}</th>
+                        <th className="px-2 py-1 w-[5%] truncate">   {fieldLabels.creator}</th>
                     </tr>
                 </thead>
                 <tbody className="text-xs">
@@ -58,7 +59,7 @@ const TestServiceReqListTable = ({
                             >
                                 {record.treatmentCode}
                             </td>
-                            <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>{record.patientName}</td>
+                            <td className={`border-b px-2 py-1 ${getTextColor(record)} truncate`}>{record.patientName}</td>
                             <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>{record.gender}</td>
                             <td className={`border-b px-2 py-1 ${getTextColor(record)}`}>
                                 {record.dateOfBirth ? format(convertToDate(record.dateOfBirth), "dd/MM/yyyy") : ""}

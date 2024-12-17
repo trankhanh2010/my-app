@@ -87,8 +87,8 @@ const BedList = () => {
 
     } = useBedList();
 
-    if (loading) return <p>Đang tải dữ liệu...</p>;
-    if (error) return <p>{error}</p>;
+    // if (loading) return <p>Đang tải dữ liệu...</p>;
+    // if (error) return <p>{error}</p>;
 
     return (
         <div className={`flex flex-wrap gap-8 w-full p-4 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
@@ -138,30 +138,35 @@ const BedList = () => {
                         totalPages={totalPages}
                     />
                 </div>
-                <BedTable
-                    fieldLabels={fieldLabels}
-                    format={format}
-                    data={data}
-                    convertToDate={convertToDate}
-                    handleRecordSelect={handleRecordSelect}
-                    selectedRecord={selectedRecord}
-                    recordDetails={recordDetails}
-                    setRecordDetails={setRecordDetails}
-                    recordToDelete={recordToDelete}
-                    closeModalConfirmDelete={closeModalConfirmDelete}
-                    confirmDelete={confirmDelete}
-                    isModalConfirmDeleteOpen={isModalConfirmDeleteOpen}
-                    openDeleteModal={openDeleteModal}
-                    openUpdateModal={openUpdateModal}
-                    isModalConfirmUpdateOpen={isModalConfirmUpdateOpen}
-                    confirmUpdate={confirmUpdate}
-                    closeModalConfirmUpdate={closeModalConfirmUpdate}
-                    calculateChanges={calculateChanges}
-                    recordToUpdate={recordToUpdate}
-                />
+                <div class="relative overflow-x-auto overflow-y-auto min-h-[50vh] max-h-[50vh]">
+                    <BedTable
+                        fieldLabels={fieldLabels}
+                        format={format}
+                        data={data}
+                        convertToDate={convertToDate}
+                        handleRecordSelect={handleRecordSelect}
+                        selectedRecord={selectedRecord}
+                        recordDetails={recordDetails}
+                        setRecordDetails={setRecordDetails}
+                        recordToDelete={recordToDelete}
+                        closeModalConfirmDelete={closeModalConfirmDelete}
+                        confirmDelete={confirmDelete}
+                        isModalConfirmDeleteOpen={isModalConfirmDeleteOpen}
+                        openDeleteModal={openDeleteModal}
+                        openUpdateModal={openUpdateModal}
+                        isModalConfirmUpdateOpen={isModalConfirmUpdateOpen}
+                        confirmUpdate={confirmUpdate}
+                        closeModalConfirmUpdate={closeModalConfirmUpdate}
+                        calculateChanges={calculateChanges}
+                        recordToUpdate={recordToUpdate}
+                        loading={loading}
+                        error={error}
+                        isProcessing={isProcessing}
+                    />
+                </div>
             </div>
 
-            <div className="w-full md:w-3/12 border-l border-gray-300 pl-4 mt-4 md:mt-0 flex-grow">
+            <div className="w-full md:w-3/12 border-l border-gray-300 pl-4 mt-4 md:mt-0 flex-grow min-h-[80vh]">
                 <BedDetails
                     fieldLabels={fieldLabels}
                     recordDetails={recordDetails}
@@ -176,6 +181,7 @@ const BedList = () => {
                     checkUniqueCode={checkUniqueCode}
                     errorUniqueCode={errorUniqueCode}
                     setErrorUniqueCode={setErrorUniqueCode}
+                    isProcessing={isProcessing}
                 />
             </div>
 

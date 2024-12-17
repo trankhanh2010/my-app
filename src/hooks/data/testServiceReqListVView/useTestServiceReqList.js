@@ -25,6 +25,8 @@ const useTestServiceReqList = () => {
     const [treatmentCode, setTreatmentCode] = useState();
     const [patientCode, setPatientCode] = useState();
 
+    const [scrollPosition, setScrollPosition] = useState(0); // Lưu trữ vị trí cuộn
+
     const validateDateRange = (from, to) => {
         const fromDate = new Date(from);
         const toDate = new Date(to);
@@ -233,6 +235,7 @@ const useTestServiceReqList = () => {
             if (Object.keys(newFilterCursor).length > 0) {
                 setFilterCursor(newFilterCursor);
             }
+            setScrollPosition(0)
             setLastId(0)
             setDataCursor([])
             setApplyFilterCursor(false)
@@ -299,6 +302,8 @@ const useTestServiceReqList = () => {
         setRefreshTrigger,
         filterTrigger, 
         setFilterTrigger,
+        scrollPosition, 
+        setScrollPosition,
     };
 };
 

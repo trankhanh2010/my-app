@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import useTestServiceReqList from "../../../hooks/data/testServiceReqListVView/useTestServiceReqList";
 import RecordPerPage from "../../../components/common/Paginate/RecordPerPage";
 import TestServiceReqListTable from "../../../components/data/testServiceReqListVView/TestServiceReqListTable";
@@ -9,6 +9,7 @@ import TestServiceReqTypeListTable from "../../../components/data/testServiceReq
 import Search from "../../../components/common/Filter/Search";
 
 const TestServiceReqList = () => {
+    const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
     const {
         fieldLabels,
         fieldConfig,
@@ -49,10 +50,13 @@ const TestServiceReqList = () => {
         treatmentCode, setTreatmentCode,
         refreshTrigger,
         setRefreshTrigger,
-        filterTrigger, 
+        filterTrigger,
         setFilterTrigger,
-
-    } = useTestServiceReqList();
+        scrollPosition,
+        setScrollPosition,
+    }
+        = useTestServiceReqList();
+    const debounceTimeout = useRef(null);
     const handleLoadMore = () => {
         if (dataCursor && dataCursor.length > 0) {
             const lastRecordId = Number(dataCursor[dataCursor.length - 1].id); // Lấy id cuối cùng
@@ -60,7 +64,22 @@ const TestServiceReqList = () => {
             setRefreshTrigger(true);
         }
     };
-
+    const handleScroll = (e) => {
+        const scrollTop = e.target.scrollTop;
+        // Nếu có sự kiện cuộn trước đó đang chờ xử lý, hủy bỏ nó
+        if (debounceTimeout.current) {
+            clearTimeout(debounceTimeout.current);
+        }
+        // Đặt một timeout để thực hiện hành động sau khi người dùng ngừng cuộn
+        debounceTimeout.current = setTimeout(() => {
+            setScrollPosition(scrollTop);
+        }, 400);
+    };
+    useEffect(() => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTop = scrollPosition; // Gán lại scrollTop của div
+        }
+    }, [dataCursor]); // Chạy lại khi scrollPosition thay đổi
     // if (loading) return  <div className="spinner"></div> // Hiển thị spinner khi đang tải;
     if (error) return <p>{error}</p>;
 
@@ -80,57 +99,70 @@ const TestServiceReqList = () => {
                     <div className="text-center">
                         <button
                             onClick={handleLoadMore}
-                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 truncate"
                             disabled={isProcessing || !dataCursor || dataCursor.length === 0}
                         >
                             Tải thêm
                         </button>
                     </div>
-                    <div className="mt-4">
-                        <label htmlFor="fromTime" className="mr-2">Từ ngày:</label>
-                        <input
-                            type="date"
-                            value={fromTime}
-                            onChange={(e) => setFromTime(e.target.value )}
-                            className="p-2 border rounded"
-                        />
-                    </div>
-                    <div className="mt-4">
-                        <label htmlFor="toTime" className="mr-2">Đến ngày:</label>
-                        <input
-                            type="date"
-                            value={toTime}
-                            onChange={(e) => setToTime(e.target.value )}
-                            className="p-2 border rounded"
-                        />
-                    </div>
                     <div className="text-center">
-                        <button
-                            onClick={() =>{
-                                setApplyFilterCursor(true);
-                                setFilterTrigger(true);
-                            } }
-                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
-                        >
-                            Lọc
-                        </button>
+                            <button
+                                onClick={() => {
+                                    setApplyFilterCursor(true);
+                                    setFilterTrigger(true);
+                                }}
+                                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 truncate"
+                            >
+                                Lọc
+                            </button>
+                        </div>
+                    <div className="w-full flex">
+                        <div className="mt-1 w-full flex flex-col md:w-[50%]">
+                            <label htmlFor="fromTime" className="mr-2">Từ ngày:</label>
+                            <input
+                                type="date"
+                                value={fromTime}
+                                onChange={(e) => setFromTime(e.target.value)}
+                                className="p-1 border rounded"
+                            />
+                        </div>
+                        <div className="mt-1 w-full flex flex-col md:w-[50%] md:ml-2">
+                            <label htmlFor="toTime" className="mr-2">Đến ngày:</label>
+                            <input
+                                type="date"
+                                value={toTime}
+                                onChange={(e) => setToTime(e.target.value)}
+                                className="p-1 border rounded"
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <Search 
-                            keyword={patientCode}
-                            setKeyword={setPatientCode}
-                            label={"Nhập mã bệnh nhân"}
-                        />
-                    </div>
-                    <div>
-                        <Search 
-                            keyword={treatmentCode}
-                            setKeyword={setTreatmentCode}
-                            label={"Nhập mã điều trị"}
-                        />
+                    <div className="w-full flex">
+                        <div className="mt-1 w-full flex flex-col md:w-[50%]">
+                            <div>
+                                <Search
+                                    keyword={patientCode}
+                                    setKeyword={setPatientCode}
+                                    label={"Nhập mã bệnh nhân"}
+                                />
+                            </div>
+                        </div>
+                        <div className="mt-1 w-full flex flex-col md:w-[50%] md:ml-2">
+                            <div>
+                                <Search
+                                    keyword={treatmentCode}
+                                    setKeyword={setTreatmentCode}
+                                    label={"Nhập mã điều trị"}
+                                />
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <div class="relative overflow-x-auto overflow-y-auto max-h-[40vh] min-h-[40vh] mb-2">
+                <div class="relative overflow-x-auto overflow-y-auto max-h-[30vh] min-h-[30vh] mb-2"
+                    ref={scrollContainerRef} // Gán ref cho thẻ div
+                    // Lấy vị trí khi scroll
+                    onScroll={handleScroll}
+                >
                     <TestServiceReqListTable
                         fieldLabels={fieldLabels}
                         format={format}
@@ -158,12 +190,12 @@ const TestServiceReqList = () => {
             <div className="w-full md:w-7/12 mt-4 md:mt-0 flex-grow">
                 {/*Thông tin bệnh nhân*/}
                 <div className="w-full min-h-[35vh] relative overflow-x-auto overflow-y-auto max-h-[35vh]">
-                <InfoPatient
-                    fieldLabels={fieldLabels}
-                    recordDetails={recordDetails}
-                    format={format}
-                    convertToDate={convertToDate}
-                />
+                    <InfoPatient
+                        fieldLabels={fieldLabels}
+                        recordDetails={recordDetails}
+                        format={format}
+                        convertToDate={convertToDate}
+                    />
                 </div>
                 {/* Phần bảng thông tin dịch vụ */}
                 <div className="mt-2 w-full flex flex-col whitespace-pre-line break-words">
