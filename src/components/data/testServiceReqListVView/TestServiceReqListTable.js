@@ -23,7 +23,7 @@ const TestServiceReqListTable = ({
             <table className="table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <Thead 
                     fields={[
-                            {fieldName:fieldLabels.treatmentCode, css:`w-[10%] sticky left-0 bg-gray-50 dark:bg-gray-700 z-10 truncate`},
+                            {fieldName:fieldLabels.treatmentCode, css:`w-[10%] sticky left-0 z-10`},
                             {fieldName:fieldLabels.patientName, css:`w-[5%]`},
                             {fieldName:fieldLabels.gender, css:`w-[5%]`},
                             {fieldName:fieldLabels.dateOfBirth, css:`w-[5%]`},
@@ -56,7 +56,7 @@ const TestServiceReqListTable = ({
                         >
                             <GroupTd
                                 fields={[
-                                    {fieldValue:record.treatmentCode, css:`font-bold sticky left-0 z-10 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} ${getTextColor(record)}`},
+                                    {fieldValue:record.treatmentCode, css:`font-bold sticky left-0 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} ${getTextColor(record)}`},
                                     {fieldValue:record.patientName, css:`${getTextColor(record)} truncate`},
                                     {fieldValue:record.gender, css:`${getTextColor(record)}`},
                                     {fieldValue:record.dateOfBirth ? format(convertToDate(record.dateOfBirth), "dd/MM/yyyy") : "", css:`${getTextColor(record)}`},

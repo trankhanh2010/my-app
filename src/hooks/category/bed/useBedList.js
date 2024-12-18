@@ -330,7 +330,6 @@ const useBedList = () => {
         const delayDebounce = setTimeout(() => {
             fetchData();
         }, 200); // Chờ 200ms trước khi gọi API
-
         return () => clearTimeout(delayDebounce); // Xóa timeout nếu dependency thay đổi
     }, [page, limit, orderBy, orderDirection, keyword]); // Gọi lại khi có thay đổi
 

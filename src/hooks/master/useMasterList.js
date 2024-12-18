@@ -141,6 +141,7 @@ const useMasterCategoryList = (
     // Lấy dữ liệu theo start - limit
     const fetchData = async () => {
         try {
+            setLoading(true);
             const response = await apiService.get(start, limit, orderBy, orderDirection, keyword || null);
             if (isDB) {
                 setData(response.data);

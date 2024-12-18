@@ -9,6 +9,7 @@ const component = ({ fields }) => {
                     key={index}
                     fieldValue={field.fieldValue}
                     css={field.css}
+                    dangerouslySetInnerHTML={field.dangerouslySetInnerHTML}
                 />
             ))}
         </>

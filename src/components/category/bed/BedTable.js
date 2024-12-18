@@ -4,6 +4,8 @@ import ModalConfirmDelete from "../../common/Modal/ModalConfirmDelete";
 import ModalConfirmUpdate from "../../common/Modal/ModalConfirmUpdate";
 import Loading from "../../common/Info/Loading";
 import ErrorInfo from "../../common/Info/ErrorInfo";
+import Thead from "../../common/Data/TableList/Thead";
+import GroupTd from "../../common/Data/TableList/GroupTd";
 
 const BedTable = ({
     fieldLabels,
@@ -29,56 +31,53 @@ const BedTable = ({
     error,
     isProcessing,
 }) => {
-    if (loading) return <Loading/>;
-    if (error) return <ErrorInfo/>;
-    if (isProcessing) return <Loading/>;
+    if (loading) return <Loading />;
+    if (error) return <ErrorInfo />;
+    if (isProcessing) return <Loading />;
+
     return (
         <div>
             <table className="table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        {/* Tiêu đề bảng */}
-                        <th className="px-2 py-4 w-[5%] truncate">   {fieldLabels.bedCode}</th>
-                        <th className="px-2 py-4 w-[15%] truncate">  {fieldLabels.bedName}</th>
-                        <th className="px-2 py-4 w-[3%] truncate">   {fieldLabels.isActive}</th>
-                        <th className="px-2 py-4 w-[5%] truncate">   {fieldLabels.createTime}</th>
-                        <th className="px-2 py-4 w-[5%] truncate">   {fieldLabels.modifyTime}</th>
-                        <th className="px-2 py-4 w-[5%] truncate">   {fieldLabels.bedTypeCode}</th>
-                        <th className="px-2 py-4 w-[5%] truncate">   {fieldLabels.bedTypeName}</th>
-                        <th className="px-2 py-4 w-[10%] truncate">  {fieldLabels.bedRoomCode}</th>
-                        <th className="px-2 py-4 w-[10%] truncate">  {fieldLabels.bedRoomName}</th>
-                        <th className="px-2 py-4 w-[5%] truncate">   {fieldLabels.departmentCode}</th>
-                        <th className="px-2 py-4 w-[10%] truncate">  {fieldLabels.departmentName}</th>
-                        <th className="px-2 py-4 w-[22%] truncate">Hành động</th>
-                    </tr>
-                </thead>
+                <Thead
+                    fields={[
+                        { fieldName: fieldLabels.bedCode, css: `px-2 py-4 w-[5%] sticky left-0 z-10` },
+                        { fieldName: fieldLabels.bedName, css: `px-2 py-4 w-[15%]` },
+                        { fieldName: fieldLabels.isActive, css: `px-2 py-4 w-[3%]` },
+                        { fieldName: fieldLabels.createTime, css: `px-2 py-4 w-[5%]` },
+                        { fieldName: fieldLabels.modifyTime, css: `px-2 py-4 w-[5%]` },
+                        { fieldName: fieldLabels.bedTypeCode, css: `px-2 py-4 w-[5%]` },
+                        { fieldName: fieldLabels.bedTypeName, css: `px-2 py-4 w-[5%]` },
+                        { fieldName: fieldLabels.bedRoomCode, css: `px-2 py-4 w-[10%]` },
+                        { fieldName: fieldLabels.bedRoomName, css: `px-2 py-4 w-[10%]` },
+                        { fieldName: fieldLabels.departmentCode, css: `px-2 py-4 w-[5%]` },
+                        { fieldName: fieldLabels.departmentName, css: `px-2 py-4 w-[10%]` },
+                        { fieldName: `Hành động`, css: `px-2 py-4 w-[22%]` },
+                    ]}
+                />
                 <tbody>
-                    {data.map((bed) => (
+                    {data.map((record) => (
                         <tr
-                            key={bed.id}
-                            className={`hover:bg-gray-50 cursor-pointer ${selectedRecord?.id === bed.id ? "bg-blue-100" : ""}`}
-                            onClick={() => handleRecordSelect(bed)
+                            key={record.id}
+                            className={`hover:bg-gray-50 cursor-pointer ${selectedRecord?.id === record.id ? "bg-blue-100" : ""}`}
+                            onClick={() => handleRecordSelect(record)
                             }
                         >
+                            <GroupTd
+                                fields={[
+                                    { dangerouslySetInnerHTML: {__html: record.highlight?.bedCode ? record.highlight.bedCode[0] : record.bedCode, }, css: `font-bold sticky left-0 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} truncate` },
+                                ]}
+                            />
                             <td
                                 className="border-b px-2 py-1 truncate"
                                 dangerouslySetInnerHTML={{
-                                    __html: bed.highlight?.bedCode
-                                        ? bed.highlight.bedCode[0] // Sử dụng highlight nếu có
-                                        : bed.bedCode, // Nếu không có highlight thì hiển thị mã giường bình thường
-                                }}
-                            ></td>
-                            <td
-                                className="border-b px-2 py-1 truncate"
-                                dangerouslySetInnerHTML={{
-                                    __html: bed.highlight?.bedName
-                                        ? bed.highlight.bedName[0] // Sử dụng highlight nếu có
-                                        : bed.bedName, // Nếu không có highlight thì hiển thị mã giường bình thường
+                                    __html: record.highlight?.bedName
+                                        ? record.highlight.bedName[0] // Sử dụng highlight nếu có
+                                        : record.bedName, // Nếu không có highlight thì hiển thị mã giường bình thường
                                 }}
                             ></td>
                             <td className="border-b px-2 py-1 truncate">
-                                <span className={`px-2 py-1 rounded text-white ${bed.isActive == 1 ? 'bg-green-500' : 'bg-red-500'}`}>
-                                    {bed.isActive == 1 ? (
+                                <span className={`px-2 py-1 rounded text-white ${record.isActive == 1 ? 'bg-green-500' : 'bg-red-500'}`}>
+                                    {record.isActive == 1 ? (
                                         <FaCheck className="text-white w-5 h-5 inline-block" />
                                     ) : (
                                         <FaLock className="text-white w-5 h-5 inline-block" />
@@ -86,57 +85,57 @@ const BedTable = ({
                                 </span>
                             </td>
                             <td className="border-b px-2 py-1 truncate">
-                                {bed.createTime ? format(convertToDate(bed.createTime), "dd/MM/yyyy HH:mm:ss") : ""}
+                                {record.createTime ? format(convertToDate(record.createTime), "dd/MM/yyyy HH:mm:ss") : ""}
                             </td>
                             <td className="border-b px-2 py-1 truncate">
-                                {bed.modifyTime ? format(convertToDate(bed.modifyTime), "dd/MM/yyyy HH:mm:ss") : ""}
+                                {record.modifyTime ? format(convertToDate(record.modifyTime), "dd/MM/yyyy HH:mm:ss") : ""}
                             </td>
-                            <td className="border-b px-2 py-1 truncate">{bed.bedTypeCode}</td>
-                            <td className="border-b px-2 py-1 truncate">{bed.bedTypeName}</td>
+                            <td className="border-b px-2 py-1 truncate">{record.bedTypeCode}</td>
+                            <td className="border-b px-2 py-1 truncate">{record.bedTypeName}</td>
                             <td
                                 className="border-b px-2 py-1 truncate"
                                 dangerouslySetInnerHTML={{
-                                    __html: bed.highlight?.bedRoomCode
-                                        ? bed.highlight.bedRoomCode[0] // Sử dụng highlight nếu có
-                                        : bed.bedRoomCode, // Nếu không có highlight thì hiển thị mã giường bình thường
+                                    __html: record.highlight?.bedRoomCode
+                                        ? record.highlight.bedRoomCode[0] // Sử dụng highlight nếu có
+                                        : record.bedRoomCode, // Nếu không có highlight thì hiển thị mã giường bình thường
                                 }}
                             ></td>
                             <td
                                 className="border-b px-2 py-1 truncate"
                                 dangerouslySetInnerHTML={{
-                                    __html: bed.highlight?.bedRoomName
-                                        ? bed.highlight.bedRoomName[0] // Sử dụng highlight nếu có
-                                        : bed.bedRoomName, // Nếu không có highlight thì hiển thị mã giường bình thường
+                                    __html: record.highlight?.bedRoomName
+                                        ? record.highlight.bedRoomName[0] // Sử dụng highlight nếu có
+                                        : record.bedRoomName, // Nếu không có highlight thì hiển thị mã giường bình thường
                                 }}
                             ></td>
-                            <td className="border-b px-2 py-1 truncate">{bed.departmentCode}</td>
-                            <td className="border-b px-2 py-1 truncate">{bed.departmentName}</td>
+                            <td className="border-b px-2 py-1 truncate">{record.departmentCode}</td>
+                            <td className="border-b px-2 py-1 truncate">{record.departmentName}</td>
                             <td>
                                 <div className="flex flex-col md:flex-row md:space-x-2 truncate">
                                     <button
-                                        onClick={() => openDeleteModal(bed)}
+                                        onClick={() => openDeleteModal(record)}
                                         className="bg-red-500 text-white p-2 rounded mt-1 mb-1"
                                     >
                                         <FaTrash className="inline mr-1" /> Xóa
                                     </button>
                                     <button
                                         onClick={() => {
-                                             // Tạo bản sao của bed và thay đổi giá trị isActive
+                                            // Tạo bản sao của bed và thay đổi giá trị isActive
                                             const updatedBed = {
-                                                ...bed,
-                                                isActive: bed.isActive == 1 ? 0 : 1, 
+                                                ...record,
+                                                isActive: record.isActive == 1 ? 0 : 1,
                                             };
                                             setRecordDetails(updatedBed)
                                             openUpdateModal(updatedBed);
                                         }}
-                                        className={`${bed.isActive == 1 ? "bg-amber-500" : "bg-green-500"} text-white p-2 rounded mt-1 mb-1`}
+                                        className={`${record.isActive == 1 ? "bg-amber-500" : "bg-green-500"} text-white p-2 rounded mt-1 mb-1`}
                                     >
-                                        {bed.isActive == 1 ? (
+                                        {record.isActive == 1 ? (
                                             <FaLock className="inline mr-1" />
                                         ) : (
                                             <FaUnlock className="inline mr-1" />
                                         )}
-                                        {bed.isActive == 1 ? "Khóa" : "Mở khóa"
+                                        {record.isActive == 1 ? "Khóa" : "Mở khóa"
                                         }
                                     </button>
                                 </div>

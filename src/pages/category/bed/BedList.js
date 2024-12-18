@@ -138,7 +138,7 @@ const BedList = () => {
                         totalPages={totalPages}
                     />
                 </div>
-                <div class="relative overflow-x-auto overflow-y-auto min-h-[50vh] max-h-[50vh] flex flex-row">
+                <div class="relative overflow-x-auto overflow-y-auto min-h-[70vh] max-h-[70vh] flex flex-row">
                     <BedTable
                         fieldLabels={fieldLabels}
                         format={format}

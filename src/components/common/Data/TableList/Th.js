@@ -5,7 +5,7 @@ const component = ({
     css,
  }) => {
     return (
-        <th className={`px-2 py-1 truncate ${css ? css : ""}`}>{fieldName}</th>
+        <th className={`sticky top-0 bg-gray-50 dark:bg-gray-700 px-2 py-1 truncate ${css ? css : ""}`}>{fieldName}</th>
     );
 };
 
