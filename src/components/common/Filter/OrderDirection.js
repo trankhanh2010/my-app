@@ -1,20 +1,25 @@
 import React from "react";
+import Select from "react-select";
 
-const OrderDirection = ({
-    orderDirection,
-    setOrderDirection,
-}) => {
+const OrderDirection = ({ orderDirection, setOrderDirection }) => {
+    const options = [
+        { value: "asc", label: "Tăng dần" },
+        { value: "desc", label: "Giảm dần" },
+    ];
+
+    const handleChange = (selectedOption) => {
+        setOrderDirection(selectedOption.value); // Cập nhật giá trị của orderDirection khi chọn
+    };
+
     return (
         <div className="flex items-center">
             <label className="mr-2">Hướng:</label>
-            <select
-                value={orderDirection}
-                onChange={(e) => setOrderDirection(e.target.value)}
-                className="p-2 border border-gray-300 rounded"
-            >
-                <option value="asc">Tăng dần</option>
-                <option value="desc">Giảm dần</option>
-            </select>
+            <Select
+                value={options.find((option) => option.value === orderDirection)} // Set giá trị hiện tại
+                onChange={handleChange} // Xử lý sự kiện thay đổi
+                options={options} // Các tùy chọn cho select
+                className="w-48" // Thêm lớp CSS để điều chỉnh chiều rộng của select
+            />
         </div>
     );
 };

@@ -10,7 +10,7 @@ const InfoPatient = ({
 }) => {
     if (!recordDetails) return  <NoRecordInfo/>
     return (
-        <div className="text-xs">
+        <>
             {/* Phần bảng trên */}
             <GroupFieldSpanWithText 
                 fields={[
@@ -56,7 +56,7 @@ const InfoPatient = ({
                     {fieldName:fieldLabels.treatmentResultName, fieldValue:recordDetails.treatmentResultName, divCss:`md:w-[35%] whitespace-pre-line break-words`},
                 ]}
             />
-        </div>
+        </>
     );
 };
 

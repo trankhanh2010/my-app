@@ -7,7 +7,7 @@ const Search = ({
 }) => {
     return (
         <input
-            className="p-1 border border-gray-300 rounded"
+            className="p-2 border border-gray-300 rounded"
             type="text"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)} // Cập nhật giá trị keyword

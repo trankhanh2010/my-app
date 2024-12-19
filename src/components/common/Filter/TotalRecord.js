@@ -5,7 +5,7 @@ const TotalRecord = ({
 }) => {
     return (
         <div className="mt-4 flex items-center">
-            <span className="text-sm font-medium">Tổng số bản ghi: {totalItems}</span>
+            <span className="">Tổng số bản ghi: {totalItems}</span>
         </div>
     );
 };

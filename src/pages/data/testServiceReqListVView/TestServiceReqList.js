@@ -106,7 +106,7 @@ const TestServiceReqList = () => {
                 </div>
                 {/* Danh sách dữ liệu */}
                 <div
-                    className="relative overflow-x-auto overflow-y-auto max-h-[40vh] min-h-[40vh] mb-2 flex flex-col"
+                    className="relative overflow-x-auto overflow-y-auto max-h-[30vh] min-h-[30vh] mb-2 flex flex-col"
                     ref={scrollContainerRef}
                     onScroll={handleScroll}
                 >
@@ -153,7 +153,7 @@ const TestServiceReqList = () => {
                     />
                 </div>
                 <div className="flex flex-col md:flex-row md:space-x-2 border border-gray-300">
-                    <div className="w-full min-h-[55vh] flex flex-col md:border-r whitespace-pre-line break-words relative overflow-x-auto overflow-y-auto max-h-[55vh]">
+                    <div className="w-full flex flex-col md:border-r whitespace-pre-line break-words relative overflow-x-auto overflow-y-auto max-h-[50vh] min-h-[50vh]">
                         <TestServiceReqTypeListTable
                             fieldLabels={fieldLabels}
                             recordDetail={recordDetails}

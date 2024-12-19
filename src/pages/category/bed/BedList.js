@@ -1,22 +1,9 @@
 import React from "react";
-
-import TotalPages from "../../../components/common/Paginate/TotalPages";
-import RecordPerPage from "../../../components/common/Paginate/RecordPerPage";
-import PrevPage from "../../../components/common/Paginate/PrevPage";
-import NextPage from "../../../components/common/Paginate/NextPage";
-
-import Search from "../../../components/common/Filter/Search";
-import OrderBy from "../../../components/common/Filter/OrderBy";
-import OrderDirection from "../../../components/common/Filter/OrderDirection";
-import TotalRecord from "../../../components/common/Filter/TotalRecord";
-
-import ButtonAddNew from "../../../components/common/Button/ButtonAddNew";
-
 import ManegerAlert from "../../../components/common/Alert/ManegerAlert";
-
 import useBedList from "../../../hooks/category/bed/useBedList";
 import BedTable from "../../../components/category/bed/BedTable";
 import BedDetails from "../../../components/category/bed/BedDetails";
+import Filter from "../../../components/category/bed/Filter";
 
 const BedList = () => {
     const {
@@ -91,54 +78,26 @@ const BedList = () => {
     // if (error) return <p>{error}</p>;
 
     return (
-        <div className={`flex flex-wrap gap-8 w-full p-4 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
-            <div className="w-full md:w-8/12">
-                <div className="mb-4 flex flex-wrap gap-4">
-                    <TotalPages
+        <div className={`flex flex-wrap gap-1 w-full p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
+            <div className="w-full md:w-8/12 md:mr-1 md:border-r md:pr-2">
+                <div class="min-h-[20vh]">
+                    <Filter 
                         page={page}
+                        limit={limit}
+                        totalItems={totalItems}
+                        keyword={keyword}
+                        orderBy={orderBy}
+                        orderDirection={orderDirection}
                         totalPages={totalPages}
                         setPage={setPage}
-                    />
-                    <RecordPerPage
-                        limit={limit}
                         setLimit={setLimit}
-                        options={[
-                            { value: 10, label: "10" },
-                            { value: 20, label: "20" },
-                            { value: 50, label: "50" },
-                        ]}
-                    />
-                    <Search
-                        keyword={keyword}
                         setKeyword={setKeyword}
-                    />
-                    <OrderBy
-                        orderBy={orderBy}
                         setOrderBy={setOrderBy}
-                    />
-                    <OrderDirection
-                        orderDirection={orderDirection}
                         setOrderDirection={setOrderDirection}
-                    />
-                    <ButtonAddNew
                         handleAddNew={handleAddNew}
                     />
                 </div>
-                <div className="mt-4 flex justify-between mb-4">
-                    <PrevPage
-                        page={page}
-                        setPage={setPage}
-                    />
-                    <TotalRecord
-                        totalItems={totalItems}
-                    />
-                    <NextPage
-                        page={page}
-                        setPage={setPage}
-                        totalPages={totalPages}
-                    />
-                </div>
-                <div class="relative overflow-x-auto overflow-y-auto min-h-[70vh] max-h-[70vh] flex flex-row">
+                <div class="mt-1 relative overflow-x-auto overflow-y-auto min-h-[70vh] max-h-[70vh] flex flex-row">
                     <BedTable
                         fieldLabels={fieldLabels}
                         format={format}
@@ -166,7 +125,8 @@ const BedList = () => {
                 </div>
             </div>
 
-            <div className="w-full md:w-3/12 border-l border-gray-300 pl-4 mt-4 md:mt-0 flex-grow min-h-[80vh] flex flex-col">
+            <div className="w-full md:w-3/12 mt-4 md:mt-0 flex-grow">
+                <div class="mt-1 relative overflow-x-auto min-h-[70vh] max-h-[70vh] flex flex-col">
                 <BedDetails
                     fieldLabels={fieldLabels}
                     recordDetails={recordDetails}
@@ -183,6 +143,7 @@ const BedList = () => {
                     setErrorUniqueCode={setErrorUniqueCode}
                     isProcessing={isProcessing}
                 />
+                </div>
             </div>
 
             <ManegerAlert

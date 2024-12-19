@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 body {
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.75rem; /* Kích thước tương ứng với text-sm trong Tailwind */
 }
 em {
   background-color: yellow; /* Nền màu vàng */
@@ -54,4 +56,10 @@ em {
   font-size: 16px;
   color: red;
   padding: 20px;
+}
+.checkbox-large {
+  width: 36px; /* Đặt chiều rộng của checkbox */
+  height: 36px; /* Đặt chiều cao của checkbox */
+  margin-right: 10px;
+  display: inline-block; /* Đảm bảo checkbox và label nằm ngang */
 }

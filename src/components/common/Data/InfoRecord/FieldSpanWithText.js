@@ -1,5 +1,5 @@
 import React from "react";
-
+import SpanFieldName from "./SpanFieldName";
 const component = ({
     fieldName,
     fieldValue,
@@ -9,7 +9,10 @@ const component = ({
  }) => {
     return (
         <div className={`w-full flex flex-col ${divCss ? divCss : ""}`}>
-            <span className={`font-semibold uppercase ${spanCss ? spanCss : ""}`}>{fieldName}: </span>
+            <SpanFieldName 
+                fieldName={fieldName}
+                spanCss={spanCss}
+            />
             <p className={`p-1 mr-2 bg-gray-100 flex-grow ${pCss ? pCss : ""}`}>{fieldValue}</p>
         </div>
     );

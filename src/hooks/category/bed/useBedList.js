@@ -271,7 +271,6 @@ const useBedList = () => {
     // Lấy danh sách buồng bệnh
     const fetchBedRooms = async () => {
         try {
-            setIsProcessing(true)
             const bedRooms = await bedRoomService.getAllSelect(bedRoomKeyword || null);
             if (bedRoomIsDB) {
                 setBedRooms(bedRooms.data);

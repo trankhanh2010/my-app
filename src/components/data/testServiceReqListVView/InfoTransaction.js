@@ -22,7 +22,7 @@ const InfoTransaction = ({
     const totalDiscount = testServiceTypeList.reduce((total, record) => total + (Number(record.discount) || 0), 0);
 
     return (
-        <div className="text-xs">
+        <>
             <GroupFieldSpanWithText 
                 css='mt-1'
                 fields={[
@@ -61,7 +61,7 @@ const InfoTransaction = ({
                     {fieldName:'Kết chuyển', fieldValue:Number(selectedRecord.totalTreatmentKcAmount).toLocaleString(), divCss:`md:w-[1/3]`},
                 ]}
             />
-        </div>
+        </>
     );
 };
 

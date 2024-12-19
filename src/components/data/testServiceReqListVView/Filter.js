@@ -2,6 +2,8 @@ import React from "react";
 import DatePicker from "react-datepicker";
 import RecordPerPage from "../../../components/common/Paginate/RecordPerPage";
 import Search from "../../../components/common/Filter/Search";
+import SpanFieldName from "../../common/Data/InfoRecord/SpanFieldName";
+
 const Filter = ({
     dataCursor,
     isProcessing,
@@ -52,22 +54,30 @@ const Filter = ({
             </div>
 
             <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border border-gray-300 p-2">
-                <div className="mt-1 w-full flex flex-col xl:w-[1/4]">
+                <div className="mt-1 w-full flex flex-row xl:w-[1/4] items-center">
+                        <SpanFieldName
+                        fieldName={'Từ'}
+                        spanCss={'mr-1'}
+                        />
                     <DatePicker
                         selected={fromTime}
                         onChange={(date) => setFromTime(date)}
                         dateFormat="dd/MM/yyyy"
-                        className="p-1 border rounded"
+                        className="p-2 border rounded"
                         placeholderText="Từ ngày: dd/MM/yyyy"
                         onChangeRaw={(e) => handleRawChange(e, setFromTime)}
                     />
                 </div>
-                <div className="mt-1 w-full flex flex-col xl:w-[1/4]">
+                <div className="mt-1 w-full flex flex-row xl:w-[1/4] items-center">
+                <SpanFieldName
+                        fieldName={'Đến'}
+                        spanCss={'mr-1'}
+                        />
                     <DatePicker
                         selected={toTime}
                         onChange={(date) => setToTime(date)}
                         dateFormat="dd/MM/yyyy"
-                        className="p-1 border rounded"
+                        className="p-2 border rounded"
                         placeholderText="Đến ngày: dd/MM/yyyy"
                         onChangeRaw={(e) => handleRawChange(e, setToTime)}
                     />
