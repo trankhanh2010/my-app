@@ -63,3 +63,31 @@ em {
   margin-right: 10px;
   display: inline-block; /* Đảm bảo checkbox và label nằm ngang */
 }
+/* Đặt z-index cho lịch DatePicker */
+.react-datepicker-popper {
+  z-index: 200 !important;
+}
+/* Overlay che toàn bộ màn hình */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(169, 169, 169, 0.7); /* Màu xám nhạt */
+  z-index: 9998; /* Đảm bảo lớp phủ ở dưới modal */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Căn giữa modal */
+}
+
+/* Cấu hình cho modal */
+.payment-modal {
+  z-index: 9999; /* Đặt z-index cao hơn lớp phủ */
+  position: relative;
+  padding: 20px;
+  width: auto;
+  background-color: white; /* Đảm bảo modal có nền trắng */
+  border-radius: 8px; /* Thêm góc bo tròn cho modal */
+}
+

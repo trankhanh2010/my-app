@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-
+import QRCode from 'react-qr-code';
 import useTestServiceReqList from "../../../hooks/data/testServiceReqListVView/useTestServiceReqList";
 import TestServiceReqListTable from "../../../components/data/testServiceReqListVView/TestServiceReqListTable";
 import InfoTransaction from "../../../components/data/testServiceReqListVView/InfoTransaction";
@@ -8,7 +8,7 @@ import InfoPatient from "../../../components/data/testServiceReqListVView/InfoPa
 import SearchTestServiceReqTypeListTable from "../../../components/data/testServiceReqListVView/SearchTestServiceReqTypeListTable";
 import TestServiceReqTypeListTable from "../../../components/data/testServiceReqListVView/TestServiceReqTypeListTable";
 import Filter from "../../../components/data/testServiceReqListVView/Filter";
-
+import PaymentModal from "../../../components/common/Modal/PaymentModal";
 const TestServiceReqList = () => {
     const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
     const {
@@ -56,8 +56,12 @@ const TestServiceReqList = () => {
         scrollPosition,
         setScrollPosition,
         handleRawChange,
+        getPaymentMoMo,
+        paymentMoMo,
+        openModalPaymentMoMo,
+        setOpenModalPaymentMoMo,
     }
-        = useTestServiceReqList();
+    = useTestServiceReqList();
     const debounceTimeout = useRef(null);
     const handleScroll = (e) => {
         const scrollTop = e.target.scrollTop;
@@ -77,7 +81,6 @@ const TestServiceReqList = () => {
     }, [dataCursor]); // Chạy lại khi scrollPosition thay đổi
     // if (loading) return  <div className="spinner"></div> // Hiển thị spinner khi đang tải;
     if (error) return <p>{error}</p>;
-
     return (
         <div className={`flex flex-wrap gap-1 w-full p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
             <div className="w-full md:w-5/12 md:mr-1 md:border-r md:pr-2">
@@ -132,6 +135,16 @@ const TestServiceReqList = () => {
                         selectedRecord={selectedRecord}
                         loadingFetchTestServiceTypeList={loadingFetchTestServiceTypeList}
                         errorFetchTestServiceTypeList={errorFetchTestServiceTypeList}
+                    />
+                    {selectedRecord && selectedRecord.treatmentCode && (
+                        <button onClick={() => getPaymentMoMo(selectedRecord.treatmentCode)}>
+                           Thanh toán MoMo
+                        </button>
+                    )}
+                    <PaymentModal
+                        openModalPaymentMoMo={openModalPaymentMoMo}
+                        setOpenModalPaymentMoMo={setOpenModalPaymentMoMo}
+                        payment={paymentMoMo}
                     />
                 </div>
             </div>

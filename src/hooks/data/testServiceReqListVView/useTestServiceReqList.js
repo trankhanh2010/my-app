@@ -3,11 +3,19 @@ import config from "../../../config";
 import useMasterList from '../../master/useMasterList';
 import testServiceReqListService from "../../../services/data/testServiceReqListService";
 import testServiceTypeListService from "../../../services/data/testServiceTypeListService";
+import serviceReqpaymentService from "../../../services/transaction/serviceReqPaymentService";
 
 const useTestServiceReqList = () => {
     const isDB = config.apiService.testServiceReqListVView.typeGetApi === 'db';
     const testServiceTypeListVViewIsDB = config.apiService.testServiceTypeListVView.typeGetApi === 'db';
-
+    const [openModalPaymentMoMo, setOpenModalPaymentMoMo] = useState(false)
+    const [paymentMoMo, setPaymentMoMo] = useState({
+        payUrl : null,
+        qcCodeUrl : null,
+        orderId: null,
+        amount: null,
+        orderInfo: null
+    });
     const [testServiceTypeList, setTestServiceTypeList] = useState([]);
     const [patientId, setPatientId] = useState(0);
     const [applyFilterCursor, setApplyFilterCursor] = useState(false);
@@ -134,7 +142,23 @@ const useTestServiceReqList = () => {
             tdlServiceName: "Tên DV"    
         },
     };
+    const getPaymentMoMo = async (treatmentCode) => {
+        try {
+            const response = await serviceReqpaymentService.getPayment(treatmentCode);
+            const newPaymentMoMo = {}
+            newPaymentMoMo.payUrl = response.data.payUrl
+            newPaymentMoMo.qrCodeUrl = response.data.qrCodeUrl
+            newPaymentMoMo.orderId = response.data.orderId
+            newPaymentMoMo.amount = response.data.amount
+            newPaymentMoMo.orderInfo = response.data.orderInfo
+            setPaymentMoMo(newPaymentMoMo)
+            setOpenModalPaymentMoMo(true)
+        } catch (err) {
+            console.error("Lỗi khi lấy Link thanh toán:", err);
+        } finally{
 
+        }
+    };
     const fetchTestServiceTypeList = async () => {
         try {
             setLoadingFetchTestServiceTypeList(true)
@@ -307,6 +331,10 @@ const useTestServiceReqList = () => {
         scrollPosition, 
         setScrollPosition,
         handleRawChange,
+        getPaymentMoMo,
+        paymentMoMo,
+        openModalPaymentMoMo,
+        setOpenModalPaymentMoMo
     };
 };
 
