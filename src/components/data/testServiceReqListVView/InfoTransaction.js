@@ -42,7 +42,7 @@ const InfoTransaction = ({
             <GroupFieldSpanWithText 
                 css='mt-1'
                 fields={[
-                    {fieldName:'BN cần nộp thêm', fieldValue:(totalPatientPrice - selectedRecord.totalTreatmentBillAmount).toLocaleString(), divCss:`md:w-[100%]`, spanCss:`text-red-600`, pCss:`text-red-600 font-semibold`},
+                    {fieldName:'BN cần nộp thêm', fieldValue:(selectedRecord.feeAdd).toLocaleString(), divCss:`md:w-[100%]`, spanCss:`text-red-600`, pCss:`text-red-600 font-semibold`},
                 ]}
             />
             <GroupFieldSpanWithText 
