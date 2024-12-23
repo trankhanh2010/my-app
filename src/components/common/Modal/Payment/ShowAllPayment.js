@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import Loading from "../../Info/Loading";
 import MoMoThanhToanQRCodeModal from "./MoMoThanhToanQRCodeModal";
 import MoMoThanhToanTheQuocTeModal from "./MoMoThanhToanTheQuocTeModal";
+import MoMoThanhToanTheATMNoiDiaModal from "./MoMoThanhToanTheATMNoiDiaModal";
 
 const PaymentModal = ({
+  creatingPayment,
   selectedRecord,
   opentShowAllPayment,
   setOpentShowAllPayment,
@@ -10,8 +13,11 @@ const PaymentModal = ({
   setOpenModalPaymentMoMoQRCode,
   openModalPaymentMoMoTheQuocTe,
   setOpenModalPaymentMoMoTheQuocTe,
+  openModalPaymentMoMoTheATMNoiDia,
+  setOpenModalPaymentMoMoTheATMNoiDia,
   getPaymentMoMoQRCode,
   getPaymentMoMoTheQuocTe,
+  getPaymentMoMoTheATMNoiDia,
   paymentMoMo,
 }) => {
   const [showMoMoOptions, setShowMoMoOptions] = useState(false);
@@ -20,7 +26,12 @@ const PaymentModal = ({
   const handleCloseModal = () => {
     setOpentShowAllPayment(false);
   };
-
+  // Nếu đang đợi api lấy link thanh toán thì khóa thao tác
+  if (creatingPayment) return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500/75">
+      <Loading />
+    </div>
+  );
   if (!opentShowAllPayment) return null; // Không hiển thị nếu modal không mở
 
   return (
@@ -44,12 +55,12 @@ const PaymentModal = ({
         {/* Phương thức thanh toán MoMo */}
         {showMoMoOptions && (
           <div className="bg-gray-100 p-3 rounded-lg mb-3">
-            <p className="text-sm font-medium text-gray-700 mb-2">Phương thức:</p>
+            <p className="text-sm font-bold text-gray-700 mb-2">Chọn phương thức thanh toán:</p>
             <ul className="space-y-2">
               <li>
                 <button
                   onClick={() => getPaymentMoMoQRCode(selectedRecord.treatmentCode)}
-                  className="w-full rounded-md bg-pink-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
+                  className="w-full rounded-md bg-pink-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
                 >
                   Thanh toán qua mã QR MoMo
                 </button>
@@ -57,16 +68,17 @@ const PaymentModal = ({
               <li>
                 <button
                   onClick={() => getPaymentMoMoTheQuocTe(selectedRecord.treatmentCode)}
-                  className="w-full rounded-md bg-pink-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
+                  className="w-full rounded-md bg-pink-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
                 >
                   Thanh toán qua thẻ quốc tế
                 </button>
               </li>
               <li>
                 <button
-                  className="w-full rounded-md bg-pink-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
+                  onClick={() => getPaymentMoMoTheATMNoiDia(selectedRecord.treatmentCode)}
+                  className="w-full rounded-md bg-pink-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
                 >
-                  Thanh toán qua thẻ ngân hàng đối tác của MoMo
+                  Thanh toán qua thẻ ATM nội địa
                 </button>
               </li>
             </ul>
@@ -87,12 +99,12 @@ const PaymentModal = ({
         {/* Phương thức thanh toán VNPay */}
         {showVNPayOptions && (
           <div className="bg-gray-100 p-3 rounded-lg">
-            <p className="text-sm font-medium text-gray-700 mb-2">Phương thức:</p>
+            <p className="text-sm text-gray-700 mb-2 font-bold">Chọn phương thức thanh toán:</p>
             <ul className="space-y-2">
               <li>
                 <button
                   onClick={() => alert("Thanh toán qua QR VNPay")}
-                  className="w-full rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
+                  className="w-full rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
                 >
                   Thanh toán qua mã QR VNPay
                 </button>
@@ -100,9 +112,9 @@ const PaymentModal = ({
               <li>
                 <button
                   onClick={() => alert("Thanh toán qua thẻ ngân hàng")}
-                  className="w-full rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
+                  className="w-full rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
                 >
-                  Thanh toán qua thẻ ngân hàng đối tác VNPay
+                  Thanh toán qua thẻ ATM nội địa
                 </button>
               </li>
             </ul>
@@ -138,6 +150,11 @@ const PaymentModal = ({
       <MoMoThanhToanTheQuocTeModal
         openModalPaymentMoMoTheQuocTe={openModalPaymentMoMoTheQuocTe}
         setOpenModalPaymentMoMoTheQuocTe={setOpenModalPaymentMoMoTheQuocTe}
+        payment={paymentMoMo}
+      />
+      <MoMoThanhToanTheATMNoiDiaModal
+        openModalPaymentMoMoTheATMNoiDia={openModalPaymentMoMoTheATMNoiDia}
+        setOpenModalPaymentMoMoTheATMNoiDia={setOpenModalPaymentMoMoTheATMNoiDia}
         payment={paymentMoMo}
       />
     </div>

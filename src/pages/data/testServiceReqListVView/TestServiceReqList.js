@@ -55,14 +55,18 @@ const TestServiceReqList = () => {
         setFilterTrigger,
         scrollPosition,
         setScrollPosition,
+        creatingPayment,
         handleRawChange,
         getPaymentMoMoQRCode,
         getPaymentMoMoTheQuocTe,
+        getPaymentMoMoTheATMNoiDia,
         paymentMoMo,
         openModalPaymentMoMoQRCode,
         setOpenModalPaymentMoMoQRCode,
         openModalPaymentMoMoTheQuocTe,
         setOpenModalPaymentMoMoTheQuocTe,
+        openModalPaymentMoMoTheATMNoiDia,
+        setOpenModalPaymentMoMoTheATMNoiDia,
         opentShowAllPayment,
         setOpentShowAllPayment,
     }
@@ -195,6 +199,7 @@ const TestServiceReqList = () => {
                 </Card>
             </div>
             <ShowAllPayment
+                creatingPayment={creatingPayment}
                 selectedRecord={selectedRecord}
                 opentShowAllPayment={opentShowAllPayment}
                 setOpentShowAllPayment={setOpentShowAllPayment}
@@ -202,8 +207,11 @@ const TestServiceReqList = () => {
                 setOpenModalPaymentMoMoQRCode={setOpenModalPaymentMoMoQRCode}
                 openModalPaymentMoMoTheQuocTe={openModalPaymentMoMoTheQuocTe}
                 setOpenModalPaymentMoMoTheQuocTe={setOpenModalPaymentMoMoTheQuocTe}
+                openModalPaymentMoMoTheATMNoiDia={openModalPaymentMoMoTheATMNoiDia}
+                setOpenModalPaymentMoMoTheATMNoiDia={setOpenModalPaymentMoMoTheATMNoiDia}
                 getPaymentMoMoQRCode={getPaymentMoMoQRCode}
                 getPaymentMoMoTheQuocTe={getPaymentMoMoTheQuocTe}
+                getPaymentMoMoTheATMNoiDia={getPaymentMoMoTheATMNoiDia}
                 paymentMoMo={paymentMoMo}
             />
         </div>
