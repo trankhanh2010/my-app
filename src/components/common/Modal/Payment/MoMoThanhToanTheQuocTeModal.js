@@ -1,13 +1,12 @@
 import React from 'react';
-import QRCode from 'react-qr-code';
-import GroupFieldSpanWithText from "../../common/Data/InfoRecord/GroupFieldSpanWithText";
+import GroupFieldSpanWithText from "../../Data/InfoRecord/GroupFieldSpanWithText";
 
-const PaymentModal = ({ openModalPaymentMoMo, setOpenModalPaymentMoMo, payment }) => {
+const PaymentModal = ({ openModalPaymentMoMoTheQuocTe, setOpenModalPaymentMoMoTheQuocTe, payment }) => {
   const handleCloseModal = () => {
-    setOpenModalPaymentMoMo(false);
+    setOpenModalPaymentMoMoTheQuocTe(false);
   };
 
-  if (!openModalPaymentMoMo) return null; // Không hiển thị nếu modal không mở
+  if (!openModalPaymentMoMoTheQuocTe) return null; // Không hiển thị nếu modal không mở
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500/75">
@@ -26,13 +25,10 @@ const PaymentModal = ({ openModalPaymentMoMo, setOpenModalPaymentMoMo, payment }
                 ]}
                 css={'mt-1'}
             />
-          <p className="mt-1 text-center">Quét mã QR để thanh toán:</p>
-          <div className="flex justify-center">
-            <QRCode value={payment.qrCodeUrl} />
-          </div>
         </div>
         <div className="mb-4 item-center text-center">
-          <a href={payment.payUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600">
+          <a href={payment.payUrl} target="_blank" rel="noopener noreferrer" 
+            className="py-2 px-4 rounded bg-green-600 hover:bg-green-500 mt-1 mb-1 text-white">
           Nhấp vào đây để thanh toán
           </a>
         </div>

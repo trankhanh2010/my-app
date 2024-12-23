@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import QRCode from 'react-qr-code';
 import useTestServiceReqList from "../../../hooks/data/testServiceReqListVView/useTestServiceReqList";
 import TestServiceReqListTable from "../../../components/data/testServiceReqListVView/TestServiceReqListTable";
 import InfoTransaction from "../../../components/data/testServiceReqListVView/InfoTransaction";
@@ -8,7 +7,7 @@ import InfoPatient from "../../../components/data/testServiceReqListVView/InfoPa
 import SearchTestServiceReqTypeListTable from "../../../components/data/testServiceReqListVView/SearchTestServiceReqTypeListTable";
 import TestServiceReqTypeListTable from "../../../components/data/testServiceReqListVView/TestServiceReqTypeListTable";
 import Filter from "../../../components/data/testServiceReqListVView/Filter";
-import PaymentModal from "../../../components/common/Modal/PaymentModal";
+import ShowAllPayment from "../../../components/common/Modal/Payment/ShowAllPayment";
 import Card from "../../../components/common/Master/Card";
 const TestServiceReqList = () => {
     const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
@@ -57,10 +56,15 @@ const TestServiceReqList = () => {
         scrollPosition,
         setScrollPosition,
         handleRawChange,
-        getPaymentMoMo,
+        getPaymentMoMoQRCode,
+        getPaymentMoMoTheQuocTe,
         paymentMoMo,
-        openModalPaymentMoMo,
-        setOpenModalPaymentMoMo,
+        openModalPaymentMoMoQRCode,
+        setOpenModalPaymentMoMoQRCode,
+        openModalPaymentMoMoTheQuocTe,
+        setOpenModalPaymentMoMoTheQuocTe,
+        opentShowAllPayment,
+        setOpentShowAllPayment,
     }
         = useTestServiceReqList();
     const debounceTimeout = useRef(null);
@@ -143,16 +147,13 @@ const TestServiceReqList = () => {
                             loadingFetchTestServiceTypeList={loadingFetchTestServiceTypeList}
                             errorFetchTestServiceTypeList={errorFetchTestServiceTypeList}
                         />
-                        {selectedRecord && selectedRecord.treatmentCode && (
-                            <button onClick={() => getPaymentMoMo(selectedRecord.treatmentCode)}>
-                                Thanh toán MoMo
+                        {selectedRecord && selectedRecord.treatmentCode && Number(selectedRecord.feeAdd) > 0 && (
+                            <button
+                                className="py-2 px-4 rounded bg-blue-600 hover:bg-blue-500 mt-1 mb-1 text-white"
+                                onClick={() => setOpentShowAllPayment(true)}>
+                                Thanh toán
                             </button>
                         )}
-                        <PaymentModal
-                            openModalPaymentMoMo={openModalPaymentMoMo}
-                            setOpenModalPaymentMoMo={setOpenModalPaymentMoMo}
-                            payment={paymentMoMo}
-                        />
                     </div>
                 </Card>
 
@@ -193,6 +194,18 @@ const TestServiceReqList = () => {
                     </div>
                 </Card>
             </div>
+            <ShowAllPayment
+                selectedRecord={selectedRecord}
+                opentShowAllPayment={opentShowAllPayment}
+                setOpentShowAllPayment={setOpentShowAllPayment}
+                openModalPaymentMoMoQRCode={openModalPaymentMoMoQRCode}
+                setOpenModalPaymentMoMoQRCode={setOpenModalPaymentMoMoQRCode}
+                openModalPaymentMoMoTheQuocTe={openModalPaymentMoMoTheQuocTe}
+                setOpenModalPaymentMoMoTheQuocTe={setOpenModalPaymentMoMoTheQuocTe}
+                getPaymentMoMoQRCode={getPaymentMoMoQRCode}
+                getPaymentMoMoTheQuocTe={getPaymentMoMoTheQuocTe}
+                paymentMoMo={paymentMoMo}
+            />
         </div>
     );
 };

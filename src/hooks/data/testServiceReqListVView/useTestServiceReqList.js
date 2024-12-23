@@ -8,7 +8,9 @@ import serviceReqpaymentService from "../../../services/transaction/serviceReqPa
 const useTestServiceReqList = () => {
     const isDB = config.apiService.testServiceReqListVView.typeGetApi === 'db';
     const testServiceTypeListVViewIsDB = config.apiService.testServiceTypeListVView.typeGetApi === 'db';
-    const [openModalPaymentMoMo, setOpenModalPaymentMoMo] = useState(false)
+    const [opentShowAllPayment, setOpentShowAllPayment] = useState(false)
+    const [openModalPaymentMoMoQRCode, setOpenModalPaymentMoMoQRCode] = useState(false)
+    const [openModalPaymentMoMoTheQuocTe, setOpenModalPaymentMoMoTheQuocTe] = useState(false)
     const [paymentMoMo, setPaymentMoMo] = useState({
         payUrl : null,
         qcCodeUrl : null,
@@ -142,9 +144,10 @@ const useTestServiceReqList = () => {
             tdlServiceName: "Tên DV"    
         },
     };
-    const getPaymentMoMo = async (treatmentCode) => {
+    // Thanh toán MoMo
+    const getPaymentMoMoQRCode = async (treatmentCode) => {
         try {
-            const response = await serviceReqpaymentService.getPayment(treatmentCode);
+            const response = await serviceReqpaymentService.getPaymentMoMoQRCode(treatmentCode);
             const newPaymentMoMo = {}
             newPaymentMoMo.payUrl = response.data.payUrl
             newPaymentMoMo.qrCodeUrl = response.data.qrCodeUrl
@@ -152,7 +155,24 @@ const useTestServiceReqList = () => {
             newPaymentMoMo.amount = response.data.amount
             newPaymentMoMo.orderInfo = response.data.orderInfo
             setPaymentMoMo(newPaymentMoMo)
-            setOpenModalPaymentMoMo(true)
+            setOpenModalPaymentMoMoQRCode(true)
+        } catch (err) {
+            console.error("Lỗi khi lấy Link thanh toán:", err);
+        } finally{
+
+        }
+    };
+    const getPaymentMoMoTheQuocTe = async (treatmentCode) => {
+        try {
+            const response = await serviceReqpaymentService.getPaymentMoMoTheQuocTe(treatmentCode);
+            const newPaymentMoMo = {}
+            newPaymentMoMo.payUrl = response.data.payUrl
+            newPaymentMoMo.qrCodeUrl = response.data.qrCodeUrl
+            newPaymentMoMo.orderId = response.data.orderId
+            newPaymentMoMo.amount = response.data.amount
+            newPaymentMoMo.orderInfo = response.data.orderInfo
+            setPaymentMoMo(newPaymentMoMo)
+            setOpenModalPaymentMoMoTheQuocTe(true)
         } catch (err) {
             console.error("Lỗi khi lấy Link thanh toán:", err);
         } finally{
@@ -331,10 +351,15 @@ const useTestServiceReqList = () => {
         scrollPosition, 
         setScrollPosition,
         handleRawChange,
-        getPaymentMoMo,
+        getPaymentMoMoQRCode,
+        getPaymentMoMoTheQuocTe,
         paymentMoMo,
-        openModalPaymentMoMo,
-        setOpenModalPaymentMoMo
+        openModalPaymentMoMoQRCode,
+        setOpenModalPaymentMoMoQRCode,
+        openModalPaymentMoMoTheQuocTe,
+        setOpenModalPaymentMoMoTheQuocTe,
+        opentShowAllPayment, 
+        setOpentShowAllPayment,
     };
 };
 

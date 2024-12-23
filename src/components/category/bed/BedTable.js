@@ -1,7 +1,7 @@
 import React from "react";
 import { FaLock, FaUnlock, FaCheck, FaTrash } from "react-icons/fa";
-import ModalConfirmDelete from "../../common/Modal/ModalConfirmDelete";
-import ModalConfirmUpdate from "../../common/Modal/ModalConfirmUpdate";
+import ModalConfirmDelete from "../../common/Modal/Normal/ModalConfirmDelete";
+import ModalConfirmUpdate from "../../common/Modal/Normal/ModalConfirmUpdate";
 import Loading from "../../common/Info/Loading";
 import ErrorInfo from "../../common/Info/ErrorInfo";
 import Thead from "../../common/Data/TableList/Thead";
