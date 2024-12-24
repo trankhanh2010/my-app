@@ -2,7 +2,7 @@ import api, { encodeParams } from '../api/api';
 import config from "../../config";
 
 // Dịch vụ để gọi API lấy danh sách 
-const getAllSelect = async (patientId) => {
+const getAllSelect = async (treatmentId) => {
   let param;
   const isDB = config.apiService.testServiceTypeListVView.typeGetApi === 'db';
 
@@ -14,7 +14,7 @@ const getAllSelect = async (patientId) => {
         Elastic: false,
       },
       ApiData: {
-        PatientId: patientId
+        TreatmentId: treatmentId
       },
     };
   }

@@ -186,7 +186,7 @@ const TestServiceReqTypeListTable = ({
                                                     {fieldValue:record.tdlServiceCode, css:`pl-8 truncate ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""} sticky left-0 bg-white`},
                                                     {fieldValue:Number(record.amount).toLocaleString(), css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
                                                     {fieldValue:Number(record.price).toLocaleString(), css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
-                                                    {fieldValue:Number(record.price).toLocaleString(), css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
+                                                    {fieldValue:Number(record.virTotalPrice).toLocaleString(), css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
                                                     {fieldValue:Number(record.virTotalHeinPrice).toLocaleString(), css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
                                                     {fieldValue:Number(record.virTotalPatientPrice).toLocaleString(), css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
                                                     {fieldValue:record.vatRatio, css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},

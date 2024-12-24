@@ -8,6 +8,7 @@ import SearchTestServiceReqTypeListTable from "../../../components/data/testServ
 import TestServiceReqTypeListTable from "../../../components/data/testServiceReqListVView/TestServiceReqTypeListTable";
 import Filter from "../../../components/data/testServiceReqListVView/Filter";
 import ShowAllPayment from "../../../components/common/Modal/Payment/ShowAllPayment";
+import ResultPaymentModal from "../../../components/common/Modal/Payment/ResultPaymentModal";
 import Card from "../../../components/common/Master/Card";
 const TestServiceReqList = () => {
     const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
@@ -27,8 +28,8 @@ const TestServiceReqList = () => {
         setLastId,
         recordDetails,
         testServiceTypeList,
-        patientId,
-        setPatientId,
+        treatmentId,
+        setTreatmentId,
         fromTime, setFromTime,
         toTime, setToTime,
         tdlPatientId, setTdlPatientId,
@@ -60,7 +61,7 @@ const TestServiceReqList = () => {
         getPaymentMoMoQRCode,
         getPaymentMoMoTheQuocTe,
         getPaymentMoMoTheATMNoiDia,
-        paymentMoMo,
+        payment,
         openModalPaymentMoMoQRCode,
         setOpenModalPaymentMoMoQRCode,
         openModalPaymentMoMoTheQuocTe,
@@ -69,6 +70,9 @@ const TestServiceReqList = () => {
         setOpenModalPaymentMoMoTheATMNoiDia,
         opentShowAllPayment,
         setOpentShowAllPayment,
+        openModalResultPayment, 
+        setOpenModalResultPayment,
+        gettingResultPayment,
     }
         = useTestServiceReqList();
     const debounceTimeout = useRef(null);
@@ -135,7 +139,7 @@ const TestServiceReqList = () => {
                             selectedRecord={selectedRecord}
                             recordDetails={recordDetails}
                             setRecordDetails={setRecordDetails}
-                            setPatientId={setPatientId}
+                            setTreatmentId={setTreatmentId}
                             loading={loading}
                         />
                     </div>
@@ -212,8 +216,14 @@ const TestServiceReqList = () => {
                 getPaymentMoMoQRCode={getPaymentMoMoQRCode}
                 getPaymentMoMoTheQuocTe={getPaymentMoMoTheQuocTe}
                 getPaymentMoMoTheATMNoiDia={getPaymentMoMoTheATMNoiDia}
-                paymentMoMo={paymentMoMo}
+                payment={payment}
             />
+            <ResultPaymentModal
+                openModalResultPayment={openModalResultPayment}
+                setOpenModalResultPayment={setOpenModalResultPayment}
+                payment={payment}
+                gettingResultPayment={gettingResultPayment}
+             />
         </div>
     );
 };

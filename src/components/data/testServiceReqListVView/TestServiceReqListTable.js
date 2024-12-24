@@ -10,7 +10,7 @@ const TestServiceReqListTable = ({
     convertToDate,
     handleRecordSelect,
     selectedRecord,
-    setPatientId,
+    setTreatmentId,
     loading,
 }) => {
     if (loading) return <Loading/>
@@ -50,7 +50,7 @@ const TestServiceReqListTable = ({
                             className={`hover:bg-gray-50 cursor-pointer ${selectedRecord?.id === record.id ? "bg-blue-100" : ""}`}
                             onClick={() => {
                                 handleRecordSelect(record);
-                                setPatientId(record.tdlPatientId);
+                                setTreatmentId(record.treatmentId);
                                 }
                             }
                         >

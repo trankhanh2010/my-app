@@ -4,24 +4,28 @@ import useMasterList from '../../master/useMasterList';
 import testServiceReqListService from "../../../services/data/testServiceReqListService";
 import testServiceTypeListService from "../../../services/data/testServiceTypeListService";
 import serviceReqpaymentService from "../../../services/transaction/serviceReqPaymentService";
-
+import pusher from '../../../websocket/pusher';
 const useTestServiceReqList = () => {
     const isDB = config.apiService.testServiceReqListVView.typeGetApi === 'db';
     const testServiceTypeListVViewIsDB = config.apiService.testServiceTypeListVView.typeGetApi === 'db';
     const [opentShowAllPayment, setOpentShowAllPayment] = useState(false)
+    const [openModalResultPayment, setOpenModalResultPayment] = useState(false)
     const [creatingPayment, setCreatingPayment] = useState(false)
+    const [gettingResultPayment, setGettingResultPayment] = useState(false)
     const [openModalPaymentMoMoQRCode, setOpenModalPaymentMoMoQRCode] = useState(false)
     const [openModalPaymentMoMoTheQuocTe, setOpenModalPaymentMoMoTheQuocTe] = useState(false)
     const [openModalPaymentMoMoTheATMNoiDia, setOpenModalPaymentMoMoTheATMNoiDia] = useState(false)
-    const [paymentMoMo, setPaymentMoMo] = useState({
+    const [payment, setPayment] = useState({
         payUrl : null,
         qcCodeUrl : null,
         orderId: null,
         amount: null,
-        orderInfo: null
+        orderInfo: null,
+        resultCode: null,
+        message: null,
     });
     const [testServiceTypeList, setTestServiceTypeList] = useState([]);
-    const [patientId, setPatientId] = useState(0);
+    const [treatmentId, setTreatmentId] = useState();
     const [applyFilterCursor, setApplyFilterCursor] = useState(false);
     const [filterCursor, setFilterCursor] = useState({
         fromTime: null,
@@ -157,7 +161,7 @@ const useTestServiceReqList = () => {
             newPaymentMoMo.orderId = response.data.orderId
             newPaymentMoMo.amount = response.data.amount
             newPaymentMoMo.orderInfo = response.data.orderInfo
-            setPaymentMoMo(newPaymentMoMo)
+            setPayment(newPaymentMoMo)
             setOpenModalPaymentMoMoQRCode(true)
         } catch (err) {
             console.error("Lỗi khi lấy Link thanh toán:", err);
@@ -174,7 +178,7 @@ const useTestServiceReqList = () => {
             newPaymentMoMo.orderId = response.data.orderId
             newPaymentMoMo.amount = response.data.amount
             newPaymentMoMo.orderInfo = response.data.orderInfo
-            setPaymentMoMo(newPaymentMoMo)
+            setPayment(newPaymentMoMo)
             setOpenModalPaymentMoMoTheQuocTe(true)
         } catch (err) {
             console.error("Lỗi khi lấy Link thanh toán:", err);
@@ -192,7 +196,7 @@ const useTestServiceReqList = () => {
             newPaymentMoMo.orderId = response.data.orderId
             newPaymentMoMo.amount = response.data.amount
             newPaymentMoMo.orderInfo = response.data.orderInfo
-            setPaymentMoMo(newPaymentMoMo)
+            setPayment(newPaymentMoMo)
             setOpenModalPaymentMoMoTheATMNoiDia(true)
         } catch (err) {
             console.error("Lỗi khi lấy Link thanh toán:", err);
@@ -202,13 +206,15 @@ const useTestServiceReqList = () => {
     };
     const fetchTestServiceTypeList = async () => {
         try {
-            setLoadingFetchTestServiceTypeList(true)
-            const testServiceTypeList = await testServiceTypeListService.getAllSelect(patientId || 0);
-            if (testServiceTypeListVViewIsDB) {
-                setTestServiceTypeList(testServiceTypeList.data);
+            if(treatmentId){
+                setLoadingFetchTestServiceTypeList(true)
+                const testServiceTypeList = await testServiceTypeListService.getAllSelect(treatmentId);
+                if (testServiceTypeListVViewIsDB) {
+                    setTestServiceTypeList(testServiceTypeList.data);
+                }
+                setLoadingFetchTestServiceTypeList(false)
+                setErrorFetchTestServiceTypeList(false)
             }
-            setLoadingFetchTestServiceTypeList(false)
-            setErrorFetchTestServiceTypeList(false)
         } catch (err) {
             setErrorFetchTestServiceTypeList(true)
             console.error("Lỗi khi tải testServiceTypeList:", err);
@@ -320,8 +326,29 @@ const useTestServiceReqList = () => {
             } 
         }; 
             fetchData(); 
-        }, [patientId]); // Gọi lại khi có thay đổi
-
+        }, [treatmentId]); // Gọi lại khi có thay đổi
+    useEffect(() => {
+        if(payment.orderId){
+            const channel = pusher.subscribe('momo-status-payment-channel');
+            channel.bind('momo-status-payment-event', function(data) {
+                // Nếu khớp orderId
+                if (data.data.orderId == payment.orderId) {
+                    setGettingResultPayment(true)
+                    setOpenModalResultPayment(true);
+                    setPayment((prevState) => ({
+                        ...prevState, // Giữ lại các giá trị hiện có
+                        resultCode: data.data.resultCode, // Ghi đè giá trị mới
+                        message: data.data.message, // Ghi đè giá trị mới
+                    }));
+                    setOpentShowAllPayment(false)
+                    setOpenModalPaymentMoMoTheATMNoiDia(false)
+                    setOpenModalPaymentMoMoTheQuocTe(false)
+                    setOpenModalPaymentMoMoQRCode(false)
+                    setGettingResultPayment(false)
+                  }
+              });
+        }
+    }, [payment.orderId]);
     return {
         fieldLabels,
         format,
@@ -339,8 +366,8 @@ const useTestServiceReqList = () => {
         setLastId,
         alerts,
         testServiceTypeList,
-        patientId,
-        setPatientId,
+        treatmentId,
+        setTreatmentId,
         searchTerm,
         setSearchTerm,
         expandedGroups,
@@ -376,7 +403,7 @@ const useTestServiceReqList = () => {
         getPaymentMoMoQRCode,
         getPaymentMoMoTheQuocTe,
         getPaymentMoMoTheATMNoiDia,
-        paymentMoMo,
+        payment,
         openModalPaymentMoMoQRCode,
         setOpenModalPaymentMoMoQRCode,
         openModalPaymentMoMoTheQuocTe,
@@ -385,6 +412,9 @@ const useTestServiceReqList = () => {
         setOpenModalPaymentMoMoTheATMNoiDia,
         opentShowAllPayment, 
         setOpentShowAllPayment,
+        openModalResultPayment, 
+        setOpenModalResultPayment,
+        gettingResultPayment,
     };
 };
 
