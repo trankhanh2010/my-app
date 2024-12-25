@@ -187,8 +187,8 @@ const TestServiceReqList = () => {
                             setSearchTerm={setSearchTerm}
                         />
                     </div>
-                    <div className="flex flex-col md:flex-row md:space-x-2 border border-gray-300">
-                        <div className="w-full flex flex-col md:border-r whitespace-pre-line break-words relative overflow-x-auto overflow-y-auto max-h-[65vh] min-h-[65vh]">
+                    <div className="flex flex-col md:flex-row md:space-x-2 border">
+                        <div className="w-full flex flex-col whitespace-pre-line break-words relative overflow-x-auto overflow-y-auto max-h-[70vh] min-h-[70vh]">
                             <TestServiceReqTypeListTable
                                 fieldLabels={fieldLabels}
                                 recordDetail={recordDetails}

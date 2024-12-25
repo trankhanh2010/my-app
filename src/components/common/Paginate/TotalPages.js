@@ -14,7 +14,7 @@ const TotalPages = ({
         min="1"
         max={totalPages || 1} // Giới hạn số trang không quá tổng số trang
         onChange={(e) => setPage(parseInt(e.target.value))}
-        className="p-2 border border-gray-300 rounded w-[6rem]"
+        className="p-2 border rounded w-[6rem]"
       />
       <span className="ml-2 w-[6rem]">/{totalPages || 0}</span> {/* Hiển thị tổng số trang hoặc 0 nếu không có bản ghi */}
     </div>

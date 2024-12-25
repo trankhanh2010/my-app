@@ -3,7 +3,7 @@ import FieldSpanWithText from "../InfoRecord/FieldSpanWithText";
 
 const component = ({ fields, css }) => {
     return (
-        <div className={`flex flex-col md:flex-row md:space-x-2 border border-gray-300 p-2 shadow-md ${css}`}>
+        <div className={`flex flex-col md:flex-row md:space-x-2 border p-2 shadow-md ${css}`}>
             {fields.map((field, index) => (
                 <FieldSpanWithText
                     key={index}

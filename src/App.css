@@ -4,8 +4,8 @@ body {
   font-size: 0.75rem; /* Kích thước tương ứng với text-sm trong Tailwind */
 }
 em {
-  background-color: yellow; /* Nền màu vàng */
-  padding: 0 3px; /* Khoảng cách giữa văn bản và nền */
+  background-color: rgba(255, 255, 0, 0.281); /* Nền màu vàng */
+  padding: 4px; /* Khoảng cách giữa văn bản và nền */
   border-radius: 3px; /* Góc bo tròn */
   font-style: normal; /* Không in nghiêng */
 }

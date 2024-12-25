@@ -8,6 +8,7 @@ import SpanError from "../../common/Data/UpdateRecord/SpanError";
 import SpanFieldName from "../../common/Data/InfoRecord/SpanFieldName";
 import ReactSelectCustomList from "../../common/Custom/ReactSelect/ReactSelectCustomList";
 import CheckBox from "../../common/Data/UpdateRecord/CheckBox";
+import CardElement from "../../common/Master/CardElement";
 
 const BedDetails = ({
     fieldLabels,
@@ -50,6 +51,7 @@ const BedDetails = ({
     return (
         <form onSubmit={handleFormSubmit}>
             {/*bedCode*/}
+            <CardElement>
             <div className={`flex flex-col border p-2`}>
                 <InputWithSpan
                     inputName={fieldLabels.bedCode}
@@ -64,9 +66,11 @@ const BedDetails = ({
                 {(errors.bedCode && errors.bedCode.length > 0) ? (<SpanError errors={errors.bedCode} />) : null}
                 {errorUniqueCode ? (<SpanError error={errorUniqueCode} />) : null}
             </div>
+            </CardElement>
 
             {/*bedName*/}
-            <div className="mt-1 flex flex-col border border-gray-300 p-2">
+            <CardElement>
+            <div className="mt-1 flex flex-col border p-2">
                 <InputWithSpan
                     inputName={fieldLabels.bedName}
                     inputValue={recordDetails.bedName}
@@ -76,9 +80,11 @@ const BedDetails = ({
                 />
                 {(errors.bedName && errors.bedName.length > 0) ? (<SpanError errors={errors.bedName} />) : null}
             </div>
+            </CardElement>
 
             {/*bedType*/}
-            <div className="mt-1 flex flex-col border border-gray-300 p-2">
+            <CardElement>
+            <div className="mt-1 flex flex-col border p-2">
                 <SpanFieldName fieldName={fieldLabels.bedTypeName}/>
                 <ReactSelectCustomList
                     recordDetails={recordDetails}
@@ -93,8 +99,11 @@ const BedDetails = ({
                 />
                 {(errors.bedTypeId && errors.bedTypeId.length > 0) ? (<SpanError errors={errors.bedTypeId} />) : null}
             </div>
+            </CardElement>
+
             {/*bedRoom*/}
-            <div className="mt-1 flex flex-col border border-gray-300 p-2">
+            <CardElement>
+            <div className="mt-1 flex flex-col border p-2">
                 <SpanFieldName fieldName={fieldLabels.bedRoomName}/>
                 <ReactSelectCustomList
                     recordDetails={recordDetails}
@@ -109,7 +118,10 @@ const BedDetails = ({
                 />
                 {(errors.bedRoomId && errors.bedRoomId.length > 0) ? (<SpanError errors={errors.bedRoomId} />) : null}
             </div>
-            <div className="mt-1 flex flex-col border border-gray-300 p-2">
+            </CardElement>
+
+            <CardElement>
+            <div className="mt-1 flex flex-col border p-2">
                 <div>
                     <div className="flex flex-row w-full items-end">
                         <div className="w-full md:w-[2/3]">
@@ -137,6 +149,8 @@ const BedDetails = ({
                     {(errors.maxCapacity && errors.maxCapacity.length > 0) ? (<SpanError errors={errors.maxCapacity} />) : null}
                 </div>
             </div>
+            </CardElement>
+
             <div className="flex justify-end mt-1">
                 <ButtonCreateOrUpdate
                     recordDetails={recordDetails}

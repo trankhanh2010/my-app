@@ -29,7 +29,7 @@ const Filter = ({
     return (
         <>
             <CardElement>
-                <div className="flex flex-col xl:flex-row xl:space-x-2 border border-gray-300 p-2">
+                <div className="flex flex-col xl:flex-row xl:space-x-2 border p-2">
                     <div className="w-full flex flex-col xl:w-[3/4]">
                         {/* Chọn số bản ghi trên mỗi trang */}
                         <RecordPerPage
@@ -56,7 +56,7 @@ const Filter = ({
             </CardElement>
 
             <CardElement>
-                <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border border-gray-300 p-2">
+                <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border p-2">
                     <div className="mt-1 w-full flex flex-row xl:w-[1/4] items-center">
                         <SpanFieldName
                             fieldName={'Từ'}
@@ -103,7 +103,7 @@ const Filter = ({
             </CardElement>
 
             <CardElement>
-                <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border border-gray-300 p-2">
+                <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border p-2">
                     <div className="mt-1 w-full flex flex-col xl:w-[1/2]">
                         <Search
                             keyword={patientCode}
