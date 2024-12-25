@@ -238,6 +238,14 @@ const useMasterCategoryList = (
         }
     };
 
+    const openAppMoMoPayment = (deeplink, fallbackURL) => {
+        window.location.href = deeplink;
+    
+        setTimeout(() => {
+            // Mở fallbackURL trong tab mới
+            window.open(fallbackURL, '_blank');
+        }, 2000); // Mở tab mới sau 2 giây nếu ứng dụng không mở
+    };
     useEffect(() => {
         setErrorUniqueCode(null); // Reset lỗi unique khi bản ghi thay đổi
     }, [recordDetails]);
@@ -310,6 +318,7 @@ const useMasterCategoryList = (
         setFilterTrigger,
         handleRawChange,
         formatInputToDate,
+        openAppMoMoPayment,
     };
 };
 

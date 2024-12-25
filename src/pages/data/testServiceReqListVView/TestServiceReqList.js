@@ -73,6 +73,7 @@ const TestServiceReqList = () => {
         openModalResultPayment, 
         setOpenModalResultPayment,
         gettingResultPayment,
+        handleOpenMoMoPayment,
     }
         = useTestServiceReqList();
     const debounceTimeout = useRef(null);
@@ -217,6 +218,7 @@ const TestServiceReqList = () => {
                 getPaymentMoMoTheQuocTe={getPaymentMoMoTheQuocTe}
                 getPaymentMoMoTheATMNoiDia={getPaymentMoMoTheATMNoiDia}
                 payment={payment}
+                handleOpenMoMoPayment={handleOpenMoMoPayment}
             />
             <ResultPaymentModal
                 openModalResultPayment={openModalResultPayment}

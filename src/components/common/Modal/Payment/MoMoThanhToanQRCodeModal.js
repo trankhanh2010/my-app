@@ -2,7 +2,12 @@ import React from 'react';
 import QRCode from 'react-qr-code';
 import GroupFieldSpanWithText from "../../Data/InfoRecord/GroupFieldSpanWithText";
 
-const PaymentModal = ({ openModalPaymentMoMoQRCode, setOpenModalPaymentMoMoQRCode, payment }) => {
+const PaymentModal = ({ 
+  openModalPaymentMoMoQRCode, 
+  setOpenModalPaymentMoMoQRCode, 
+  payment, 
+  handleOpenMoMoPayment
+}) => {
   const handleCloseModal = () => {
     setOpenModalPaymentMoMoQRCode(false);
   };
@@ -32,12 +37,20 @@ const PaymentModal = ({ openModalPaymentMoMoQRCode, setOpenModalPaymentMoMoQRCod
             <QRCode value={payment.qrCodeUrl} />
           </div>
         </div>
-        <div className="mb-4 item-center text-center">
+        <div className="mb-1 item-center text-center py-2 px-4 rounded bg-green-600 hover:bg-green-500 mt-1 text-white">
           <a href={payment.payUrl} target="_blank" rel="noopener noreferrer"  
-            className="py-2 px-4 rounded bg-green-600 hover:bg-green-500 mt-1 mb-1 text-white"
+            className=""
           >
-          Nhấp vào đây để thanh toán
+          Nhấp vào đây để mở link thanh toán
           </a>
+        </div>
+        <div className="mb-4 item-center text-center">
+          <button  
+            className="py-2 px-4 rounded bg-pink-600 hover:bg-pink-500 mt-1 mb-1 text-white w-full"
+            onClick={handleOpenMoMoPayment}
+          >
+          Thanh toán bằng MoMo
+          </button>
         </div>
         <button
           onClick={handleCloseModal}

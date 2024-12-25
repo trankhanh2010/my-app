@@ -67,7 +67,8 @@ const Filter = ({
                             onChange={(date) => setFromTime(date)}
                             dateFormat="dd/MM/yyyy"
                             className="p-2 border rounded"
-                            placeholderText="Từ ngày: dd/MM/yyyy"
+                            placeholderText="dd/MM/yyyy"
+                            wrapperClassName="datepicker-wrapper"
                             onChangeRaw={(e) => handleRawChange(e, setFromTime)}
                         />
                     </div>
@@ -81,7 +82,8 @@ const Filter = ({
                             onChange={(date) => setToTime(date)}
                             dateFormat="dd/MM/yyyy"
                             className="p-2 border rounded"
-                            placeholderText="Đến ngày: dd/MM/yyyy"
+                            placeholderText="dd/MM/yyyy"
+                            wrapperClassName="datepicker-wrapper"
                             onChangeRaw={(e) => handleRawChange(e, setToTime)}
                         />
                     </div>

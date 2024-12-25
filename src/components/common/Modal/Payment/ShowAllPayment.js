@@ -19,6 +19,7 @@ const PaymentModal = ({
   getPaymentMoMoTheQuocTe,
   getPaymentMoMoTheATMNoiDia,
   payment,
+  handleOpenMoMoPayment,
 }) => {
   const [showMoMoOptions, setShowMoMoOptions] = useState(false);
   const [showVNPayOptions, setShowVNPayOptions] = useState(false);
@@ -146,6 +147,7 @@ const PaymentModal = ({
         openModalPaymentMoMoQRCode={openModalPaymentMoMoQRCode}
         setOpenModalPaymentMoMoQRCode={setOpenModalPaymentMoMoQRCode}
         payment={payment}
+        handleOpenMoMoPayment={handleOpenMoMoPayment}
       />
       <MoMoThanhToanTheQuocTeModal
         openModalPaymentMoMoTheQuocTe={openModalPaymentMoMoTheQuocTe}

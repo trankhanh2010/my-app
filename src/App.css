@@ -91,3 +91,10 @@ em {
   border-radius: 8px; /* Thêm góc bo tròn cho modal */
 }
 
+.datepicker-wrapper {
+  width: 100%;
+}
+
+.datepicker-wrapper input {
+  width: 100%;
+}

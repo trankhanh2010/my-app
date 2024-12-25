@@ -16,6 +16,7 @@ const useTestServiceReqList = () => {
     const [openModalPaymentMoMoTheQuocTe, setOpenModalPaymentMoMoTheQuocTe] = useState(false)
     const [openModalPaymentMoMoTheATMNoiDia, setOpenModalPaymentMoMoTheATMNoiDia] = useState(false)
     const [payment, setPayment] = useState({
+        deeplink : null,
         payUrl : null,
         qcCodeUrl : null,
         orderId: null,
@@ -156,6 +157,7 @@ const useTestServiceReqList = () => {
             setCreatingPayment(true)
             const response = await serviceReqpaymentService.getPaymentMoMoQRCode(treatmentCode);
             const newPaymentMoMo = {}
+            newPaymentMoMo.deeplink = response.data.deeplink
             newPaymentMoMo.payUrl = response.data.payUrl
             newPaymentMoMo.qrCodeUrl = response.data.qrCodeUrl
             newPaymentMoMo.orderId = response.data.orderId
@@ -260,7 +262,7 @@ const useTestServiceReqList = () => {
         setFilterTrigger,
         handleRawChange,
         formatInputToDate,
-
+        openAppMoMoPayment,
     } = useMasterList(
         [],
         [],
@@ -275,7 +277,16 @@ const useTestServiceReqList = () => {
         null,
         filterCursor,
     );
-
+    // ghi đè lên master
+    const handleOpenMoMoPayment = () => {
+        if(payment){
+            const deeplink = payment.deeplink
+            const fallbackURL = 'https://play.google.com/store/apps/details?id=com.mservice.momotransfer';
+        
+            // Gọi hàm openAppMoMoPayment từ masterhook
+            openAppMoMoPayment(deeplink, fallbackURL);
+        }
+    };
     useEffect(() => {
         fetchDataCursor();
     }, [filterCursor]); // Gọi lại khi có thay đổi
@@ -415,6 +426,7 @@ const useTestServiceReqList = () => {
         openModalResultPayment, 
         setOpenModalResultPayment,
         gettingResultPayment,
+        handleOpenMoMoPayment,
     };
 };
 
