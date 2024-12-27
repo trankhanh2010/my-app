@@ -37,7 +37,7 @@ const PaymentModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500/75">
-      <div className="relative bg-white p-6 rounded-lg w-full md:w-[40%]">
+      <div className="relative bg-white p-6 rounded-lg w-full md:w-[30%]">
         <h2 className="text-xl font-semibold text-center mb-4 uppercase">
           Chọn hình thức thanh toán
         </h2>

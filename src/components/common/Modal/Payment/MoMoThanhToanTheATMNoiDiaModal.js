@@ -8,10 +8,11 @@ const PaymentModal = ({ openModalPaymentMoMoTheATMNoiDia, setOpenModalPaymentMoM
   };
 
   if (!openModalPaymentMoMoTheATMNoiDia) return null; // Không hiển thị nếu modal không mở
+  if (!payment.payUrl) return null; // Không hiển thị nếu không có phí cần thanh toán => k có payUrl
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500/75">
-      <div className="relative bg-white p-6 rounded-lg w-full md:w-[60%] h-full overflow-y-auto">
+      <div className="relative bg-white p-6 rounded-lg w-full md:w-[40%] h-full overflow-y-auto">
         <h2 className="text-xl font-semibold text-center mb-4 uppercase">Thanh toán MoMo</h2>
         <h3 className="font-bold text-center mb-4 uppercase">Phương thức thanh toán thẻ atm nội địa</h3>
         <SpinWattingUserPayment mess='Đang chờ thao tác của người dùng...'/>

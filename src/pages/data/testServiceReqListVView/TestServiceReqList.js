@@ -10,6 +10,8 @@ import Filter from "../../../components/data/testServiceReqListVView/Filter";
 import ShowAllPayment from "../../../components/common/Modal/Payment/ShowAllPayment";
 import ResultPaymentModal from "../../../components/common/Modal/Payment/ResultPaymentModal";
 import Card from "../../../components/common/Master/Card";
+import NoFeeModal from "../../../components/common/Modal/Payment/NoFeeModal";
+
 const TestServiceReqList = () => {
     const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
     const {
@@ -70,10 +72,12 @@ const TestServiceReqList = () => {
         setOpenModalPaymentMoMoTheATMNoiDia,
         opentShowAllPayment,
         setOpentShowAllPayment,
-        openModalResultPayment, 
+        openModalResultPayment,
         setOpenModalResultPayment,
         gettingResultPayment,
         handleOpenMoMoPayment,
+        openModalNoFee, 
+        setOpenModalNoFee, 
     }
         = useTestServiceReqList();
     const debounceTimeout = useRef(null);
@@ -100,7 +104,7 @@ const TestServiceReqList = () => {
             <div className="w-full md:w-5/12 md:mr-1 md:border-r md:pr-2">
                 {/* Phần điều khiển và lọc */}
                 <Card>
-                    <div className="min-h-[20vh]">
+                    <div className="h-[20vh] overflow-y-auto">
                         <Filter
                             dataCursor={dataCursor}
                             isProcessing={isProcessing}
@@ -156,13 +160,15 @@ const TestServiceReqList = () => {
                             loadingFetchTestServiceTypeList={loadingFetchTestServiceTypeList}
                             errorFetchTestServiceTypeList={errorFetchTestServiceTypeList}
                         />
-                        {selectedRecord && selectedRecord.treatmentCode && Number(selectedRecord.feeAdd) > 0 && (
-                            <button
-                                className="py-2 px-4 rounded bg-blue-600 hover:bg-blue-500 mt-1 mb-1 text-white"
-                                onClick={() => setOpentShowAllPayment(true)}>
-                                Thanh toán
-                            </button>
-                        )}
+                        {selectedRecord && selectedRecord.treatmentCode 
+                        && Number(selectedRecord.feeAdd) > 0 
+                        && (
+                                <button
+                                    className="py-2 px-4 rounded bg-blue-600 hover:bg-blue-500 mt-1 mb-1 text-white"
+                                    onClick={() => setOpentShowAllPayment(true)}>
+                                    Thanh toán
+                                </button>
+                            )}
                     </div>
                 </Card>
 
@@ -188,7 +194,7 @@ const TestServiceReqList = () => {
                         />
                     </div>
                     <div className="flex flex-col md:flex-row md:space-x-2 border">
-                        <div className="w-full flex flex-col whitespace-pre-line break-words relative overflow-x-auto overflow-y-auto max-h-[70vh] min-h-[70vh]">
+                        <div className="w-full flex flex-col whitespace-pre-line break-words relative overflow-x-auto overflow-y-auto max-h-[65vh] min-h-[65vh]">
                             <TestServiceReqTypeListTable
                                 fieldLabels={fieldLabels}
                                 recordDetail={recordDetails}
@@ -225,7 +231,11 @@ const TestServiceReqList = () => {
                 setOpenModalResultPayment={setOpenModalResultPayment}
                 payment={payment}
                 gettingResultPayment={gettingResultPayment}
-             />
+            />
+            <NoFeeModal
+              openModalNoFee={openModalNoFee}
+              setOpenModalNoFee={setOpenModalNoFee}
+            />
         </div>
     );
 };

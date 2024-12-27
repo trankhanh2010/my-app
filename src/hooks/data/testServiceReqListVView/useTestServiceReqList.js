@@ -12,13 +12,14 @@ const useTestServiceReqList = () => {
     const [openModalResultPayment, setOpenModalResultPayment] = useState(false)
     const [creatingPayment, setCreatingPayment] = useState(false)
     const [gettingResultPayment, setGettingResultPayment] = useState(false)
+    const [openModalNoFee, setOpenModalNoFee] = useState(false)
     const [openModalPaymentMoMoQRCode, setOpenModalPaymentMoMoQRCode] = useState(false)
     const [openModalPaymentMoMoTheQuocTe, setOpenModalPaymentMoMoTheQuocTe] = useState(false)
     const [openModalPaymentMoMoTheATMNoiDia, setOpenModalPaymentMoMoTheATMNoiDia] = useState(false)
     const [payment, setPayment] = useState({
-        deeplink : null,
-        payUrl : null,
-        qcCodeUrl : null,
+        deeplink: null,
+        payUrl: null,
+        qcCodeUrl: null,
         orderId: null,
         amount: null,
         orderInfo: null,
@@ -132,7 +133,7 @@ const useTestServiceReqList = () => {
         rightRouteCode: "Loại",
         treatmentEndTypeName: "Loại ra viện",
         testServiceTypeList: "Danh sách dịch vụ",
-        testServiceTypeList: 
+        testServiceTypeList:
         {
             isSpecimen: "isSpecimen",
             isNoExecute: "isNoExecute",
@@ -148,7 +149,7 @@ const useTestServiceReqList = () => {
             isExpend: "Hao phí",
             tdlServiceReqCode: "Mã YC",
             tdlServiceCode: "Mã DV",
-            tdlServiceName: "Tên DV"    
+            tdlServiceName: "Tên DV"
         },
     };
     // Thanh toán MoMo
@@ -156,18 +157,27 @@ const useTestServiceReqList = () => {
         try {
             setCreatingPayment(true)
             const response = await serviceReqpaymentService.getPaymentMoMoQRCode(treatmentCode);
+            // Nếu có phí cần thanh toán
             const newPaymentMoMo = {}
-            newPaymentMoMo.deeplink = response.data.deeplink
-            newPaymentMoMo.payUrl = response.data.payUrl
-            newPaymentMoMo.qrCodeUrl = response.data.qrCodeUrl
-            newPaymentMoMo.orderId = response.data.orderId
-            newPaymentMoMo.amount = response.data.amount
-            newPaymentMoMo.orderInfo = response.data.orderInfo
+            if (response.data.success) {
+                newPaymentMoMo.deeplink = response.data.deeplink
+                newPaymentMoMo.payUrl = response.data.payUrl
+                newPaymentMoMo.qrCodeUrl = response.data.qrCodeUrl
+                newPaymentMoMo.orderId = response.data.orderId
+                newPaymentMoMo.amount = response.data.amount
+                newPaymentMoMo.orderInfo = response.data.orderInfo
+            }
             setPayment(newPaymentMoMo)
-            setOpenModalPaymentMoMoQRCode(true)
+            if (response.data.success) {
+                setOpenModalPaymentMoMoQRCode(true)
+            }
+            // Nếu k thể tạo payment hiện ra thông báo
+            if (!response.data.success) {
+                setOpenModalNoFee(true)
+            }
         } catch (err) {
             console.error("Lỗi khi lấy Link thanh toán:", err);
-        } finally{
+        } finally {
             setCreatingPayment(false)
         }
     };
@@ -176,15 +186,23 @@ const useTestServiceReqList = () => {
             setCreatingPayment(true)
             const response = await serviceReqpaymentService.getPaymentMoMoTheQuocTe(treatmentCode);
             const newPaymentMoMo = {}
-            newPaymentMoMo.payUrl = response.data.payUrl
-            newPaymentMoMo.orderId = response.data.orderId
-            newPaymentMoMo.amount = response.data.amount
-            newPaymentMoMo.orderInfo = response.data.orderInfo
+            if (response.data.success) {
+                newPaymentMoMo.payUrl = response.data.payUrl
+                newPaymentMoMo.orderId = response.data.orderId
+                newPaymentMoMo.amount = response.data.amount
+                newPaymentMoMo.orderInfo = response.data.orderInfo
+            }
             setPayment(newPaymentMoMo)
-            setOpenModalPaymentMoMoTheQuocTe(true)
+            if (response.data.success) {
+                setOpenModalPaymentMoMoTheQuocTe(true)
+            }
+            // Nếu k thể tạo payment hiện ra thông báo
+            if (!response.data.success) {
+                setOpenModalNoFee(true)
+            }
         } catch (err) {
             console.error("Lỗi khi lấy Link thanh toán:", err);
-        } finally{
+        } finally {
             setCreatingPayment(false)
         }
     };
@@ -193,22 +211,30 @@ const useTestServiceReqList = () => {
             setCreatingPayment(true)
             const response = await serviceReqpaymentService.getPaymentMoMoTheATMNoiDia(treatmentCode);
             const newPaymentMoMo = {}
-            newPaymentMoMo.payUrl = response.data.payUrl
-            newPaymentMoMo.qrCodeUrl = response.data.qrCodeUrl
-            newPaymentMoMo.orderId = response.data.orderId
-            newPaymentMoMo.amount = response.data.amount
-            newPaymentMoMo.orderInfo = response.data.orderInfo
+            if (response.data.success) {
+                newPaymentMoMo.payUrl = response.data.payUrl
+                newPaymentMoMo.qrCodeUrl = response.data.qrCodeUrl
+                newPaymentMoMo.orderId = response.data.orderId
+                newPaymentMoMo.amount = response.data.amount
+                newPaymentMoMo.orderInfo = response.data.orderInfo
+            }
             setPayment(newPaymentMoMo)
-            setOpenModalPaymentMoMoTheATMNoiDia(true)
+            if (response.data.success) {
+                setOpenModalPaymentMoMoTheATMNoiDia(true)
+            }
+            // Nếu k thể tạo payment hiện ra thông báo
+            if (!response.data.success) {
+                setOpenModalNoFee(true)
+            }
         } catch (err) {
             console.error("Lỗi khi lấy Link thanh toán:", err);
-        } finally{
+        } finally {
             setCreatingPayment(false)
         }
     };
     const fetchTestServiceTypeList = async () => {
         try {
-            if(treatmentId){
+            if (treatmentId) {
                 setLoadingFetchTestServiceTypeList(true)
                 const testServiceTypeList = await testServiceTypeListService.getAllSelect(treatmentId);
                 if (testServiceTypeListVViewIsDB) {
@@ -220,7 +246,7 @@ const useTestServiceReqList = () => {
         } catch (err) {
             setErrorFetchTestServiceTypeList(true)
             console.error("Lỗi khi tải testServiceTypeList:", err);
-        } finally{
+        } finally {
             setLoadingFetchTestServiceTypeList(false)
         }
     };
@@ -258,7 +284,7 @@ const useTestServiceReqList = () => {
         convertToDate,
         refreshTrigger,
         setRefreshTrigger,
-        filterTrigger, 
+        filterTrigger,
         setFilterTrigger,
         handleRawChange,
         formatInputToDate,
@@ -279,12 +305,34 @@ const useTestServiceReqList = () => {
     );
     // ghi đè lên master
     const handleOpenMoMoPayment = () => {
-        if(payment){
+        if (payment) {
             const deeplink = payment.deeplink
             const fallbackURL = 'https://play.google.com/store/apps/details?id=com.mservice.momotransfer';
-        
+
             // Gọi hàm openAppMoMoPayment từ masterhook
             openAppMoMoPayment(deeplink, fallbackURL);
+        }
+    };
+    const fetchAndUpdate = async () => {
+        try {
+            setLoadingFetchTestServiceTypeList(true)
+            // Gọi API để lấy dữ liệu mới
+            const response = await testServiceReqListService.getById(selectedRecord.id);
+            const updatedRecord = response.data
+
+            // Cập nhật dữ liệu trong dataCursor
+            setDataCursor((prevData) =>
+                prevData.map((item) =>
+                    item.id == selectedRecord.id ? { ...item, ...updatedRecord } : item
+                )
+            );
+            // Cập nhật lại bản ghi đang được chọn
+            setSelectedRecord(updatedRecord)
+        } catch (error) {
+            setError(true)
+            console.error("Error fetching record:", error);
+        } finally {
+            setLoadingFetchTestServiceTypeList(false)
         }
     };
     useEffect(() => {
@@ -292,7 +340,7 @@ const useTestServiceReqList = () => {
     }, [filterCursor]); // Gọi lại khi có thay đổi
 
     useEffect(() => {
-        if(refreshTrigger){
+        if (refreshTrigger) {
             fetchDataCursor();
         }
 
@@ -300,7 +348,7 @@ const useTestServiceReqList = () => {
     }, [refreshTrigger]); // Gọi lại khi có thay đổi
 
     useEffect(() => {
-        if(filterTrigger){
+        if (filterTrigger) {
             const newFilterCursor = {};
             if (treatmentCode) {
                 newFilterCursor.treatmentCode = treatmentCode;
@@ -315,7 +363,7 @@ const useTestServiceReqList = () => {
                     newFilterCursor.toTime = formatDate(toTime, '235959');
                 }
             }
-        
+
             if (Object.keys(newFilterCursor).length > 0) {
                 setFilterCursor(newFilterCursor);
             }
@@ -324,24 +372,24 @@ const useTestServiceReqList = () => {
             setDataCursor([])
             setApplyFilterCursor(false)
         }
-        
-        setFilterTrigger(false)
-    }, [filterTrigger]); 
 
-    useEffect(() => { 
-        const fetchData = async () => { 
-            try { 
-                await fetchTestServiceTypeList(); 
-            } catch (error) { 
-                console.error("Error fetching test service type list:", error); 
-            } 
-        }; 
-            fetchData(); 
-        }, [treatmentId]); // Gọi lại khi có thay đổi
+        setFilterTrigger(false)
+    }, [filterTrigger]);
+
     useEffect(() => {
-        if(payment.orderId){
+        const fetchData = async () => {
+            try {
+                await fetchTestServiceTypeList();
+            } catch (error) {
+                console.error("Error fetching test service type list:", error);
+            }
+        };
+        fetchData();
+    }, [treatmentId]); // Gọi lại khi có thay đổi
+    useEffect(() => {
+        if (payment.orderId) {
             const channel = pusher.subscribe('momo-status-payment-channel');
-            channel.bind('momo-status-payment-event', function(data) {
+            channel.bind('momo-status-payment-event', function (data) {
                 // Nếu khớp orderId
                 if (data.data.orderId == payment.orderId) {
                     setGettingResultPayment(true)
@@ -356,10 +404,16 @@ const useTestServiceReqList = () => {
                     setOpenModalPaymentMoMoTheQuocTe(false)
                     setOpenModalPaymentMoMoQRCode(false)
                     setGettingResultPayment(false)
-                  }
-              });
+                }
+            });
         }
     }, [payment.orderId]);
+    // tải lại dữ liệu khi thanh toán xong
+    useEffect(() => {
+        if (!openModalResultPayment && selectedRecord) {
+            fetchAndUpdate();
+        }
+    }, [openModalResultPayment]); // Gọi lại khi có thay đổi
     return {
         fieldLabels,
         format,
@@ -405,9 +459,9 @@ const useTestServiceReqList = () => {
         treatmentCode, setTreatmentCode,
         refreshTrigger,
         setRefreshTrigger,
-        filterTrigger, 
+        filterTrigger,
         setFilterTrigger,
-        scrollPosition, 
+        scrollPosition,
         setScrollPosition,
         handleRawChange,
         creatingPayment,
@@ -421,12 +475,14 @@ const useTestServiceReqList = () => {
         setOpenModalPaymentMoMoTheQuocTe,
         openModalPaymentMoMoTheATMNoiDia,
         setOpenModalPaymentMoMoTheATMNoiDia,
-        opentShowAllPayment, 
+        opentShowAllPayment,
         setOpentShowAllPayment,
-        openModalResultPayment, 
+        openModalResultPayment,
         setOpenModalResultPayment,
         gettingResultPayment,
         handleOpenMoMoPayment,
+        openModalNoFee,
+        setOpenModalNoFee
     };
 };
 

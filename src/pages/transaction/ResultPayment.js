@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Card from "../../components/common/Master/Card";
 import GroupFieldSpanWithText from "../../components/common/Data/InfoRecord/GroupFieldSpanWithText";
+import Success from "../../components/common/Info/Success";
+import Fail from "../../components/common/Info/Fail";
 const PaymentResultPage = () => {
     const [transactionData, setTransactionData] = useState({});
 
@@ -33,6 +35,7 @@ const PaymentResultPage = () => {
                         <h1 className={`text-lg uppercase font-semibold text-center m-1 ${transactionData.resultCode == 0 || transactionData.resultCode == 9000 ? 'text-green-600' : 'text-red-600'}`}>
                             {transactionData.resultCode == 0 || transactionData.resultCode == 9000 ? 'Giao dịch thành công' : 'Giao dịch không thành công'}
                         </h1>
+                        {transactionData.resultCode == 0 || transactionData.resultCode == 9000 ? <Success /> : <Fail />}
                         <GroupFieldSpanWithText
                             fields={[
                                 { fieldName: 'Mã giao dịch', fieldValue: transactionData.orderId },

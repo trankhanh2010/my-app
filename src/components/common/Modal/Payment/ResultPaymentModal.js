@@ -1,6 +1,9 @@
 import React from 'react';
 import GroupFieldSpanWithText from "../../Data/InfoRecord/GroupFieldSpanWithText";
 import Loading from "../../Info/Loading";
+import Success from "../../Info/Success";
+import Fail from "../../Info/Fail";
+
 const PaymentModal = ({ 
   openModalResultPayment, 
   setOpenModalResultPayment, 
@@ -17,9 +20,10 @@ const PaymentModal = ({
   );
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500/75">
-      <div className="relative bg-white p-6 rounded-lg w-full md:w-[60%] h-full overflow-y-auto">
+      <div className="relative bg-white p-6 rounded-lg w-full md:w-[50%] h-full overflow-y-auto">
         <h2 className="text-xl font-semibold text-center mb-4 uppercase">Kết quả thanh toán</h2>
         <h1 className={`md:w-[100%] uppercase font-bold text-center ${payment.resultCode === 0 ? 'text-green-600' : 'text-red-600'}`}>{payment.message}</h1>
+        {payment.resultCode === 0 || payment.resultCode === 9000 ? <Success /> : <Fail />}
         <div className="mb-4">
           <GroupFieldSpanWithText
             fields={[

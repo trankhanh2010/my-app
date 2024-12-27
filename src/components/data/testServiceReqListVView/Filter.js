@@ -30,34 +30,7 @@ const Filter = ({
         <>
             <CardElement>
                 <div className="flex flex-col xl:flex-row xl:space-x-2 border p-2">
-                    <div className="w-full flex flex-col xl:w-[3/4]">
-                        {/* Chọn số bản ghi trên mỗi trang */}
-                        <RecordPerPage
-                            limit={limitCursor}
-                            setLimit={setLimitCursor}
-                            options={[
-                                { value: 10, label: "10" },
-                                { value: 20, label: "20" },
-                                { value: 50, label: "50" },
-                            ]}
-                        />
-                    </div>
-                    <div className="mt-1 w-full flex flex-col xl:w-[1/4]">
-                        {/* Nút Tải thêm */}
-                        <button
-                            onClick={handleLoadMore}
-                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed truncate"
-                            disabled={isProcessing || !dataCursor || dataCursor.length === 0}
-                        >
-                            Tải thêm
-                        </button>
-                    </div>
-                </div>
-            </CardElement>
-
-            <CardElement>
-                <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border p-2">
-                    <div className="mt-1 w-full flex flex-row xl:w-[1/4] items-center">
+                    <div className="mt-1 w-full flex flex-row xl:w-[1/3] items-center">
                         <SpanFieldName
                             fieldName={'Từ'}
                             spanCss={'mr-1'}
@@ -72,7 +45,7 @@ const Filter = ({
                             onChangeRaw={(e) => handleRawChange(e, setFromTime)}
                         />
                     </div>
-                    <div className="mt-1 w-full flex flex-row xl:w-[1/4] items-center">
+                    <div className="mt-1 w-full flex flex-row xl:w-[1/3] items-center">
                         <SpanFieldName
                             fieldName={'Đến'}
                             spanCss={'mr-1'}
@@ -87,7 +60,38 @@ const Filter = ({
                             onChangeRaw={(e) => handleRawChange(e, setToTime)}
                         />
                     </div>
-                    <div className="mt-1 w-full flex flex-col xl:w-[2/4]">
+                    <div className="mt-1 w-full flex flex-col xl:w-[1/3]">
+                        {/* Chọn số bản ghi trên mỗi trang */}
+                        <RecordPerPage
+                            limit={limitCursor}
+                            setLimit={setLimitCursor}
+                            options={[
+                                { value: 10, label: "10" },
+                                { value: 20, label: "20" },
+                                { value: 50, label: "50" },
+                            ]}
+                        />
+                    </div>
+                </div>
+            </CardElement>
+
+            <CardElement>
+                <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border p-2">
+                    <div className="mt-1 w-full flex flex-col xl:w-[1/5]">
+                        <Search
+                            keyword={treatmentCode}
+                            setKeyword={setTreatmentCode}
+                            label={"Nhập mã điều trị"}
+                        />
+                    </div>
+                    <div className="mt-1 w-full flex flex-col xl:w-[1/5]">
+                        <Search
+                            keyword={patientCode}
+                            setKeyword={setPatientCode}
+                            label={"Nhập mã bệnh nhân"}
+                        />
+                    </div>
+                    <div className="mt-1 w-full flex flex-col xl:w-[2/5]">
                         {/* Nút Lọc */}
                         <button
                             onClick={() => {
@@ -99,24 +103,15 @@ const Filter = ({
                             Lọc
                         </button>
                     </div>
-                </div>
-            </CardElement>
-
-            <CardElement>
-                <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border p-2">
-                    <div className="mt-1 w-full flex flex-col xl:w-[1/2]">
-                        <Search
-                            keyword={patientCode}
-                            setKeyword={setPatientCode}
-                            label={"Nhập mã bệnh nhân"}
-                        />
-                    </div>
-                    <div className="mt-1 w-full flex flex-col xl:w-[1/2]">
-                        <Search
-                            keyword={treatmentCode}
-                            setKeyword={setTreatmentCode}
-                            label={"Nhập mã điều trị"}
-                        />
+                    <div className="mt-1 w-full flex flex-col xl:w-[1/5]">
+                        {/* Nút Tải thêm */}
+                        <button
+                            onClick={handleLoadMore}
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed truncate"
+                            disabled={isProcessing || !dataCursor || dataCursor.length === 0}
+                        >
+                            Tải thêm
+                        </button>
                     </div>
                 </div>
             </CardElement>
