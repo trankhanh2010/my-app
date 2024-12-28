@@ -16,21 +16,24 @@ const useMasterCategoryList = (
     isElastic,
     recordCode,
     filterCursor,
+    isApiNoAuth = false,
 ) => {
     const navigate = useNavigate();
-    // useEffect(() => {
-    //     const token = useMasterService.getAuthToken();
-    //     if (!token) {
-    //       // Nếu không có token, điều hướng về trang đăng nhập
-    //       navigate('/login');
-    //     }
-    //   }, [navigate]);
+    useEffect( () => {
+        if(!isApiNoAuth){
+            const check = useMasterService.getAuthToken();
+            if (!check) {
+              // Nếu không có token, điều hướng về trang đăng nhập
+              navigate('/login');
+            }
+        }
+      }, [navigate]);
     
     const [changes, setChanges] = useState([]);
 
     const [data, setData] = useState([]);
     const [dataCursor, setDataCursor] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState(null);
 
@@ -46,7 +49,6 @@ const useMasterCategoryList = (
 
     const [refreshTrigger, setRefreshTrigger] = useState(false);
     const [filterTrigger, setFilterTrigger] = useState(false);
-    const [filterNoLoginTrigger, setFilterNoLoginTrigger] = useState(false);
 
     // Phân trang theo con trỏ
     const [lastId, setLastId] = useState(0);
@@ -169,7 +171,12 @@ const useMasterCategoryList = (
     const fetchDataCursor = async () => {
         try {
             setLoading(true); // Bắt đầu tải dữ liệu
-            const response = await apiService.getCusor(lastId, limitCursor, filterCursor);
+            let response = null;
+            if(isApiNoAuth){
+                response = await apiService.getNoLoginCursor(lastId, limitCursor, filterCursor);
+            }else{
+                response = await apiService.getCusor(lastId, limitCursor, filterCursor);
+            }
             if (isDB) {
                 setDataCursor((prevData) => [...prevData, ...response.data]); // Nối dữ liệu mới với dữ liệu hiện tại
             }
@@ -317,8 +324,6 @@ const useMasterCategoryList = (
         setRefreshTrigger,
         filterTrigger, 
         setFilterTrigger,
-        filterNoLoginTrigger, 
-        setFilterNoLoginTrigger,
         handleRawChange,
         formatInputToDate,
         openAppMoMoPayment,

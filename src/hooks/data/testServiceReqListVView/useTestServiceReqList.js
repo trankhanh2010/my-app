@@ -8,6 +8,8 @@ import pusher from '../../../websocket/pusher';
 const useTestServiceReqList = () => {
     const isDB = config.apiService.testServiceReqListVView.typeGetApi === 'db';
     const testServiceTypeListVViewIsDB = config.apiService.testServiceTypeListVView.typeGetApi === 'db';
+
+    const [isApiNoAuth, setIsApiNoAuth] = useState(false)
     const [opentShowAllPayment, setOpentShowAllPayment] = useState(false)
     const [openModalResultPayment, setOpenModalResultPayment] = useState(false)
     const [creatingPayment, setCreatingPayment] = useState(false)
@@ -26,6 +28,10 @@ const useTestServiceReqList = () => {
         resultCode: null,
         message: null,
     });
+    /// Xử lý khi scroll và lấy thêm dữ liệu mới vẫn giữ vị trí scroll cũ
+    const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
+
+    // Data bảng phụ
     const [testServiceTypeList, setTestServiceTypeList] = useState([]);
     const [treatmentId, setTreatmentId] = useState();
     const [applyFilterCursor, setApplyFilterCursor] = useState(false);
@@ -302,6 +308,7 @@ const useTestServiceReqList = () => {
         null,
         null,
         filterCursor,
+        isApiNoAuth,
     );
     // ghi đè lên master
     const handleOpenMoMoPayment = () => {
@@ -335,9 +342,25 @@ const useTestServiceReqList = () => {
             setLoadingFetchTestServiceTypeList(false)
         }
     };
+    const handleLoadMore = () => {
+        if (dataCursor && dataCursor.length > 0) {
+            // Đặt vị trí scroll
+            setScrollPosition(scrollContainerRef.current.scrollTop);
+            const lastRecordId = Number(dataCursor[dataCursor.length - 1].id); // Lấy id cuối cùng
+            setLastId(lastRecordId); // Cập nhật lastId
+            setRefreshTrigger(true);
+        }
+    };
     useEffect(() => {
-        fetchDataCursor();
+        if(filterCursor){
+            fetchDataCursor();
+        }
     }, [filterCursor]); // Gọi lại khi có thay đổi
+
+    /// Xử lý khi scroll và lấy thêm dữ liệu mới vẫn giữ vị trí scroll cũ
+    useEffect(() => {
+        scrollContainerRef.current.scrollTop = scrollPosition; // Gán lại scrollTop của div
+    }, [dataCursor]); // Chạy lại khi data thay đổi
 
     useEffect(() => {
         if (refreshTrigger) {
@@ -482,7 +505,12 @@ const useTestServiceReqList = () => {
         gettingResultPayment,
         handleOpenMoMoPayment,
         openModalNoFee,
-        setOpenModalNoFee
+        setOpenModalNoFee,
+        isApiNoAuth, 
+        setIsApiNoAuth,
+        scrollContainerRef,
+        setScrollPosition,
+        handleLoadMore, 
     };
 };
 

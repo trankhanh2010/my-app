@@ -18,14 +18,11 @@ const Filter = ({
     setRefreshTrigger,
     setFilterTrigger,
     handleRawChange,
+    setScrollPosition,
+    scrollContainerRef,
+    handleLoadMore,
 }) => {
-    const handleLoadMore = () => {
-        if (dataCursor && dataCursor.length > 0) {
-            const lastRecordId = Number(dataCursor[dataCursor.length - 1].id); // Lấy id cuối cùng
-            setLastId(lastRecordId); // Cập nhật lastId
-            setRefreshTrigger(true);
-        }
-    };
+
     return (
         <>
             <CardElement>

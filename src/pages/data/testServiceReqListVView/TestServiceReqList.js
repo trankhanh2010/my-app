@@ -13,7 +13,6 @@ import Card from "../../../components/common/Master/Card";
 import NoFeeModal from "../../../components/common/Modal/Payment/NoFeeModal";
 
 const TestServiceReqList = () => {
-    const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
     const {
         fieldLabels,
         fieldConfig,
@@ -78,25 +77,10 @@ const TestServiceReqList = () => {
         handleOpenMoMoPayment,
         openModalNoFee, 
         setOpenModalNoFee, 
+        scrollContainerRef,
+        handleLoadMore,
     }
         = useTestServiceReqList();
-    const debounceTimeout = useRef(null);
-    const handleScroll = (e) => {
-        const scrollTop = e.target.scrollTop;
-        // Nếu có sự kiện cuộn trước đó đang chờ xử lý, hủy bỏ nó
-        if (debounceTimeout.current) {
-            clearTimeout(debounceTimeout.current);
-        }
-        // Đặt một timeout để thực hiện hành động sau khi người dùng ngừng cuộn
-        debounceTimeout.current = setTimeout(() => {
-            setScrollPosition(scrollTop);
-        }, 400);
-    };
-    useEffect(() => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollTop = scrollPosition; // Gán lại scrollTop của div
-        }
-    }, [dataCursor]); // Chạy lại khi scrollPosition thay đổi
     // if (loading) return  <div className="spinner"></div> // Hiển thị spinner khi đang tải;
     if (error) return <p>{error}</p>;
     return (
@@ -124,6 +108,9 @@ const TestServiceReqList = () => {
                             setRefreshTrigger={setRefreshTrigger}
                             setFilterTrigger={setFilterTrigger}
                             handleRawChange={handleRawChange}
+                            scrollContainerRef={scrollContainerRef}
+                            setScrollPosition={setScrollPosition}
+                            handleLoadMore={handleLoadMore}
                         />
                     </div>
                 </Card>
@@ -133,7 +120,6 @@ const TestServiceReqList = () => {
                     <div
                         className="relative overflow-x-auto overflow-y-auto max-h-[30vh] min-h-[30vh] mb-2 flex flex-col"
                         ref={scrollContainerRef}
-                        onScroll={handleScroll}
                     >
                         <TestServiceReqListTable
                             fieldLabels={fieldLabels}
