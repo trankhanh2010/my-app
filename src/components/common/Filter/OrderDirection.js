@@ -12,13 +12,13 @@ const OrderDirection = ({ orderDirection, setOrderDirection }) => {
     };
 
     return (
-        <div className="flex items-center">
+        <div className="flex items-start">
             <label className="mr-2">Hướng:</label>
             <Select
                 value={options.find((option) => option.value === orderDirection)} // Set giá trị hiện tại
                 onChange={handleChange} // Xử lý sự kiện thay đổi
                 options={options} // Các tùy chọn cho select
-                className="w-48" // Thêm lớp CSS để điều chỉnh chiều rộng của select
+                className="w-full" // Thêm lớp CSS để điều chỉnh chiều rộng của select
             />
         </div>
     );

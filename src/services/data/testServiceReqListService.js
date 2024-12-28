@@ -1,4 +1,5 @@
 import api, { encodeParams } from '../api/api';
+import apiNoAuth from "../api/apiNoAuth";
 import config from "../../config";
 
 // Dịch vụ để gọi API lấy danh sách 
@@ -81,7 +82,38 @@ const getById = async (id) => {
     throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài
   }
 };
+
+const getDataNoLogin = async (lastId = 0, limit = 20, filter) => {
+  let param;
+    param = {
+      CommonParam: {
+        CursorPaginate: true,
+        LastId: lastId,
+        Limit: limit,
+        Elastic: false,
+      },
+      ApiData: {        
+        TreatmentCode: filter.treatmentCode,
+        PatientCode: filter.patientCode,
+
+        OrderBy: {
+          ["id"]: "asc",  
+        },
+      }
+  }
+  // console.log(param)
+  const paramBase64 = encodeParams(param);
+  // console.log(paramBase64);
+
+  try {
+    const response = await apiNoAuth.get(`/api/v1/test-service-req-list-v-view-no-login?param=${paramBase64}`);
+    return response.data;  // Trả về dữ liệu nhận được từ API
+  } catch (error) {
+    throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài
+  }
+};
 export default {
   getCusor,
   getById,
+  getDataNoLogin,
 };

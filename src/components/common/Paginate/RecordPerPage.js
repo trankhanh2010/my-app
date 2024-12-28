@@ -7,7 +7,7 @@ const RecordPerPage = ({ limit, setLimit, options }) => {
     };
 
     return (
-        <div className="flex items-center">
+        <div className="flex items-start">
             <label className="mr-1">SL / Trang:</label>
             <Select
                 value={options.find((option) => option.value === limit)} // Đặt giá trị hiện tại

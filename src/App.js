@@ -8,6 +8,7 @@ import Login from './pages/auth/login';
 
 import BedList from './pages/category/bed/BedList';
 import TestServiceReqList from './pages/data/testServiceReqListVView/TestServiceReqList';
+import TestServiceReqListNoLogin from './pages/data/testServiceReqListVView/TestServiceReqListNoLogin';
 import ResultPayment from './pages/transaction/ResultPayment'
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/bed" element={<BedList />} />
 
         <Route path="/test-service-req-list" element={<TestServiceReqList />} />
+        <Route path="/test-service-req-list-no-login" element={<TestServiceReqListNoLogin />} />
 
         <Route path="/result-payment" element={<ResultPayment />} />
 

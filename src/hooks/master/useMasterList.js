@@ -18,13 +18,13 @@ const useMasterCategoryList = (
     filterCursor,
 ) => {
     const navigate = useNavigate();
-    useEffect(() => {
-        const token = useMasterService.getAuthToken();
-        if (!token) {
-          // Nếu không có token, điều hướng về trang đăng nhập
-          navigate('/login');
-        }
-      }, [navigate]);
+    // useEffect(() => {
+    //     const token = useMasterService.getAuthToken();
+    //     if (!token) {
+    //       // Nếu không có token, điều hướng về trang đăng nhập
+    //       navigate('/login');
+    //     }
+    //   }, [navigate]);
     
     const [changes, setChanges] = useState([]);
 
@@ -46,6 +46,7 @@ const useMasterCategoryList = (
 
     const [refreshTrigger, setRefreshTrigger] = useState(false);
     const [filterTrigger, setFilterTrigger] = useState(false);
+    const [filterNoLoginTrigger, setFilterNoLoginTrigger] = useState(false);
 
     // Phân trang theo con trỏ
     const [lastId, setLastId] = useState(0);
@@ -316,6 +317,8 @@ const useMasterCategoryList = (
         setRefreshTrigger,
         filterTrigger, 
         setFilterTrigger,
+        filterNoLoginTrigger, 
+        setFilterNoLoginTrigger,
         handleRawChange,
         formatInputToDate,
         openAppMoMoPayment,

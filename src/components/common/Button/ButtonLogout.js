@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import useMasterService from "../../../services/master/useMasterService"; // Nếu bạn có service để xử lý token
+import useMasterService from "../../../services/master/useMasterService"; 
 import { FaPowerOff  } from 'react-icons/fa'; // Import icon từ Font Awesome
 
 const LogoutButton = () => {
@@ -13,7 +13,7 @@ const LogoutButton = () => {
     // Điều hướng về trang đăng nhập
     navigate("/login");
   };
-  if(!useMasterService.getAuthToken){
+  if(!useMasterService.getAuthToken()){
     return null;
   }
   return (
