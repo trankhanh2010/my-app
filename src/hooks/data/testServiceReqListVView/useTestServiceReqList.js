@@ -352,7 +352,10 @@ const useTestServiceReqList = () => {
         }
     };
     useEffect(() => {
-        if(filterCursor){
+        // Kiểm tra tất cả các trường trong filterCursor khác null
+        const allFieldsNotNull = Object.values(filterCursor).every(value => value !== null);
+
+        if (allFieldsNotNull) {
             fetchDataCursor();
         }
     }, [filterCursor]); // Gọi lại khi có thay đổi

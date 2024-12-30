@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import useMasterService from "../../services/master/useMasterService";
 import { format } from "date-fns";
-
 const useMasterCategoryList = (
     fieldLabels = [],
     fieldsToSkipList = [],
@@ -19,15 +18,15 @@ const useMasterCategoryList = (
     isApiNoAuth = false,
 ) => {
     const navigate = useNavigate();
-    useEffect( () => {
-        if(!isApiNoAuth){
-            const check = useMasterService.getAuthToken();
-            if (!check) {
-              // Nếu không có token, điều hướng về trang đăng nhập
-              navigate('/login');
-            }
-        }
-      }, [navigate]);
+    // useEffect( () => {
+    //     if(!isApiNoAuth){
+    //         const check = useMasterService.getAuthToken();
+    //         if (!check) {
+    //           // Nếu không có token, điều hướng 
+    //           navigate('/info-401');
+    //         }
+    //     }
+    //   }, [navigate]);
     
     const [changes, setChanges] = useState([]);
 
@@ -257,6 +256,13 @@ const useMasterCategoryList = (
     useEffect(() => {
         setErrorUniqueCode(null); // Reset lỗi unique khi bản ghi thay đổi
     }, [recordDetails]);
+
+    // Điều hướng khi có lỗi
+    useEffect( () => {
+        if(error){
+            navigate('/info-500');
+        }
+      }, [error]);
     return {
         format,
         changes,

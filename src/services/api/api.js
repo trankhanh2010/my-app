@@ -28,7 +28,7 @@ api.interceptors.response.use(
         if (error.response?.status === 401) {
             console.error("Unauthorized! Token có thể đã hết hạn.");
             useMasterService.removeAuthToken();
-            window.location.href = "/login"; // Điều hướng đến trang login
+            window.location.href = "/info-401"; // Điều hướng 
         }
         return Promise.reject(error);
     }

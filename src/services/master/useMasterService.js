@@ -4,7 +4,7 @@ const checkToken = async () => {
         const response = await api.get(`/api/v1/check-token`);
         return response.data.success;  // Trả về dữ liệu nhận được từ API
       } catch (error) {
-        return false;
+        return error;
       }
 }
 const getAuthToken = () => localStorage.getItem("authToken"); // Hàm lấy token từ localStorage

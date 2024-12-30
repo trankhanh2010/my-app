@@ -2,50 +2,70 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useMasterService from "../../services/master/useMasterService";
 import Authenticating from "../common/Info/Authenticating";
-import Login from "../../pages/auth/login";
+import Info401 from "../../pages/error/Info401";
+import Info403 from "../../pages/error/Info403";
+import Info500 from "../../pages/error/Info500";
 
 const Middleware = ({ children }) => {
     const location = useLocation();
     const navigate = useNavigate();
-    const [isAuthenticating, setIsAuthenticating] = useState(
-        !!useMasterService.getAuthToken()
-    ); // true nếu có token, false nếu không
-    
-    const noAuthRoutes = ["/login", "/test-service-req-list-no-login"]; // Các route không cần xác thực
+    const [isAuthenticating, setIsAuthenticating] = useState(true); // Mặc định là true, tức là đang xác thực
+    const noAuthRoutes = [
+        "/login", 
+        "/info-401",
+        "/info-403",
+        "/info-500",
+        "/result-payment",
+        "/test-service-req-list-no-login",
+    ]; // Các route không cần xác thực
+
     useEffect(() => {
         const currentPath = location.pathname;
+
         // Nếu là route không cần xác thực, bỏ qua xác thực
         if (noAuthRoutes.includes(currentPath)) {
             setIsAuthenticating(false);
             return;
         }
 
-        // Đặt trạng thái đang xác thực và kiểm tra token
-        setIsAuthenticating(true);
+        // Nếu không có token và URL cần xác thực thì điều hướng về trang 401
+        if (!noAuthRoutes.includes(location.pathname) && !useMasterService.getAuthToken()) {
+            navigate("/info-401")
+            return; 
+        }
+
+        // Kiểm tra token và xác thực
         const validateToken = async () => {
+            setIsAuthenticating(true); // Đặt trạng thái đang xác thực
             try {
                 const isValid = await useMasterService.checkToken();
                 if (!isValid) {
-                    navigate("/login");
+                    navigate("/info-403"); // Nếu token không hợp lệ, điều hướng đến trang 403
                 }
             } catch (error) {
-                navigate("/login");
+                navigate("/info-500"); // Nếu có lỗi trong quá trình xác thực, điều hướng đến trang lỗi 500
             } finally {
                 setIsAuthenticating(false); // Hoàn thành xác thực
             }
         };
 
-        validateToken();
+        if (useMasterService.getAuthToken()) {
+            validateToken(); // Kiểm tra token nếu có
+        } else {
+            setIsAuthenticating(false); // Nếu không có token, không cần xác thực nữa
+        }
     }, [location.pathname, navigate]);
 
     // Hiển thị trạng thái đang xác thực
     if (isAuthenticating) {
         return <Authenticating />;
     }
-    // Nếu không có token và url cần xác thực thì điều hướng về trang login
-    if (!noAuthRoutes.includes(location.pathname) && !useMasterService.getAuthToken()) {
-        return <Login />;
-    }
+
+    // // Nếu không có token và URL cần xác thực thì điều hướng về trang 401
+    // if (!noAuthRoutes.includes(location.pathname) && !useMasterService.getAuthToken()) {
+    //     return <Info401 />;
+    // }
+
     // Hiển thị nội dung children khi xác thực xong
     return <>{children}</>;
 };

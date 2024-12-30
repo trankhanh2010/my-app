@@ -4,7 +4,11 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import Login from './pages/auth/login';
+import Login from './pages/auth/Login';
+import Info401 from './pages/error/Info401';
+import Info403 from './pages/error/Info403';
+import Info500 from './pages/error/Info500';
+
 import CheckTokenMiddleware from "./components/middleware/CheckTokenMiddleware";
 
 import BedList from './pages/category/bed/BedList';
@@ -27,6 +31,10 @@ const App = () => {
           <Route path="/test-service-req-list-no-login" element={<TestServiceReqListNoLogin />} />
 
           <Route path="/result-payment" element={<ResultPayment />} />
+
+          <Route path="/info-401" element={<Info401 />} />
+          <Route path="/info-403" element={<Info403 />} />
+          <Route path="/info-500" element={<Info500 />} />
 
         </Routes>
         <Footer />

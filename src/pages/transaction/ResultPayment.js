@@ -27,7 +27,7 @@ const PaymentResultPage = () => {
     }, []);
 
     return (
-        <div className={`flex justify-center gap-1 w-full p-2`}>
+        <div className={`flex justify-center gap-1 w-full p-2 min-h-screen`}>
             <div className="w-full md:w-[40%] p-2">
                 {/* Phần điều khiển và lọc */}
                 <Card>

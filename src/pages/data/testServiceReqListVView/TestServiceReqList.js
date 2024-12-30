@@ -81,8 +81,7 @@ const TestServiceReqList = () => {
         handleLoadMore,
     }
         = useTestServiceReqList();
-    // if (loading) return  <div className="spinner"></div> // Hiển thị spinner khi đang tải;
-    if (error) return <p>{error}</p>;
+
     return (
         <div className={`flex flex-wrap gap-1 w-full p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
             <div className="w-full md:w-5/12 md:mr-1 md:border-r md:pr-2">
