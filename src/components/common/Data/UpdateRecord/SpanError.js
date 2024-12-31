@@ -5,7 +5,7 @@ const component = ({
     error,
 }) => {
     return (
-        <div className="w-full mt-1 truncate">
+        <div className="w-full mt-1">
             {errors && (errors || []).map((errorMessage, index) => (
                 <p key={index} className="text-red-500 text-sm">{errorMessage}</p>
             ))}

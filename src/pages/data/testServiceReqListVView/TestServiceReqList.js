@@ -83,11 +83,11 @@ const TestServiceReqList = () => {
         = useTestServiceReqList();
 
     return (
-        <div className={`flex flex-wrap gap-1 w-full p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
-            <div className="w-full md:w-5/12 md:mr-1 md:border-r md:pr-2">
+        <div className={`grid grid-cols-12 gap-1 p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
+            <div className="col-span-12 md:col-span-5 flex flex-col md:mr-1 md:border-r md:pr-2">
                 {/* Phần điều khiển và lọc */}
                 <Card>
-                    <div className="h-[20vh] overflow-y-auto">
+                    <div className="md:max-h-[20vh] min-h-[20vh] md:overflow-y-auto">
                         <Filter
                             dataCursor={dataCursor}
                             isProcessing={isProcessing}
@@ -117,7 +117,7 @@ const TestServiceReqList = () => {
                 {/* Danh sách dữ liệu */}
                 <Card>
                     <div
-                        className="relative overflow-x-auto overflow-y-auto max-h-[30vh] min-h-[30vh] mb-2 flex flex-col"
+                        className="relative overflow-x-auto overflow-y-auto max-h-[30vh] md:min-h-[30vh] mb-2 flex flex-col"
                         ref={scrollContainerRef}
                     >
                         <TestServiceReqListTable
@@ -137,7 +137,7 @@ const TestServiceReqList = () => {
 
                 {/* Thông tin giao dịch */}
                 <Card>
-                    <div className="w-full flex flex-col relative overflow-x-auto overflow-y-auto whitespace-pre-line break-words min-h-[50vh] max-h-[50vh]">
+                    <div className="w-full flex flex-col relative md:overflow-x-auto overflow-y-auto whitespace-pre-line break-words md:min-h-[50vh] md:max-h-[50vh]">
                         <InfoTransaction
                             recordDetails={recordDetails}
                             testServiceTypeList={testServiceTypeList}
@@ -146,7 +146,7 @@ const TestServiceReqList = () => {
                             errorFetchTestServiceTypeList={errorFetchTestServiceTypeList}
                         />
                         {selectedRecord && selectedRecord.treatmentCode 
-                        && Number(selectedRecord.feeAdd) > 0 
+                        && Number(selectedRecord.fee) > 0 
                         && (
                                 <button
                                     className="py-2 px-4 rounded bg-blue-600 hover:bg-blue-500 mt-1 mb-1 text-white"
@@ -158,10 +158,10 @@ const TestServiceReqList = () => {
                 </Card>
 
             </div>
-            <div className="w-full md:w-6/12 mt-4 md:mt-0 flex-grow">
+            <div className="col-span-12 md:col-span-7 flex flex-col flex-grow mt-4 md:mt-0">
                 {/*Thông tin bệnh nhân*/}
                 <Card>
-                    <div className="w-full min-h-[35vh] relative overflow-x-auto overflow-y-auto max-h-[35vh]">
+                    <div className="w-full md:min-h-[35vh] relative overflow-x-auto md:overflow-y-auto md:max-h-[35vh]">
                         <InfoPatient
                             fieldLabels={fieldLabels}
                             recordDetails={recordDetails}
@@ -171,15 +171,13 @@ const TestServiceReqList = () => {
                     </div>
                 </Card>
                 {/* Phần bảng thông tin dịch vụ */}
-                <Card>
-                    <div className="mt-1 w-full flex flex-col whitespace-pre-line break-words">
+                <Card className="flex-grow mt-1">
                         <SearchTestServiceReqTypeListTable
                             searchTerm={searchTerm}
                             setSearchTerm={setSearchTerm}
                         />
-                    </div>
                     <div className="flex flex-col md:flex-row md:space-x-2 border">
-                        <div className="w-full flex flex-col whitespace-pre-line break-words relative overflow-x-auto overflow-y-auto max-h-[65vh] min-h-[65vh]">
+                        <div className="w-full flex-grow whitespace-pre-line break-words relative overflow-x-auto overflow-y-auto md:h-[65vh]">
                             <TestServiceReqTypeListTable
                                 fieldLabels={fieldLabels}
                                 recordDetail={recordDetails}

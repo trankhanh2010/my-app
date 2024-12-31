@@ -77,8 +77,8 @@ const BedList = () => {
 
 
     return (
-        <div className={`flex flex-wrap gap-1 w-full p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
-            <div className="w-full md:w-8/12 md:mr-1 md:border-r md:pr-2">
+        <div className={`grid grid-cols-12 gap-1 w-full p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
+            <div className="col-span-12 md:col-span-8 flex flex-col md:mr-1 md:border-r md:pr-2">
                 <Card>
                     <div class="min-h-[20vh]">
                         <Filter
@@ -99,7 +99,7 @@ const BedList = () => {
                     </div>
                 </Card>
                 <Card>
-                    <div class="mt-1 relative overflow-x-auto overflow-y-auto min-h-[70vh] max-h-[70vh] flex flex-row">
+                    <div class="mt-1 relative md:overflow-x-auto overflow-y-auto min-h-[70vh] md:max-h-[70vh] flex flex-row">
                         <BedTable
                             fieldLabels={fieldLabels}
                             format={format}
@@ -128,9 +128,9 @@ const BedList = () => {
                 </Card>
             </div>
 
-            <div className="w-full md:w-3/12 mt-4 md:mt-0 flex-grow">
-                <Card>
-                    <div class="mt-1 relative overflow-x-auto min-h-[100vh] max-h-[100vh] flex flex-col">
+            <div className="col-span-12 md:col-span-4 flex flex-col flex-grow mt-4 md:mt-0">
+                <Card className="flex-grow">
+                    <div class="mt-1 flex-grow relative overflow-x-auto max-h-[100vh] flex flex-col">
                         <BedDetails
                             fieldLabels={fieldLabels}
                             recordDetails={recordDetails}

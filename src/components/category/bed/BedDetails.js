@@ -151,7 +151,7 @@ const BedDetails = ({
             </div>
             </CardElement>
 
-            <div className="flex justify-end mt-1">
+            <div className="flex mt-1">
                 <ButtonCreateOrUpdate
                     recordDetails={recordDetails}
                     errors={errors}
