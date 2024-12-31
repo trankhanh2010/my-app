@@ -98,3 +98,29 @@ em {
 .datepicker-wrapper input {
   width: 100%;
 }
+/* Các nút danh mục ở header*/
+.li-nav-header {
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  white-space: nowrap;
+}
+.li-nav-header:hover {
+  background-color: #f0f0f0; /* Màu nền khi hover */
+  color: #007bff; /* Màu chữ khi hover */
+}
+/* Các nút danh mục ở dropdown header*/
+.li-nav-header-category {
+  color:black;
+  display: block;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  white-space: nowrap;
+}
+.li-nav-header-category:hover {
+  background-color: #f0f0f0; /* Màu nền khi hover */
+  color: #007bff; /* Màu chữ khi hover */
+}

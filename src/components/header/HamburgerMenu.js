@@ -2,7 +2,7 @@ import React from 'react';
 
 const HamburgerMenu = ({ isOpen, toggleMenu }) => (
   <button
-    className="md:hidden text-white focus:outline-none"
+    className="md:hidden text-white focus:outline-none block"
     onClick={toggleMenu}
   >
     <svg

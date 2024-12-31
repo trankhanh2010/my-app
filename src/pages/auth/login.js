@@ -47,7 +47,6 @@ const Login = () => {
                 setIsRedirecting(true);
                 setTimeout(() => {
                     navigate('/home'); // Điều hướng tới trang home sau khi alert đã hiển thị
-                    window.location.reload(); // Reload trang sau khi điều hướng
                 }, 2500); // Thời gian trì hoãn 2 giây
             } else {
                 addAlert("Đăng nhập thất bại!", "error");
@@ -61,7 +60,7 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen w-[100%] drop-shadow-md">
+        <div className="w-[100%] drop-shadow-md">
             {/* Lớp phủ để khóa màn hình khi đang hiển thị alert và chuyển hướng */}
             {(isLoading || isRedirecting) && (
                 <div className="absolute inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
@@ -70,7 +69,7 @@ const Login = () => {
             )}
             <div className="relative flex flex-col sm:flex-row item-center justify-center pt-10 pb-5 ">
                 {/*thông tin*/}
-                <div className="bg-blue-50 p-8  drop-shadow-md w-full md:w-[70%] max-w-sm min-h-[70vh]">
+                <div className="bg-gradient-to-r from-sky-500 to-indigo-500 p-8  drop-shadow-md w-full md:w-[70%] max-w-sm min-h-[70vh]">
 
                 </div>
                 {/*form đăng nhập*/}

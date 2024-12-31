@@ -11,6 +11,7 @@ const Middleware = ({ children }) => {
     const navigate = useNavigate();
     const [isAuthenticating, setIsAuthenticating] = useState(true); // Mặc định là true, tức là đang xác thực
     const noAuthRoutes = [
+        "/home",
         "/login", 
         "/info-401",
         "/info-403",

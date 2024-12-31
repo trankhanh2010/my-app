@@ -28,10 +28,7 @@ const Filter = ({
             <CardElement>
                 <div className="flex flex-col xl:flex-row xl:space-x-2 border p-2">
                     <div className="mt-1 w-full flex flex-row xl:w-[1/3] items-center">
-                        <SpanFieldName
-                            fieldName={'Từ'}
-                            spanCss={'mr-1'}
-                        />
+                    <label className="mr-1">Từ:</label>
                         <DatePicker
                             selected={fromTime}
                             onChange={(date) => setFromTime(date)}
@@ -43,10 +40,7 @@ const Filter = ({
                         />
                     </div>
                     <div className="mt-1 w-full flex flex-row xl:w-[1/3] items-center">
-                        <SpanFieldName
-                            fieldName={'Đến'}
-                            spanCss={'mr-1'}
-                        />
+                    <label className="mr-1">Đến:</label>
                         <DatePicker
                             selected={toTime}
                             onChange={(date) => setToTime(date)}

@@ -8,7 +8,7 @@ const Dropdown = () => {
     <li className="relative">
       <button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="hover:text-gray-300 flex items-center px-4 py-2"
+        className="flex li-nav-header"
       >
         Danh mục
         <svg
@@ -25,11 +25,11 @@ const Dropdown = () => {
         </svg>
       </button>
       {isDropdownOpen && (
-        <ul className="absolute left-0 mt-2 w-48 bg-white text-gray-700 rounded shadow-lg z-10">
+        <ul className="mt-2 ml-2 bg-transparent whitespace-nowrap">
           <li>
             <Link
               to="/bed"
-              className="block px-4 py-2 hover:bg-gray-100"
+              className="li-nav-header-category"
             >
               Buồng bệnh
             </Link>
