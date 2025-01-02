@@ -42,6 +42,7 @@ const BedTable = ({
                 <Thead
                     fields={[
                         { fieldName: fieldLabels.bedCode, css: `w-[5%] sticky left-0 z-10` },
+                        { fieldName: `Hành động`, css: `w-[22%]` },
                         { fieldName: fieldLabels.bedName, css: `w-[15%]` },
                         { fieldName: fieldLabels.isActive, css: `w-[3%]` },
                         { fieldName: fieldLabels.createTime, css: `w-[5%]` },
@@ -52,7 +53,6 @@ const BedTable = ({
                         { fieldName: fieldLabels.bedRoomName, css: `w-[10%]` },
                         { fieldName: fieldLabels.departmentCode, css: `w-[5%]` },
                         { fieldName: fieldLabels.departmentName, css: `w-[10%]` },
-                        { fieldName: `Hành động`, css: `w-[22%]` },
                     ]}
                 />
                 <tbody>
@@ -68,6 +68,10 @@ const BedTable = ({
                             <GroupTd
                                 fields={[
                                     { dangerouslySetInnerHTML: {__html: record.highlight?.bedCode ? record.highlight.bedCode[0] : record.bedCode, }, css: `font-bold sticky left-0 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} truncate` },
+                                    { fieldValue:<> 
+                                        <button onClick={() => openDeleteModal(record)} className="bg-red-500 text-white p-1 rounded mt-1 mb-1"><FaTrash className="inline mr-1" /> Xóa</button>                                     
+                                        <button onClick={() => {const updatedBed = {...record, isActive: record.isActive == 1 ? 0 : 1}; setRecordDetails(updatedBed); openUpdateModal(updatedBed);}} className={`${record.isActive == 1 ? "bg-amber-500" : "bg-green-500"} text-white p-1 rounded mt-1 mb-1`}>{record.isActive == 1 ? (<FaLock className="inline mr-1" />) : (<FaUnlock className="inline mr-1" />)}{record.isActive == 1 ? "Khóa" : "Mở khóa"}</button> </>, 
+                                        css: `flex flex-col md:flex-row md:space-x-2 truncate` },
                                     { dangerouslySetInnerHTML: {__html: record.highlight?.bedName ? record.highlight.bedName[0] : record.bedName, }, css: ` truncate` },
                                     { fieldValue: <span>{record.isActive == 1 ? (<FaCheck className="text-green-500 w-5 h-5 inline-block" />) : (<FaLock className="text-red-500 w-5 h-5 inline-block" />)}</span>, css: `truncate text-center` },
                                     { fieldValue: record.createTime ? format(convertToDate(record.createTime), "dd/MM/yyyy HH:mm:ss") : "" , css: `truncate` },
@@ -78,10 +82,6 @@ const BedTable = ({
                                     { dangerouslySetInnerHTML: {__html: record.highlight?.bedRoomName ? record.highlight.bedRoomName[0] : record.bedRoomName, }, css: ` truncate` },
                                     { fieldValue: record.departmentCode , css: `truncate` },
                                     { fieldValue: record.departmentName , css: `truncate` },
-                                    { fieldValue:<> 
-                                        <button onClick={() => openDeleteModal(record)} className="bg-red-500 text-white p-1 rounded mt-1 mb-1"><FaTrash className="inline mr-1" /> Xóa</button>                                     
-                                        <button onClick={() => {const updatedBed = {...record, isActive: record.isActive == 1 ? 0 : 1}; setRecordDetails(updatedBed); openUpdateModal(updatedBed);}} className={`${record.isActive == 1 ? "bg-amber-500" : "bg-green-500"} text-white p-1 rounded mt-1 mb-1`}>{record.isActive == 1 ? (<FaLock className="inline mr-1" />) : (<FaUnlock className="inline mr-1" />)}{record.isActive == 1 ? "Khóa" : "Mở khóa"}</button> </>, 
-                                        css: `flex flex-col md:flex-row md:space-x-2 truncate` },
                                 ]}
                             />                         
                         </tr>

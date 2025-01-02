@@ -74,7 +74,9 @@ const BedList = () => {
         setReload,
         loadingRecord,
         handleReload,
-        
+        handleBlur,
+        handleFormSubmit,
+
     } = useBedList();
 
 
@@ -134,7 +136,7 @@ const BedList = () => {
 
             <div className="col-span-12 md:col-span-4 flex flex-col flex-grow mt-4 md:mt-0">
                 {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
-                <Card className={`${loadingRecord ? "flex" : ""} flex-grow`}>
+                <Card className={`${loadingRecord || isProcessing ? "flex" : ""} flex-grow`}>
                     <div class="flex-grow relative overflow-x-auto max-h-[100vh] flex flex-col">
                         <BedDetails
                             fieldLabels={fieldLabels}
@@ -144,14 +146,12 @@ const BedList = () => {
                             bedRooms={bedRooms}
                             setBedRoomKeyword={setBedRoomKeyword}
                             setBedTypeKeyword={setBedTypeKeyword}
-                            handleCreate={handleCreate}
-                            openUpdateModal={openUpdateModal}
                             validateForm={validateForm}
-                            checkUniqueCode={checkUniqueCode}
                             errorUniqueCode={errorUniqueCode}
-                            setErrorUniqueCode={setErrorUniqueCode}
                             isProcessing={isProcessing}
                             loadingRecord={loadingRecord}
+                            handleBlur={handleBlur}
+                            handleFormSubmit={handleFormSubmit}
                         />
                     </div>
                 </Card>

@@ -141,61 +141,35 @@ const useBedList = () => {
         });
     };
 
-    const handleCreate = async (recordDetails) => {
-        setIsProcessing(true);
-        const bedData = {
-            bed_code: recordDetails.bedCode,
-            bed_name: recordDetails.bedName,
-            bed_type_id: Number(recordDetails.bedTypeId),
-            bed_room_id: Number(recordDetails.bedRoomId),
-            max_capacity: Number(recordDetails.maxCapacity),
-            is_bed_stretcher: (recordDetails.isBedStretcher),
-        };
-        try {
-            await bedService.create(bedData); // Gọi API xóa
-            addAlert("Thêm mới thành công!", "success");
-            fetchData(); // Load lại danh sách sau khi xóa
-        } catch (err) {
-            console.error("Lỗi khi thêm mới bản ghi:", err);
-            addAlert("Lỗi khi thêm mới bản ghi!", "error");
-        }
-        setIsProcessing(false);
+    const transformCreateData = (recordDetails) => ({
+        bed_code: recordDetails.bedCode,
+        bed_name: recordDetails.bedName,
+        bed_type_id: Number(recordDetails.bedTypeId),
+        bed_room_id: Number(recordDetails.bedRoomId),
+        max_capacity: Number(recordDetails.maxCapacity),
+        is_bed_stretcher: recordDetails.isBedStretcher,
+    });
+
+    const handleCreate = (recordDetails) => {
+        handleMasterCreate(recordDetails, transformCreateData);
     };
 
-    const handleUpdate = async (recordDetails) => {
-        setIsProcessing(true);
-        const bedData = {
-            bed_code: recordDetails.bedCode,
-            bed_name: recordDetails.bedName,
-            bed_type_id: Number(recordDetails.bedTypeId),
-            bed_room_id: Number(recordDetails.bedRoomId),
-            max_capacity: Number(recordDetails.maxCapacity),
-            is_bed_stretcher: Number(recordDetails.isBedStretcher),
-            is_active: Number(recordDetails.isActive),
-        };
-        try {
-            await bedService.update(recordDetails.id, bedData); // Gọi API xóa
-            addAlert("Cập nhật bản ghi thành công!", "success");
-            fetchData(); // Load lại danh sách sau khi cập nhật
-        } catch (err) {
-            console.error("Lỗi khi cập nhật bản ghi:", err);
-            addAlert("Lỗi khi cập nhật bản ghi!", "error");
-        }
-        setIsProcessing(false);
+    const transformUpdateData = (recordDetails) => ({
+        bed_code: recordDetails.bedCode,
+        bed_name: recordDetails.bedName,
+        bed_type_id: Number(recordDetails.bedTypeId),
+        bed_room_id: Number(recordDetails.bedRoomId),
+        max_capacity: Number(recordDetails.maxCapacity),
+        is_bed_stretcher: Number(recordDetails.isBedStretcher),
+        is_active: Number(recordDetails.isActive),
+    });
+
+    const handleUpdate = (recordDetails) => {
+        handleMasterUpdate(recordDetails, transformUpdateData);
     };
 
-    const handleDelete = async (bedId, bedName) => {
-        setIsProcessing(true);
-        try {
-            await bedService.deleteRecord(bedId); // Gọi API xóa
-            addAlert("Xóa bản ghi thành công!", "success");
-            fetchData(); // Load lại danh sách sau khi xóa
-            handleRecordSelect(null)
-        } catch (err) {
-            console.error("Lỗi khi xóa bản ghi:", err);
-            addAlert("Lỗi khi xóa bản ghi!", "error");
-        }
-        setIsProcessing(false);
+    const handleDelete = (Id) => {
+        handleMasterDelete(Id);
     };
 
     const handleReload = async () => {
@@ -261,6 +235,11 @@ const useBedList = () => {
         fetchData,
         checkUniqueCode,
         convertToDate,
+        handleMasterCreate,
+        handleMasterUpdate,
+        handleMasterDelete,
+        handleBlur,
+        handleFormSubmit,
 
     } = useMasterList(
         fieldLabels,
@@ -456,6 +435,8 @@ const useBedList = () => {
         setReload,
         loadingRecord,
         handleReload,
+        handleBlur,
+        handleFormSubmit,
     };
 };
 

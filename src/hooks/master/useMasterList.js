@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import useMasterService from "../../services/master/useMasterService";
 import { format } from "date-fns";
@@ -36,7 +36,7 @@ const useMasterCategoryList = (
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState(null);
     const [reload, setReload] = useState(false);
-    const [loadingRecord, setLoadingRecord] = useState(true);
+    const [loadingRecord, setLoadingRecord] = useState(false);
 
     // Phân trang theo start - limit
     const [page, setPage] = useState(1);
@@ -246,6 +246,64 @@ const useMasterCategoryList = (
             setDate(parsedDate); // Cập nhật giá trị nếu hợp lệ
         }
     };
+    const debounceTimeout = useRef(null);
+    const handleBlur = async (code, id) => {
+        clearTimeout(debounceTimeout.current); // Xóa timeout cũ
+        // Đợi 200ms nếu ngừng gõ thì mới gọi api
+        debounceTimeout.current = setTimeout(async () => {
+            setErrorUniqueCode(await checkUniqueCode(code, id));
+        }, 200);
+    };
+    
+    // Hàm trung gian xử lý submit
+    const handleFormSubmit = (e) => {
+        e.preventDefault(); // Ngăn việc reload trang
+        if (recordDetails.id) {
+            // Mở modal xác nhận
+            openUpdateModal(recordDetails)
+        } else {
+            handleCreate(recordDetails); // Gọi hàm tạo mới
+        }
+    };
+    const handleMasterCreate = async (recordDetails, transformData) => {
+        setIsProcessing(true);
+        const requestData = transformData(recordDetails); // Tùy chỉnh dữ liệu dựa trên hàm chuyển đổi
+        try {
+            await apiService.create(requestData); // Gọi API
+            addAlert("Thêm mới thành công!", "success");
+            if (fetchData) fetchData(); // Load lại danh sách nếu có
+        } catch (err) {
+            addAlert("Lỗi khi thêm mới bản ghi!", "error");
+        } finally {
+            setIsProcessing(false);
+        }
+    };
+    const handleMasterUpdate = async (recordDetails, transformData) => {
+        setIsProcessing(true);
+        const requestData = transformData(recordDetails); // Tùy chỉnh dữ liệu dựa trên hàm chuyển đổi
+        try {
+            await apiService.update(recordDetails.id, requestData); // Gọi API
+            addAlert("Cập nhật thành công!", "success");
+            if (fetchData) fetchData(); // Load lại danh sách nếu có
+        } catch (err) {
+            addAlert("Lỗi khi cập nhật bản ghi!", "error");
+        } finally {
+            setIsProcessing(false);
+        }
+    };
+    const handleMasterDelete = async (Id) => {
+        setIsProcessing(true);
+        try {
+            await apiService.deleteRecord(Id); // Gọi API
+            addAlert("Xóa bản ghi thành công!", "success");
+            if (fetchData) fetchData(); // Load lại danh sách nếu có
+            handleRecordSelect(null)
+        } catch (err) {
+            addAlert("Lỗi khi xóa bản ghi!", "error");
+        } finally {
+            setIsProcessing(false);
+        }
+    };
 
     const openAppMoMoPayment = (deeplink, fallbackURL) => {
         window.location.href = deeplink;
@@ -257,7 +315,7 @@ const useMasterCategoryList = (
     };
     useEffect(() => {
         setErrorUniqueCode(null); // Reset lỗi unique khi bản ghi thay đổi
-    }, [recordDetails]);
+    }, [selectedRecord]);
 
     // Điều hướng khi có lỗi
     useEffect( () => {
@@ -339,6 +397,11 @@ const useMasterCategoryList = (
         handleRawChange,
         formatInputToDate,
         openAppMoMoPayment,
+        handleMasterCreate,
+        handleMasterUpdate,
+        handleMasterDelete,
+        handleBlur,
+        handleFormSubmit,
     };
 };
 

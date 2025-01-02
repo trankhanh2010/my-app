@@ -18,38 +18,19 @@ const BedDetails = ({
     bedRooms,
     setBedRoomKeyword,
     setBedTypeKeyword,
-    handleCreate,
-    openUpdateModal,
     validateForm,
-    checkUniqueCode,
     errorUniqueCode,
-    setErrorUniqueCode,
     isProcessing,
     loadingRecord,
+    handleBlur,
+    handleFormSubmit,
 }) => {
     if (!recordDetails) return <NoRecordInfo />;
     if (isProcessing) return <Loading />;
     if (loadingRecord) return <Loading />;
     // Validate Form
-    let debounceTimeout;
     const errors = validateForm(recordDetails);
-    const handleBlur = async (code, id) => {
-        // Hủy bỏ timeout cũ nếu người dùng đang tiếp tục gõ
-        clearTimeout(debounceTimeout);
-        setTimeout(async () => {
-            setErrorUniqueCode(await checkUniqueCode(code, id));
-        }, 200)
-    }
-    // Hàm trung gian xử lý submit
-    const handleFormSubmit = (e) => {
-        e.preventDefault(); // Ngăn việc reload trang
-        if (recordDetails.id) {
-            // Mở modal xác nhận
-            openUpdateModal(recordDetails)
-        } else {
-            handleCreate(recordDetails); // Gọi hàm tạo mới
-        }
-    };
+
     return (
         <form onSubmit={handleFormSubmit}>
             {/*bedCode*/}
@@ -77,7 +58,7 @@ const BedDetails = ({
                     inputName={fieldLabels.bedName}
                     inputValue={recordDetails.bedName}
                     inputType='text'
-                    inputCss={(errors.bedName && errors.bedName.length > 0) || errorUniqueCode ? "border-red-500" : ""}
+                    inputCss={(errors.bedName && errors.bedName.length > 0)  ? "border-red-500" : ""}
                     onChange={(e) => setRecordDetails({ ...recordDetails, bedName: e.target.value })}
                 />
                 {(errors.bedName && errors.bedName.length > 0) ? (<SpanError errors={errors.bedName} />) : null}
@@ -131,7 +112,7 @@ const BedDetails = ({
                                 inputName={fieldLabels.maxCapacity}
                                 inputValue={recordDetails.maxCapacity}
                                 inputType='number'
-                                inputCss={(errors.maxCapacity && errors.maxCapacity.length > 0) || errorUniqueCode ? "border-red-500" : ""}
+                                inputCss={(errors.maxCapacity && errors.maxCapacity.length > 0)? "border-red-500" : ""}
                                 onChange={(e) => setRecordDetails({ ...recordDetails, maxCapacity: e.target.value })}
                             />
                         </div>
