@@ -21,6 +21,9 @@ const config = {
         testServiceTypeListVView: {
             typeGetApi: 'db'
         },
+        treatmentFeeDetailVView: {
+            typeGetApi: 'db'
+        },
     }
   };
   

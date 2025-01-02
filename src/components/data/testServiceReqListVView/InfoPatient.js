@@ -1,4 +1,5 @@
 import React from "react";
+import Loading from "../../common/Info/Loading";
 import NoRecordInfo from "../../common/Info/NoRecordInfo";
 import GroupFieldSpanWithText from "../../common/Data/InfoRecord/GroupFieldSpanWithText";
 
@@ -7,8 +8,11 @@ const InfoPatient = ({
     recordDetails,
     format,
     convertToDate,
+    loadingRecord,
 }) => {
     if (!recordDetails) return  <NoRecordInfo/>
+    if (loadingRecord) return <Loading/>
+
     return (
         <>
             {/* Phần bảng trên */}

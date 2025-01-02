@@ -35,6 +35,8 @@ const useMasterCategoryList = (
     const [loading, setLoading] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState(null);
+    const [reload, setReload] = useState(false);
+    const [loadingRecord, setLoadingRecord] = useState(true);
 
     // Phân trang theo start - limit
     const [page, setPage] = useState(1);
@@ -271,6 +273,10 @@ const useMasterCategoryList = (
         setData,
         dataCursor,
         setDataCursor,
+        reload,
+        setReload,
+        loadingRecord,
+        setLoadingRecord,
         loading,
         setLoading,
         isProcessing,

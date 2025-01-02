@@ -30,6 +30,7 @@ const BedTable = ({
     loading,
     error,
     isProcessing,
+    setReload,
 }) => {
     if (loading) return <Loading />;
     if (error) return <ErrorInfo />;
@@ -59,8 +60,10 @@ const BedTable = ({
                         <tr
                             key={record.id}
                             className={`hover:bg-gray-50 cursor-pointer ${selectedRecord?.id === record.id ? "bg-blue-100" : ""}`}
-                            onClick={() => handleRecordSelect(record)
-                            }
+                            onClick={() => {
+                                handleRecordSelect(record)
+                                setReload(true)
+                            }}
                         >
                             <GroupTd
                                 fields={[

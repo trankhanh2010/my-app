@@ -25,9 +25,11 @@ const BedDetails = ({
     errorUniqueCode,
     setErrorUniqueCode,
     isProcessing,
+    loadingRecord,
 }) => {
     if (!recordDetails) return <NoRecordInfo />;
     if (isProcessing) return <Loading />;
+    if (loadingRecord) return <Loading />;
     // Validate Form
     let debounceTimeout;
     const errors = validateForm(recordDetails);

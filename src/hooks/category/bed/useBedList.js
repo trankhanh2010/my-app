@@ -198,6 +198,10 @@ const useBedList = () => {
         setIsProcessing(false);
     };
 
+    const handleReload = async () => {
+        fetchData()
+        handleRecordSelect(null)
+    };
     // Lấy từ hookMaster qua
     const {
         format,
@@ -205,6 +209,10 @@ const useBedList = () => {
         setChanges,
         data,
         setData,
+        reload,
+        setReload,
+        loadingRecord,
+        setLoadingRecord,
         loading,
         setLoading,
         isProcessing,
@@ -341,6 +349,46 @@ const useBedList = () => {
         }
     }, [data]); // Chạy lại mỗi khi 'data' thay đổi
 
+        // Tải lại dữ liệu mỗi lần nhấn vào 
+        useEffect(() => {
+            const fetchAndUpdate = async () => {
+                try {
+                    setLoadingRecord(true);
+                    // Gọi API để lấy dữ liệu mới
+                    const response = await bedService.getById(selectedRecord.id);
+                    const updatedRecord = response.data
+        
+                    // Cập nhật dữ liệu trong dataCursor
+                    setData((prevData) =>
+                        prevData.map((item) =>
+                            item.id == selectedRecord.id ? { ...item, ...updatedRecord } : item
+                        )
+                    );
+                    // Cập nhật lại bản ghi đang được chọn
+                    setSelectedRecord(updatedRecord)
+                    setLoadingRecord(false);
+                } catch (error) {
+                    setError(true)
+                    console.error("Error fetching record:", error);
+                } 
+            };
+    
+            const fetchData = async () => {
+                try {
+                    // Gọi cả hai API song song
+                    await Promise.all([
+                        fetchAndUpdate(), // Lấy dữ liệu mới cho bản ghi được chọn
+                    ]);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            };
+            if (reload) {
+                // Cập nhật lại thông tin 
+                fetchData();
+                setReload(false);
+            }
+        }, [reload]); // Gọi lại khi có thay đổi
     return {
         fieldLabels,
         fieldConfig,
@@ -405,7 +453,9 @@ const useBedList = () => {
         checkUniqueCode,
         fetchBedRooms,
         fetchBedTypes,
-
+        setReload,
+        loadingRecord,
+        handleReload,
     };
 };
 

@@ -71,8 +71,10 @@ const BedList = () => {
         checkUniqueCode,
         fetchBedRooms,
         fetchBedTypes,
-
-
+        setReload,
+        loadingRecord,
+        handleReload,
+        
     } = useBedList();
 
 
@@ -95,6 +97,7 @@ const BedList = () => {
                             setOrderBy={setOrderBy}
                             setOrderDirection={setOrderDirection}
                             handleAddNew={handleAddNew}
+                            handleReload={handleReload}
                         />
                     </div>
                 </Card>
@@ -123,14 +126,16 @@ const BedList = () => {
                             loading={loading}
                             error={error}
                             isProcessing={isProcessing}
+                            setReload={setReload}
                         />
                     </div>
                 </Card>
             </div>
 
             <div className="col-span-12 md:col-span-4 flex flex-col flex-grow mt-4 md:mt-0">
-                <Card className="flex-grow">
-                    <div class="mt-1 flex-grow relative overflow-x-auto max-h-[100vh] flex flex-col">
+                {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
+                <Card className={`${loadingRecord ? "flex" : ""} flex-grow`}>
+                    <div class="flex-grow relative overflow-x-auto max-h-[100vh] flex flex-col">
                         <BedDetails
                             fieldLabels={fieldLabels}
                             recordDetails={recordDetails}
@@ -146,6 +151,7 @@ const BedList = () => {
                             errorUniqueCode={errorUniqueCode}
                             setErrorUniqueCode={setErrorUniqueCode}
                             isProcessing={isProcessing}
+                            loadingRecord={loadingRecord}
                         />
                     </div>
                 </Card>

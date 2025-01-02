@@ -96,6 +96,26 @@ const get = async (start, limit, orderBy, orderDirection, keyword) => {
     throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài
   }
 };
+const getById = async (id) => {
+  let param;
+  // Lấy dữ liệu từ DB
+    param = {
+      CommonParam: {
+        Elastic: false,
+      },
+
+    };
+
+  const paramBase64 = encodeParams(param);
+  // console.log(paramBase64);
+
+  try {
+    const response = await api.get(`/api/v1/bed/${id}?param=${paramBase64}`);
+    return response.data;  // Trả về dữ liệu nhận được từ API
+  } catch (error) {
+    throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài
+  }
+};
 const create = async (bedData) => {
   try {
       const response = await api.post(`/api/v1/bed`, bedData, {
@@ -138,6 +158,7 @@ const checkUniqueCode = async (code, id = null) => {
 };
 export default {
   get,
+  getById,
   create,
   update,
   deleteRecord,

@@ -12,6 +12,7 @@ const TestServiceReqListTable = ({
     selectedRecord,
     setTreatmentId,
     loading,
+    setReload,
 }) => {
     if (loading) return <Loading/>
     const getTextColor = (record) => {
@@ -51,6 +52,7 @@ const TestServiceReqListTable = ({
                             onClick={() => {
                                 handleRecordSelect(record);
                                 setTreatmentId(record.treatmentId);
+                                setReload(true);
                                 }
                             }
                         >

@@ -6,6 +6,7 @@ import Search from "../../../components/common/Filter/Search";
 import OrderBy from "../../../components/common/Filter/OrderBy";
 import OrderDirection from "../../../components/common/Filter/OrderDirection";
 import ButtonAddNew from "../../../components/common/Button/ButtonAddNew";
+import ButtonReload from "../../../components/common/Button/ButtonReload";
 import PrevPage from "../../../components/common/Paginate/PrevPage";
 import NextPage from "../../../components/common/Paginate/NextPage";
 import TotalRecord from "../../../components/common/Filter/TotalRecord";
@@ -25,6 +26,7 @@ const Filter = ({
     setOrderBy,
     setOrderDirection,
     handleAddNew,
+    handleReload,
 }) => {
     // Các trường để lọc
     const options = [
@@ -37,7 +39,7 @@ const Filter = ({
         <>
             <CardElement>
                 <div className="flex flex-col md:flex-row md:space-x-2 border p-2">
-                    <div className="w-full flex flex-col md:w-[2/4]">
+                    <div className="w-full flex flex-col md:w-[1/4]">
                         {/* Chọn số bản ghi trên mỗi trang */}
                         <RecordPerPage
                             limit={limit}
@@ -57,6 +59,11 @@ const Filter = ({
                     <div className="mt-1 w-full flex flex-col md:w-[1/4]">
                         <ButtonAddNew
                             handleAddNew={handleAddNew}
+                        />
+                    </div>
+                    <div className="mt-1 w-full flex flex-col md:w-[1/4]">
+                        <ButtonReload
+                            handleReload={handleReload}
                         />
                     </div>
                 </div>

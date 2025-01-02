@@ -16,6 +16,8 @@ const RecordPerPage = ({ limit, setLimit, options }) => {
                 getOptionLabel={(e) => e.label} // Hiển thị label cho các option
                 getOptionValue={(e) => e.value} // Sử dụng value làm giá trị
                 className="w-full" // Thêm lớp CSS để điều chỉnh chiều rộng của select
+                menuPortalTarget={document.body} 
+                styles={{ menuPortal: base => ({ ...base, zIndex: 200 }) }} // Đặt z index cao hơn các phần khác để k bị mất khi scroll
             />
         </div>
     );

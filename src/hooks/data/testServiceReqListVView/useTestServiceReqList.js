@@ -3,11 +3,13 @@ import config from "../../../config";
 import useMasterList from '../../master/useMasterList';
 import testServiceReqListService from "../../../services/data/testServiceReqListService";
 import testServiceTypeListService from "../../../services/data/testServiceTypeListService";
+import treatmentFeeDetailService from "../../../services/data/treatmentFeeDetailService";
 import serviceReqpaymentService from "../../../services/transaction/serviceReqPaymentService";
 import pusher from '../../../websocket/pusher';
 const useTestServiceReqList = () => {
     const isDB = config.apiService.testServiceReqListVView.typeGetApi === 'db';
     const testServiceTypeListVViewIsDB = config.apiService.testServiceTypeListVView.typeGetApi === 'db';
+    const treatmentFeeDetailVViewIsDB = config.apiService.treatmentFeeDetailVView.typeGetApi === 'db';
 
     const [isApiNoAuth, setIsApiNoAuth] = useState(false)
     const [opentShowAllPayment, setOpentShowAllPayment] = useState(false)
@@ -33,6 +35,7 @@ const useTestServiceReqList = () => {
 
     // Data bảng phụ
     const [testServiceTypeList, setTestServiceTypeList] = useState([]);
+    const [treatmentFeeDetail, setTreatmentFeeDetail] = useState([]);
     const [treatmentId, setTreatmentId] = useState();
     const [applyFilterCursor, setApplyFilterCursor] = useState(false);
     const [filterCursor, setFilterCursor] = useState({
@@ -77,8 +80,10 @@ const useTestServiceReqList = () => {
         patientType: {},
         serviceType: {}
     });
-    const [loadingFetchTestServiceTypeList, setLoadingFetchTestServiceTypeList] = useState(true);
+    const [loadingFetchTestServiceTypeList, setLoadingFetchTestServiceTypeList] = useState(false);
     const [errorFetchTestServiceTypeList, setErrorFetchTestServiceTypeList] = useState(false);
+    const [loadingFetchTreatmentFeeDetail, setLoadingFetchTreatmentFeeDetail] = useState(true);
+    const [errorFetchTreatmentFeeDetail, setErrorFetchTreatmentFeeDetail] = useState(false);
 
     const fieldLabels = {
         id: "Id",
@@ -256,6 +261,24 @@ const useTestServiceReqList = () => {
             setLoadingFetchTestServiceTypeList(false)
         }
     };
+    const fetchTreatmentFeeDetail = async () => {
+        try {
+            if (treatmentId) {
+                setLoadingFetchTreatmentFeeDetail(true)
+                const treatmentFeeDetail = await treatmentFeeDetailService.getAllSelect(treatmentId);
+                if (treatmentFeeDetailVViewIsDB) {
+                    setTreatmentFeeDetail(treatmentFeeDetail.data);
+                }
+                setLoadingFetchTreatmentFeeDetail(false)
+                setErrorFetchTreatmentFeeDetail(false)
+            }
+        } catch (err) {
+            setErrorFetchTreatmentFeeDetail(true)
+            console.error("Lỗi khi tải treatmentFeeDetail:", err);
+        } finally {
+            setLoadingFetchTreatmentFeeDetail(false)
+        }
+    };
     const handleRecordSelect = (record) => {
         setSelectedRecord(record);
         setRecordDetails(record);
@@ -266,6 +289,10 @@ const useTestServiceReqList = () => {
         format,
         dataCursor,
         setDataCursor,
+        reload,
+        setReload,
+        loadingRecord,
+        setLoadingRecord,
         loading,
         setLoading,
         isProcessing,
@@ -318,28 +345,6 @@ const useTestServiceReqList = () => {
 
             // Gọi hàm openAppMoMoPayment từ masterhook
             openAppMoMoPayment(deeplink, fallbackURL);
-        }
-    };
-    const fetchAndUpdate = async () => {
-        try {
-            setLoadingFetchTestServiceTypeList(true)
-            // Gọi API để lấy dữ liệu mới
-            const response = await testServiceReqListService.getById(selectedRecord.id);
-            const updatedRecord = response.data
-
-            // Cập nhật dữ liệu trong dataCursor
-            setDataCursor((prevData) =>
-                prevData.map((item) =>
-                    item.id == selectedRecord.id ? { ...item, ...updatedRecord } : item
-                )
-            );
-            // Cập nhật lại bản ghi đang được chọn
-            setSelectedRecord(updatedRecord)
-        } catch (error) {
-            setError(true)
-            console.error("Error fetching record:", error);
-        } finally {
-            setLoadingFetchTestServiceTypeList(false)
         }
     };
     const handleLoadMore = () => {
@@ -402,16 +407,51 @@ const useTestServiceReqList = () => {
         setFilterTrigger(false)
     }, [filterTrigger]);
 
+    // Tải lại dữ liệu mỗi lần nhấn vào 
     useEffect(() => {
+        const fetchAndUpdate = async () => {
+            try {
+                // Cập nhật lại vị trí scroll
+                setScrollPosition(scrollContainerRef.current.scrollTop);
+                setLoadingRecord(true);
+                // Gọi API để lấy dữ liệu mới
+                const response = await testServiceReqListService.getById(selectedRecord.id);
+                const updatedRecord = response.data
+    
+                // Cập nhật dữ liệu trong dataCursor
+                setDataCursor((prevData) =>
+                    prevData.map((item) =>
+                        item.id == selectedRecord.id ? { ...item, ...updatedRecord } : item
+                    )
+                );
+                // Cập nhật lại bản ghi đang được chọn
+                setSelectedRecord(updatedRecord)
+                setLoadingRecord(false);
+            } catch (error) {
+                setError(true)
+                console.error("Error fetching record:", error);
+            } 
+        };
+
         const fetchData = async () => {
             try {
-                await fetchTestServiceTypeList();
+                // Gọi cả hai API song song
+                await Promise.all([
+                    fetchAndUpdate(), // Lấy dữ liệu mới cho bản ghi được chọn
+                    fetchTestServiceTypeList(),
+                    fetchTreatmentFeeDetail(), 
+                ]);
             } catch (error) {
-                console.error("Error fetching test service type list:", error);
+                console.error("Error fetching data:", error);
             }
         };
-        fetchData();
-    }, [treatmentId]); // Gọi lại khi có thay đổi
+        if (reload) {
+            // Cập nhật lại thông tin 
+            fetchData();
+            setReload(false);
+        }
+    }, [reload]); // Gọi lại khi có thay đổi
+
     useEffect(() => {
         if (payment.orderId) {
             const channel = pusher.subscribe('momo-status-payment-channel');
@@ -437,7 +477,8 @@ const useTestServiceReqList = () => {
     // tải lại dữ liệu khi thanh toán xong
     useEffect(() => {
         if (!openModalResultPayment && selectedRecord) {
-            fetchAndUpdate();
+            // Cập nhật lại thông tin transaction
+            fetchTreatmentFeeDetail()
         }
     }, [openModalResultPayment]); // Gọi lại khi có thay đổi
     return {
@@ -446,10 +487,12 @@ const useTestServiceReqList = () => {
         dataCursor,
         loading,
         loadingFetchTestServiceTypeList,
+        loadingFetchTreatmentFeeDetail,
         error,
         setError,
         isProcessing,
         errorFetchTestServiceTypeList,
+        errorFetchTreatmentFeeDetail,
         limitCursor,
         selectedRecord,
         recordDetails,
@@ -457,6 +500,7 @@ const useTestServiceReqList = () => {
         setLastId,
         alerts,
         testServiceTypeList,
+        treatmentFeeDetail,
         treatmentId,
         setTreatmentId,
         searchTerm,
@@ -514,6 +558,8 @@ const useTestServiceReqList = () => {
         scrollContainerRef,
         setScrollPosition,
         handleLoadMore, 
+        setReload,
+        loadingRecord,
     };
 };
 

@@ -20,6 +20,9 @@ const TestServiceReqList = () => {
         dataCursor,
         loading,
         loadingFetchTestServiceTypeList,
+        treatmentFeeDetail,
+        loadingFetchTreatmentFeeDetail,
+        errorFetchTreatmentFeeDetail,
         isProcessing,
         error,
         errorFetchTestServiceTypeList,
@@ -79,6 +82,8 @@ const TestServiceReqList = () => {
         setOpenModalNoFee, 
         scrollContainerRef,
         handleLoadMore,
+        setReload,
+        loadingRecord,
     }
         = useTestServiceReqList();
 
@@ -131,6 +136,7 @@ const TestServiceReqList = () => {
                             setRecordDetails={setRecordDetails}
                             setTreatmentId={setTreatmentId}
                             loading={loading}
+                            setReload={setReload}
                         />
                     </div>
                 </Card>
@@ -140,13 +146,13 @@ const TestServiceReqList = () => {
                     <div className="w-full flex flex-col relative md:overflow-x-auto overflow-y-auto whitespace-pre-line break-words md:min-h-[50vh] md:max-h-[50vh]">
                         <InfoTransaction
                             recordDetails={recordDetails}
-                            testServiceTypeList={testServiceTypeList}
+                            treatmentFeeDetail={treatmentFeeDetail}
                             selectedRecord={selectedRecord}
-                            loadingFetchTestServiceTypeList={loadingFetchTestServiceTypeList}
-                            errorFetchTestServiceTypeList={errorFetchTestServiceTypeList}
+                            loadingFetchTreatmentFeeDetail={loadingFetchTreatmentFeeDetail}
+                            errorFetchTreatmentFeeDetail={errorFetchTreatmentFeeDetail}
                         />
-                        {selectedRecord && selectedRecord.treatmentCode 
-                        && Number(selectedRecord.fee) > 0 
+                        {treatmentFeeDetail  
+                        && Number(treatmentFeeDetail.fee) > 0 
                         && (
                                 <button
                                     className="py-2 px-4 rounded bg-blue-600 hover:bg-blue-500 mt-1 mb-1 text-white"
@@ -161,12 +167,14 @@ const TestServiceReqList = () => {
             <div className="col-span-12 md:col-span-7 flex flex-col flex-grow mt-4 md:mt-0">
                 {/*Thông tin bệnh nhân*/}
                 <Card>
-                    <div className="w-full md:min-h-[35vh] relative overflow-x-auto md:overflow-y-auto md:max-h-[35vh]">
+                    {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
+                    <div className={`w-full ${loadingRecord ? "flex" : ""} md:min-h-[35vh] relative overflow-x-auto md:overflow-y-auto md:max-h-[35vh]`}>
                         <InfoPatient
                             fieldLabels={fieldLabels}
                             recordDetails={recordDetails}
                             format={format}
                             convertToDate={convertToDate}
+                            loadingRecord={loadingRecord}
                         />
                     </div>
                 </Card>
@@ -177,7 +185,8 @@ const TestServiceReqList = () => {
                             setSearchTerm={setSearchTerm}
                         />
                     <div className="flex flex-col md:flex-row md:space-x-2 border">
-                        <div className="w-full flex-grow whitespace-pre-line break-words relative overflow-x-auto overflow-y-auto md:h-[65vh]">
+                        {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
+                        <div className={`w-full ${loadingRecord ? "flex" : ""} flex-grow whitespace-pre-line break-words relative overflow-x-auto overflow-y-auto md:h-[65vh]`}>
                             <TestServiceReqTypeListTable
                                 fieldLabels={fieldLabels}
                                 recordDetail={recordDetails}
