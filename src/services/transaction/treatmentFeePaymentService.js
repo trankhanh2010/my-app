@@ -16,7 +16,7 @@ const getPaymentMoMoQRCode = async (treatmentCode) => {
   // console.log(paramBase64);
 
   try {
-    const response = await apiNoAuth.get(`/api/v1/service-req-payment?param=${paramBase64}`);
+    const response = await apiNoAuth.get(`/api/v1/treatment-fee-payment?param=${paramBase64}`);
     return response.data;  // Trả về dữ liệu nhận được từ API
   } catch (error) {
     throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài
@@ -39,7 +39,7 @@ const getPaymentMoMoTheQuocTe = async (treatmentCode) => {
   // console.log(paramBase64);
 
   try {
-    const response = await apiNoAuth.get(`/api/v1/service-req-payment?param=${paramBase64}`);
+    const response = await apiNoAuth.get(`/api/v1/treatment-fee-payment?param=${paramBase64}`);
     return response.data;  // Trả về dữ liệu nhận được từ API
   } catch (error) {
     throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài
@@ -62,7 +62,7 @@ const getPaymentMoMoTheATMNoiDia = async (treatmentCode) => {
   // console.log(paramBase64);
 
   try {
-    const response = await apiNoAuth.get(`/api/v1/service-req-payment?param=${paramBase64}`);
+    const response = await apiNoAuth.get(`/api/v1/treatment-fee-payment?param=${paramBase64}`);
     return response.data;  // Trả về dữ liệu nhận được từ API
   } catch (error) {
     throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài

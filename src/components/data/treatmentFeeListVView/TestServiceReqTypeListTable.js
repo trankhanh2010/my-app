@@ -183,17 +183,17 @@ const TestServiceReqTypeListTable = ({
                                         <tr key={record.id} className="hover:bg-gray-50 cursor-pointer">
                                             <GroupTd
                                                 fields={[
-                                                    {fieldValue:record.tdlServiceCode, css:`pl-8 truncate ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""} sticky left-0 bg-white`},
-                                                    {fieldValue:Number(record.amount).toLocaleString(), css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
-                                                    {fieldValue:Number(record.price).toLocaleString(), css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
-                                                    {fieldValue:Number(record.virTotalPrice).toLocaleString(), css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
-                                                    {fieldValue:Number(record.virTotalHeinPrice).toLocaleString(), css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
-                                                    {fieldValue:Number(record.virTotalPatientPrice).toLocaleString(), css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
-                                                    {fieldValue:record.vatRatio, css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
-                                                    {fieldValue:record.tdlServiceName, css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""} truncate`},
-                                                    {fieldValue:Number(record.discount).toLocaleString(), css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
-                                                    {fieldValue:<span className={`${record.isExpend == 1 ? 'text-green-600' : 'text-red-600'}`}>{record.isExpend == 1 ? '✓' : '✘'}</span>, css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
-                                                    {fieldValue:record.tdlServiceReqCode, css:`pl-8 ${Number(record.virTotalPatientPrice) == 0 ? "italic bg-green-50 text-green-400" : ""}`},
+                                                    {fieldValue:record.tdlServiceCode, css:`pl-8 truncate  sticky left-0 bg-white`},
+                                                    {fieldValue:Number(record.amount).toLocaleString(), css:`pl-8 `},
+                                                    {fieldValue:Number(record.price).toLocaleString(), css:`pl-8 `},
+                                                    {fieldValue:Number(record.virTotalPrice).toLocaleString(), css:`pl-8 `},
+                                                    {fieldValue:Number(record.virTotalHeinPrice).toLocaleString(), css:`pl-8 `},
+                                                    {fieldValue:Number(record.virTotalPatientPrice).toLocaleString(), css:`pl-8 `},
+                                                    {fieldValue:record.vatRatio, css:`pl-8 `},
+                                                    {fieldValue:record.tdlServiceName, css:`pl-8  truncate`},
+                                                    {fieldValue:Number(record.discount).toLocaleString(), css:`pl-8`},
+                                                    {fieldValue:<span className={`${record.isExpend == 1 ? 'text-green-600' : 'text-red-600'}`}>{record.isExpend == 1 ? '✓' : '✘'}</span>, css:`pl-8`},
+                                                    {fieldValue:record.tdlServiceReqCode, css:`pl-8 `},
                                                 ]}
                                             />          
                                         </tr>

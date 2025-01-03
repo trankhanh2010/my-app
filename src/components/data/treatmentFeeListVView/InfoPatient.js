@@ -19,7 +19,7 @@ const InfoPatient = ({
             <GroupFieldSpanWithText 
                 fields={[
                     {fieldName:fieldLabels.patientName, fieldValue:recordDetails.patientName, divCss:`md:w-[20%] md:border-r`},
-                    {fieldName:fieldLabels.dateOfBirth, fieldValue:recordDetails.dateOfBirth, divCss:`md:w-[20%] md:border-r`},
+                    {fieldName:fieldLabels.dateOfBirth, fieldValue:recordDetails.dateOfBirth ? format(convertToDate(recordDetails.dateOfBirth), "dd/MM/yyyy") : "", divCss:`md:w-[20%] md:border-r`},
                     {fieldName:fieldLabels.gender, fieldValue:recordDetails.gender, divCss:`md:w-[15%] md:border-r`},
                     {fieldName:fieldLabels.address, fieldValue:recordDetails.address, divCss:`md:w-[45%]`},
                 ]}

@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import useTestServiceReqList from "../../../hooks/data/testServiceReqListVView/useTestServiceReqList";
-import TestServiceReqListTable from "../../../components/data/testServiceReqListVView/TestServiceReqListTable";
-import InfoTransaction from "../../../components/data/testServiceReqListVView/InfoTransaction";
-import InfoPatient from "../../../components/data/testServiceReqListVView/InfoPatient";
-import SearchTestServiceReqTypeListTable from "../../../components/data/testServiceReqListVView/SearchTestServiceReqTypeListTable";
-import TestServiceReqTypeListTable from "../../../components/data/testServiceReqListVView/TestServiceReqTypeListTable";
-import Filter from "../../../components/data/testServiceReqListVView/Filter";
+import useTestServiceReqList from "../../../hooks/data/treatmentFeeListVView/useTreatmentFeeList";
+import TreatmentFeeListTable from "../../../components/data/treatmentFeeListVView/TreatmentFeeListTable";
+import InfoTransaction from "../../../components/data/treatmentFeeListVView/InfoTransaction";
+import InfoPatient from "../../../components/data/treatmentFeeListVView/InfoPatient";
+import SearchTestServiceReqTypeListTable from "../../../components/data/treatmentFeeListVView/SearchTestServiceReqTypeListTable";
+import TestServiceReqTypeListTable from "../../../components/data/treatmentFeeListVView/TestServiceReqTypeListTable";
+import FilterNoLogin from "../../../components/data/treatmentFeeListVView/FilterNoLogin";
 import ShowAllPayment from "../../../components/common/Modal/Payment/ShowAllPayment";
 import ResultPaymentModal from "../../../components/common/Modal/Payment/ResultPaymentModal";
 import Card from "../../../components/common/Master/Card";
@@ -38,8 +38,6 @@ const TestServiceReqList = () => {
         toTime, setToTime,
         tdlPatientId, setTdlPatientId,
         executeDepartmentCode, setExecuteDepartmentCode,
-        isSpecimen, setIsSpecimen,
-        isNoExcute, setIsNoExcute,
         searchTerm,
         setSearchTerm,
         expandedGroups,
@@ -79,21 +77,29 @@ const TestServiceReqList = () => {
         gettingResultPayment,
         handleOpenMoMoPayment,
         openModalNoFee, 
-        setOpenModalNoFee, 
+        setOpenModalNoFee,
+        setIsApiNoAuth, 
         scrollContainerRef,
         handleLoadMore,
         setReload,
         loadingRecord,
     }
         = useTestServiceReqList();
+    // Các api của trang này k cần đăng nhập
+    // chỉ gán giá trị 1 lần
+    const hasSetNoAuth = useRef(false);
+    if (!hasSetNoAuth.current) {
+        setIsApiNoAuth(true);
+        hasSetNoAuth.current = true;
+    }
 
     return (
-        <div className={`grid grid-cols-12 gap-1 p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
+        <div className={`grid grid-cols-12 gap-1 w-full p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
             <div className="col-span-12 md:col-span-5 flex flex-col md:mr-1 md:border-r md:pr-2">
                 {/* Phần điều khiển và lọc */}
                 <Card>
-                    <div className="md:max-h-[20vh] min-h-[20vh] md:overflow-y-auto">
-                        <Filter
+                    <div className="min-h-[20vh] md:max-h-[20vh] md:overflow-y-auto">
+                        <FilterNoLogin
                             dataCursor={dataCursor}
                             isProcessing={isProcessing}
                             limitCursor={limitCursor}
@@ -122,10 +128,10 @@ const TestServiceReqList = () => {
                 {/* Danh sách dữ liệu */}
                 <Card>
                     <div
-                        className="relative overflow-x-auto overflow-y-auto max-h-[30vh] md:min-h-[30vh] mb-2 flex flex-col"
+                        className="relative overflow-x-auto overflow-y-auto max-h-[30vh] md:min-h-[30vh] mb-2 flex flex-col border"
                         ref={scrollContainerRef}
                     >
-                        <TestServiceReqListTable
+                        <TreatmentFeeListTable
                             fieldLabels={fieldLabels}
                             format={format}
                             data={dataCursor}
@@ -151,7 +157,7 @@ const TestServiceReqList = () => {
                             loadingFetchTreatmentFeeDetail={loadingFetchTreatmentFeeDetail}
                             errorFetchTreatmentFeeDetail={errorFetchTreatmentFeeDetail}
                         />
-                        {treatmentFeeDetail  
+                        {treatmentFeeDetail 
                         && Number(treatmentFeeDetail.fee) > 0 
                         && (
                                 <button
@@ -168,7 +174,7 @@ const TestServiceReqList = () => {
                 {/*Thông tin bệnh nhân*/}
                 <Card>
                     {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
-                    <div className={`w-full ${loadingRecord ? "flex" : ""} md:min-h-[35vh] relative overflow-x-auto md:overflow-y-auto md:max-h-[35vh]`}>
+                    <div className={`w-full ${loadingRecord ? "flex" : ""} md:min-h-[35vh] relative md:overflow-x-auto overflow-y-auto md:max-h-[35vh]`}>
                         <InfoPatient
                             fieldLabels={fieldLabels}
                             recordDetails={recordDetails}

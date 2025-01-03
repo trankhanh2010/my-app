@@ -12,8 +12,8 @@ import Info500 from './pages/error/Info500';
 import CheckTokenMiddleware from "./components/middleware/CheckTokenMiddleware";
 
 import BedList from './pages/category/bed/BedList';
-import TestServiceReqList from './pages/data/testServiceReqListVView/TestServiceReqList';
-import TestServiceReqListNoLogin from './pages/data/testServiceReqListVView/TestServiceReqListNoLogin';
+import TestServiceReqList from './pages/data/treatmentFeeListVView/TreatmentFeeList';
+import TestServiceReqListNoLogin from './pages/data/treatmentFeeListVView/TreatmentFeeListNoLogin';
 import ResultPayment from './pages/transaction/ResultPayment'
 
 const App = () => {

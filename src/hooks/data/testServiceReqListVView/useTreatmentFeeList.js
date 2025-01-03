@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import config from "../../../config";
 import useMasterList from '../../master/useMasterList';
-import testServiceReqListService from "../../../services/data/testServiceReqListService";
+import testServiceReqListService from "../../../services/data/treatmentFeeListService";
 import testServiceTypeListService from "../../../services/data/testServiceTypeListService";
 import treatmentFeeDetailService from "../../../services/data/treatmentFeeDetailService";
-import serviceReqpaymentService from "../../../services/transaction/serviceReqPaymentService";
+import treatmentFeepaymentService from "../../../services/transaction/treatmentFeePaymentService";
 import pusher from '../../../websocket/pusher';
 const useTestServiceReqList = () => {
     const isDB = config.apiService.testServiceReqListVView.typeGetApi === 'db';
@@ -98,8 +98,6 @@ const useTestServiceReqList = () => {
         icdName: "Chẩn đoán chính",
         heinMediOrgCode: "Mã nơi ĐKKCBBĐ",
         heinMediOrgName: "Nơi ĐKKCBBĐ",
-        requestLoginname: "requestLoginname",
-        requestUsername: "requestUsername",
         turnCode: "turnCode",
         nationalName: "Quốc gia",
         priority: "Ưu tiên",
@@ -136,10 +134,6 @@ const useTestServiceReqList = () => {
         treatmentTypeName: "treatmentTypeName",
         executeRoomCode: "executeRoomCode",
         executeRoomName: "executeRoomName",
-        executeDepartmentCode: "executeDepartmentCode",
-        executeDepartmentName: "executeDepartmentName",
-        requestDepartmentCode: "requestDepartmentCode",
-        requestDepartmentName: "requestDepartmentName",
         treatmentResultName: "Kết quả điều trị",
         rightRouteCode: "Loại",
         treatmentEndTypeName: "Loại ra viện",
@@ -167,7 +161,7 @@ const useTestServiceReqList = () => {
     const getPaymentMoMoQRCode = async (treatmentCode) => {
         try {
             setCreatingPayment(true)
-            const response = await serviceReqpaymentService.getPaymentMoMoQRCode(treatmentCode);
+            const response = await treatmentFeepaymentService.getPaymentMoMoQRCode(treatmentCode);
             // Nếu có phí cần thanh toán
             const newPaymentMoMo = {}
             if (response.data.success) {
@@ -195,7 +189,7 @@ const useTestServiceReqList = () => {
     const getPaymentMoMoTheQuocTe = async (treatmentCode) => {
         try {
             setCreatingPayment(true)
-            const response = await serviceReqpaymentService.getPaymentMoMoTheQuocTe(treatmentCode);
+            const response = await treatmentFeepaymentService.getPaymentMoMoTheQuocTe(treatmentCode);
             const newPaymentMoMo = {}
             if (response.data.success) {
                 newPaymentMoMo.payUrl = response.data.payUrl
@@ -220,7 +214,7 @@ const useTestServiceReqList = () => {
     const getPaymentMoMoTheATMNoiDia = async (treatmentCode) => {
         try {
             setCreatingPayment(true)
-            const response = await serviceReqpaymentService.getPaymentMoMoTheATMNoiDia(treatmentCode);
+            const response = await treatmentFeepaymentService.getPaymentMoMoTheATMNoiDia(treatmentCode);
             const newPaymentMoMo = {}
             if (response.data.success) {
                 newPaymentMoMo.payUrl = response.data.payUrl

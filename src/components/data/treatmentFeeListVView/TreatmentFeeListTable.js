@@ -51,7 +51,7 @@ const TestServiceReqListTable = ({
                             className={`hover:bg-gray-50 cursor-pointer ${selectedRecord?.id === record.id ? "bg-blue-100" : ""}`}
                             onClick={() => {
                                 handleRecordSelect(record);
-                                setTreatmentId(record.treatmentId);
+                                setTreatmentId(record.id);
                                 setReload(true);
                                 }
                             }
