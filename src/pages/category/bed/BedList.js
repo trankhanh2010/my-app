@@ -81,10 +81,10 @@ const BedList = () => {
 
 
     return (
-        <div className={`grid grid-cols-12 gap-1 w-full p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
+        <div className={`grid grid-cols-12 gap-1 w-full p-1`}>
             <div className="col-span-12 md:col-span-8 flex flex-col md:mr-1 md:border-r md:pr-2">
-                <Card>
-                    <div class="min-h-[20vh]">
+                <Card className={`${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                    <div class={`min-h-[20vh] ${isProcessing ? 'pointer-events-none' : ''}`}>
                         <Filter
                             page={page}
                             limit={limit}
@@ -104,7 +104,7 @@ const BedList = () => {
                     </div>
                 </Card>
                 <Card>
-                    <div class="mt-1 relative md:overflow-x-auto overflow-y-auto min-h-[70vh] md:max-h-[70vh] flex flex-row">
+                    <div class="mt-1 relative md:overflow-x-auto overflow-y-auto min-h-[70vh] md:max-h-[70vh] flex flex-row border">
                         <BedTable
                             fieldLabels={fieldLabels}
                             format={format}

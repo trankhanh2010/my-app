@@ -121,7 +121,7 @@ const Page = () => {
                 {/* Danh sách dữ liệu */}
                 <Card>
                     <div
-                        className="relative overflow-x-auto overflow-y-auto max-h-[40vh] md:min-h-[40vh] mb-2 flex flex-col"
+                        className="relative overflow-x-auto overflow-y-auto max-h-[80vh] md:max-h-[40vh] md:min-h-[40vh] mb-2 flex flex-col border"
                         ref={scrollContainerRef}
                     >
                         <TreatmentFeeListTable

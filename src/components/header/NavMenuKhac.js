@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
 import CategoryDropdown from "./CategoryDropdown";
-import useMasterService from "../../services/master/useMasterService";
+import { useAuth } from '../../context/AuthContext';
 
 const NavMenu = ({ isMobileMenuOpen }) => {
-    const [authToken, setAuthToken] = useState(useMasterService.getAuthToken());
-    const location = useLocation(); // Lắng nghe sự thay đổi của URL
-
-    useEffect(() => {
-        // Cập nhật trạng thái authToken mỗi khi URL thay đổi
-        setAuthToken(useMasterService.getAuthToken());
-    }, [location]);
+    const { authToken } = useAuth();
 
     return (
         <ul
