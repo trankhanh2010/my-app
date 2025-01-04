@@ -12,8 +12,8 @@ import Info500 from './pages/error/Info500';
 import CheckTokenMiddleware from "./components/middleware/CheckTokenMiddleware";
 
 import BedList from './pages/category/bed/BedList';
-import TestServiceReqList from './pages/data/treatmentFeeListVView/TreatmentFeeList';
-import TestServiceReqListNoLogin from './pages/data/treatmentFeeListVView/TreatmentFeeListNoLogin';
+import TreatmentFeeList from './pages/data/treatmentFeeListVView/TreatmentFeeList';
+import TreatmentFeeListNoLogin from './pages/data/treatmentFeeListVView/TreatmentFeeListNoLogin';
 import ResultPayment from './pages/transaction/ResultPayment'
 
 const App = () => {
@@ -27,8 +27,8 @@ const App = () => {
 
           <Route path="/bed" element={<BedList />} />
 
-          <Route path="/test-service-req-list" element={<TestServiceReqList />} />
-          <Route path="/test-service-req-list-no-login" element={<TestServiceReqListNoLogin />} />
+          <Route path="/treatment-fee-list" element={<TreatmentFeeList />} />
+          <Route path="/treatment-fee-list-no-login" element={<TreatmentFeeListNoLogin />} />
 
           <Route path="/result-payment" element={<ResultPayment />} />
 

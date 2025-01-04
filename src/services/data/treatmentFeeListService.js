@@ -64,7 +64,7 @@ const getById = async (id) => {
         Elastic: false,
       },
       ApiData: {
-        IsActive: 1
+        IsActive: null
       },
     };
 

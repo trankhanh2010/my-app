@@ -55,8 +55,8 @@ const Filter = ({
             </CardElement>
 
             <CardElement>
-                <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border p-2">
-                    <div className="mt-1 w-full flex flex-col xl:w-[1/2]">
+                <div className="mt-1 flex flex-col md:flex-row md:space-x-2 border p-2">
+                    <div className="mt-1 w-full flex flex-col md:w-[1/2]">
                         {/* Nút Lọc */}
                         <button
                             onClick={() => {
@@ -68,7 +68,7 @@ const Filter = ({
                             Lọc
                         </button>
                     </div>
-                    <div className="mt-1 w-full flex flex-col xl:w-[1/2]">
+                    <div className="mt-1 w-full flex flex-col md:w-[1/2]">
                         {/* Nút Tải thêm */}
                         <button
                             onClick={handleLoadMore}

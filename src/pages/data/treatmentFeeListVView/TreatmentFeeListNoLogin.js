@@ -148,8 +148,8 @@ const TestServiceReqList = () => {
                 </Card>
 
                 {/* Thông tin giao dịch */}
-                <Card>
-                    <div className="w-full flex flex-col relative md:overflow-x-auto overflow-y-auto whitespace-pre-line break-words md:min-h-[50vh] md:max-h-[50vh]">
+                <Card className="flex-grow">
+                    <div className="w-full flex flex-col relative whitespace-pre-line break-words">
                         <InfoTransaction
                             recordDetails={recordDetails}
                             treatmentFeeDetail={treatmentFeeDetail}

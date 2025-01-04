@@ -17,7 +17,7 @@ const Middleware = ({ children }) => {
         "/info-403",
         "/info-500",
         "/result-payment",
-        "/test-service-req-list-no-login",
+        "/treatment-fee-list-no-login",
     ]; // Các route không cần xác thực
 
     useEffect(() => {

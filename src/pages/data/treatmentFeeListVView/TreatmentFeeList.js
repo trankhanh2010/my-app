@@ -11,6 +11,7 @@ import ShowAllPayment from "../../../components/common/Modal/Payment/ShowAllPaym
 import ResultPaymentModal from "../../../components/common/Modal/Payment/ResultPaymentModal";
 import Card from "../../../components/common/Master/Card";
 import NoFeeModal from "../../../components/common/Modal/Payment/NoFeeModal";
+import ButtonList from "../../../components/data/treatmentFeeListVView/ButtonList";
 
 const Page = () => {
     const {
@@ -76,8 +77,8 @@ const Page = () => {
         setOpenModalResultPayment,
         gettingResultPayment,
         handleOpenMoMoPayment,
-        openModalNoFee, 
-        setOpenModalNoFee, 
+        openModalNoFee,
+        setOpenModalNoFee,
         scrollContainerRef,
         handleLoadMore,
         setReload,
@@ -120,7 +121,7 @@ const Page = () => {
                 {/* Danh sách dữ liệu */}
                 <Card>
                     <div
-                        className="relative overflow-x-auto overflow-y-auto max-h-[30vh] md:min-h-[30vh] mb-2 flex flex-col"
+                        className="relative overflow-x-auto overflow-y-auto max-h-[40vh] md:min-h-[40vh] mb-2 flex flex-col"
                         ref={scrollContainerRef}
                     >
                         <TreatmentFeeListTable
@@ -140,8 +141,8 @@ const Page = () => {
                 </Card>
 
                 {/* Thông tin giao dịch */}
-                <Card>
-                    <div className="w-full flex flex-col relative md:overflow-x-auto overflow-y-auto whitespace-pre-line break-words md:min-h-[50vh] md:max-h-[50vh]">
+                <Card className="flex-grow">
+                    <div className="w-full flex flex-col relative whitespace-pre-line break-words">
                         <InfoTransaction
                             recordDetails={recordDetails}
                             treatmentFeeDetail={treatmentFeeDetail}
@@ -149,9 +150,9 @@ const Page = () => {
                             loadingFetchTreatmentFeeDetail={loadingFetchTreatmentFeeDetail}
                             errorFetchTreatmentFeeDetail={errorFetchTreatmentFeeDetail}
                         />
-                        {treatmentFeeDetail  
-                        && Number(treatmentFeeDetail.fee) > 0 
-                        && (
+                        {treatmentFeeDetail
+                            && Number(treatmentFeeDetail.fee) > 0
+                            && (
                                 <button
                                     className="py-2 px-4 rounded bg-blue-600 hover:bg-blue-500 mt-1 mb-1 text-white"
                                     onClick={() => setOpentShowAllPayment(true)}>
@@ -176,15 +177,21 @@ const Page = () => {
                         />
                     </div>
                 </Card>
+                {/*danh sách nút điều kiển*/}
+                <Card>
+                    <div className="min-h-[10vh] md:overflow-y-auto">
+                        <ButtonList />
+                    </div>
+                </Card>
                 {/* Phần bảng thông tin dịch vụ */}
                 <Card className="flex-grow mt-1">
-                        <SearchTestServiceReqTypeListTable
-                            searchTerm={searchTerm}
-                            setSearchTerm={setSearchTerm}
-                        />
+                    <SearchTestServiceReqTypeListTable
+                        searchTerm={searchTerm}
+                        setSearchTerm={setSearchTerm}
+                    />
                     <div className="flex flex-col md:flex-row md:space-x-2 border">
                         {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
-                        <div className={`w-full ${loadingRecord ? "flex" : ""} flex-grow whitespace-pre-line break-words relative overflow-x-auto overflow-y-auto md:h-[65vh]`}>
+                        <div className={`w-full ${loadingRecord ? "flex" : ""} flex-grow whitespace-pre-line break-words relative overflow-x-auto md:h-[50vh] overflow-y-auto`}>
                             <TestServiceReqTypeListTable
                                 fieldLabels={fieldLabels}
                                 recordDetail={recordDetails}
@@ -223,8 +230,8 @@ const Page = () => {
                 gettingResultPayment={gettingResultPayment}
             />
             <NoFeeModal
-              openModalNoFee={openModalNoFee}
-              setOpenModalNoFee={setOpenModalNoFee}
+                openModalNoFee={openModalNoFee}
+                setOpenModalNoFee={setOpenModalNoFee}
             />
         </div>
     );

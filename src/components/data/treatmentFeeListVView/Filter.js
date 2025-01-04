@@ -26,8 +26,8 @@ const Filter = ({
     return (
         <>
             <CardElement>
-                <div className="flex flex-col xl:flex-row xl:space-x-2 border p-2">
-                    <div className="mt-1 w-full flex flex-row xl:w-[1/3] items-center">
+                <div className="flex flex-col md:flex-row md:space-x-2 border p-2">
+                    <div className="mt-1 w-full flex flex-row md:w-[1/3] items-center">
                     <label className="mr-1">Từ:</label>
                         <DatePicker
                             selected={fromTime}
@@ -39,7 +39,7 @@ const Filter = ({
                             onChangeRaw={(e) => handleRawChange(e, setFromTime)}
                         />
                     </div>
-                    <div className="mt-1 w-full flex flex-row xl:w-[1/3] items-center">
+                    <div className="mt-1 w-full flex flex-row md:w-[1/3] items-center">
                     <label className="mr-1">Đến:</label>
                         <DatePicker
                             selected={toTime}
@@ -51,7 +51,7 @@ const Filter = ({
                             onChangeRaw={(e) => handleRawChange(e, setToTime)}
                         />
                     </div>
-                    <div className="mt-1 w-full flex flex-col xl:w-[1/3]">
+                    <div className="mt-1 w-full flex flex-col md:w-[1/3]">
                         {/* Chọn số bản ghi trên mỗi trang */}
                         <RecordPerPage
                             limit={limitCursor}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Dropdown from "./Dropdown";
+import CategoryDropdown from "./CategoryDropdown";
 import useMasterService from "../../services/master/useMasterService";
 
 const NavMenu = ({ isMobileMenuOpen }) => {
@@ -22,11 +22,11 @@ const NavMenu = ({ isMobileMenuOpen }) => {
             {authToken && (
                 <>
                     <li>
-                        <Dropdown />
+                        <CategoryDropdown />
                     </li>
                     <li>
                         <Link
-                            to="/test-service-req-list"
+                            to="/treatment-fee-list"
                             className=" block li-nav-header"
                         >
                             Viện Phí
@@ -37,7 +37,7 @@ const NavMenu = ({ isMobileMenuOpen }) => {
             {/* Viện Phí (không cần đăng nhập) */}
             <li>
                 <Link
-                    to="/test-service-req-list-no-login"
+                    to="/treatment-fee-list-no-login"
                     className=" block li-nav-header"
                 >
                     Viện Phí (không đăng nhập)

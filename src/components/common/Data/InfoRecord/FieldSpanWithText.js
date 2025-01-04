@@ -13,7 +13,7 @@ const component = ({
                 fieldName={fieldName}
                 spanCss={spanCss}
             />
-            <p className={`p-1 mr-2 bg-gray-100 flex-grow min-h-[24px] ${pCss ? pCss : ""}`}>{fieldValue}</p>
+            <p className={`pl-1 pr-1 mr-2 bg-gray-100 flex-grow min-h-[24px] ${pCss ? pCss : ""}`}>{fieldValue}</p>
         </div>
     );
 };
