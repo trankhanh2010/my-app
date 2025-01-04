@@ -124,3 +124,10 @@ em {
   background-color: #f0f0f0; /* Màu nền khi hover */
   color: #007bff; /* Màu chữ khi hover */
 }
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}

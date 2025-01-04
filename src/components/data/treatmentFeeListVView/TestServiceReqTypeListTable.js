@@ -183,7 +183,7 @@ const TestServiceReqTypeListTable = ({
                                         <tr key={record.id} className="hover:bg-gray-50 cursor-pointer">
                                             <GroupTd
                                                 fields={[
-                                                    {fieldValue:record.tdlServiceCode, css:`pl-8 truncate  sticky left-0 bg-white`},
+                                                    {fieldValue:record.tdlServiceCode, css:`pl-8 truncate sticky left-0 border-l-0 bg-white`},
                                                     {fieldValue:Number(record.amount).toLocaleString(), css:`pl-8 `},
                                                     {fieldValue:Number(record.price).toLocaleString(), css:`pl-8 `},
                                                     {fieldValue:Number(record.virTotalPrice).toLocaleString(), css:`pl-8 `},

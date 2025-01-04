@@ -67,13 +67,15 @@ const BedTable = ({
                         >
                             <GroupTd
                                 fields={[
-                                    { dangerouslySetInnerHTML: {__html: record.highlight?.bedCode ? record.highlight.bedCode[0] : record.bedCode, }, css: `font-bold sticky left-0 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} truncate` },
-                                    { fieldValue:<> 
-                                        <button onClick={() => openDeleteModal(record)} className="bg-red-500 text-white p-1 rounded mt-1 mb-1"><FaTrash className="inline mr-1" /> Xóa</button>                                     
-                                        <button onClick={() => {const updatedBed = {...record, isActive: record.isActive == 1 ? 0 : 1}; setRecordDetails(updatedBed); openUpdateModal(updatedBed);}} className={`${record.isActive == 1 ? "bg-amber-500" : "bg-green-500"} text-white p-1 rounded mt-1 mb-1`}>{record.isActive == 1 ? (<FaLock className="inline mr-1" />) : (<FaUnlock className="inline mr-1" />)}{record.isActive == 1 ? "Khóa" : "Mở khóa"}</button> </>, 
-                                        css: `flex flex-col md:flex-row md:space-x-2 truncate` },
+                                    { dangerouslySetInnerHTML: {__html: record.highlight?.bedCode ? record.highlight.bedCode[0] : record.bedCode, }, css: `font-bold sticky left-0 border-l-0 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} truncate` },
+                                    { fieldValue:
+                                        <div className="flex flex-col md:flex-row md:space-x-2"> 
+                                            <button onClick={() => openDeleteModal(record)} className="bg-red-500 text-white p-1 rounded "><FaTrash className="inline-block mr-1 w-5 h-3" /> Xóa</button>                                     
+                                            <button onClick={() => {const updatedBed = {...record, isActive: record.isActive == 1 ? 0 : 1}; setRecordDetails(updatedBed); openUpdateModal(updatedBed);}} className={`${record.isActive == 1 ? "bg-amber-500" : "bg-green-500"} text-white p-1 rounded`}>{record.isActive == 1 ? (<FaLock className="inline-block mr-1 w-5 h-3" />) : (<FaUnlock className="inline-block mr-1 w-5 h-3" />)}{record.isActive == 1 ? "Khóa" : "Mở khóa"}</button> 
+                                        </div>, 
+                                        css: `truncate` },
                                     { dangerouslySetInnerHTML: {__html: record.highlight?.bedName ? record.highlight.bedName[0] : record.bedName, }, css: ` truncate` },
-                                    { fieldValue: <span>{record.isActive == 1 ? (<FaCheck className="text-green-500 w-5 h-5 inline-block" />) : (<FaLock className="text-red-500 w-5 h-5 inline-block" />)}</span>, css: `truncate text-center` },
+                                    { fieldValue: <span>{record.isActive == 1 ? (<FaCheck className="text-green-500 w-5 h-3 inline-block" />) : (<FaLock className="text-red-500 w-5 h-3 inline-block" />)}</span>, css: `truncate text-center` },
                                     { fieldValue: record.createTime ? format(convertToDate(record.createTime), "dd/MM/yyyy HH:mm:ss") : "" , css: `truncate` },
                                     { fieldValue: record.modifyTime ? format(convertToDate(record.modifyTime), "dd/MM/yyyy HH:mm:ss") : "" , css: `truncate` },
                                     { fieldValue: record.bedTypeCode , css: `truncate text-center` },

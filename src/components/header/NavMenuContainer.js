@@ -1,52 +1,110 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useMenuContext } from "../../context/MenuContext";
 import ArrowIcon from "./ArrowIcon";
 import NavMenuKhac from "./NavMenuKhac";
 import NavMenuThuNgan from "./NavMenuThuNgan";
 
-const NavMenuContainer = ({ 
-    isMobileMenuOpen,
-    setIsMobileMenuOpen,
- }) => {
+const NavMenuContainer = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { selectedMenu, setSelectedMenu } = useMenuContext();
-  // Mỗi lần click sẽ mở/đóng navMenu nhỏ
+  const scrollContainerRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
   const handleOnClick = (menu) => {
     if (menu === selectedMenu) {
-      // Nếu menu đang mở, toggle trạng thái
       setIsMobileMenuOpen(!isMobileMenuOpen);
     } else {
-      // Nếu chọn menu khác, mở menu mới và cập nhật menu đã chọn
       setSelectedMenu(menu);
       setIsMobileMenuOpen(true);
     }
   };
-  
+
+  const startDrag = (e) => {
+    const container = scrollContainerRef.current;
+    setIsDragging(true);
+    setStartX(e.pageX || e.touches[0].pageX); // Lấy vị trí chuột hoặc cảm ứng
+    setScrollLeft(container.scrollLeft);
+  };
+
+  const onDrag = (e) => {
+    if (!isDragging) return;
+    const container = scrollContainerRef.current;
+    const x = e.pageX || e.touches[0].pageX;
+    const walk = (x - startX) * 1; // Tốc độ cuộn
+    container.scrollLeft = scrollLeft - walk;
+  };
+
+  const endDrag = () => {
+    setIsDragging(false);
+  };
+
   const renderNavMenu = () => {
     switch (selectedMenu) {
       case "khac":
         return <NavMenuKhac isMobileMenuOpen={isMobileMenuOpen} />;
       case "thuNgan":
         return <NavMenuThuNgan isMobileMenuOpen={isMobileMenuOpen} />;
+      default:
+        return null;
     }
   };
 
   return (
     <div>
       {/* Nav Selector */}
-      <div className={`bg-gray-100 flex uppercase`}>
+      <div className="relative bg-gray-100 flex items-center">
+        {/* Left Arrow */}
         <button
-          onClick={() =>handleOnClick('khac')}
-          className={`px-4 py-2 ${selectedMenu === "khac" ? "bg-indigo-500 text-white" : "bg-white text-indigo-500"} uppercase font-bold flex border-2`}
+          onClick={() => scrollContainerRef.current.scrollBy({ left: -200, behavior: "smooth" })}
+          className="absolute left-0 z-10 px-2 py-1 bg-gray-200 hover:bg-gray-300"
         >
-          Khác  
-          <ArrowIcon isRotated={selectedMenu === "khac"}/>     
+          {"<"}
         </button>
-        <button
-          onClick={() =>handleOnClick('thuNgan')}
-          className={`px-4 py-2 ${selectedMenu === "thuNgan" ? "bg-indigo-500 text-white" : "bg-white text-indigo-500"} uppercase font-bold flex border-2`}
+
+        {/* Scrollable Menu */}
+        <div
+          ref={scrollContainerRef}
+          className="flex overflow-x-auto no-scrollbar mx-8"
+          onMouseDown={startDrag}
+          onMouseMove={onDrag}
+          onMouseUp={endDrag}
+          onMouseLeave={endDrag}
+          onTouchStart={startDrag}
+          onTouchMove={onDrag}
+          onTouchEnd={endDrag}
+          style={{ cursor: isDragging ? "grabbing" : "grab" }}
         >
-          Thu Ngân
-          <ArrowIcon isRotated={selectedMenu === "thuNgan"}/>     
+          <button
+            onClick={() => handleOnClick("khac")}
+            className={`px-4 py-2 ${
+              selectedMenu === "khac"
+                ? "bg-indigo-500 text-white"
+                : "bg-white text-indigo-500"
+            } uppercase font-bold flex border-2`}
+          >
+            Khác
+            <ArrowIcon isRotated={selectedMenu === "khac"} />
+          </button>
+          <button
+            onClick={() => handleOnClick("thuNgan")}
+            className={`px-4 py-2 ${
+              selectedMenu === "thuNgan"
+                ? "bg-indigo-500 text-white"
+                : "bg-white text-indigo-500"
+            } uppercase font-bold flex border-2`}
+          >
+            Thu Ngân
+            <ArrowIcon isRotated={selectedMenu === "thuNgan"} />
+          </button>
+        </div>
+
+        {/* Right Arrow */}
+        <button
+          onClick={() => scrollContainerRef.current.scrollBy({ left: 200, behavior: "smooth" })}
+          className="absolute right-0 z-10 px-2 py-1 bg-gray-200 hover:bg-gray-300"
+        >
+          {">"}
         </button>
       </div>
 
