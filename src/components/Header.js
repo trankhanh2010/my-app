@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import Logo from './header/Logo';
 import HamburgerMenu from './header/HamburgerMenu';
-import NavMenu from './header/NavMenu';
 import NavMenuAuth from './header/NavMenuAuth';
+import NavMenuContainer from './header/NavMenuContainer';
+import { useMenuContext } from "../context/MenuContext";
 
 const Header = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { selectedMenu, setSelectedMenu } = useMenuContext();
+  // Nếu đang chọn Menu thì mở nav nhỏ
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(selectedMenu);
 
   return (
     <header className="bg-gradient-to-r from-sky-500 to-indigo-500 text-white shadow-md">
@@ -14,10 +17,7 @@ const Header = () => {
         <Logo />
         {/* Container for NavMenuAuth and HamburgerMenu */}
         <div className="flex items-center space-x-6">
-          {/* Nút đăng nhập đăng xuất */}
           <NavMenuAuth />
-
-          {/* Hamburger Icon */}
           <HamburgerMenu
             isOpen={isMobileMenuOpen}
             toggleMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -25,8 +25,11 @@ const Header = () => {
         </div>
       </nav>
 
-      {/* Nav Menu */}
-      <NavMenu isMobileMenuOpen={isMobileMenuOpen} />
+      {/* Nav Menu Container */}
+      <NavMenuContainer 
+      isMobileMenuOpen={isMobileMenuOpen} 
+      setIsMobileMenuOpen={setIsMobileMenuOpen}
+      />
     </header>
   );
 };

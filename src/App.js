@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { MenuProvider } from "./context/MenuContext";
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -19,26 +20,28 @@ import ResultPayment from './pages/transaction/ResultPayment'
 const App = () => {
   return (
     <Router>
-      <CheckTokenMiddleware>
-        <Header />
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+      <MenuProvider>
+        <CheckTokenMiddleware>
+          <Header />
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<Login />} />
 
-          <Route path="/bed" element={<BedList />} />
+            <Route path="/bed" element={<BedList />} />
 
-          <Route path="/treatment-fee-list" element={<TreatmentFeeList />} />
-          <Route path="/treatment-fee-list-no-login" element={<TreatmentFeeListNoLogin />} />
+            <Route path="/treatment-fee-list" element={<TreatmentFeeList />} />
+            <Route path="/treatment-fee-list-no-login" element={<TreatmentFeeListNoLogin />} />
 
-          <Route path="/result-payment" element={<ResultPayment />} />
+            <Route path="/result-payment" element={<ResultPayment />} />
 
-          <Route path="/info-401" element={<Info401 />} />
-          <Route path="/info-403" element={<Info403 />} />
-          <Route path="/info-500" element={<Info500 />} />
+            <Route path="/info-401" element={<Info401 />} />
+            <Route path="/info-403" element={<Info403 />} />
+            <Route path="/info-500" element={<Info500 />} />
 
-        </Routes>
-        <Footer />
-      </CheckTokenMiddleware>
+          </Routes>
+          <Footer />
+        </CheckTokenMiddleware>
+      </MenuProvider>
     </Router>
   );
 };
