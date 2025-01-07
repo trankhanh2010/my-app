@@ -17,6 +17,7 @@ import BedList from './pages/category/bed/BedList';
 import TreatmentFeeList from './pages/data/treatmentFeeListVView/TreatmentFeeList';
 import TreatmentFeeListNoLogin from './pages/data/treatmentFeeListVView/TreatmentFeeListNoLogin';
 import ResultPayment from './pages/transaction/ResultPayment'
+import TransactionList from './pages/data/transactionListVView/TransactionList';
 
 const App = () => {
   return (
@@ -33,8 +34,9 @@ const App = () => {
 
               <Route path="/treatment-fee-list" element={<TreatmentFeeList />} />
               <Route path="/treatment-fee-list-no-login" element={<TreatmentFeeListNoLogin />} />
-
               <Route path="/result-payment" element={<ResultPayment />} />
+
+              <Route path="/transaction-list" element={<TransactionList />} />
 
               <Route path="/info-401" element={<Info401 />} />
               <Route path="/info-403" element={<Info403 />} />

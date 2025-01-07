@@ -4,7 +4,7 @@ import useMasterList from '../../master/useMasterList';
 import treatmentFeeListService from "../../../services/data/treatmentFeeListService";
 import testServiceTypeListService from "../../../services/data/testServiceTypeListService";
 import treatmentFeeDetailService from "../../../services/data/treatmentFeeDetailService";
-import serviceReqpaymentService from "../../../services/transaction/treatmentFeePaymentService";
+import treatmentFeePaymentService from "../../../services/transaction/treatmentFeePaymentService";
 import pusher from '../../../websocket/pusher';
 const useTreatmentFeeList = () => {
     const isDB = config.apiService.testServiceReqListVView.typeGetApi === 'db';
@@ -159,7 +159,7 @@ const useTreatmentFeeList = () => {
     const getPaymentMoMoQRCode = async (treatmentCode) => {
         try {
             setCreatingPayment(true)
-            const response = await serviceReqpaymentService.getPaymentMoMoQRCode(treatmentCode);
+            const response = await treatmentFeePaymentService.getPaymentMoMoQRCode(treatmentCode);
             // Nếu có phí cần thanh toán
             const newPaymentMoMo = {}
             if (response.data.success) {
@@ -187,7 +187,7 @@ const useTreatmentFeeList = () => {
     const getPaymentMoMoTheQuocTe = async (treatmentCode) => {
         try {
             setCreatingPayment(true)
-            const response = await serviceReqpaymentService.getPaymentMoMoTheQuocTe(treatmentCode);
+            const response = await treatmentFeePaymentService.getPaymentMoMoTheQuocTe(treatmentCode);
             const newPaymentMoMo = {}
             if (response.data.success) {
                 newPaymentMoMo.payUrl = response.data.payUrl
@@ -212,7 +212,7 @@ const useTreatmentFeeList = () => {
     const getPaymentMoMoTheATMNoiDia = async (treatmentCode) => {
         try {
             setCreatingPayment(true)
-            const response = await serviceReqpaymentService.getPaymentMoMoTheATMNoiDia(treatmentCode);
+            const response = await treatmentFeePaymentService.getPaymentMoMoTheATMNoiDia(treatmentCode);
             const newPaymentMoMo = {}
             if (response.data.success) {
                 newPaymentMoMo.payUrl = response.data.payUrl
@@ -545,7 +545,6 @@ const useTreatmentFeeList = () => {
         isApiNoAuth, 
         setIsApiNoAuth,
         scrollContainerRef,
-        setScrollPosition,
         handleLoadMore, 
         setReload,
         loadingRecord,

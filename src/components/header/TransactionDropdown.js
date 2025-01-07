@@ -19,7 +19,7 @@ const Dropdown = () => {
         <ul className="mt-2 ml-2 bg-transparent whitespace-nowrap">
           <li>
             <Link
-              to="/"
+              to="/transaction-list"
               className="li-nav-header-category"
             >
               Danh sách giao dịch

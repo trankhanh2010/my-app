@@ -81,7 +81,7 @@ const NavMenuContainer = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               selectedMenu === "khac"
                 ? "bg-indigo-500 text-white"
                 : "bg-white text-indigo-500"
-            } uppercase font-bold flex border-2`}
+            } uppercase font-bold flex border-x-2`}
           >
             Khác
             <ArrowIcon isRotated={selectedMenu === "khac"} />
@@ -92,7 +92,7 @@ const NavMenuContainer = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               selectedMenu === "thuNgan"
                 ? "bg-indigo-500 text-white"
                 : "bg-white text-indigo-500"
-            } uppercase font-bold flex border-2`}
+            } uppercase font-bold flex border-x-2`}
           >
             Thu Ngân
             <ArrowIcon isRotated={selectedMenu === "thuNgan"} />

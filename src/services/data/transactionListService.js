@@ -32,9 +32,9 @@ const getCusor = async (lastId = 0, limit = 20, filter) => {
         IsDelete: 0,
         FromTime: Number(filter.fromTime),
         ToTime:   Number(filter.toTime),
+        TransactionTypeIds: filter.listTransactionType,
+        TransactionCode: filter.transactionCode,
         TreatmentCode: filter.treatmentCode,
-        PatientCode: filter.patientCode,
-
         OrderBy: {
           ["id"]: "asc",  
         },
@@ -45,7 +45,7 @@ const getCusor = async (lastId = 0, limit = 20, filter) => {
   // console.log(paramBase64);
 
   try {
-    const response = await api.get(`/api/v1/treatment-fee-list-v-view?param=${paramBase64}`);
+    const response = await api.get(`/api/v1/transaction-list-v-view?param=${paramBase64}`);
     return response.data;  // Trả về dữ liệu nhận được từ API
   } catch (error) {
     throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài
@@ -68,7 +68,7 @@ const getById = async (id) => {
   // console.log(paramBase64);
 
   try {
-    const response = await apiNoAuth.get(`/api/v1/treatment-fee-list-v-view/${id}?param=${paramBase64}`);
+    const response = await apiNoAuth.get(`/api/v1/transaction-list-v-view/${id}?param=${paramBase64}`);
     return response.data;  // Trả về dữ liệu nhận được từ API
   } catch (error) {
     throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài
@@ -98,7 +98,7 @@ const getNoLoginCursor = async (lastId = 0, limit = 20, filter) => {
   // console.log(paramBase64);
 
   try {
-    const response = await apiNoAuth.get(`/api/v1/treatment-fee-list-v-view-no-login?param=${paramBase64}`);
+    const response = await apiNoAuth.get(`/api/v1/transaction-list-v-view-no-login?param=${paramBase64}`);
     return response.data;  // Trả về dữ liệu nhận được từ API
   } catch (error) {
     throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài

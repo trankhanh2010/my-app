@@ -2,6 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 
 const ReactSelectCustomUpdate = ({
+  createOrUpdate,
   recordDetails,
   setRecordDetails,
   list,
@@ -55,9 +56,11 @@ const ReactSelectCustomUpdate = ({
         control: (base) => ({
           ...base,
           borderColor: errors ? '#ef4444' : base.borderColor, // Màu viền đỏ khi có lỗi
-          backgroundColor: '#f3f4f6', // Màu nền của input
+          backgroundColor: `${createOrUpdate ? '#f3f4f6' : ""}`, // Màu nền của input
         }),
+        menuPortal: base => ({ ...base, zIndex: 200 }) // Đặt z index cao hơn các phần khác để k bị mất khi scroll
       }}
+      menuPortalTarget={document.body} 
     />
   );
 };

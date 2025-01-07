@@ -79,6 +79,7 @@ const BedDetails = ({
                     recordFieldId="bedTypeId"
                     errors={errors.bedTypeId && errors.bedTypeId.length > 0}
                     placeholder="Chọn loại giường"
+                    createOrUpdate={true}
                 />
                 {(errors.bedTypeId && errors.bedTypeId.length > 0) ? (<SpanError errors={errors.bedTypeId} />) : null}
             </div>
@@ -98,6 +99,7 @@ const BedDetails = ({
                     recordFieldId="bedRoomId"
                     errors={errors.bedRoomId && errors.bedRoomId.length > 0}
                     placeholder="Chọn phòng"
+                    createOrUpdate={true}
                 />
                 {(errors.bedRoomId && errors.bedRoomId.length > 0) ? (<SpanError errors={errors.bedRoomId} />) : null}
             </div>

@@ -4,26 +4,15 @@ const config = {
 
     apiService: {
         // category
-        bed: {
-            typeGetApi: 'elastic'
-        },
-        bedRoom: {
-            typeGetApi: 'elastic'
-        },
-        bedType: {
-            typeGetApi: 'elastic'
-        },
+        bed: {typeGetApi: 'elastic'},
+        bedRoom: {typeGetApi: 'elastic'},
+        bedType: {typeGetApi: 'elastic'},
+        transactionType: {typeGetApi: 'elastic'},
 
         // data
-        testServiceReqListVView: {
-            typeGetApi: 'db'
-        },
-        testServiceTypeListVView: {
-            typeGetApi: 'db'
-        },
-        treatmentFeeDetailVView: {
-            typeGetApi: 'db'
-        },
+        testServiceReqListVView: {typeGetApi: 'db'},
+        testServiceTypeListVView: {typeGetApi: 'db'},
+        treatmentFeeDetailVView: {typeGetApi: 'db'},
     }
   };
   
