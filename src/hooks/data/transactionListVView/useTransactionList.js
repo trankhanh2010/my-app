@@ -184,7 +184,9 @@ const useTransactionList = () => {
 
     /// Xử lý khi scroll và lấy thêm dữ liệu mới vẫn giữ vị trí scroll cũ
     useEffect(() => {
-        scrollContainerRef.current.scrollTop = scrollPosition; // Gán lại scrollTop của div
+        if(scrollContainerRef.current){
+            scrollContainerRef.current.scrollTop = scrollPosition; // Gán lại scrollTop của div
+        }
     }, [dataCursor]); // Chạy lại khi data thay đổi
 
     useEffect(() => {

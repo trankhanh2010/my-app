@@ -30,11 +30,6 @@ const Filter = ({
                         <RecordPerPage
                             limit={limitCursor}
                             setLimit={setLimitCursor}
-                            options={[
-                                { value: 10, label: "10" },
-                                { value: 20, label: "20" },
-                                { value: 50, label: "50" },
-                            ]}
                         />
                     </div>
                     <div className="mt-1 w-full flex flex-col xl:w-[1/3]">

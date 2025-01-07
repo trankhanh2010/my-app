@@ -40,7 +40,7 @@ const useMasterCategoryList = (
 
     // Phân trang theo start - limit
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(10);
+    const [limit, setLimit] = useState(100);
     const [totalItems, setTotalItems] = useState(0);
     const [keyword, setKeyword] = useState(null);
     const [orderBy, setOrderBy] = useState("modifyTime");
@@ -53,7 +53,7 @@ const useMasterCategoryList = (
 
     // Phân trang theo con trỏ
     const [lastId, setLastId] = useState(0);
-    const [limitCursor, setLimitCursor] = useState(10);
+    const [limitCursor, setLimitCursor] = useState(100);
     const [filter, setFilter] = useState([])
 
     const [errorUniqueCode, setErrorUniqueCode] = useState(null);   // Bản ghi đang được chọn
@@ -217,6 +217,8 @@ const useMasterCategoryList = (
     };
     // Chuyển về đúng thời gian khi nhập
     const formatInputToDate = (input) => {
+        if (typeof input !== 'string') return ''; // Nếu input không phải là chuỗi, trả về chuỗi rỗng
+
         // Loại bỏ khoảng trắng
         const sanitizedInput = input.replace(/\s+/g, "");
 

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import useTransactionList from "../../../hooks/data/transactionListVView/useTransactionList";
 import TransactionListTable from "../../../components/data/transactionListVView/TransactionListTable";
 import Filter from "../../../components/data/transactionListVView/Filter";
 import Card from "../../../components/common/Master/Card";
 
-const Page = () => {
+const Page = ({paramTreatmentCode}) => {
     const {
         fieldLabels,
         format,
@@ -49,6 +49,13 @@ const Page = () => {
         listTransactionType, setListTransactionType,
     }
         = useTransactionList();
+    // Nếu có param từ trang khác truyền vào thì xử lý
+    useEffect(() => {
+        if (paramTreatmentCode) {
+            setTreatmentCode(paramTreatmentCode);
+            setFilterTrigger(true);
+        }
+    }, [paramTreatmentCode]);
     return (
         <div className={`grid grid-cols-12 gap-1 p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
             <div className="col-span-12 md:col-span-3 flex flex-col md:mr-1 md:border-r md:pr-2">

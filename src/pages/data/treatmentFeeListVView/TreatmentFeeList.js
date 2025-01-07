@@ -180,7 +180,9 @@ const Page = () => {
                 {/*danh sách nút điều kiển*/}
                 <Card>
                     <div className="min-h-[10vh] md:overflow-y-auto">
-                        <ButtonList />
+                        <ButtonList 
+                            selectedRecord={selectedRecord}
+                        />
                     </div>
                 </Card>
                 {/* Phần bảng thông tin dịch vụ */}

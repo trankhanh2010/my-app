@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import CardElement from "../../common/Master/CardElement";
-const Component = ({
+import ModalPageTransactionList from '../../common/Modal/Page/ModalPageTransactionList';  // Import modal
 
+const Component = ({
+    selectedRecord,
 }) => {
+    let isLSGD = selectedRecord
+    const [isModalOpen, setIsModalOpen] = useState(false); // State để điều khiển modal
 
     return (
         <>
@@ -95,15 +99,22 @@ const Component = ({
                     <div className="mt-1 w-full flex flex-col">
                         <button
                             onClick={() => {
-
+                                if (!isLSGD) return;  // Nếu isLSGD là false, không làm gì cả
+                                setIsModalOpen(true);  // Nếu isLSGD là true, mở modal
                             }}
-                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed truncate"
+                            className={`${!isLSGD ? "opacity-50 cursor-not-allowed" : ""} px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed truncate`}
                         >
                             Lịch sử giao dịch
                         </button>
                     </div>
                 </div>
             </CardElement>
+            {/* Modal */}
+            <ModalPageTransactionList 
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)}
+                paramTreatmentCode={selectedRecord?.treatmentCode??""}
+            />
         </>
     );
 };

@@ -61,26 +61,21 @@ const Filter = ({
                         <RecordPerPage
                             limit={limitCursor}
                             setLimit={setLimitCursor}
-                            options={[
-                                { value: 10, label: "10" },
-                                { value: 20, label: "20" },
-                                { value: 50, label: "50" },
-                            ]}
                         />
                     </div>
                 </div>
             </CardElement>
 
             <CardElement>
-                <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border p-2">
-                    <div className="mt-1 w-full flex flex-col xl:w-[1/5]">
+                <div className="mt-1 flex flex-col 2xl:flex-row 2xl:space-x-2 border p-2">
+                    <div className="mt-1 w-full flex flex-col 2xl:w-[1/5]">
                         <Search
                             keyword={treatmentCode}
                             setKeyword={setTreatmentCode}
                             label={"Nhập mã điều trị"}
                         />
                     </div>
-                    <div className="mt-1 w-full flex flex-col xl:w-[1/5]">
+                    <div className="mt-1 w-full flex flex-col 2xl:w-[1/5]">
                         <Search
                             keyword={transactionCode}
                             setKeyword={setTransactionCode}
