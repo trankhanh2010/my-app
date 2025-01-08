@@ -71,6 +71,13 @@ const TestServiceReqTypeListTable = ({
             },
         }));
     };
+    const getTextColor = (record) => {
+        if (record.daThanhToan == 1) return "text-blue-500";
+        if (record.daTamUng == 1) return "text-orange-500";
+        // if (record.daHuy == 1) return "line-through";
+        if (record.virTotalPatientPrice == 0) return "italic";
+        return "font-semibold"
+    };
     return (
         <>
             {/* Phần bảng dưới */}
@@ -183,17 +190,17 @@ const TestServiceReqTypeListTable = ({
                                         <tr key={record.id} className="hover:bg-gray-50 cursor-pointer">
                                             <GroupTd
                                                 fields={[
-                                                    {fieldValue:record.tdlServiceCode, css:`pl-8 truncate sticky left-0 border-l-0 bg-white`},
-                                                    {fieldValue:Number(record.amount).toLocaleString(), css:`pl-8 `},
-                                                    {fieldValue:Number(record.price).toLocaleString(), css:`pl-8 `},
-                                                    {fieldValue:Number(record.virTotalPrice).toLocaleString(), css:`pl-8 `},
-                                                    {fieldValue:Number(record.virTotalHeinPrice).toLocaleString(), css:`pl-8 `},
-                                                    {fieldValue:Number(record.virTotalPatientPrice).toLocaleString(), css:`pl-8 `},
-                                                    {fieldValue:record.vatRatio, css:`pl-8 `},
-                                                    {fieldValue:record.tdlServiceName, css:`pl-8  truncate`},
-                                                    {fieldValue:Number(record.discount).toLocaleString(), css:`pl-8`},
+                                                    {fieldValue:record.tdlServiceCode, css:`${getTextColor(record)} pl-8 truncate sticky left-0 border-l-0 bg-white`},
+                                                    {fieldValue:Number(record.amount).toLocaleString(), css:`${getTextColor(record)} pl-8 `},
+                                                    {fieldValue:Number(record.price).toLocaleString(), css:`${getTextColor(record)} pl-8 `},
+                                                    {fieldValue:Number(record.virTotalPrice).toLocaleString(), css:`${getTextColor(record)} pl-8 `},
+                                                    {fieldValue:Number(record.virTotalHeinPrice).toLocaleString(), css:`${getTextColor(record)} pl-8 `},
+                                                    {fieldValue:Number(record.virTotalPatientPrice).toLocaleString(), css:`${getTextColor(record)} pl-8 `},
+                                                    {fieldValue:record.vatRatio, css:`${getTextColor(record)} pl-8 `},
+                                                    {fieldValue:record.tdlServiceName, css:`${getTextColor(record)} pl-8  truncate`},
+                                                    {fieldValue:Number(record.discount).toLocaleString(), css:`${getTextColor(record)} pl-8`},
                                                     {fieldValue:<span className={`${record.isExpend == 1 ? 'text-green-600' : 'text-red-600'}`}>{record.isExpend == 1 ? '✓' : '✘'}</span>, css:`pl-8`},
-                                                    {fieldValue:record.tdlServiceReqCode, css:`pl-8 `},
+                                                    {fieldValue:record.tdlServiceReqCode, css:`${getTextColor(record)} pl-8 `},
                                                 ]}
                                             />          
                                         </tr>

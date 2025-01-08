@@ -470,6 +470,7 @@ const useTreatmentFeeList = () => {
         if (!openModalResultPayment && selectedRecord) {
             // Cập nhật lại thông tin transaction
             fetchTreatmentFeeDetail()
+            fetchTestServiceTypeList()
         }
     }, [openModalResultPayment]); // Gọi lại khi có thay đổi
     return {

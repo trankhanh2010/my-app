@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import useTransactionList from "../../../hooks/data/transactionListVView/useTransactionList";
 import TransactionListTable from "../../../components/data/transactionListVView/TransactionListTable";
-import Filter from "../../../components/data/transactionListVView/Filter";
+import Filter from "../../../components/data/transactionListVView/FilterTransactionListTable";
 import Card from "../../../components/common/Master/Card";
 
 const Page = ({paramTreatmentCode}) => {
