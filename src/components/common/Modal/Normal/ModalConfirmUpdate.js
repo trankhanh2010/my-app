@@ -5,7 +5,7 @@ const ModalConfirmUpdate = ({ isOpen, onConfirm, onCancel, message, changes }) =
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-4">
+            <div className="bg-white rounded-lg shadow-lg w-full h-full md:w-auto md:h-auto md:min-w-[50%] max-w-screen max-h-screen p-4 overflow-auto">
                 <div className="text-center">
                     <svg
                         className="mx-auto mb-4 text-gray-400 w-12 h-12"
@@ -44,7 +44,7 @@ const ModalConfirmUpdate = ({ isOpen, onConfirm, onCancel, message, changes }) =
                     </div>
                     <button
                         onClick={onConfirm}
-                        className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 mr-2"
+                        className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 mr-2"
                     >
                         Có
                     </button>

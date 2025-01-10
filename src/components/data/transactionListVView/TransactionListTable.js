@@ -95,7 +95,7 @@ const TestServiceReqListTable = ({
                                     {fieldValue:record.cashierUsername, css:`${getTextColor(record)} truncate`},
                                     {fieldValue:record.transactionTime ? format(convertToDate(record.transactionTime), "dd/MM/yyyy") : "", css:`${getTextColor(record)} truncate`},
                                     {fieldValue:record.cashierRoomName, css:`${getTextColor(record)} truncate`},
-                                    {fieldValue:record.einvoiceNumOrder, css:`${getTextColor(record)} truncate`},
+                                    {fieldValue:record.numOrder, css:`${getTextColor(record)} truncate`},
                                     {fieldValue:record.accountBookCode, css:`${getTextColor(record)} truncate`},
                                     {fieldValue:record.accountBookName, css:`${getTextColor(record)} truncate`},
                                     {fieldValue:record.cancelReason, css:`${getTextColor(record)} truncate`},

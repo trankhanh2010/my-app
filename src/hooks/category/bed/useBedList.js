@@ -38,6 +38,7 @@ const useBedList = () => {
         y: "y",
         treatmentRoomId: "Id phòng",
         isBedStretcher: "Giường cáng",
+        bedType: "Loại giường",
         bedTypeName: "Tên loại giường",
         bedTypeCode: "Mã loại giường",
         bedRoomName: "Tên phòng",
@@ -141,6 +142,23 @@ const useBedList = () => {
         });
     };
 
+    const calculateNewData = (newData, fieldLabel=fieldLabels) => {
+        let data
+        if(newData){
+            data = {
+                [fieldLabel.bedCode] : newData.bedCode,
+                [fieldLabel.bedName] : newData.bedName,
+                [fieldLabel.bedTypeCode] : newData.bedTypeCode,
+                [fieldLabel.bedTypeName] : newData.bedTypeName,
+                [fieldLabel.bedRoomCode] : newData.bedRoomCode,
+                [fieldLabel.bedRoomName] : newData.bedRoomName,
+                [fieldLabel.isBedStretcher] : [newData.isBedStretcher==1?'Có':'Không'],
+                [fieldLabel.maxCapacity] : newData.maxCapacity,
+            }
+        }
+        return data;
+    };
+
     const transformCreateData = (recordDetails) => ({
         bed_code: recordDetails.bedCode,
         bed_name: recordDetails.bedName,
@@ -232,6 +250,7 @@ const useBedList = () => {
         openUpdateModal,
         closeModalConfirmUpdate,
         confirmUpdate,
+        confirmCreate,
         fetchData,
         checkUniqueCode,
         convertToDate,
@@ -240,6 +259,11 @@ const useBedList = () => {
         handleMasterDelete,
         handleBlur,
         handleFormSubmit,
+        recordToCreate, 
+        setRecordToCreate,
+        isModalConfirmCreateOpen, 
+        setIsModalConfirmCreateOpen,
+        closeModalConfirmCreate,
 
     } = useMasterList(
         fieldLabels,
@@ -390,6 +414,7 @@ const useBedList = () => {
         totalPages,
         isModalConfirmDeleteOpen,
         isModalConfirmUpdateOpen,
+        isModalConfirmCreateOpen, 
         recordToDelete,
         recordToUpdate,
         alerts,
@@ -399,6 +424,7 @@ const useBedList = () => {
         calculateChanges,
         confirmDelete,
         confirmUpdate,
+        confirmCreate,
         setPage,
         setLimit,
         setKeyword,
@@ -417,9 +443,11 @@ const useBedList = () => {
         closeModalConfirmDelete,
         openDeleteModal,
         closeModalConfirmUpdate,
+        closeModalConfirmCreate,
         openUpdateModal,
         setIsModalConfirmDeleteOpen,
         setIsModalConfirmUpdateOpen,
+        setIsModalConfirmCreateOpen,
         convertToDate,
         addAlert,
         removeAlert,
@@ -437,6 +465,7 @@ const useBedList = () => {
         handleReload,
         handleBlur,
         handleFormSubmit,
+        calculateNewData,
     };
 };
 

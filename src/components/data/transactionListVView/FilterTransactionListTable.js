@@ -85,6 +85,24 @@ const Filter = ({
                 </div>
             </CardElement>
 
+            {/* transactionType*/}
+            <CardElement>
+                <div className="mt-1 flex flex-col border p-2">
+                    <ReactSelectMultiCustomList
+                        list={transactionTypes}
+                        setListKeyword={setTransactionTypeKeyword}
+                        listFieldName="transactionTypeName"
+                        listFieldCode="transactionTypeCode"
+                        recordFieldName="transactionTypeName"
+                        recordFieldId="transactionTypeId"
+                        placeholder={`Chọn loại giao dịch`}
+                        listSelected={listTransactionType}
+                        setListSelected={setListTransactionType}
+                        createOrUpdate={false}
+                    />
+                </div>
+            </CardElement>
+            
             <CardElement>
                 <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border p-2">
                     <div className="mt-1 w-full flex flex-col xl:w-[2/5]">
@@ -112,22 +130,6 @@ const Filter = ({
                 </div>
             </CardElement>
 
-            {/* transactionType*/}
-            <CardElement>
-                <div className="mt-1 flex flex-col border p-2">
-                    <ReactSelectMultiCustomList
-                        list={transactionTypes}
-                        setListKeyword={setTransactionTypeKeyword}
-                        listFieldName="transactionTypeName"
-                        recordFieldName="transactionTypeName"
-                        recordFieldId="transactionTypeId"
-                        placeholder={`Chọn loại giao dịch`}
-                        listSelected={listTransactionType}
-                        setListSelected={setListTransactionType}
-                        createOrUpdate={false}
-                    />
-                </div>
-            </CardElement>
         </>
     );
 };

@@ -18,6 +18,7 @@ import TreatmentFeeList from './pages/data/treatmentFeeListVView/TreatmentFeeLis
 import TreatmentFeeListNoLogin from './pages/data/treatmentFeeListVView/TreatmentFeeListNoLogin';
 import ResultPayment from './pages/transaction/ResultPayment'
 import TransactionList from './pages/data/transactionListVView/TransactionList';
+import TransactionTamUng from './pages/transaction/TransactionTamUng';
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
               <Route path="/result-payment" element={<ResultPayment />} />
 
               <Route path="/transaction-list" element={<TransactionList />} />
+              <Route path="/transaction-tam-ung" element={<TransactionTamUng />} />
 
               <Route path="/info-401" element={<Info401 />} />
               <Route path="/info-403" element={<Info403 />} />

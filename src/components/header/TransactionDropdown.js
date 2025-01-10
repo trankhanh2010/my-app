@@ -27,7 +27,7 @@ const Dropdown = () => {
           </li>
           <li>
             <Link
-              to="/"
+              to="/transaction-tam-ung"
               className="li-nav-header-category"
             >
               Tạm ứng

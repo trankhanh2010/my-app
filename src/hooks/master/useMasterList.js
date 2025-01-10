@@ -27,7 +27,8 @@ const useMasterCategoryList = (
     //         }
     //     }
     //   }, [navigate]);
-    
+    const [firstLoadPage, setFirstLoadPage] = useState(true);
+
     const [changes, setChanges] = useState([]);
 
     const [data, setData] = useState([]);
@@ -62,9 +63,11 @@ const useMasterCategoryList = (
 
     const [isModalConfirmDeleteOpen, setIsModalConfirmDeleteOpen] = useState(false);  // Trạng thái mở modal
     const [isModalConfirmUpdateOpen, setIsModalConfirmUpdateOpen] = useState(false);  // Trạng thái mở modal
+    const [isModalConfirmCreateOpen, setIsModalConfirmCreateOpen] = useState(false);  // Trạng thái mở modal
 
     const [recordToDelete, setRecordToDelete] = useState(null); // Dữ liệu cần xóa
     const [recordToUpdate, setRecordToUpdate] = useState(null); // Dữ liệu muốn cập nhật thành
+    const [recordToCreate, setRecordToCreate] = useState(null); // Dữ liệu muốn cập nhật thành
 
     const [alerts, setAlerts] = useState([]);
 
@@ -122,16 +125,28 @@ const useMasterCategoryList = (
         }
     };
 
-    // Mở modal và thiết lập giường cần cập nhật
+    // Mở modal và thiết lập bản ghi cần cập nhật
     const openUpdateModal = (data) => {
         setRecordToUpdate(data);
         setIsModalConfirmUpdateOpen(true);  // Mở modal
     };
 
+    // Mở modal xác nhận tạo mới
+    const openCreateModal = (data) => {
+        setRecordToCreate(data);
+        setIsModalConfirmCreateOpen(true);  // Mở modal
+    };
+
     // Đóng modal
     const closeModalConfirmUpdate = () => {
         setIsModalConfirmUpdateOpen(false);
-        setRecordToUpdate(null); // Reset giường khi đóng modal
+        setRecordToUpdate(null); // Reset bản ghi khi đóng modal
+    };
+
+    // Đóng modal
+    const closeModalConfirmCreate = () => {
+        setIsModalConfirmCreateOpen(false);
+        setRecordToCreate(null); // Reset bản ghi khi đóng modal
     };
 
     // Hàm xác nhận cập nhật từ modal
@@ -142,6 +157,13 @@ const useMasterCategoryList = (
         }
     };
 
+    // Hàm xác nhận thêm mới từ modal
+    const confirmCreate = () => {
+        if (recordToCreate) {
+            handleCreate(recordToCreate);
+            closeModalConfirmCreate();
+        }
+    };
     // Lấy dữ liệu theo start - limit
     const fetchData = async () => {
         try {
@@ -264,8 +286,8 @@ const useMasterCategoryList = (
             // Mở modal xác nhận
             openUpdateModal(recordDetails)
         } else {
-            handleCreate(recordDetails); // Gọi hàm tạo mới
-        }
+            // Mở modal xác nhận
+            openCreateModal(recordDetails)        }
     };
     const handleMasterCreate = async (recordDetails, transformData) => {
         setIsProcessing(true);
@@ -365,10 +387,14 @@ const useMasterCategoryList = (
         setIsModalConfirmDeleteOpen,
         isModalConfirmUpdateOpen,
         setIsModalConfirmUpdateOpen,
+        isModalConfirmCreateOpen,
+        setIsModalConfirmCreateOpen,
         recordToDelete,
         setRecordToDelete,
         recordToUpdate,
         setRecordToUpdate,
+        recordToCreate,
+        setRecordToCreate,
         errorUniqueCode,
         setErrorUniqueCode,
         alerts,
@@ -388,6 +414,9 @@ const useMasterCategoryList = (
         openUpdateModal,
         closeModalConfirmUpdate,
         confirmUpdate,
+        openCreateModal,
+        closeModalConfirmCreate,
+        confirmCreate,
         fetchData,
         fetchDataCursor,
         checkUniqueCode,
@@ -404,6 +433,8 @@ const useMasterCategoryList = (
         handleMasterDelete,
         handleBlur,
         handleFormSubmit,
+        firstLoadPage, 
+        setFirstLoadPage,
     };
 };
 

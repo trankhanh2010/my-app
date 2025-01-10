@@ -8,11 +8,15 @@ const config = {
         bedRoom: {typeGetApi: 'elastic'},
         bedType: {typeGetApi: 'elastic'},
         transactionType: {typeGetApi: 'elastic'},
+        payForm: {typeGetApi: 'elastic'},
 
         // data
+        accountBookVView: {typeGetApi: 'db'},
         testServiceReqListVView: {typeGetApi: 'db'},
         testServiceTypeListVView: {typeGetApi: 'db'},
         treatmentFeeDetailVView: {typeGetApi: 'db'},
+        transaction: {typeGetApi: 'db'},
+
     }
   };
   

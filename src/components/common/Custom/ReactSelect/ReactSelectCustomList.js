@@ -8,7 +8,9 @@ const ReactSelectCustomUpdate = ({
   list,
   setListKeyword,
   listFieldName,
+  listFieldCode,
   recordFieldName,
+  recordFieldCode,
   recordFieldId,
   errors,
   placeholder,
@@ -17,14 +19,27 @@ const ReactSelectCustomUpdate = ({
     <Select
       options={list.map((item) => ({
         value: item.id,
+        // Hiện highlight nếu có, không thì hiện bình thường
         label: (
-          <span
-            dangerouslySetInnerHTML={{
-              __html: item.highlight?.[listFieldName]
-                ? item.highlight[listFieldName][0]
-                : item[listFieldName], // Hiển thị highlight nếu có, không có thì hiển thị tên bình thường
-            }}
-          />
+          <div className="flex items-center space-x-2">
+            {/* Phần code */}
+            <span className="min-w-[100px] text-left  text-gray-600"
+              dangerouslySetInnerHTML={{
+                __html: item.highlight?.[listFieldCode]
+                  ? item.highlight[listFieldCode][0]
+                  : item[listFieldCode] || "",
+              }}
+            />
+            {/* Phần name */}
+            <span
+              dangerouslySetInnerHTML={{
+                __html: item.highlight?.[listFieldName]
+                  ? item.highlight[listFieldName][0]
+                  : item[listFieldName] || "",
+              }}
+              className="text-gray-800"
+            />
+          </div>
         ),
       }))}
       value={
@@ -44,6 +59,7 @@ const ReactSelectCustomUpdate = ({
           ...recordDetails,
           [recordFieldId]: selectedOption?.value,
           [recordFieldName]: selectedItem ? selectedItem[listFieldName] : '', // Cập nhật giá trị khi chọn
+          [recordFieldCode]: selectedItem ? selectedItem[listFieldCode] : '', // Cập nhật giá trị khi chọn
         });
       }}
       onInputChange={(inputValue) => {

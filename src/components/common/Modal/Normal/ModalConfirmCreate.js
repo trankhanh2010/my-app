@@ -1,8 +1,7 @@
 import React from "react";
 
-const ModalConfirmDelete = ({ isOpen, onConfirm, onCancel, message }) => {
+const ModalConfirm = ({ isOpen, onConfirm, onCancel, fields }) => {
     if (!isOpen) return null;
-
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
             <div className="bg-white rounded-lg shadow-lg w-full h-full md:w-auto md:h-auto md:min-w-[50%] max-w-screen max-h-screen p-4 overflow-auto">
@@ -22,10 +21,28 @@ const ModalConfirmDelete = ({ isOpen, onConfirm, onCancel, message }) => {
                             d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                         />
                     </svg>
-                    <h3 className="mb-5 text-lg font-normal text-gray-700">{`Bạn chắc chắn muốn xóa bản ghi ${message} ?`}</h3>
+                    <h3 className="mb-5 text-lg font-normal text-gray-700">{`Bạn chắc chắn muốn thêm mới bản ghi ?`}</h3>
+                    <div className="text-left mb-4">
+                        <ul className="list-disc pl-5">
+                            {fields ? (
+                                <ul className="list-disc pl-5">
+                                    {Object.entries(fields).map(([key, value], index) => (
+                                        <li key={index} className="mb-2">
+                                            <span className="font-semibold">{key}:</span>{" "}
+                                            <span className="text-gray-500">
+                                                <span className="text-green-500">{value}</span>
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p className="text-gray-500">Không có thay đổi nào.</p>
+                            )}
+                        </ul>
+                    </div>
                     <button
                         onClick={onConfirm}
-                        className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 mr-2"
+                        className="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 mr-2"
                     >
                         Có
                     </button>
@@ -41,4 +58,4 @@ const ModalConfirmDelete = ({ isOpen, onConfirm, onCancel, message }) => {
     );
 };
 
-export default ModalConfirmDelete;
+export default ModalConfirm;

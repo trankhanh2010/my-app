@@ -5,7 +5,9 @@ import BedTable from "../../../components/category/bed/BedTable";
 import BedDetails from "../../../components/category/bed/BedDetails";
 import Filter from "../../../components/category/bed/Filter";
 import Card from "../../../components/common/Master/Card";
-
+import ModalConfirmDelete from "../../../components/common/Modal/Normal/ModalConfirmDelete";
+import ModalConfirmUpdate from "../../../components/common/Modal/Normal/ModalConfirmUpdate";
+import ModalConfirmCreate from "../../../components/common/Modal/Normal/ModalConfirmCreate";
 const BedList = () => {
     const {
         fieldLabels,
@@ -29,6 +31,7 @@ const BedList = () => {
         totalPages,
         isModalConfirmDeleteOpen,
         isModalConfirmUpdateOpen,
+        isModalConfirmCreateOpen, 
         recordToDelete,
         recordToUpdate,
         alerts,
@@ -38,6 +41,7 @@ const BedList = () => {
         calculateChanges,
         confirmDelete,
         confirmUpdate,
+        confirmCreate,
         setPage,
         setLimit,
         setKeyword,
@@ -56,9 +60,11 @@ const BedList = () => {
         closeModalConfirmDelete,
         openDeleteModal,
         closeModalConfirmUpdate,
+        closeModalConfirmCreate,
         openUpdateModal,
         setIsModalConfirmDeleteOpen,
         setIsModalConfirmUpdateOpen,
+        setIsModalConfirmCreateOpen,
         convertToDate,
         addAlert,
         removeAlert,
@@ -76,6 +82,7 @@ const BedList = () => {
         handleReload,
         handleBlur,
         handleFormSubmit,
+        calculateNewData,
 
     } = useBedList();
 
@@ -112,19 +119,9 @@ const BedList = () => {
                             convertToDate={convertToDate}
                             handleRecordSelect={handleRecordSelect}
                             selectedRecord={selectedRecord}
-                            recordDetails={recordDetails}
                             setRecordDetails={setRecordDetails}
-                            recordToDelete={recordToDelete}
-                            closeModalConfirmDelete={closeModalConfirmDelete}
-                            confirmDelete={confirmDelete}
-                            isModalConfirmDeleteOpen={isModalConfirmDeleteOpen}
                             openDeleteModal={openDeleteModal}
                             openUpdateModal={openUpdateModal}
-                            isModalConfirmUpdateOpen={isModalConfirmUpdateOpen}
-                            confirmUpdate={confirmUpdate}
-                            closeModalConfirmUpdate={closeModalConfirmUpdate}
-                            calculateChanges={calculateChanges}
-                            recordToUpdate={recordToUpdate}
                             loading={loading}
                             error={error}
                             isProcessing={isProcessing}
@@ -156,12 +153,33 @@ const BedList = () => {
                     </div>
                 </Card>
             </div>
-
+            {/* Thông báo */}
             <ManegerAlert
                 alerts={alerts}
                 removeAlert={removeAlert}
             />
-
+            {/* Modal xác nhận xóa */}
+            <ModalConfirmDelete
+                isOpen={isModalConfirmDeleteOpen}
+                onConfirm={confirmDelete}  // Gọi confirmDelete nếu xác nhận
+                onCancel={closeModalConfirmDelete}  // Đóng modal nếu không xác nhận
+                message={`${recordToDelete?.bedName} (${recordToDelete?.bedCode})`} // Truyền tên giường vào modal
+            />
+            {/* Modal xác nhận cập nhật */}
+            <ModalConfirmUpdate
+                isOpen={isModalConfirmUpdateOpen}
+                onConfirm={confirmUpdate}  // Gọi confirmUpdate nếu xác nhận
+                onCancel={closeModalConfirmUpdate}  // Đóng modal nếu không xác nhận
+                message={`${selectedRecord?.bedName} (${selectedRecord?.bedCode})`} // Truyền tên giường vào modal
+                changes={calculateChanges(selectedRecord, recordToUpdate ?? recordDetails)}
+            />
+            {/* Modal xác nhận tạo mới */}
+            <ModalConfirmCreate
+                fields={calculateNewData(recordDetails)}
+                isOpen={isModalConfirmCreateOpen}
+                onConfirm={confirmCreate}  // Gọi confirmCreate nếu xác nhận
+                onCancel={closeModalConfirmCreate}  // Đóng modal nếu không xác nhận
+            />
 
         </div>
     );

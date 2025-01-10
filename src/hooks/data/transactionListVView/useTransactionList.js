@@ -74,7 +74,7 @@ const useTransactionList = () => {
         cashierUsername: "Người tạo giao dịch",
         transactionTypeCode: "Mã loại giao dịch",
         transactionTypeName: "Tên loại giao dịch",
-        einvoiceNumOrder: "Số chứng từ",
+        einvoiceNumOrder: "Số chứng từ", // numberOrder trong DB
         cancelReason: "Lý do hủy giao dịch",
         cancelUsername: "Người hủy",
         cancelLoginname: "Người hủy",

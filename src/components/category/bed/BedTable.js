@@ -1,7 +1,5 @@
 import React from "react";
 import { FaLock, FaUnlock, FaCheck, FaTrash } from "react-icons/fa";
-import ModalConfirmDelete from "../../common/Modal/Normal/ModalConfirmDelete";
-import ModalConfirmUpdate from "../../common/Modal/Normal/ModalConfirmUpdate";
 import Loading from "../../common/Info/Loading";
 import ErrorInfo from "../../common/Info/ErrorInfo";
 import Thead from "../../common/Data/TableList/Thead";
@@ -14,19 +12,9 @@ const BedTable = ({
     convertToDate,
     handleRecordSelect,
     selectedRecord,
-    recordDetails,
     setRecordDetails,
-    recordToDelete,
-    closeModalConfirmDelete,
-    confirmDelete,
-    isModalConfirmDeleteOpen,
     openDeleteModal,
     openUpdateModal,
-    isModalConfirmUpdateOpen,
-    confirmUpdate,
-    closeModalConfirmUpdate,
-    calculateChanges,
-    recordToUpdate,
     loading,
     error,
     isProcessing,
@@ -69,7 +57,7 @@ const BedTable = ({
                                 fields={[
                                     { dangerouslySetInnerHTML: {__html: record.highlight?.bedCode ? record.highlight.bedCode[0] : record.bedCode, }, css: `font-bold sticky left-0 border-l-0 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} truncate` },
                                     { fieldValue:
-                                        <div className="flex flex-col md:flex-row md:space-x-2"> 
+                                        <div className="flex flex-col md:flex-row md:space-x-2 space-y-1 md:space-y-0"> 
                                             <button onClick={() => openDeleteModal(record)} className="bg-red-500 text-white p-1 rounded "><FaTrash className="inline-block mr-1 w-5 h-3" /> Xóa</button>                                     
                                             <button onClick={() => {const updatedBed = {...record, isActive: record.isActive == 1 ? 0 : 1}; setRecordDetails(updatedBed); openUpdateModal(updatedBed);}} className={`${record.isActive == 1 ? "bg-amber-500" : "bg-green-500"} text-white p-1 rounded`}>{record.isActive == 1 ? (<FaLock className="inline-block mr-1 w-5 h-3" />) : (<FaUnlock className="inline-block mr-1 w-5 h-3" />)}{record.isActive == 1 ? "Khóa" : "Mở khóa"}</button> 
                                         </div>, 
@@ -90,21 +78,6 @@ const BedTable = ({
                     ))}
                 </tbody>
             </table>
-            {/* Modal xác nhận xóa */}
-            <ModalConfirmDelete
-                isOpen={isModalConfirmDeleteOpen}
-                onConfirm={confirmDelete}  // Gọi confirmDelete nếu xác nhận
-                onCancel={closeModalConfirmDelete}  // Đóng modal nếu không xác nhận
-                message={`${recordToDelete?.bedName} (${recordToDelete?.bedCode})`} // Truyền tên giường vào modal
-            />
-            {/* Modal xác nhận cập nhật */}
-            <ModalConfirmUpdate
-                isOpen={isModalConfirmUpdateOpen}
-                onConfirm={confirmUpdate}  // Gọi confirmUpdate nếu xác nhận
-                onCancel={closeModalConfirmUpdate}  // Đóng modal nếu không xác nhận
-                message={`${selectedRecord?.bedName} (${selectedRecord?.bedCode})`} // Truyền tên giường vào modal
-                changes={calculateChanges(selectedRecord, recordToUpdate ?? recordDetails)}
-            />
         </div>
     );
 };
