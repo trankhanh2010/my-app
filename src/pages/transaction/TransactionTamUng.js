@@ -48,6 +48,7 @@ const Page = ({ paramTreatmentCode }) => {
         removeAlert,
         alerts,
         parseNumberToLocalString,
+        loadingListSelect,
     }
         = useTransactionTamUng();
     // Nếu có param từ trang khác truyền vào thì xử lý
@@ -86,7 +87,7 @@ const Page = ({ paramTreatmentCode }) => {
                 </Card>
                 {/* Form nhập dữ liệu */}
                 {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
-                <Card className={`${loadingRecord || isProcessing ? "flex" : ""} flex-grow`}>                    
+                <Card className={`${loadingRecord || isProcessing || loadingListSelect ? "flex" : ""} flex-grow`}>                    
                     <div className="relative mb-2 flex flex-col flex-grow">
                         <Form
                             recordDetails={recordDetails}
@@ -103,6 +104,7 @@ const Page = ({ paramTreatmentCode }) => {
                             loadingRecord={loadingRecord}
                             handleFormSubmit={handleFormSubmit}
                             parseNumberToLocalString={parseNumberToLocalString}
+                            loadingListSelect={loadingListSelect}
                         />
                     </div>
                 </Card>

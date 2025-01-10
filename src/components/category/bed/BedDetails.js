@@ -24,10 +24,12 @@ const BedDetails = ({
     loadingRecord,
     handleBlur,
     handleFormSubmit,
+    loadingListSelect,
 }) => {
     if (!recordDetails) return <NoRecordInfo />;
     if (isProcessing) return <Loading />;
     if (loadingRecord) return <Loading />;
+    if (loadingListSelect) return <Loading />;
     // Validate Form
     const errors = validateForm(recordDetails);
 

@@ -26,6 +26,8 @@ const useHook = () => {
 
     const [treatmentCode, setTreatmentCode] = useState();
     const [loadingTreatment, setLoadingTreatment] = useState(false);
+    const [loadingListSelect, setLoadingListSelect] = useState(false);
+
     const [filter, setFilter] = useState({   
         treatmentCode: null,
     });
@@ -247,7 +249,7 @@ const useHook = () => {
             setLoadingTreatment(false); // Kết thúc tải dữ liệu
         } catch (err) {
             console.error("Fetch error:", err);
-            setError("Lỗi khi tải dữ liệu.");
+            setError("Lỗi khi tải diện điều trị.");
             setLoadingTreatment(false); // Kết thúc tải dữ liệu ngay cả khi lỗi
         }
     };
@@ -268,6 +270,7 @@ const useHook = () => {
             }
         } catch (err) {
             console.error("Lỗi khi tải sổ thu chi:", err);
+            setError("Lỗi khi tải sổ thu chi.");
         }
     };
     // Lấy danh sách hình thức thanh toán
@@ -287,6 +290,7 @@ const useHook = () => {
             }
         } catch (err) {
             console.error("Lỗi khi tải ds hình thức thanh toán:", err);
+            setError("Lỗi khi tải ds hình thức thanh toán.");
         }
     };
     // Lấy danh sách phòng thu ngân
@@ -306,27 +310,45 @@ const useHook = () => {
             }
         } catch (err) {
             console.error("Lỗi khi tải ds phòng thu ngân:", err);
+            setError("Lỗi khi tải ds phòng thu ngân.");
         }
     };
     // Đặt các giá trị mặc định khi tải trang lần đầu
     useEffect(() => {
-        // Nếu tải trang lần đầu
-        if(firstLoadPage){
-            setRecordDetails({
-                treatmentId: null,
-                accountBookId: null,
-                payFormId: null,
-                cashierRoomId: null,
-                amount: 0, // Giá trị mặc định là "Không"
-                description: "",
-                swipeAmount: 0,
-                transferAmount: 0,
-            })
-            fetchAccountBooks() // Lấy danh sách sổ thu chi
-            fetchPayForms() // Lấy danh sách hình thức thanh toán
-            fetchCashierRooms() // Lấy danh sách phòng thu ngân
-        }
-        setFirstLoadPage(false)
+        const initializePage = async () => {
+            if (firstLoadPage) {
+                // Đặt giá trị mặc định
+                setRecordDetails({
+                    treatmentId: null,
+                    accountBookId: null,
+                    payFormId: null,
+                    cashierRoomId: null,
+                    amount: 0,
+                    description: "",
+                    swipeAmount: 0,
+                    transferAmount: 0,
+                });
+    
+                try {
+                    setLoadingListSelect(true)
+                    // Gọi cả ba API song song
+                    await Promise.all([
+                        fetchAccountBooks(),
+                        fetchPayForms(),
+                        fetchCashierRooms(),
+                    ]);
+                    setLoadingListSelect(false) // Kết thúc tải dữ liệu
+                } catch (error) {
+                    console.error("Error fetching initial data:", error);
+                    setError("Lỗi khi tải dữ liệu.");
+                    setLoadingListSelect(false)
+                }
+    
+                setFirstLoadPage(false); // Đánh dấu đã tải xong
+            }
+        };
+    
+        initializePage();
     }, [firstLoadPage]); // Gọi lại khi có thay đổi
     useEffect(() => {
         if (filterTrigger) {
@@ -412,6 +434,7 @@ const useHook = () => {
         removeAlert,
         alerts,
         parseNumberToLocalString,
+        loadingListSelect,
     };
 };
 

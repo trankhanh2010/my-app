@@ -19,6 +19,8 @@ const useBedList = () => {
     const [bedTypes, setBedTypes] = useState([]);
     const [bedTypeKeyword, setBedTypeKeyword] = useState(null);
 
+    const [loadingListSelect, setLoadingListSelect] = useState(false);
+
     const fieldLabels = {
         id: "Id",
         createTime: "Ngày tạo",
@@ -381,12 +383,18 @@ const useBedList = () => {
 
         const fetchData = async () => {
             try {
+                setLoadingListSelect(true)
                 // Gọi cả hai API song song
                 await Promise.all([
                     fetchAndUpdate(), // Lấy dữ liệu mới cho bản ghi được chọn
+                    fetchBedRooms(),
+                    fetchBedTypes(),
                 ]);
+                setLoadingListSelect(false) // Kết thúc tải dữ liệu
             } catch (error) {
                 console.error("Error fetching data:", error);
+                setError("Lỗi khi tải dữ liệu")
+                setLoadingListSelect(false)
             }
         };
         if (reload) {
@@ -491,6 +499,7 @@ const useBedList = () => {
         handleBlur,
         handleFormSubmit,
         calculateNewData,
+        loadingListSelect,
     };
 };
 

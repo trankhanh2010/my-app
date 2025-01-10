@@ -24,9 +24,11 @@ const Component = ({
     loadingRecord,
     handleFormSubmit,
     parseNumberToLocalString,
+    loadingListSelect,
 }) => {
     if (isProcessing) return <Loading />;
     if (loadingRecord) return <Loading />;
+    if (loadingListSelect) return <Loading />;
     if (!recordDetails) return <NoRecordInfo />
     // Validate Form
     const errors = validateForm(recordDetails);
