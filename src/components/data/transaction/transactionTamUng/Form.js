@@ -17,17 +17,21 @@ const Component = ({
     setAccountBookKeyword,
     payForms,
     setPayFormKeyword,
+    cashierRooms,
+    setCashierRoomKeyword,
     validateForm,
     isProcessing,
     loadingRecord,
     handleFormSubmit,
+    parseNumberToLocalString,
 }) => {
     if (isProcessing) return <Loading />;
     if (loadingRecord) return <Loading />;
     if (!recordDetails) return <NoRecordInfo />
     // Validate Form
     const errors = validateForm(recordDetails);
-
+    const isPayForm03 = recordDetails['payFormCode']=='03';
+    const isPayForm06 = recordDetails['payFormCode']=='06';
     return (
         <form onSubmit={handleFormSubmit}>
             {/* amount */}
@@ -37,12 +41,34 @@ const Component = ({
                         <div className="mt-1 flex flex-col border p-2">
                             <InputWithSpan
                                 inputName={fieldLabels.amount}
-                                inputValue={recordDetails.amount}
-                                inputType='number'
+                                inputValue={Number(recordDetails.amount).toLocaleString()} // Định dạng số khi hiển thị
+                                inputType='text' // Đặt type là text để định dạng
                                 inputCss={(errors.amount && errors.amount.length > 0) ? "border-red-500" : ""}
-                                onChange={(e) => setRecordDetails({ ...recordDetails, amount: e.target.value })}
+                                onChange={(e) => setRecordDetails({ ...recordDetails, amount: parseNumberToLocalString(e.target.value)})} // Chuyển từ chuỗi định dạng về số khi set data
                             />
                             {(errors.amount && errors.amount.length > 0) ? (<SpanError errors={errors.amount} />) : null}
+                        </div>
+                    </CardElement>
+
+                    {/* cashierRoom */}
+                    <CardElement>
+                        <div className="mt-1 flex flex-col border p-2">
+                            <SpanFieldName fieldName={fieldLabels.cashierRoomName} />
+                            <ReactSelectCustomList
+                                recordDetails={recordDetails}
+                                setRecordDetails={setRecordDetails}
+                                list={cashierRooms}
+                                setListKeyword={setCashierRoomKeyword}
+                                listFieldName="cashierRoomName"
+                                recordFieldName="cashierRoomName"
+                                listFieldCode="cashierRoomCode" // dùng để kiểm tra khi người dùng nhập tiền
+                                recordFieldCode="cashierRoomCode" // dùng để kiểm tra khi người dùng nhập tiền
+                                recordFieldId="cashierRoomId"
+                                errors={errors.cashierRoomId && errors.cashierRoomId.length > 0}
+                                placeholder="Chọn hình thức thanh toán"
+                                createOrUpdate={true}
+                            />
+                            {(errors.cashierRoomId && errors.cashierRoomId.length > 0) ? (<SpanError errors={errors.cashierRoomId} />) : null}
                         </div>
                     </CardElement>
 
@@ -92,28 +118,28 @@ const Component = ({
                     </CardElement>
 
                     {/* swipeAmount */}
-                    <CardElement>
-                        <div className="mt-1 flex flex-col border p-2">
+                    <CardElement className={`flex flex-grow ${isPayForm06?"":"opacity-50"}`}>
+                        <div className={`mt-1 flex flex-col border p-2 flex-grow ${isPayForm06?"":"cursor-not-allowed"}`}>
                             <InputWithSpan
                                 inputName={fieldLabels.swipeAmount}
-                                inputValue={recordDetails.swipeAmount}
-                                inputType='number'
-                                inputCss={(errors.swipeAmount && errors.swipeAmount.length > 0) ? "border-red-500" : ""}
-                                onChange={(e) => setRecordDetails({ ...recordDetails, swipeAmount: e.target.value })}
+                                inputValue={Number(recordDetails.swipeAmount).toLocaleString()} // Định dạng số khi hiển thị
+                                inputType='text' // Đặt type là text để định dạng
+                                inputCss={`(errors.swipeAmount && errors.swipeAmount.length > 0) ? "border-red-500" : "" ${isPayForm06?"":"cursor-not-allowed pointer-events-none"}`}
+                                onChange={(e) => setRecordDetails({ ...recordDetails, swipeAmount: parseNumberToLocalString(e.target.value) })} // Chuyển từ chuỗi định dạng về số khi set data
                             />
                             {(errors.swipeAmount && errors.swipeAmount.length > 0) ? (<SpanError errors={errors.swipeAmount} />) : null}
                         </div>
                     </CardElement>
 
                     {/* transferAmount */}
-                    <CardElement className="flex flex-grow">
-                        <div className="mt-1 flex flex-col border p-2 flex-grow">
+                    <CardElement className={`flex flex-grow ${isPayForm03?"":"opacity-50"}`}>
+                        <div className={`mt-1 flex flex-col border p-2 flex-grow ${isPayForm03?"":"cursor-not-allowed"}`}>
                             <InputWithSpan
                                 inputName={fieldLabels.transferAmount}
-                                inputValue={recordDetails.transferAmount}
-                                inputType='number'
-                                inputCss={(errors.transferAmount && errors.transferAmount.length > 0) ? "border-red-500" : ""}
-                                onChange={(e) => setRecordDetails({ ...recordDetails, transferAmount: e.target.value })}
+                                inputValue={Number(recordDetails.transferAmount).toLocaleString()} // Định dạng số khi hiển thị
+                                inputType='text' // Đặt type là text để định dạng
+                                inputCss={`(errors.transferAmount && errors.transferAmount.length > 0) ? "border-red-500" : "" ${isPayForm03?"":"cursor-not-allowed pointer-events-none"}`}
+                                onChange={(e) => setRecordDetails({ ...recordDetails, transferAmount: parseNumberToLocalString(e.target.value) })} // Chuyển từ chuỗi định dạng về số khi set data
                             />
                             {(errors.transferAmount && errors.transferAmount.length > 0) ? (<SpanError errors={errors.transferAmount} />) : null}
                         </div>

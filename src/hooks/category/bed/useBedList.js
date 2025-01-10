@@ -142,18 +142,18 @@ const useBedList = () => {
         });
     };
 
-    const calculateNewData = (newData, fieldLabel=fieldLabels) => {
+    const calculateNewData = (newData, fieldLabel = fieldLabels) => {
         let data
-        if(newData){
+        if (newData) {
             data = {
-                [fieldLabel.bedCode] : newData.bedCode,
-                [fieldLabel.bedName] : newData.bedName,
-                [fieldLabel.bedTypeCode] : newData.bedTypeCode,
-                [fieldLabel.bedTypeName] : newData.bedTypeName,
-                [fieldLabel.bedRoomCode] : newData.bedRoomCode,
-                [fieldLabel.bedRoomName] : newData.bedRoomName,
-                [fieldLabel.isBedStretcher] : [newData.isBedStretcher==1?'Có':'Không'],
-                [fieldLabel.maxCapacity] : newData.maxCapacity,
+                [fieldLabel.bedCode]: newData.bedCode,
+                [fieldLabel.bedName]: newData.bedName,
+                [fieldLabel.bedTypeCode]: newData.bedTypeCode,
+                [fieldLabel.bedTypeName]: newData.bedTypeName,
+                [fieldLabel.bedRoomCode]: newData.bedRoomCode,
+                [fieldLabel.bedRoomName]: newData.bedRoomName,
+                [fieldLabel.isBedStretcher]: [newData.isBedStretcher == 1 ? 'Có' : 'Không'],
+                [fieldLabel.maxCapacity]: newData.maxCapacity,
             }
         }
         return data;
@@ -259,11 +259,14 @@ const useBedList = () => {
         handleMasterDelete,
         handleBlur,
         handleFormSubmit,
-        recordToCreate, 
+        recordToCreate,
         setRecordToCreate,
-        isModalConfirmCreateOpen, 
+        isModalConfirmCreateOpen,
         setIsModalConfirmCreateOpen,
         closeModalConfirmCreate,
+        created, setCreated,
+        updated, setUpdated,
+        deleted, setDeleted,
 
     } = useMasterList(
         fieldLabels,
@@ -352,46 +355,68 @@ const useBedList = () => {
         }
     }, [data]); // Chạy lại mỗi khi 'data' thay đổi
 
-        // Tải lại dữ liệu mỗi lần nhấn vào 
-        useEffect(() => {
-            const fetchAndUpdate = async () => {
-                try {
-                    setLoadingRecord(true);
-                    // Gọi API để lấy dữ liệu mới
-                    const response = await bedService.getById(selectedRecord.id);
-                    const updatedRecord = response.data
-        
-                    // Cập nhật dữ liệu trong dataCursor
-                    setData((prevData) =>
-                        prevData.map((item) =>
-                            item.id == selectedRecord.id ? { ...item, ...updatedRecord } : item
-                        )
-                    );
-                    // Cập nhật lại bản ghi đang được chọn
-                    setSelectedRecord(updatedRecord)
-                    setLoadingRecord(false);
-                } catch (error) {
-                    setError(true)
-                    console.error("Error fetching record:", error);
-                } 
-            };
-    
-            const fetchData = async () => {
-                try {
-                    // Gọi cả hai API song song
-                    await Promise.all([
-                        fetchAndUpdate(), // Lấy dữ liệu mới cho bản ghi được chọn
-                    ]);
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                }
-            };
-            if (reload) {
-                // Cập nhật lại thông tin 
-                fetchData();
-                setReload(false);
+    // Tải lại dữ liệu mỗi lần nhấn vào 
+    useEffect(() => {
+        const fetchAndUpdate = async () => {
+            try {
+                setLoadingRecord(true);
+                // Gọi API để lấy dữ liệu mới
+                const response = await bedService.getById(selectedRecord.id);
+                const updatedRecord = response.data
+
+                // Cập nhật dữ liệu trong dataCursor
+                setData((prevData) =>
+                    prevData.map((item) =>
+                        item.id == selectedRecord.id ? { ...item, ...updatedRecord } : item
+                    )
+                );
+                // Cập nhật lại bản ghi đang được chọn
+                setSelectedRecord(updatedRecord)
+                setLoadingRecord(false);
+            } catch (error) {
+                setError(true)
+                console.error("Error fetching record:", error);
             }
-        }, [reload]); // Gọi lại khi có thay đổi
+        };
+
+        const fetchData = async () => {
+            try {
+                // Gọi cả hai API song song
+                await Promise.all([
+                    fetchAndUpdate(), // Lấy dữ liệu mới cho bản ghi được chọn
+                ]);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        if (reload) {
+            // Cập nhật lại thông tin 
+            fetchData();
+            setReload(false);
+        }
+    }, [reload]); // Gọi lại khi có thay đổi
+
+    // Tải lại ds sau khi thêm mới bản ghi
+    useEffect(() => {
+        if (created) {
+            fetchData()
+        }
+        setCreated(false)
+    }, [created]);  
+    // Tải lại ds sau khi sửa đổi bản ghi
+    useEffect(() => {
+        if (updated) {
+            fetchData()
+        }
+        setUpdated(false)
+    }, [updated]);  
+    // Tải lại ds sau khi xóa bản ghi
+    useEffect(() => {
+        if (deleted) {
+            fetchData()
+        }
+        setDeleted(false)
+    }, [deleted]);  
     return {
         fieldLabels,
         fieldConfig,
@@ -414,7 +439,7 @@ const useBedList = () => {
         totalPages,
         isModalConfirmDeleteOpen,
         isModalConfirmUpdateOpen,
-        isModalConfirmCreateOpen, 
+        isModalConfirmCreateOpen,
         recordToDelete,
         recordToUpdate,
         alerts,

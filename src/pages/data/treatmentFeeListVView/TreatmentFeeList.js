@@ -182,6 +182,7 @@ const Page = () => {
                     <div className="min-h-[10vh] md:overflow-y-auto">
                         <ButtonList 
                             selectedRecord={selectedRecord}
+                            setReload={setReload}
                         />
                     </div>
                 </Card>

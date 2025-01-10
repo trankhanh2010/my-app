@@ -4,7 +4,8 @@ import useMasterList from '../../master/useMasterList';
 import transactionTamUngService from "../../../services/transaction/transactionTamUngService";
 import treatmentFeeListService from "../../../services/data/treatmentFeeListService";
 import accountBookService from "../../../services/data/accountBookService";
-import payFormService from "../../../services/data/payFormService";
+import payFormService from "../../../services/category/payFormService";
+import cashierRoomService from "../../../services/category/cashierRoomService";
 
 const useHook = () => {
     const isDB = true
@@ -13,11 +14,15 @@ const useHook = () => {
     const accountBookIsElastic = config.apiService.accountBookVView.typeGetApi === 'elastic';
     const payFormIsDB = config.apiService.payForm.typeGetApi === 'db';
     const payFormIsElastic = config.apiService.payForm.typeGetApi === 'elastic';
+    const cashierRoomIsDB = config.apiService.cashierRoom.typeGetApi === 'db';
+    const cashierRoomIsElastic = config.apiService.cashierRoom.typeGetApi === 'elastic';
 
     const [accountBooks, setAccountBooks] = useState([]);
     const [accountBookKeyword, setAccountBookKeyword] = useState(null);
     const [payForms, setPayForms] = useState([]);
     const [payFormKeyword, setPayFormKeyword] = useState(null);
+    const [cashierRooms, setCashierRooms] = useState([]);
+    const [cashierRoomKeyword, setCashierRoomKeyword] = useState(null);
 
     const [treatmentCode, setTreatmentCode] = useState();
     const [loadingTreatment, setLoadingTreatment] = useState(false);
@@ -38,6 +43,9 @@ const useHook = () => {
         payFormId: "Id hình thức thanh toán",
         payFormCode: "Mã hình thức thanh toán",
         payFormName: "Tên hình thức thanh toán",
+        cashierRoomId: "Id phòng thu ngân",
+        cashierRoomCode: "Mã phòng thu ngân",
+        cashierRoomName: "Tên phòng thu ngân",
         description: "Lý do tạm ứng",
         transferAmount: "Số tiền chuyển khoản",
         swipeAmount: "Số tiền quẹt thẻ",
@@ -55,6 +63,9 @@ const useHook = () => {
         },
         payFormId: {
             errorMessageRequired: `${fieldLabels.payFormId} không được bỏ trống!`,
+        },
+        cashierRoomId: {
+            errorMessageRequired: `${fieldLabels.cashierRoomId} không được bỏ trống!`,
         },
         description: {
             maxLength: 2000,
@@ -94,6 +105,11 @@ const useHook = () => {
                 if (data.accountBookId === undefined || data.accountBookId === null) {
                     error.accountBookId = error.accountBookId || [];
                     error.accountBookId.push(fieldConfig.accountBookId.errorMessageRequired);  // Thêm lỗi 
+                }
+                // Kiểm tra lỗi cho cashierRoomId
+                if (data.cashierRoomId === undefined || data.cashierRoomId === null) {
+                    error.cashierRoomId = error.cashierRoomId || [];
+                    error.cashierRoomId.push(fieldConfig.cashierRoomId.errorMessageRequired);  // Thêm lỗi 
                 }
                 // Kiểm tra lỗi cho payFormId
                 if (data.payFormId === undefined || data.payFormId === null) {
@@ -142,14 +158,16 @@ const useHook = () => {
         let data
         if(newData){
             data = {
-                [fieldLabel.amount] : newData.amount,
+                [fieldLabel.amount] : Number(newData.amount).toLocaleString(),
                 [fieldLabel.accountBookCode] : newData.accountBookCode,
                 [fieldLabel.accountBookName] : newData.accountBookName,
                 [fieldLabel.payFormCode] : newData.payFormCode,
                 [fieldLabel.payFormName] : newData.payFormName,
-                [fieldLabel.swipeAmount] : newData.swipeAmount,
-                [fieldLabel.transferAmount] : newData.transferAmount,
+                [fieldLabel.swipeAmount] : Number(newData.swipeAmount).toLocaleString(),
+                [fieldLabel.transferAmount] : Number(newData.transferAmount).toLocaleString(),
                 [fieldLabel.description] : newData.description,
+                [fieldLabel.cashierRoomCode] : newData.cashierRoomCode,
+                [fieldLabel.cashierRoomName] : newData.cashierRoomName,
             }
         }
         return data;
@@ -197,7 +215,7 @@ const useHook = () => {
         alerts,
         firstLoadPage, 
         setFirstLoadPage,
-
+        parseNumberToLocalString,
     } = useMasterList(
         null,
         null,
@@ -268,7 +286,26 @@ const useHook = () => {
                 );
             }
         } catch (err) {
-            console.error("Lỗi khi tải sổ thu chi:", err);
+            console.error("Lỗi khi tải ds hình thức thanh toán:", err);
+        }
+    };
+    // Lấy danh sách phòng thu ngân
+    const fetchCashierRooms = async () => {
+        try {
+            const cashierRooms = await cashierRoomService.getAllSelect(cashierRoomKeyword || null);
+            if (cashierRoomIsDB) {
+                setCashierRooms(cashierRooms.data);
+            }
+            if (cashierRoomIsElastic) {
+                setCashierRooms(
+                    cashierRooms.data.map((item) => ({
+                        ...item._source, // Lấy dữ liệu chính
+                        highlight: item.highlight || {}, // Lấy highlight nếu có
+                    }))
+                );
+            }
+        } catch (err) {
+            console.error("Lỗi khi tải ds phòng thu ngân:", err);
         }
     };
     // Đặt các giá trị mặc định khi tải trang lần đầu
@@ -287,6 +324,7 @@ const useHook = () => {
             })
             fetchAccountBooks() // Lấy danh sách sổ thu chi
             fetchPayForms() // Lấy danh sách hình thức thanh toán
+            fetchCashierRooms() // Lấy danh sách phòng thu ngân
         }
         setFirstLoadPage(false)
     }, [firstLoadPage]); // Gọi lại khi có thay đổi
@@ -328,7 +366,13 @@ const useHook = () => {
 
         return () => clearTimeout(delayDebounce); // Xóa timeout nếu dependency thay đổi
     }, [payFormKeyword]); // Gọi lại khi có thay đổi
+    useEffect(() => {
+        const delayDebounce = setTimeout(() => {
+            fetchCashierRooms();
+        }, 200); // Chờ 200ms trước khi gọi API
 
+        return () => clearTimeout(delayDebounce); // Xóa timeout nếu dependency thay đổi
+    }, [cashierRoomKeyword]); // Gọi lại khi có thay đổi
     return {
         reload,
         setReload,
@@ -358,6 +402,8 @@ const useHook = () => {
         setAccountBookKeyword,
         payForms,
         setPayFormKeyword,
+        cashierRooms,
+        setCashierRoomKeyword,
         handleFormSubmit,
         closeModalConfirmCreate,
         confirmCreate,
@@ -365,6 +411,7 @@ const useHook = () => {
         calculateNewData,
         removeAlert,
         alerts,
+        parseNumberToLocalString,
     };
 };
 

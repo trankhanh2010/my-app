@@ -7,6 +7,7 @@ const config = {
         bed: {typeGetApi: 'elastic'},
         bedRoom: {typeGetApi: 'elastic'},
         bedType: {typeGetApi: 'elastic'},
+        cashierRoom: {typeGetApi: 'elastic'},
         transactionType: {typeGetApi: 'elastic'},
         payForm: {typeGetApi: 'elastic'},
 

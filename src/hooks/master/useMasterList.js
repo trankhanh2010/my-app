@@ -38,6 +38,11 @@ const useMasterCategoryList = (
     const [error, setError] = useState(null);
     const [reload, setReload] = useState(false);
     const [loadingRecord, setLoadingRecord] = useState(false);
+  
+    // Quản lí việc thêm, sửa, xóa
+    const [created, setCreated] = useState(false);
+    const [updated, setUpdated] = useState(false);
+    const [deleted, setDeleted] = useState(false);
 
     // Phân trang theo start - limit
     const [page, setPage] = useState(1);
@@ -93,6 +98,11 @@ const useMasterCategoryList = (
         }
         return changes;
     };
+    const parseNumberToLocalString = (value) => {
+        const rawValue = parseFloat(value.replace(/,/g, ""));
+        const newValue =(!isNaN(rawValue) ? rawValue : 0);
+        return newValue
+    }
     // Hàm thêm thông báo
     const addAlert = (message, type = "success") => {
         const id = new Date().getTime(); // Tạo ID duy nhất
@@ -295,7 +305,8 @@ const useMasterCategoryList = (
         try {
             await apiService.create(requestData); // Gọi API
             addAlert("Thêm mới thành công!", "success");
-            if (fetchData) fetchData(); // Load lại danh sách nếu có
+            // if (fetchData) fetchData(); // Load lại danh sách nếu có
+            setCreated(true)
         } catch (err) {
             addAlert("Lỗi khi thêm mới bản ghi!", "error");
         } finally {
@@ -308,7 +319,8 @@ const useMasterCategoryList = (
         try {
             await apiService.update(recordDetails.id, requestData); // Gọi API
             addAlert("Cập nhật thành công!", "success");
-            if (fetchData) fetchData(); // Load lại danh sách nếu có
+            // if (fetchData) fetchData(); // Load lại danh sách nếu có
+            setUpdated(true)
         } catch (err) {
             addAlert("Lỗi khi cập nhật bản ghi!", "error");
         } finally {
@@ -320,7 +332,8 @@ const useMasterCategoryList = (
         try {
             await apiService.deleteRecord(Id); // Gọi API
             addAlert("Xóa bản ghi thành công!", "success");
-            if (fetchData) fetchData(); // Load lại danh sách nếu có
+            // if (fetchData) fetchData(); // Load lại danh sách nếu có
+            setDeleted(true)
             handleRecordSelect(null)
         } catch (err) {
             addAlert("Lỗi khi xóa bản ghi!", "error");
@@ -435,6 +448,13 @@ const useMasterCategoryList = (
         handleFormSubmit,
         firstLoadPage, 
         setFirstLoadPage,
+        created, 
+        setCreated,
+        updated, 
+        setUpdated,
+        deleted, 
+        setDeleted,
+        parseNumberToLocalString,
     };
 };
 

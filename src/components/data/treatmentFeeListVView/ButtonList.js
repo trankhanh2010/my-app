@@ -1,13 +1,26 @@
 import React, { useState } from "react";
 import CardElement from "../../common/Master/CardElement";
-import ModalPageTransactionList from '../../common/Modal/Page/ModalPageTransactionList';  // Import modal
+import ModalPageTransactionList from '../../common/Modal/Page/ModalPageTransactionList';  
+import ModalPageTransactionTamUng from '../../common/Modal/Page/ModalPageTransactionTamUng';  
 
 const Component = ({
     selectedRecord,
+    setReload,
 }) => {
     let isLSGD = selectedRecord
-    const [isModalOpen, setIsModalOpen] = useState(false); // State để điều khiển modal
+    let isTU = selectedRecord
 
+    const [isModalLSGDOpen, setIsModalLSGDOpen] = useState(false); // State để điều khiển modal lịch sử giao dịch
+    const [isModalTUOpen, setIsModalTUOpen] = useState(false); // State để điều khiển modal giao dịch tạm ứng
+
+    const closeModalLSGD = () => {
+        setIsModalLSGDOpen(false) // Đóng modal
+        setReload(true) // Reload lại bản ghi
+    }
+    const closeModalTU = () => {
+        setIsModalTUOpen(false) // Đóng modal
+        setReload(true) // Reload lại bản ghi
+    }
     return (
         <>
             <CardElement>
@@ -15,9 +28,10 @@ const Component = ({
                     <div className="mt-1 w-full flex flex-col">
                         <button
                             onClick={() => {
-
+                                if (!isTU) return;  // Nếu isLSGD là false, không làm gì cả
+                                setIsModalTUOpen(true);  // Nếu isLSGD là true, mở modal
                             }}
-                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed truncate"
+                            className={`${!isTU ? "opacity-50 cursor-not-allowed" : ""} px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed truncate`}
                         >
                             Tạm ứng
                         </button>
@@ -100,7 +114,7 @@ const Component = ({
                         <button
                             onClick={() => {
                                 if (!isLSGD) return;  // Nếu isLSGD là false, không làm gì cả
-                                setIsModalOpen(true);  // Nếu isLSGD là true, mở modal
+                                setIsModalLSGDOpen(true);  // Nếu isLSGD là true, mở modal
                             }}
                             className={`${!isLSGD ? "opacity-50 cursor-not-allowed" : ""} px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed truncate`}
                         >
@@ -109,10 +123,16 @@ const Component = ({
                     </div>
                 </div>
             </CardElement>
-            {/* Modal */}
+            {/* Modal LSGD*/}
             <ModalPageTransactionList 
-                isOpen={isModalOpen} 
-                onClose={() => setIsModalOpen(false)}
+                isOpen={isModalLSGDOpen} 
+                onClose={closeModalLSGD}
+                paramTreatmentCode={selectedRecord?.treatmentCode??""}
+            />
+            {/* Modal TU*/}
+            <ModalPageTransactionTamUng
+                isOpen={isModalTUOpen} 
+                onClose={closeModalTU}
                 paramTreatmentCode={selectedRecord?.treatmentCode??""}
             />
         </>

@@ -38,6 +38,8 @@ const Page = ({ paramTreatmentCode }) => {
         setAccountBookKeyword,
         payForms,
         setPayFormKeyword,
+        cashierRooms,
+        setCashierRoomKeyword,
         handleFormSubmit,
         closeModalConfirmCreate,
         confirmCreate,
@@ -45,15 +47,16 @@ const Page = ({ paramTreatmentCode }) => {
         calculateNewData,
         removeAlert,
         alerts,
+        parseNumberToLocalString,
     }
         = useTransactionTamUng();
     // Nếu có param từ trang khác truyền vào thì xử lý
-    // useEffect(() => {
-    //     if (paramTreatmentCode) {
-    //         setTreatmentCode(paramTreatmentCode);
-    //         setFilterTrigger(true);
-    //     }
-    // }, [paramTreatmentCode]);
+    useEffect(() => {
+        if (paramTreatmentCode) {
+            setTreatmentCode(paramTreatmentCode);
+            setFilterTrigger(true);
+        }
+    }, [paramTreatmentCode]);
     return (
         <div className={`grid grid-cols-12 gap-1 p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
             <div className="col-span-12 md:col-span-3 flex flex-col md:mr-1 md:border-r md:pr-2">
@@ -93,10 +96,13 @@ const Page = ({ paramTreatmentCode }) => {
                             setAccountBookKeyword={setAccountBookKeyword}
                             payForms={payForms}
                             setPayFormKeyword={setPayFormKeyword}
+                            cashierRooms={cashierRooms}
+                            setCashierRoomKeyword={setCashierRoomKeyword}
                             validateForm={validateForm}
                             isProcessing={isProcessing}
                             loadingRecord={loadingRecord}
                             handleFormSubmit={handleFormSubmit}
+                            parseNumberToLocalString={parseNumberToLocalString}
                         />
                     </div>
                 </Card>
