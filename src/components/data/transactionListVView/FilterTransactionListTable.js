@@ -26,7 +26,8 @@ const Filter = ({
     treatmentCode, setTreatmentCode,
     transactionTypes, setTransactionTypes,
     transactionTypeKeyword, setTransactionTypeKeyword,
-    listTransactionType, setListTransactionType
+    listTransactionType, setListTransactionType,
+    loadingTransactionType,
 }) => {
     return (
         <>
@@ -99,10 +100,11 @@ const Filter = ({
                         listSelected={listTransactionType}
                         setListSelected={setListTransactionType}
                         createOrUpdate={false}
+                        loading={loadingTransactionType}
                     />
                 </div>
             </CardElement>
-            
+
             <CardElement>
                 <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border p-2">
                     <div className="mt-1 w-full flex flex-col xl:w-[2/5]">

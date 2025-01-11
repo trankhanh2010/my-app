@@ -24,11 +24,12 @@ const Component = ({
     loadingRecord,
     handleFormSubmit,
     parseNumberToLocalString,
-    loadingListSelect,
+    loadingAccountBook,
+    loadingPayForm,
+    loadingCashierRoom,
 }) => {
     if (isProcessing) return <Loading />;
     if (loadingRecord) return <Loading />;
-    if (loadingListSelect) return <Loading />;
     if (!recordDetails) return <NoRecordInfo />
     // Validate Form
     const errors = validateForm(recordDetails);
@@ -69,6 +70,7 @@ const Component = ({
                                 errors={errors.cashierRoomId && errors.cashierRoomId.length > 0}
                                 placeholder="Chọn hình thức thanh toán"
                                 createOrUpdate={true}
+                                loading={loadingCashierRoom}
                             />
                             {(errors.cashierRoomId && errors.cashierRoomId.length > 0) ? (<SpanError errors={errors.cashierRoomId} />) : null}
                         </div>
@@ -91,6 +93,7 @@ const Component = ({
                                 errors={errors.accountBookId && errors.accountBookId.length > 0}
                                 placeholder="Chọn sổ thu chi"
                                 createOrUpdate={true}
+                                loading={loadingAccountBook}
                             />
                             {(errors.accountBookId && errors.accountBookId.length > 0) ? (<SpanError errors={errors.accountBookId} />) : null}
                         </div>
@@ -114,6 +117,7 @@ const Component = ({
                                 errors={errors.payFormId && errors.payFormId.length > 0}
                                 placeholder="Chọn hình thức thanh toán"
                                 createOrUpdate={true}
+                                loading={loadingPayForm}
                             />
                             {(errors.payFormId && errors.payFormId.length > 0) ? (<SpanError errors={errors.payFormId} />) : null}
                         </div>

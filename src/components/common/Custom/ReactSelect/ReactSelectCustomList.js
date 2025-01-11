@@ -1,5 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
+import Loading from "../../Info/Loading"
 
 const ReactSelectCustomUpdate = ({
   createOrUpdate,
@@ -14,16 +15,19 @@ const ReactSelectCustomUpdate = ({
   recordFieldId,
   errors,
   placeholder,
+  loading,
 }) => {
   return (
     <Select
-      options={list.map((item) => ({
+      // Đang đợi api thì hiện đang xử lý, không cho chọn
+      options={
+        loading ? [{ value: '', label: <Loading/>, isDisabled: true }] : list.map((item) => ({
         value: item.id,
         // Hiện highlight nếu có, không thì hiện bình thường
         label: (
           <div className="flex items-center space-x-2">
             {/* Phần code */}
-            <span className="min-w-[100px] text-left  text-gray-600"
+            <span className="min-w-[80px] text-left"
               dangerouslySetInnerHTML={{
                 __html: item.highlight?.[listFieldCode]
                   ? item.highlight[listFieldCode][0]
@@ -37,7 +41,6 @@ const ReactSelectCustomUpdate = ({
                   ? item.highlight[listFieldName][0]
                   : item[listFieldName] || "",
               }}
-              className="text-gray-800"
             />
           </div>
         ),
@@ -74,8 +77,12 @@ const ReactSelectCustomUpdate = ({
           borderColor: errors ? '#ef4444' : base.borderColor, // Màu viền đỏ khi có lỗi
           backgroundColor: `${createOrUpdate ? '#f3f4f6' : ""}`, // Màu nền của input
         }),
-        menuPortal: base => ({ ...base, zIndex: 200 }) // Đặt z index cao hơn các phần khác để k bị mất khi scroll
-      }}
+        menuPortal: base => ({ ...base, zIndex: 200 }), // Đặt z index cao hơn các phần khác để k bị mất khi scroll
+        menu: (base) => ({
+          ...base,
+          pointerEvents: loading ? 'none' : 'auto', // Vô hiệu hóa chuột khi loading
+        }),
+      }}  
       menuPortalTarget={document.body} 
     />
   );

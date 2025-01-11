@@ -19,7 +19,8 @@ const useBedList = () => {
     const [bedTypes, setBedTypes] = useState([]);
     const [bedTypeKeyword, setBedTypeKeyword] = useState(null);
 
-    const [loadingListSelect, setLoadingListSelect] = useState(false);
+    const [loadingBedType, setLoadingBedType] = useState(false);
+    const [loadingBedRoom, setLoadingBedRoom] = useState(false);
 
     const fieldLabels = {
         id: "Id",
@@ -287,6 +288,7 @@ const useBedList = () => {
     // Lấy danh sách buồng bệnh
     const fetchBedRooms = async () => {
         try {
+            setLoadingBedRoom(true)
             const bedRooms = await bedRoomService.getAllSelect(bedRoomKeyword || null);
             if (bedRoomIsDB) {
                 setBedRooms(bedRooms.data);
@@ -299,15 +301,17 @@ const useBedList = () => {
                     }))
                 );
             }
+            setLoadingBedRoom(false)
         } catch (err) {
             console.error("Lỗi khi tải buồng bệnh:", err);
-        } finally {
-            setIsProcessing(false)
+            setLoadingBedRoom(false)
+            setError(true)
         }
     };
     // Lấy danh sách loại giường
     const fetchBedTypes = async () => {
         try {
+            setLoadingBedType(true)
             const bedTypes = await bedTypeService.getAllSelect(bedTypeKeyword || null);
             if (bedTypeIsDB) {
                 setBedTypes(bedTypes.data);
@@ -320,8 +324,11 @@ const useBedList = () => {
                     }))
                 );
             }
+            setLoadingBedType(false)
         } catch (err) {
             console.error("Lỗi khi tải loại giường:", err);
+            setError(true)
+            setLoadingBedType(false)
         }
     };
 
@@ -383,18 +390,13 @@ const useBedList = () => {
 
         const fetchData = async () => {
             try {
-                setLoadingListSelect(true)
                 // Gọi cả hai API song song
                 await Promise.all([
                     fetchAndUpdate(), // Lấy dữ liệu mới cho bản ghi được chọn
-                    fetchBedRooms(),
-                    fetchBedTypes(),
                 ]);
-                setLoadingListSelect(false) // Kết thúc tải dữ liệu
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setError("Lỗi khi tải dữ liệu")
-                setLoadingListSelect(false)
             }
         };
         if (reload) {
@@ -499,7 +501,8 @@ const useBedList = () => {
         handleBlur,
         handleFormSubmit,
         calculateNewData,
-        loadingListSelect,
+        loadingBedRoom,
+        loadingBedType,
     };
 };
 

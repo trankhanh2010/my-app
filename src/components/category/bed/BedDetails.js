@@ -24,12 +24,12 @@ const BedDetails = ({
     loadingRecord,
     handleBlur,
     handleFormSubmit,
-    loadingListSelect,
+    loadingBedRoom,
+    loadingBedType,
 }) => {
     if (!recordDetails) return <NoRecordInfo />;
     if (isProcessing) return <Loading />;
     if (loadingRecord) return <Loading />;
-    if (loadingListSelect) return <Loading />;
     // Validate Form
     const errors = validateForm(recordDetails);
 
@@ -84,6 +84,7 @@ const BedDetails = ({
                     errors={errors.bedTypeId && errors.bedTypeId.length > 0}
                     placeholder="Chọn loại giường"
                     createOrUpdate={true}
+                    loading={loadingBedType}
                 />
                 {(errors.bedTypeId && errors.bedTypeId.length > 0) ? (<SpanError errors={errors.bedTypeId} />) : null}
             </div>
@@ -106,6 +107,7 @@ const BedDetails = ({
                     errors={errors.bedRoomId && errors.bedRoomId.length > 0}
                     placeholder="Chọn phòng"
                     createOrUpdate={true}
+                    loading={loadingBedRoom}
                 />
                 {(errors.bedRoomId && errors.bedRoomId.length > 0) ? (<SpanError errors={errors.bedRoomId} />) : null}
             </div>

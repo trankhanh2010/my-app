@@ -25,8 +25,11 @@ const useHook = () => {
     const [cashierRoomKeyword, setCashierRoomKeyword] = useState(null);
 
     const [treatmentCode, setTreatmentCode] = useState();
+
     const [loadingTreatment, setLoadingTreatment] = useState(false);
-    const [loadingListSelect, setLoadingListSelect] = useState(false);
+    const [loadingAccountBook, setLoadingAccountBook] = useState(false);
+    const [loadingPayForm, setLoadingPayForm] = useState(false);
+    const [loadingCashierRoom, setLoadingCashierRoom] = useState(false);
 
     const [filter, setFilter] = useState({   
         treatmentCode: null,
@@ -256,6 +259,7 @@ const useHook = () => {
     // Lấy danh sách sổ thu chi
     const fetchAccountBooks = async () => {
         try {
+            setLoadingAccountBook(true)
             const accountBooks = await accountBookService.getAllSelect(accountBookKeyword || null, {isForDeposit : 1});
             if (accountBookIsDB) {
                 setAccountBooks(accountBooks.data);
@@ -268,14 +272,17 @@ const useHook = () => {
                     }))
                 );
             }
+            setLoadingAccountBook(false)
         } catch (err) {
             console.error("Lỗi khi tải sổ thu chi:", err);
             setError("Lỗi khi tải sổ thu chi.");
+            setLoadingAccountBook(false)
         }
     };
     // Lấy danh sách hình thức thanh toán
     const fetchPayForms = async () => {
         try {
+            setLoadingPayForm(true)
             const payForms = await payFormService.getAllSelect(payFormKeyword || null);
             if (payFormIsDB) {
                 setPayForms(payForms.data);
@@ -288,14 +295,17 @@ const useHook = () => {
                     }))
                 );
             }
+            setLoadingPayForm(false)
         } catch (err) {
             console.error("Lỗi khi tải ds hình thức thanh toán:", err);
             setError("Lỗi khi tải ds hình thức thanh toán.");
+            setLoadingPayForm(false)
         }
     };
     // Lấy danh sách phòng thu ngân
     const fetchCashierRooms = async () => {
         try {
+            setLoadingCashierRoom(true)
             const cashierRooms = await cashierRoomService.getAllSelect(cashierRoomKeyword || null);
             if (cashierRoomIsDB) {
                 setCashierRooms(cashierRooms.data);
@@ -308,9 +318,11 @@ const useHook = () => {
                     }))
                 );
             }
+            setLoadingCashierRoom(false)
         } catch (err) {
             console.error("Lỗi khi tải ds phòng thu ngân:", err);
             setError("Lỗi khi tải ds phòng thu ngân.");
+            setLoadingCashierRoom(false)
         }
     };
     // Đặt các giá trị mặc định khi tải trang lần đầu
@@ -329,25 +341,10 @@ const useHook = () => {
                     transferAmount: 0,
                 });
     
-                try {
-                    setLoadingListSelect(true)
-                    // Gọi cả ba API song song
-                    await Promise.all([
-                        fetchAccountBooks(),
-                        fetchPayForms(),
-                        fetchCashierRooms(),
-                    ]);
-                    setLoadingListSelect(false) // Kết thúc tải dữ liệu
-                } catch (error) {
-                    console.error("Error fetching initial data:", error);
-                    setError("Lỗi khi tải dữ liệu.");
-                    setLoadingListSelect(false)
-                }
-    
                 setFirstLoadPage(false); // Đánh dấu đã tải xong
             }
         };
-    
+
         initializePage();
     }, [firstLoadPage]); // Gọi lại khi có thay đổi
     useEffect(() => {
@@ -434,7 +431,9 @@ const useHook = () => {
         removeAlert,
         alerts,
         parseNumberToLocalString,
-        loadingListSelect,
+        loadingAccountBook,
+        loadingPayForm,
+        loadingCashierRoom,
     };
 };
 

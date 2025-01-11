@@ -25,6 +25,7 @@ const useTransactionList = () => {
     const [transactionTypes, setTransactionTypes] = useState([]);
     const [transactionTypeKeyword, setTransactionTypeKeyword] = useState(null);
     const [listTransactionType, setListTransactionType] = useState([]);
+    const [loadingTransactionType, setLoadingTransactionType] = useState(false);
 
     const [fromTime, setFromTime] = useState();
     const [toTime, setToTime] = useState();
@@ -101,6 +102,7 @@ const useTransactionList = () => {
         // Lấy danh sách loại giao dịch
         const fetchTransactionTypes = async () => {
             try {
+                setLoadingTransactionType(true)
                 const transactionTypes = await transactionTypeService.getAllSelect(transactionTypeKeyword || null);
                 if (transactionTypeIsDB) {
                     setTransactionTypes(transactionTypes.data);
@@ -113,8 +115,11 @@ const useTransactionList = () => {
                         }))
                     );
                 }
+                setLoadingTransactionType(false)
             } catch (err) {
                 console.error("Lỗi khi tải buồng bệnh:", err);
+                setError(true)
+                setLoadingTransactionType(false)
             } 
         };
     // Lấy từ hookMaster qua
@@ -320,6 +325,7 @@ const useTransactionList = () => {
         transactionTypes, setTransactionTypes,
         transactionTypeKeyword, setTransactionTypeKeyword,
         listTransactionType, setListTransactionType,
+        loadingTransactionType,
     };
 };
 

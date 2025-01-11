@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
+import Loading from "../../Info/Loading"
 
 const ReactSelectCustomUpdate = ({
   createOrUpdate,
@@ -10,6 +11,7 @@ const ReactSelectCustomUpdate = ({
   errors,
   placeholder,
   setListSelected,
+  loading,
 }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
@@ -73,7 +75,7 @@ const ReactSelectCustomUpdate = ({
   return (
     <Select
       isMulti
-      options={enhancedOptions}
+      options={ loading ? [{ value: '', label: <Loading/>, isDisabled: true }] : enhancedOptions} // Nếu đang đợi api thì hiện loading, khóa thao tác
       value={selectedOptions}
       filterOption={() => true} // Tắt lọc tự động từ react-select
       onChange={handleChange}
@@ -89,7 +91,11 @@ const ReactSelectCustomUpdate = ({
           borderColor: errors ? '#ef4444' : base.borderColor, // Màu viền đỏ khi có lỗi
           backgroundColor: `${createOrUpdate ? '#f3f4f6' : ""}`, // Màu nền của input
         }),
-        menuPortal: base => ({ ...base, zIndex: 200 }) // Đặt z index cao hơn các phần khác để k bị mất khi scroll
+        menuPortal: base => ({ ...base, zIndex: 200 }), // Đặt z index cao hơn các phần khác để k bị mất khi scroll
+        menu: (base) => ({
+          ...base,
+          pointerEvents: loading ? 'none' : 'auto', // Vô hiệu hóa chuột khi loading
+        }),
       }}
       menuPortalTarget={document.body} 
     />

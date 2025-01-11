@@ -47,6 +47,7 @@ const Page = ({paramTreatmentCode}) => {
         transactionTypes, setTransactionTypes,
         transactionTypeKeyword, setTransactionTypeKeyword,
         listTransactionType, setListTransactionType,
+        loadingTransactionType,
     }
         = useTransactionList();
     // Nếu có param từ trang khác truyền vào thì xử lý
@@ -92,6 +93,7 @@ const Page = ({paramTreatmentCode}) => {
                             setTransactionTypeKeyword={setTransactionTypeKeyword}
                             listTransactionType={listTransactionType} 
                             setListTransactionType={setListTransactionType}
+                            loadingTransactionType={loadingTransactionType}
                         />
                     </div>
                 </Card>
