@@ -54,6 +54,13 @@ const useHook = () => {
         description: "Lý do tạm ứng",
         transferAmount: "Số tiền chuyển khoản",
         swipeAmount: "Số tiền quẹt thẻ",
+
+        buyerName: "Tên người thanh toán",
+        buyerTaxCode: "Mã số thuế người thanh toán",
+        buyerAccountNumber: "Số tài khoản người thanh toán",
+        buyerOrganization: "Đơn vị của người thanh toán",
+        buyerAddress: "Địa chỉ người thanh toán",
+        buyerPhone: "Số điện thoại người thanh toán",
     };
     const fieldConfig = {
         amount: {
@@ -85,6 +92,30 @@ const useHook = () => {
             errorMessageGT0: `${fieldLabels.transferAmount} phải lớn hơn bằng 0!`,
             errorMessageRequired: `${fieldLabels.transferAmount} không được bỏ trống!`,
             errorMessageLTAmount: `${fieldLabels.transferAmount} phải bé hơn bằng ${fieldLabels.amount}!`,
+        },
+        buyerName: {
+            maxLength: 200,
+            errorMessageMaxLength: `${fieldLabels.buyerName} có số ký tự tối đa là 200!`,
+        },
+        buyerTaxCode: {
+            maxLength: 20,
+            errorMessageMaxLength: `${fieldLabels.buyerTaxCode} có số ký tự tối đa là 20!`,
+        },
+        buyerAccountNumber: {
+            maxLength: 500,
+            errorMessageMaxLength: `${fieldLabels.buyerAccountNumber} có số ký tự tối đa là 500!`,
+        },
+        buyerOrganization: {
+            maxLength: 500,
+            errorMessageMaxLength: `${fieldLabels.buyerOrganization} có số ký tự tối đa là 500!`,
+        },
+        buyerAddress: {
+            maxLength: 500,
+            errorMessageMaxLength: `${fieldLabels.buyerAddress} có số ký tự tối đa là 500!`,
+        },
+        buyerPhone: {
+            maxLength: 20,
+            errorMessageMaxLength: `${fieldLabels.buyerPhone} có số ký tự tối đa là 20!`,
         },
     };
     const validateForm = (data, type = 'normal') => {
@@ -156,6 +187,36 @@ const useHook = () => {
                         error.transferAmount.push(fieldConfig.transferAmount.errorMessageLTAmount);  // Thêm lỗi 
                     }
                 }
+                // Kiểm tra lỗi buyerName
+                if (data.buyerName.length > fieldConfig.buyerName.maxLength) {
+                    error.buyerName = error.buyerName || [];  // Khởi tạo mảng nếu chưa có
+                    error.buyerName.push(fieldConfig.buyerName.errorMessageMaxLength);  // Thêm lỗi 
+                }
+                // Kiểm tra lỗi buyerTaxCode
+                if (data.buyerTaxCode.length > fieldConfig.buyerTaxCode.maxLength) {
+                    error.buyerTaxCode = error.buyerTaxCode || [];  // Khởi tạo mảng nếu chưa có
+                    error.buyerTaxCode.push(fieldConfig.buyerTaxCode.errorMessageMaxLength);  // Thêm lỗi 
+                }
+                // Kiểm tra lỗi buyerAccountNumber
+                if (data.buyerAccountNumber.length > fieldConfig.buyerAccountNumber.maxLength) {
+                    error.buyerAccountNumber = error.buyerAccountNumber || [];  // Khởi tạo mảng nếu chưa có
+                    error.buyerAccountNumber.push(fieldConfig.buyerAccountNumber.errorMessageMaxLength);  // Thêm lỗi 
+                }
+                // Kiểm tra lỗi buyerOrganization
+                if (data.buyerOrganization.length > fieldConfig.buyerOrganization.maxLength) {
+                    error.buyerOrganization = error.buyerOrganization || [];  // Khởi tạo mảng nếu chưa có
+                    error.buyerOrganization.push(fieldConfig.buyerOrganization.errorMessageMaxLength);  // Thêm lỗi 
+                }
+                // Kiểm tra lỗi buyerAddress
+                if (data.buyerAddress.length > fieldConfig.buyerAddress.maxLength) {
+                    error.buyerAddress = error.buyerAddress || [];  // Khởi tạo mảng nếu chưa có
+                    error.buyerAddress.push(fieldConfig.buyerAddress.errorMessageMaxLength);  // Thêm lỗi 
+                }
+                // Kiểm tra lỗi buyerPhone
+                if (data.buyerPhone.length > fieldConfig.buyerPhone.maxLength) {
+                    error.buyerPhone = error.buyerPhone || [];  // Khởi tạo mảng nếu chưa có
+                    error.buyerPhone.push(fieldConfig.buyerPhone.errorMessageMaxLength);  // Thêm lỗi 
+                }
         }
         return error;
     };
@@ -170,9 +231,15 @@ const useHook = () => {
                 [fieldLabel.payFormName] : newData.payFormName,
                 [fieldLabel.swipeAmount] : Number(newData.swipeAmount).toLocaleString(),
                 [fieldLabel.transferAmount] : Number(newData.transferAmount).toLocaleString(),
-                [fieldLabel.description] : newData.description,
                 [fieldLabel.cashierRoomCode] : newData.cashierRoomCode,
                 [fieldLabel.cashierRoomName] : newData.cashierRoomName,
+                [fieldLabel.description] : newData.description,
+                [fieldLabel.buyerName] : newData.buyerName,
+                [fieldLabel.buyerTaxCode] : newData.buyerTaxCode,
+                [fieldLabel.buyerAccountNumber] : newData.buyerAccountNumber,
+                [fieldLabel.buyerOrganization] : newData.buyerOrganization,
+                [fieldLabel.buyerAddress] : newData.buyerAddress,
+                [fieldLabel.buyerPhone] : newData.buyerPhone,
             }
         }
         return data;
@@ -186,6 +253,13 @@ const useHook = () => {
         swipe_amount: Number(recordDetails.swipeAmount),
         transfer_amount: Number(recordDetails.transferAmount),
         description: recordDetails.description,
+        
+        buyer_name: recordDetails.buyerName,
+        buyer_tax_code: recordDetails.buyerTaxCode,
+        buyer_account_number: recordDetails.buyerAccountNumber,
+        buyer_organization: recordDetails.buyerOrganization,
+        buyer_address: recordDetails.buyerAddress, 
+        buyer_phone: recordDetails.buyerPhone, 
     });
 
     const handleCreate = (recordDetails) => {
@@ -245,6 +319,12 @@ const useHook = () => {
                 setRecordDetails({
                     ...recordDetails,
                     treatmentId: dataTreatment.id,
+                    buyerName: dataTreatment.patientName ?? "",
+                    buyerTaxCode: dataTreatment.patientTaxCode ?? "",
+                    buyerAccountNumber: dataTreatment.patientAccountNumber ?? "",
+                    buyerOrganization: dataTreatment.patientWorkPlaceName ?? "",
+                    buyerAddress: dataTreatment.patientAddress ?? "", 
+                    buyerPhone: dataTreatment.patientPhone ?? dataTreatment.patientMobile ?? "", 
                 })
             }else{
                 setRecordDetails(null)
@@ -339,6 +419,12 @@ const useHook = () => {
                     description: "",
                     swipeAmount: 0,
                     transferAmount: 0,
+                    buyerName: "" ,
+                    buyerTaxCode: "",
+                    buyerAccountNumber: "",
+                    buyerOrganization: "",
+                    buyerAddress: "", 
+                    buyerPhone: "", 
                 });
     
                 setFirstLoadPage(false); // Đánh dấu đã tải xong

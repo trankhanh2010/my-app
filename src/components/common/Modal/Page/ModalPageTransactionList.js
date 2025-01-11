@@ -4,7 +4,7 @@ const Modal = ({ isOpen, onClose, children, paramTreatmentCode }) => {
     if (!isOpen) return null; // Nếu modal không mở thì không hiển thị gì
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500/75 md:p-10">
-            <div className="relative bg-white md:p-5 rounded-lg w-full md:w-[100%] md:h-auto h-full overflow-y-auto">
+            <div className="relative bg-white md:p-5 w-full md:w-[100%] h-full overflow-auto">
                 {children}
                 <TransactionList
                     paramTreatmentCode={paramTreatmentCode}

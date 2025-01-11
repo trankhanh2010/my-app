@@ -28,7 +28,7 @@ const ModalConfirmUpdate = ({ isOpen, onConfirm, onCancel, message, changes }) =
                             {changes && changes.length > 0 ? (
                                 <ul className="list-disc pl-5">
                                     {changes.map((change, index) => (
-                                        <li key={index} className="mb-2">
+                                        <li key={index} className="mb-2 border-b">
                                             <span className="font-semibold">{change.field}:</span>{" "}
                                             <span className="text-gray-500">
                                                 từ <span className="text-red-500">{change.oldValue}</span> thành{" "}

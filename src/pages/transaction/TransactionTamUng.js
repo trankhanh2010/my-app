@@ -64,7 +64,7 @@ const Page = ({ paramTreatmentCode }) => {
         <div className={`grid grid-cols-12 gap-1 p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
             <div className="col-span-12 md:col-span-3 flex flex-col md:mr-1 md:border-r md:pr-2">
                 {/* Phần điều khiển và lọc */}
-                <Card className="flex-grow">
+                <Card>
                     <div className="flex flex-col">
                         <Filter
                             setFilterTrigger={setFilterTrigger}
@@ -73,12 +73,11 @@ const Page = ({ paramTreatmentCode }) => {
                         />
                     </div>
                 </Card>
-            </div>
-            <div className="col-span-12 md:col-span-9 flex flex-col flex-grow mt-4 md:mt-1 md:min-h-[80vh]">
+                
                 {/*dữ liệu điều trị*/}
-                <Card>
+                <Card className="flex-grow">
                     <div className="relative mb-2 flex flex-col">
-                        <InfoPatient
+                        <InfoPatient 
                             fieldLabels={fieldLabels}
                             recordDetails={selectedRecord}
                             format={format}
@@ -87,9 +86,11 @@ const Page = ({ paramTreatmentCode }) => {
                         />
                     </div>
                 </Card>
+            </div>
+            <div className="col-span-12 md:col-span-9 flex flex-col flex-grow mt-4 md:mt-0 md:min-h-[80vh]">
                 {/* Form nhập dữ liệu */}
                 {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
-                <Card className={`${loadingRecord || isProcessing ? "flex" : ""} flex-grow`}>                    
+                <Card className={`${loadingRecord || isProcessing ? "flex" : ""} flex-grow`}>
                     <div className="relative mb-2 flex flex-col flex-grow">
                         <Form
                             recordDetails={recordDetails}

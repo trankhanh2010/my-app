@@ -25,21 +25,45 @@ const ModalConfirm = ({ isOpen, onConfirm, onCancel, fields }) => {
                     <div className="text-left mb-4">
                         <ul className="list-disc pl-5">
                             {fields ? (
-                                <ul className="list-disc pl-5">
-                                    {Object.entries(fields).map(([key, value], index) => (
-                                        <li key={index} className="mb-2">
-                                            <span className="font-semibold">{key}:</span>{" "}
-                                            <span className="text-gray-500">
-                                                <span className="text-green-500">{value}</span>
-                                            </span>
-                                        </li>
-                                    ))}
-                                </ul>
+                                <div className="flex flex-col md:flex-row">
+                                    {/* Cột 1 */}
+                                    <div className="flex-1">
+                                        <ul className="list-disc pl-5">
+                                            {Object.entries(fields)
+                                                .slice(0, Math.ceil(Object.entries(fields).length / 2))
+                                                .map(([key, value], index) => (
+                                                    <li key={index} className="mb-2 flex justify-between border-b">
+                                                        <span className="font-semibold">{key}:</span>{" "}
+                                                        <span className="text-gray-500 ">
+                                                            <span className="text-green-500">{value}</span>
+                                                        </span>
+                                                    </li>
+                                                ))}
+                                        </ul>
+                                    </div>
+                                    {/* Cột 2 */}
+                                    <div className="flex-1">
+                                        <ul className="list-disc pl-5">
+                                            {Object.entries(fields)
+                                                .slice(Math.ceil(Object.entries(fields).length / 2))
+                                                .map(([key, value], index) => (
+                                                    <li key={index} className="mb-2 flex justify-between border-b">
+                                                        <span className="font-semibold">{key}:</span>{" "}
+                                                        <span className="text-gray-500 ">
+                                                            <span className="text-green-500">{value}</span>
+                                                        </span>
+                                                    </li>
+                                                ))}
+                                        </ul>
+                                    </div>
+                                </div>
                             ) : (
                                 <p className="text-gray-500">Không có thay đổi nào.</p>
                             )}
                         </ul>
                     </div>
+
+
                     <button
                         onClick={onConfirm}
                         className="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 mr-2"
