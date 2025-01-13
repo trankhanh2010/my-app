@@ -247,6 +247,22 @@ const useMasterCategoryList = (
 
         return new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}`);
     };
+    // Hàm chuyển từ Date sang chuỗi 14 số "YYYYMMDDHHMMSS"
+    const convertDateToString = (date) => {
+        if (!(date instanceof Date) || isNaN(date.getTime())) {
+            return ""; // Kiểm tra xem có phải Date hợp lệ không
+        }
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0"); // Tháng bắt đầu từ 0
+        const day = String(date.getDate()).padStart(2, "0");
+        const hour = String(date.getHours()).padStart(2, "0");
+        const minute = String(date.getMinutes()).padStart(2, "0");
+        const second = String(date.getSeconds()).padStart(2, "0");
+
+        return `${year}${month}${day}${hour}${minute}${second}`;
+    };
+
     // Chuyển về đúng thời gian khi nhập
     const formatInputToDate = (input) => {
         if (typeof input !== 'string') return ''; // Nếu input không phải là chuỗi, trả về chuỗi rỗng
@@ -455,6 +471,7 @@ const useMasterCategoryList = (
         deleted, 
         setDeleted,
         parseNumberToLocalString,
+        convertDateToString,
     };
 };
 

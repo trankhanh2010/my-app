@@ -11,6 +11,8 @@ import InputWithSpan from "../../../common/Data/UpdateRecord/InputWithSpan";
 import TextAreaWithSpan from "../../../common/Data/UpdateRecord/TextAreaWithSpan";
 
 const Component = ({
+    format,
+    convertToDate,
     fieldLabels,
     recordDetails,
     setRecordDetails,
@@ -244,6 +246,18 @@ const Component = ({
                     </CardElement>
                 </div>
             </div>
+
+            {/* transactionTime */}
+            <CardElement>
+                <div className="mt-1 flex flex-col border p-2 cursor-not-allowed">
+                    <InputWithSpan
+                        inputName={fieldLabels.transactionTime}
+                        inputValue={format(convertToDate(recordDetails.transactionTime), "dd/MM/yyyy HH:mm:ss")??""}
+                        inputType='text'
+                        inputCss={`${(errors.transactionTime && errors.transactionTime.length > 0) ? "border-red-500" : ""} cursor-not-allowed pointer-events-none`}
+                    />
+                </div>
+            </CardElement>
 
             {/* description */}
             <CardElement>

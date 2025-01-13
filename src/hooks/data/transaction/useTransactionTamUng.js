@@ -42,6 +42,7 @@ const useHook = () => {
         gender: "Giới tính",
         amount: "Số tiền tạm ứng",
         treatmentCode: "Mã điều trị",
+        transactionTime: "Thời gian giao dịch (khi bắt đầu thao tác)",
         accountBookId: "Id sổ thu chi",
         accountBookCode: "Mã sổ thu chi",
         accountBookName: "Tên sổ thu chi",
@@ -225,6 +226,7 @@ const useHook = () => {
         if(newData){
             data = {
                 [fieldLabel.amount] : Number(newData.amount).toLocaleString(),
+                [fieldLabel.transactionTime] : format(convertToDate(newData.transactionTime), "dd/MM/yyyy HH:mm:ss") ?? "",
                 [fieldLabel.accountBookCode] : newData.accountBookCode,
                 [fieldLabel.accountBookName] : newData.accountBookName,
                 [fieldLabel.payFormCode] : newData.payFormCode,
@@ -247,6 +249,7 @@ const useHook = () => {
     const transformCreateData = (recordDetails) => ({
         treatment_id: Number(recordDetails.treatmentId),
         amount: Number(recordDetails.amount),
+        transaction_time: recordDetails.transactionTime,
         account_book_id: Number(recordDetails.accountBookId),
         pay_form_id: Number(recordDetails.payFormId),
         cashier_room_id: Number(recordDetails.cashierRoomId),
@@ -295,6 +298,8 @@ const useHook = () => {
         firstLoadPage, 
         setFirstLoadPage,
         parseNumberToLocalString,
+        convertDateToString,
+
     } = useMasterList(
         null,
         null,
@@ -319,6 +324,7 @@ const useHook = () => {
                 setRecordDetails({
                     ...recordDetails,
                     treatmentId: dataTreatment.id,
+                    transactionTime: convertDateToString(new Date()),
                     buyerName: dataTreatment.patientName ?? "",
                     buyerTaxCode: dataTreatment.patientTaxCode ?? "",
                     buyerAccountNumber: dataTreatment.patientAccountNumber ?? "",
@@ -412,6 +418,7 @@ const useHook = () => {
                 // Đặt giá trị mặc định
                 setRecordDetails({
                     treatmentId: null,
+                    transactionTime: "",
                     accountBookId: null,
                     payFormId: null,
                     cashierRoomId: null,

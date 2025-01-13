@@ -93,6 +93,8 @@ const Page = ({ paramTreatmentCode }) => {
                 <Card className={`${loadingRecord || isProcessing ? "flex" : ""} flex-grow`}>
                     <div className="relative mb-2 flex flex-col flex-grow">
                         <Form
+                            format={format}
+                            convertToDate={convertToDate}
                             recordDetails={recordDetails}
                             fieldLabels={fieldLabels}
                             setRecordDetails={setRecordDetails}
