@@ -8,15 +8,16 @@ const Modal = ({ isOpen, onClose, children, paramTreatmentCode }) => {
 
     return (
         <div className={`fixed inset-0 z-50 flex items-center justify-center bg-gray-500/75 md:${zoom ? 'p-0' : 'p-10'}`}>
-            <div className="relative bg-white md:p-5 w-full md:w-[100%] h-full overflow-auto">
-                {children}
-                <TransactionTamUng 
-                paramTreatmentCode={paramTreatmentCode} 
+            <div className="relative bg-white w-full md:w-[100%] h-full overflow-auto">
+                <ButtonModal
+                    onClose={onClose}
+                    zoom={zoom}
+                    setZoom={setZoom}
+                    title='Tạm ứng'
                 />
-                <ButtonModal 
-                onClose={onClose} 
-                zoom={zoom} 
-                setZoom={setZoom} 
+                {children}
+                <TransactionTamUng
+                    paramTreatmentCode={paramTreatmentCode}
                 />
             </div>
         </div>

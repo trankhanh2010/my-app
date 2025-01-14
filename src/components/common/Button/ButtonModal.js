@@ -1,11 +1,14 @@
 import React from 'react';
 
-const YourComponent = ({ onClose, zoom, setZoom }) => {
+const YourComponent = ({ onClose, zoom, setZoom, title="" }) => {
     return (
-        <div>
+        <div className='sticky top-0 z-50 w-full h-8 bg-gradient-to-r from-sky-500 to-indigo-500 text-white shadow-md'>
+            <div className="absolute top-1 left-2 text-sm font-semibold">
+            {title}
+            </div>
             <button
                 onClick={onClose}
-                className="absolute top-2 right-2 text-gray-400 hover:text-red-600 hover:bg-gray-100"
+                className="absolute top-1 right-2  hover:text-red-600 hover:bg-gray-100"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -13,7 +16,7 @@ const YourComponent = ({ onClose, zoom, setZoom }) => {
             </button>
             <button
                 onClick={() => { setZoom(!zoom) }}
-                className="absolute top-2 right-8 text-gray-400 hover:text-blue-600 hover:bg-gray-100"
+                className="absolute top-1 right-8  hover:text-blue-600 hover:bg-gray-100"
             >
                 {zoom ? (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" transform="rotate(180)">

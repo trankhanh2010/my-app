@@ -27,6 +27,14 @@ const Dropdown = () => {
           </li>
           <li>
             <Link
+              to="/transaction-tt-detail"
+              className="li-nav-header-category"
+            >
+              Chi tiết thanh toán
+            </Link>
+          </li>
+          <li>
+            <Link
               to="/transaction-tam-ung"
               className="li-nav-header-category"
             >

@@ -13,6 +13,7 @@ const config = {
 
         // data
         accountBookVView: {typeGetApi: 'db'},
+        transactionTTDetailVView: {typeGetApi: 'db'},
         testServiceReqListVView: {typeGetApi: 'db'},
         testServiceTypeListVView: {typeGetApi: 'db'},
         treatmentFeeDetailVView: {typeGetApi: 'db'},
