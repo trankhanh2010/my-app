@@ -5,7 +5,10 @@ import TransactionListTable from "../../../components/data/transactionListVView/
 import Filter from "../../../components/data/transactionListVView/FilterTransactionListTable";
 import Card from "../../../components/common/Master/Card";
 
-const Page = ({paramTreatmentCode}) => {
+const Page = ({
+    paramTreatmentCode,
+    isFullScreen = false,
+}) => {
     const {
         fieldLabels,
         format,
@@ -58,8 +61,8 @@ const Page = ({paramTreatmentCode}) => {
         }
     }, [paramTreatmentCode]);
     return (
-        <div className={`grid grid-cols-12 gap-1 p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
-            <div className="col-span-12 md:col-span-3 flex flex-col md:mr-1 md:border-r md:pr-2">
+        <div className={`grid grid-cols-12 gap-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
+            <div className="col-span-12 md:col-span-3 flex flex-col md:mr-1 md:border-r md:pr-2 ">
                 {/* Phần điều khiển và lọc */}
                 <Card className="flex-grow">
                     <div className="flex flex-col">
@@ -102,7 +105,7 @@ const Page = ({paramTreatmentCode}) => {
                 {/* Danh sách dữ liệu */}
                 <Card>
                     <div
-                        className="relative overflow-x-auto overflow-y-auto h-[80vh] mb-2 flex flex-col border"
+                        className={`relative overflow-x-auto overflow-y-auto ${isFullScreen?'h-[90vh]':'h-[75vh]'} mb-2 flex flex-col border`}
                         ref={scrollContainerRef}
                     >
                         <TransactionListTable

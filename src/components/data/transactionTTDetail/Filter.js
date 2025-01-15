@@ -10,15 +10,15 @@ const Filter = ({
     return (
         <>
             <CardElement>
-                <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border p-2">
-                    <div className="mt-1 w-full flex flex-col xl:w-[1/5]">
+                <div className="mt-1 flex flex-col border p-2">
+                    <div className="mt-1 w-full flex flex-col">
                         <Search
                             keyword={billCode}
                             setKeyword={setBillCode}
                             label={"Nhập mã giao dịch"}
                         />
                     </div>
-                    <div className="mt-1 w-full flex flex-col xl:w-[2/5]">
+                    <div className="mt-1 w-full flex flex-col">
                         {/* Nút Lọc */}
                         <button
                             onClick={() => {

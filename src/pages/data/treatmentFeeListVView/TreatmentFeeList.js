@@ -87,7 +87,7 @@ const Page = () => {
         = useTreatmentFeeList();
 
     return (
-        <div className={`grid grid-cols-12 gap-1 p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
+        <div className={`grid grid-cols-12 gap-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
             <div className="col-span-12 md:col-span-5 flex flex-col md:mr-1 md:border-r md:pr-2">
                 {/* Phần điều khiển và lọc */}
                 <Card>

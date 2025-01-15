@@ -90,7 +90,7 @@ const BedList = () => {
 
 
     return (
-        <div className={`grid grid-cols-12 gap-1 w-full p-1`}>
+        <div className={`grid grid-cols-12 gap-1 w-full`}>
             <div className="col-span-12 md:col-span-8 flex flex-col md:mr-1 md:border-r md:pr-2">
                 <Card className={`${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}>
                     <div class={`min-h-[20vh] ${isProcessing ? 'pointer-events-none' : ''}`}>

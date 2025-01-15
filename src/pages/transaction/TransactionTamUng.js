@@ -8,7 +8,10 @@ import Form from "../../components/data/transaction/transactionTamUng/Form";
 import ModalConfirmCreate from "../../components/common/Modal/Normal/ModalConfirmCreate";
 import ManegerAlert from "../../components/common/Alert/ManegerAlert";
 
-const Page = ({ paramTreatmentCode }) => {
+const Page = ({ 
+    paramTreatmentCode,
+    isFullScreen=true,
+ }) => {
     const {
         reload,
         setReload,
@@ -61,7 +64,7 @@ const Page = ({ paramTreatmentCode }) => {
         }
     }, [paramTreatmentCode]);
     return (
-        <div className={`grid grid-cols-12 gap-1 p-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
+        <div className={`grid grid-cols-12 gap-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
             <div className="col-span-12 md:col-span-3 flex flex-col md:mr-1 md:border-r md:pr-2">
                 {/* Phần điều khiển và lọc */}
                 <Card>
@@ -87,7 +90,7 @@ const Page = ({ paramTreatmentCode }) => {
                     </div>
                 </Card>
             </div>
-            <div className="col-span-12 md:col-span-9 flex flex-col flex-grow mt-4 md:mt-0 md:min-h-[80vh]">
+            <div className={`col-span-12 md:col-span-9 flex flex-col flex-grow mt-4 md:mt-0 ${isFullScreen?'min-h-[90vh]':'min-h-[70vh]'}`}>
                 {/* Form nhập dữ liệu */}
                 {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
                 <Card className={`${loadingRecord || isProcessing ? "flex" : ""} flex-grow`}>
