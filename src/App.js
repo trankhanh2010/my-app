@@ -16,7 +16,7 @@ import CheckTokenMiddleware from "./components/middleware/CheckTokenMiddleware";
 import BedList from './pages/category/bed/BedList';
 import TreatmentFeeList from './pages/data/treatmentFeeListVView/TreatmentFeeList';
 import TreatmentFeeListNoLogin from './pages/data/treatmentFeeListVView/TreatmentFeeListNoLogin';
-import ResultPayment from './pages/transaction/ResultPayment'
+import ResultPaymentThanhToan from './pages/transaction/ResultPaymentThanhToan'
 import TransactionList from './pages/data/transactionListVView/TransactionList';
 import TransactionDetail from './pages/data/transactionTTDetail/TransactionTTDetail';
 import TransactionTamUng from './pages/transaction/TransactionTamUng';
@@ -36,7 +36,7 @@ const App = () => {
 
               <Route path="/treatment-fee-list" element={<TreatmentFeeList />} />
               <Route path="/treatment-fee-list-no-login" element={<TreatmentFeeListNoLogin />} />
-              <Route path="/result-payment" element={<ResultPayment />} />
+              <Route path="/result-payment-thanh-toan" element={<ResultPaymentThanhToan />} />
 
               <Route path="/transaction-list" element={<TransactionList />} />
               <Route path="/transaction-tt-detail" element={<TransactionDetail />} />

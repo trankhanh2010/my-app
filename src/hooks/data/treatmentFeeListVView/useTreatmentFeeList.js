@@ -159,7 +159,7 @@ const useTreatmentFeeList = () => {
     const getPaymentMoMoQRCode = async (treatmentCode) => {
         try {
             setCreatingPayment(true)
-            const response = await treatmentFeePaymentService.getPaymentMoMoQRCode(treatmentCode);
+            const response = await treatmentFeePaymentService.getPaymentMoMoThanhToanQRCode(treatmentCode);
             // Nếu có phí cần thanh toán
             const newPaymentMoMo = {}
             if (response.data.success) {
@@ -187,7 +187,7 @@ const useTreatmentFeeList = () => {
     const getPaymentMoMoTheQuocTe = async (treatmentCode) => {
         try {
             setCreatingPayment(true)
-            const response = await treatmentFeePaymentService.getPaymentMoMoTheQuocTe(treatmentCode);
+            const response = await treatmentFeePaymentService.getPaymentMoMoThanhToanTheQuocTe(treatmentCode);
             const newPaymentMoMo = {}
             if (response.data.success) {
                 newPaymentMoMo.payUrl = response.data.payUrl
@@ -212,7 +212,7 @@ const useTreatmentFeeList = () => {
     const getPaymentMoMoTheATMNoiDia = async (treatmentCode) => {
         try {
             setCreatingPayment(true)
-            const response = await treatmentFeePaymentService.getPaymentMoMoTheATMNoiDia(treatmentCode);
+            const response = await treatmentFeePaymentService.getPaymentMoMoThanhToanTheATMNoiDia(treatmentCode);
             const newPaymentMoMo = {}
             if (response.data.success) {
                 newPaymentMoMo.payUrl = response.data.payUrl
@@ -445,8 +445,8 @@ const useTreatmentFeeList = () => {
 
     useEffect(() => {
         if (payment.orderId) {
-            const channel = pusher.subscribe('momo-status-payment-channel');
-            channel.bind('momo-status-payment-event', function (data) {
+            const channel = pusher.subscribe('momo-status-payment-thanh-toan-channel');
+            channel.bind('momo-status-payment-thanh-toan-event', function (data) {
                 // Nếu khớp orderId
                 if (data.data.orderId == payment.orderId) {
                     setGettingResultPayment(true)

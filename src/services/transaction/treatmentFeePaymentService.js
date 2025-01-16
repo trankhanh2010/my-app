@@ -1,12 +1,13 @@
 import api, { encodeParams } from '../api/api';
 import apiNoAuth from "../api/apiNoAuth";
 
-const getPaymentMoMoQRCode = async (treatmentCode) => {
+const getPaymentMoMoThanhToanQRCode = async (treatmentCode) => {
   let param;
   // Lấy dữ liệu từ DB
     param = {
       ApiData: {
         TreatmentCode: treatmentCode,
+        TransactionTypeCode: "TT",
         PaymentMethod: "MoMo",
         PaymentOption: "ThanhToanQRCode",
       },
@@ -23,13 +24,14 @@ const getPaymentMoMoQRCode = async (treatmentCode) => {
   }
 };
 
-const getPaymentMoMoTheQuocTe = async (treatmentCode) => {
+const getPaymentMoMoThanhToanTheQuocTe = async (treatmentCode) => {
   let param;
 
   // Lấy dữ liệu từ DB
     param = {
       ApiData: {
         TreatmentCode: treatmentCode,
+        TransactionTypeCode: "TT",
         PaymentMethod: "MoMo",
         PaymentOption: "ThanhToanTheQuocTe",
       },
@@ -46,13 +48,14 @@ const getPaymentMoMoTheQuocTe = async (treatmentCode) => {
   }
 };
 
-const getPaymentMoMoTheATMNoiDia = async (treatmentCode) => {
+const getPaymentMoMoThanhToanTheATMNoiDia = async (treatmentCode) => {
   let param;
 
   // Lấy dữ liệu từ DB
     param = {
       ApiData: {
         TreatmentCode: treatmentCode,
+        TransactionTypeCode: "TT",
         PaymentMethod: "MoMo",
         PaymentOption: "ThanhToanTheATMNoiDia",
       },
@@ -70,7 +73,7 @@ const getPaymentMoMoTheATMNoiDia = async (treatmentCode) => {
 };
 
 export default {
-  getPaymentMoMoQRCode,
-  getPaymentMoMoTheQuocTe,
-  getPaymentMoMoTheATMNoiDia,
+  getPaymentMoMoThanhToanQRCode,
+  getPaymentMoMoThanhToanTheQuocTe,
+  getPaymentMoMoThanhToanTheATMNoiDia,
 };
