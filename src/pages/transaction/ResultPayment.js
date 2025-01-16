@@ -9,6 +9,9 @@ const PaymentResultPage = () => {
     useEffect(() => {
         // Lấy các tham số từ URL
         const queryParams = new URLSearchParams(window.location.search);
+        // queryParams.forEach((value, key) => {
+        //     console.log(`${key}: ${value}`);
+        // });
         const data = {
             partnerCode: queryParams.get("partnerCode"),
             orderId: queryParams.get("orderId"),

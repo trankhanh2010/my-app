@@ -167,7 +167,7 @@ const Page = () => {
                 {/*Thông tin bệnh nhân*/}
                 <Card>
                     {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
-                    <div className={`w-full ${loadingRecord ? "flex" : ""} md:min-h-[35vh] relative overflow-x-auto md:overflow-y-auto md:max-h-[35vh]`}>
+                    <div className={`w-full ${loadingRecord ? "flex" : ""} md:min-h-[35vh] relative overflow-x-auto md:overflow-y-auto md:max-h-[35vh] md:mt-1`}>
                         <InfoPatient
                             fieldLabels={fieldLabels}
                             recordDetails={recordDetails}

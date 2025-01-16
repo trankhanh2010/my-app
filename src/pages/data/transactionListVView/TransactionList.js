@@ -101,7 +101,7 @@ const Page = ({
                     </div>
                 </Card>
             </div>
-            <div className="col-span-12 md:col-span-9 flex flex-col flex-grow mt-4 md:mt-1">
+            <div className="col-span-12 md:col-span-9 flex flex-col flex-grow md:mt-1">
                 {/* Danh sách dữ liệu */}
                 <Card>
                     <div

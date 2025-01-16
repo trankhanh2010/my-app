@@ -101,15 +101,17 @@ const TestServiceReqListTable = ({
                                     // {fieldValue:record.amount, css:`${getTextColor(record)} truncate`},
                                     {
                                         fieldValue: 
-                                        <button
-                                            onClick={() => {
-                                                handleOpenModalPage(record)
-                                            }}
-                                            className={`${!getShowButtonOpenModal(record) ? "opacity-50 cursor-not-allowed" : ""} px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 truncate`}
-                                        >
-                                            Chi tiết
-                                        </button>, 
-                                        css: `${getTextColor(record)} truncate`
+                                        <div className="flex flex-col md:flex-row md:space-x-2 space-y-1 md:space-y-0"> 
+                                            <button
+                                                onClick={() => {
+                                                    handleOpenModalPage(record)
+                                                }}
+                                                className={`${!getShowButtonOpenModal(record) ? "opacity-0 cursor-not-allowed" : ""} px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 truncate`}
+                                            >
+                                                Chi tiết
+                                            </button>
+                                        </div>, 
+                                        css: `truncate`
                                     },
                                     { fieldValue: `${record.isCancel ? 'Đã hủy' : ""}`, css: `${getTextColor(record)} truncate` },
                                     { fieldValue: record.kcAmount, css: `${getTextColor(record)} truncate` },

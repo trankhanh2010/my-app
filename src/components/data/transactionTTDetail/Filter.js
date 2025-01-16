@@ -10,8 +10,8 @@ const Filter = ({
     return (
         <>
             <CardElement>
-                <div className="mt-1 flex flex-col border p-2">
-                    <div className="mt-1 w-full flex flex-col">
+                <div className="flex flex-col border p-2">
+                    <div className="w-full flex flex-col">
                         <Search
                             keyword={billCode}
                             setKeyword={setBillCode}

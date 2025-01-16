@@ -33,7 +33,7 @@ const Filter = ({
         <>
             <CardElement>
                 <div className="flex flex-col border p-2">
-                    <div className="mt-1 w-full flex flex-row items-center">
+                    <div className="w-full flex flex-row items-center">
                         <label className="mr-1">Từ:</label>
                         <DatePicker
                             selected={fromTime}
@@ -68,8 +68,8 @@ const Filter = ({
             </CardElement>
 
             <CardElement>
-                <div className="mt-1 flex flex-col 2xl:flex-row 2xl:space-x-2 border p-2">
-                    <div className="mt-1 w-full flex flex-col 2xl:w-[1/5]">
+                <div className="flex flex-col 2xl:flex-row 2xl:space-x-2 border p-2">
+                    <div className="w-full flex flex-col 2xl:w-[1/5]">
                         <Search
                             keyword={treatmentCode}
                             setKeyword={setTreatmentCode}
@@ -88,7 +88,7 @@ const Filter = ({
 
             {/* transactionType*/}
             <CardElement>
-                <div className="mt-1 flex flex-col border p-2">
+                <div className="flex flex-col border p-2">
                     <ReactSelectMultiCustomList
                         list={transactionTypes}
                         setListKeyword={setTransactionTypeKeyword}
@@ -106,7 +106,7 @@ const Filter = ({
             </CardElement>
 
             <CardElement>
-                <div className="mt-1 flex flex-col xl:flex-row xl:space-x-2 border p-2">
+                <div className="flex flex-col xl:flex-row xl:space-x-2 border p-2">
                     <div className="mt-1 w-full flex flex-col xl:w-[2/5]">
                         {/* Nút Lọc */}
                         <button
