@@ -1,34 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Card from "../../components/common/Master/Card";
 import GroupFieldSpanWithText from "../../components/common/Data/InfoRecord/GroupFieldSpanWithText";
 import Success from "../../components/common/Info/Success";
+import Loading from "../../components/common/Info/Loading";
 import Fail from "../../components/common/Info/Fail";
+import useNofityMomoThanhToan from "../../hooks/transaction/useNofityMomoThanhToan";
 const PaymentResultPage = () => {
-    const [transactionData, setTransactionData] = useState({});
+    const {
+        transactionData,
+        loading,
+    } = useNofityMomoThanhToan()
 
-    useEffect(() => {
-        // Lấy các tham số từ URL
-        const queryParams = new URLSearchParams(window.location.search);
-        // queryParams.forEach((value, key) => {
-        //     console.log(`${key}: ${value}`);
-        // });
-        const data = {
-            partnerCode: queryParams.get("partnerCode"),
-            orderId: queryParams.get("orderId"),
-            requestId: queryParams.get("requestId"),
-            amount: queryParams.get("amount"),
-            orderInfo: queryParams.get("orderInfo"),
-            orderType: queryParams.get("orderType"),
-            transId: queryParams.get("transId"),
-            resultCode: queryParams.get("resultCode"),
-            message: queryParams.get("message"),
-            responseTime: queryParams.get("responseTime"),
-            extraData: queryParams.get("extraData"),
-        };
-
-        setTransactionData(data);
-    }, []);
-
+    if(loading || !transactionData.orderId) return <div className={`flex justify-center gap-1 w-full p-2 min-h-screen`}><Loading/></div>
     return (
         <div className={`flex justify-center gap-1 w-full p-2 min-h-screen`}>
             <div className="w-full md:w-[40%] p-2">
