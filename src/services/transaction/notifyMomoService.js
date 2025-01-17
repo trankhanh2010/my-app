@@ -1,7 +1,7 @@
 import apiNoAuth from "../api/apiNoAuth";
 import axios from "axios";
 
-const ipnNofityThanhToan = async (data) => {
+const ipnNotifyThanhToan = async (data) => {
   try {
       // const response = await apiNoAuth.post(`/api/v1/momo-notify-thanh-toan`, data, {
       //     headers: {
@@ -25,5 +25,5 @@ const ipnNofityThanhToan = async (data) => {
 
 
 export default {
-  ipnNofityThanhToan,
+  ipnNotifyThanhToan,
 };

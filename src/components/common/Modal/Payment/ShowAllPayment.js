@@ -3,6 +3,7 @@ import Loading from "../../Info/Loading";
 import MoMoThanhToanQRCodeModal from "./MoMoThanhToanQRCodeModal";
 import MoMoThanhToanTheQuocTeModal from "./MoMoThanhToanTheQuocTeModal";
 import MoMoThanhToanTheATMNoiDiaModal from "./MoMoThanhToanTheATMNoiDiaModal";
+import MoMoOtherLinkPaymentModal from "./MoMoOtherLinkPaymentModal";
 
 const PaymentModal = ({
   creatingPayment,
@@ -15,6 +16,8 @@ const PaymentModal = ({
   setOpenModalPaymentMoMoTheQuocTe,
   openModalPaymentMoMoTheATMNoiDia,
   setOpenModalPaymentMoMoTheATMNoiDia,
+  openModalOtherLinkPayment,
+  setOpenModalOtherLinkPayment,
   getPaymentMoMoQRCode,
   getPaymentMoMoTheQuocTe,
   getPaymentMoMoTheATMNoiDia,
@@ -157,6 +160,11 @@ const PaymentModal = ({
       <MoMoThanhToanTheATMNoiDiaModal
         openModalPaymentMoMoTheATMNoiDia={openModalPaymentMoMoTheATMNoiDia}
         setOpenModalPaymentMoMoTheATMNoiDia={setOpenModalPaymentMoMoTheATMNoiDia}
+        payment={payment}
+      />
+      <MoMoOtherLinkPaymentModal
+        openModalOtherLinkPayment={openModalOtherLinkPayment}
+        setOpenModalOtherLinkPayment={setOpenModalOtherLinkPayment}
         payment={payment}
       />
     </div>

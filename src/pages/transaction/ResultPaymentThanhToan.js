@@ -4,12 +4,12 @@ import GroupFieldSpanWithText from "../../components/common/Data/InfoRecord/Grou
 import Success from "../../components/common/Info/Success";
 import Loading from "../../components/common/Info/Loading";
 import Fail from "../../components/common/Info/Fail";
-import useNofityMomoThanhToan from "../../hooks/transaction/useNofityMomoThanhToan";
+import useNotifyMomoThanhToan from "../../hooks/transaction/useNotifyMomoThanhToan";
 const PaymentResultPage = () => {
     const {
         transactionData,
         loading,
-    } = useNofityMomoThanhToan()
+    } = useNotifyMomoThanhToan()
 
     if(loading || !transactionData.orderId) return <div className={`flex justify-center gap-1 w-full p-2 min-h-screen`}><Loading/></div>
     return (

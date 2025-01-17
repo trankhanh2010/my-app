@@ -83,6 +83,8 @@ const TestServiceReqList = () => {
         handleLoadMore,
         setReload,
         loadingRecord,
+        openModalOtherLinkPayment, 
+        setOpenModalOtherLinkPayment,
     }
         = useTestServiceReqList();
     // Các api của trang này k cần đăng nhập
@@ -218,6 +220,8 @@ const TestServiceReqList = () => {
                 setOpenModalPaymentMoMoTheQuocTe={setOpenModalPaymentMoMoTheQuocTe}
                 openModalPaymentMoMoTheATMNoiDia={openModalPaymentMoMoTheATMNoiDia}
                 setOpenModalPaymentMoMoTheATMNoiDia={setOpenModalPaymentMoMoTheATMNoiDia}
+                openModalOtherLinkPayment={openModalOtherLinkPayment}
+                setOpenModalOtherLinkPayment={setOpenModalOtherLinkPayment}
                 getPaymentMoMoQRCode={getPaymentMoMoQRCode}
                 getPaymentMoMoTheQuocTe={getPaymentMoMoTheQuocTe}
                 getPaymentMoMoTheATMNoiDia={getPaymentMoMoTheATMNoiDia}

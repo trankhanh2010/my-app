@@ -20,7 +20,9 @@ const useTreatmentFeeList = () => {
     const [openModalPaymentMoMoQRCode, setOpenModalPaymentMoMoQRCode] = useState(false)
     const [openModalPaymentMoMoTheQuocTe, setOpenModalPaymentMoMoTheQuocTe] = useState(false)
     const [openModalPaymentMoMoTheATMNoiDia, setOpenModalPaymentMoMoTheATMNoiDia] = useState(false)
+    const [openModalOtherLinkPayment, setOpenModalOtherLinkPayment] = useState(false)
     const [payment, setPayment] = useState({
+        checkOtherLink: null,
         deeplink: null,
         payUrl: null,
         qcCodeUrl: null,
@@ -163,6 +165,7 @@ const useTreatmentFeeList = () => {
             // Nếu có phí cần thanh toán
             const newPaymentMoMo = {}
             if (response.data.success) {
+                newPaymentMoMo.checkOtherLink = response.data.checkOtherLink
                 newPaymentMoMo.deeplink = response.data.deeplink
                 newPaymentMoMo.payUrl = response.data.payUrl
                 newPaymentMoMo.qrCodeUrl = response.data.qrCodeUrl
@@ -171,6 +174,11 @@ const useTreatmentFeeList = () => {
                 newPaymentMoMo.orderInfo = response.data.orderInfo
             }
             setPayment(newPaymentMoMo)
+            // Nếu có link khác thì hiện thông báo
+            if(newPaymentMoMo.checkOtherLink){
+                setOpenModalOtherLinkPayment(true)
+                return
+            }
             if (response.data.success) {
                 setOpenModalPaymentMoMoQRCode(true)
             }
@@ -190,12 +198,18 @@ const useTreatmentFeeList = () => {
             const response = await treatmentFeePaymentService.getPaymentMoMoThanhToanTheQuocTe(treatmentCode);
             const newPaymentMoMo = {}
             if (response.data.success) {
+                newPaymentMoMo.checkOtherLink = response.data.checkOtherLink
                 newPaymentMoMo.payUrl = response.data.payUrl
                 newPaymentMoMo.orderId = response.data.orderId
                 newPaymentMoMo.amount = response.data.amount
                 newPaymentMoMo.orderInfo = response.data.orderInfo
             }
             setPayment(newPaymentMoMo)
+            // Nếu có link khác thì hiện thông báo
+            if(newPaymentMoMo.checkOtherLink){
+                setOpenModalOtherLinkPayment(true)
+                return
+            }
             if (response.data.success) {
                 setOpenModalPaymentMoMoTheQuocTe(true)
             }
@@ -215,6 +229,7 @@ const useTreatmentFeeList = () => {
             const response = await treatmentFeePaymentService.getPaymentMoMoThanhToanTheATMNoiDia(treatmentCode);
             const newPaymentMoMo = {}
             if (response.data.success) {
+                newPaymentMoMo.checkOtherLink = response.data.checkOtherLink
                 newPaymentMoMo.payUrl = response.data.payUrl
                 newPaymentMoMo.qrCodeUrl = response.data.qrCodeUrl
                 newPaymentMoMo.orderId = response.data.orderId
@@ -222,6 +237,11 @@ const useTreatmentFeeList = () => {
                 newPaymentMoMo.orderInfo = response.data.orderInfo
             }
             setPayment(newPaymentMoMo)
+            // Nếu có link khác thì hiện thông báo
+            if(newPaymentMoMo.checkOtherLink){
+                setOpenModalOtherLinkPayment(true)
+                return
+            }
             if (response.data.success) {
                 setOpenModalPaymentMoMoTheATMNoiDia(true)
             }
@@ -473,6 +493,13 @@ const useTreatmentFeeList = () => {
             fetchTestServiceTypeList()
         }
     }, [openModalResultPayment]); // Gọi lại khi có thay đổi
+
+    // Đóng bảng chọn phương thức thanh toán thì đóng bảng thông báo
+    useEffect(() => {
+        if (!opentShowAllPayment) {
+            setOpenModalOtherLinkPayment(false)
+        }
+    }, [opentShowAllPayment]); // Gọi lại khi có thay đổi
     return {
         fieldLabels,
         format,
@@ -549,6 +576,8 @@ const useTreatmentFeeList = () => {
         handleLoadMore, 
         setReload,
         loadingRecord,
+        openModalOtherLinkPayment, 
+        setOpenModalOtherLinkPayment,
     };
 };
 

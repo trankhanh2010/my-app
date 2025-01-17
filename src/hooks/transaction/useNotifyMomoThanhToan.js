@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import nofityMomoService from "../../services/transaction/nofityMomoService";
+import notifyMomoService from "../../services/transaction/notifyMomoService";
 const useHook = () => {
     const [transactionData, setTransactionData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -9,7 +9,7 @@ const useHook = () => {
         try {
             if (transactionData) {
                 setLoading(true)
-                const response = await nofityMomoService.ipnNofityThanhToan(transactionData);
+                const response = await notifyMomoService.ipnNotifyThanhToan(transactionData);
                 const status = response.status
                 if(status!=204){
                     setError(true)

@@ -102,7 +102,7 @@ const TestServiceReqTypeListTable = ({
                         <React.Fragment key={patientGroup.patientType}>
                             {/* Hiển thị tên nhóm patientType và tổng số bản ghi */}
                             <tr>
-                                <td colSpan="1" className="bg-yellow-100 text-red-600 uppercase font-bold py-2 pl-2 truncate sticky left-0">
+                                <td colSpan="1" className="bg-yellow-100 text-red-600 uppercase font-bold py-1 pl-2 truncate sticky left-0">
                                     <button
                                         onClick={() => togglePatientGroup(patientGroup.patientType)}
                                         className="flex items-center"
@@ -111,10 +111,10 @@ const TestServiceReqTypeListTable = ({
                                         <span className="ml-2">{patientGroup.patientType} <span className="text-black">({patientGroup.services && Object.values(patientGroup.services).flat().length})</span></span>
                                     </button>
                                 </td>
-                                <td colSpan="2" className="bg-yellow-100 text-red-600 uppercase font-bold py-2 pl-2"></td>
+                                <td colSpan="2" className="bg-yellow-100 text-red-600 uppercase font-bold py-1 pl-2"></td>
                                 {/* Hiển thị tổng các cột tổng */}
                                 {(
-                                    <td className="bg-yellow-100  text-red-600 font-bold py-2 pl-2">
+                                    <td className="bg-yellow-100  text-red-600 font-bold py-1 pl-2">
                                         <span className="pl-6 ">
                                             {/* Tổng virTotalPrice */}
                                             {patientGroup.services && Object.values(patientGroup.services).flat().reduce((total, record) => total + (Number(record.virTotalPrice) || 0), 0).toLocaleString()}
@@ -122,7 +122,7 @@ const TestServiceReqTypeListTable = ({
                                     </td>
                                 )}
                                 {(
-                                    <td className="bg-yellow-100  text-red-600 font-bold py-2 pl-2">
+                                    <td className="bg-yellow-100  text-red-600 font-bold py-1 pl-2">
                                         <span className="pl-6">
                                             {/* Tổng virTotalHeinPrice */}
                                             {patientGroup.services && Object.values(patientGroup.services).flat().reduce((total, record) => total + (Number(record.virTotalHeinPrice) || 0), 0).toLocaleString()}
@@ -130,14 +130,14 @@ const TestServiceReqTypeListTable = ({
                                     </td>
                                 )}
                                 {(
-                                    <td className="bg-yellow-100  text-red-600 font-bold py-2 pl-2">
+                                    <td className="bg-yellow-100  text-red-600 font-bold py-1 pl-2">
                                         <span className="pl-6">
                                             {/* Tổng virTotalPatientPrice */}
                                             {patientGroup.services && Object.values(patientGroup.services).flat().reduce((total, record) => total + (Number(record.virTotalPatientPrice) || 0), 0).toLocaleString()}
                                         </span>
                                     </td>
                                 )}
-                                <td colSpan="5" className="bg-yellow-100  text-red-600 font-bold py-2 pl-2"></td>
+                                <td colSpan="5" className="bg-yellow-100  text-red-600 font-bold py-1 pl-2"></td>
                             </tr>
                             {/* Hiển thị các serviceTypeName trong nhóm patientType nếu patientType được mở rộng */}
                             {expandedGroups.patientType[patientGroup.patientType] && Object.keys(patientGroup.services).map((serviceType) => (
@@ -156,7 +156,7 @@ const TestServiceReqTypeListTable = ({
                                         <td colSpan="2" className="bg-gray-100 text-md text-blue-600 font-semibold py-1 pl-4"></td>
                                         {/* Hiển thị tổng các cột tổng */}
                                         {(
-                                            <td className="bg-gray-100 text-blue-600 font-bold py-2 pl-2">
+                                            <td className="bg-gray-100 text-blue-600 font-bold py-1 pl-2">
                                                 <span className="pl-6">
                                                     {patientGroup.services[serviceType] && patientGroup.services[serviceType].reduce(
                                                         (total, record) => total + (Number(record.virTotalPrice) || 0), 0
@@ -165,7 +165,7 @@ const TestServiceReqTypeListTable = ({
                                             </td>
                                         )}
                                         {(
-                                            <td className="bg-gray-100 text-blue-600 font-bold py-2 pl-2">
+                                            <td className="bg-gray-100 text-blue-600 font-bold py-1 pl-2">
                                                 <span className="pl-6">
                                                     {patientGroup.services[serviceType] && patientGroup.services[serviceType].reduce(
                                                         (total, record) => total + (Number(record.virTotalHeinPrice) || 0), 0
@@ -174,7 +174,7 @@ const TestServiceReqTypeListTable = ({
                                             </td>
                                         )}
                                         {(
-                                            <td className="bg-gray-100 text-blue-600 font-bold py-2 pl-2">
+                                            <td className="bg-gray-100 text-blue-600 font-bold py-1 pl-2">
                                                 <span className="pl-6">
                                                     {patientGroup.services[serviceType] && patientGroup.services[serviceType].reduce(
                                                         (total, record) => total + (Number(record.virTotalPatientPrice) || 0), 0
@@ -182,7 +182,7 @@ const TestServiceReqTypeListTable = ({
                                                 </span>
                                             </td>
                                         )}
-                                        <td colSpan="5" className="bg-gray-100  text-blue-600 font-bold py-2 pl-2"></td>
+                                        <td colSpan="5" className="bg-gray-100  text-blue-600 font-bold py-1 pl-2"></td>
                                     </tr>
 
                                     {/* Hiển thị các bản ghi trong serviceType nếu serviceType được mở rộng */}

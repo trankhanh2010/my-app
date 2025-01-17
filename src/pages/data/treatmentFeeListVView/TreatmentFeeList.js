@@ -71,6 +71,8 @@ const Page = () => {
         setOpenModalPaymentMoMoTheQuocTe,
         openModalPaymentMoMoTheATMNoiDia,
         setOpenModalPaymentMoMoTheATMNoiDia,
+        openModalOtherLinkPayment, 
+        setOpenModalOtherLinkPayment,
         opentShowAllPayment,
         setOpentShowAllPayment,
         openModalResultPayment,
@@ -220,6 +222,8 @@ const Page = () => {
                 setOpenModalPaymentMoMoTheQuocTe={setOpenModalPaymentMoMoTheQuocTe}
                 openModalPaymentMoMoTheATMNoiDia={openModalPaymentMoMoTheATMNoiDia}
                 setOpenModalPaymentMoMoTheATMNoiDia={setOpenModalPaymentMoMoTheATMNoiDia}
+                openModalOtherLinkPayment={openModalOtherLinkPayment}
+                setOpenModalOtherLinkPayment={setOpenModalOtherLinkPayment}
                 getPaymentMoMoQRCode={getPaymentMoMoQRCode}
                 getPaymentMoMoTheQuocTe={getPaymentMoMoTheQuocTe}
                 getPaymentMoMoTheATMNoiDia={getPaymentMoMoTheATMNoiDia}
