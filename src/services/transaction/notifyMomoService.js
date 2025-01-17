@@ -23,7 +23,30 @@ const ipnNotifyThanhToan = async (data) => {
   }
 };
 
+const ipnNotifyTamUng = async (data) => {
+  try {
+      // const response = await apiNoAuth.post(`/api/v1/momo-notify-tam-ung`, data, {
+      //     headers: {
+      //         "Content-Type": "application/json",
+      //     },
+      // });
+
+
+      // Test ở local
+      const response = await axios.post(`https://580e-115-77-108-114.ngrok-free.app/api/v1/momo-notify-tam-ung`, data, {
+        headers: {
+            "Content-Type": "application/json",
+            },
+      });
+      return response; // Trả về dữ liệu từ API
+  } catch (error) {
+      console.error("Thông tin không hợp lệ hoặc lỗi tạm ứng:", error);
+      throw error; // Ném lỗi để xử lý ở cấp cao hơn
+  }
+};
+
 
 export default {
   ipnNotifyThanhToan,
+  ipnNotifyTamUng,
 };

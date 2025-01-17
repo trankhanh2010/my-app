@@ -19,7 +19,7 @@ const PaymentResultPage = () => {
                 <Card>
                     <div className="min-h-[80vh]">
                         <h1 className={`text-lg uppercase font-semibold text-center m-1 ${transactionData.resultCode == 0 || transactionData.resultCode == 9000 ? 'text-green-600' : 'text-red-600'}`}>
-                            {transactionData.resultCode == 0 || transactionData.resultCode == 9000 ? 'Thanh toán thành công' : 'Thanh toán không thành công'}
+                            {transactionData.resultCode == 0 || transactionData.resultCode == 9000 ? 'Tạm ứng thành công' : 'Tạm ứng không thành công'}
                         </h1>
                         {transactionData.resultCode == 0 || transactionData.resultCode == 9000 ? <Success /> : <Fail />}
                         <GroupFieldSpanWithText

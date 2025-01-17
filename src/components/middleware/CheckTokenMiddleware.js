@@ -17,6 +17,7 @@ const Middleware = ({ children }) => {
         "/info-403",
         "/info-500",
         "/result-payment-thanh-toan",
+        "/result-payment-tam-ung",
         "/treatment-fee-list-no-login",
     ]; // Các route không cần xác thực
 

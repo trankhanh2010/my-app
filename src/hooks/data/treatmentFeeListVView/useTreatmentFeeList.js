@@ -31,6 +31,7 @@ const useTreatmentFeeList = () => {
         orderInfo: null,
         resultCode: null,
         message: null,
+        transactionTypeCode: null,
     });
     /// Xử lý khi scroll và lấy thêm dữ liệu mới vẫn giữ vị trí scroll cũ
     const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
@@ -161,7 +162,7 @@ const useTreatmentFeeList = () => {
     const getPaymentMoMoQRCode = async (treatmentCode) => {
         try {
             setCreatingPayment(true)
-            const response = await treatmentFeePaymentService.getPaymentMoMoThanhToanQRCode(treatmentCode);
+            const response = await treatmentFeePaymentService.getPaymentMoMoTamUngQRCode(treatmentCode);
             // Nếu có phí cần thanh toán
             const newPaymentMoMo = {}
             if (response.data.success) {
@@ -172,6 +173,7 @@ const useTreatmentFeeList = () => {
                 newPaymentMoMo.orderId = response.data.orderId
                 newPaymentMoMo.amount = response.data.amount
                 newPaymentMoMo.orderInfo = response.data.orderInfo
+                newPaymentMoMo.transactionTypeCode = response.data.transactionTypeCode
             }
             setPayment(newPaymentMoMo)
             // Nếu có link khác thì hiện thông báo
@@ -195,7 +197,7 @@ const useTreatmentFeeList = () => {
     const getPaymentMoMoTheQuocTe = async (treatmentCode) => {
         try {
             setCreatingPayment(true)
-            const response = await treatmentFeePaymentService.getPaymentMoMoThanhToanTheQuocTe(treatmentCode);
+            const response = await treatmentFeePaymentService.getPaymentMoMoTamUngTheQuocTe(treatmentCode);
             const newPaymentMoMo = {}
             if (response.data.success) {
                 newPaymentMoMo.checkOtherLink = response.data.checkOtherLink
@@ -203,6 +205,7 @@ const useTreatmentFeeList = () => {
                 newPaymentMoMo.orderId = response.data.orderId
                 newPaymentMoMo.amount = response.data.amount
                 newPaymentMoMo.orderInfo = response.data.orderInfo
+                newPaymentMoMo.transactionTypeCode = response.data.transactionTypeCode
             }
             setPayment(newPaymentMoMo)
             // Nếu có link khác thì hiện thông báo
@@ -226,7 +229,7 @@ const useTreatmentFeeList = () => {
     const getPaymentMoMoTheATMNoiDia = async (treatmentCode) => {
         try {
             setCreatingPayment(true)
-            const response = await treatmentFeePaymentService.getPaymentMoMoThanhToanTheATMNoiDia(treatmentCode);
+            const response = await treatmentFeePaymentService.getPaymentMoMoTamUngTheATMNoiDia(treatmentCode);
             const newPaymentMoMo = {}
             if (response.data.success) {
                 newPaymentMoMo.checkOtherLink = response.data.checkOtherLink
@@ -235,6 +238,7 @@ const useTreatmentFeeList = () => {
                 newPaymentMoMo.orderId = response.data.orderId
                 newPaymentMoMo.amount = response.data.amount
                 newPaymentMoMo.orderInfo = response.data.orderInfo
+                newPaymentMoMo.transactionTypeCode = response.data.transactionTypeCode
             }
             setPayment(newPaymentMoMo)
             // Nếu có link khác thì hiện thông báo
@@ -465,8 +469,8 @@ const useTreatmentFeeList = () => {
 
     useEffect(() => {
         if (payment.orderId) {
-            const channel = pusher.subscribe('momo-status-payment-thanh-toan-channel');
-            channel.bind('momo-status-payment-thanh-toan-event', function (data) {
+            const channel = pusher.subscribe('momo-status-payment-tam-ung-channel');
+            channel.bind('momo-status-payment-tam-ung-event', function (data) {
                 // Nếu khớp orderId
                 if (data.data.orderId == payment.orderId) {
                     setGettingResultPayment(true)
