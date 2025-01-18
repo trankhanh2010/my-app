@@ -9,7 +9,7 @@ const Filter = ({
     return (
         <>
             <CardElement>
-                <div className="mt-1 flex flex-col 2xl:flex-row 2xl:space-x-2 border p-2">
+                <div className="flex flex-col 2xl:flex-row 2xl:space-x-2 border p-2">
                     <div className="mt-1 w-full flex flex-col 2xl:w-[100%]">
                         <Search
                             keyword={treatmentCode}

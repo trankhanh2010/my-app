@@ -8,10 +8,10 @@ import Form from "../../components/data/transaction/transactionTamUng/Form";
 import ModalConfirmCreate from "../../components/common/Modal/Normal/ModalConfirmCreate";
 import ManegerAlert from "../../components/common/Alert/ManegerAlert";
 
-const Page = ({ 
+const Page = ({
     paramTreatmentCode,
-    isFullScreen=true,
- }) => {
+    isFullScreen = true,
+}) => {
     const {
         reload,
         setReload,
@@ -64,61 +64,57 @@ const Page = ({
         }
     }, [paramTreatmentCode]);
     return (
-        <div className={`grid grid-cols-12 gap-1 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
-            <div className="col-span-12 md:col-span-3 flex flex-col md:mr-1 md:border-r md:pr-2">
-                {/* Phần điều khiển và lọc */}
-                <Card>
-                    <div className="flex flex-col">
-                        <Filter
-                            setFilterTrigger={setFilterTrigger}
-                            treatmentCode={treatmentCode}
-                            setTreatmentCode={setTreatmentCode}
-                        />
-                    </div>
-                </Card>
-                
-                {/*dữ liệu điều trị*/}
-                <Card className="flex-grow">
-                    <div className="relative mb-2 flex flex-col">
-                        <InfoPatient 
-                            fieldLabels={fieldLabels}
-                            recordDetails={selectedRecord}
-                            format={format}
-                            convertToDate={convertToDate}
-                            loadingRecord={loadingTreatment}
-                        />
-                    </div>
-                </Card>
-            </div>
-            <div className={`col-span-12 md:col-span-9 flex flex-col flex-grow mt-4 md:mt-0 ${isFullScreen?'min-h-[90vh]':'min-h-[70vh]'}`}>
-                {/* Form nhập dữ liệu */}
-                {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
-                <Card className={`${loadingRecord || isProcessing ? "flex" : ""} flex-grow`}>
-                    <div className="relative mb-2 flex flex-col flex-grow">
-                        <Form
-                            format={format}
-                            convertToDate={convertToDate}
-                            recordDetails={recordDetails}
-                            fieldLabels={fieldLabels}
-                            setRecordDetails={setRecordDetails}
-                            accountBooks={accountBooks}
-                            setAccountBookKeyword={setAccountBookKeyword}
-                            payForms={payForms}
-                            setPayFormKeyword={setPayFormKeyword}
-                            cashierRooms={cashierRooms}
-                            setCashierRoomKeyword={setCashierRoomKeyword}
-                            validateForm={validateForm}
-                            isProcessing={isProcessing}
-                            loadingRecord={loadingRecord}
-                            handleFormSubmit={handleFormSubmit}
-                            parseNumberToLocalString={parseNumberToLocalString}
-                            loadingAccountBook={loadingAccountBook}
-                            loadingPayForm={loadingPayForm}
-                            loadingCashierRoom={loadingCashierRoom}
-                        />
-                    </div>
-                </Card>
-            </div>
+        <div className={`grid grid-cols-1 md:grid-cols-12 grid-row-2 gap-2 mt-2 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
+            {/* Phần điều khiển và lọc */}
+            <Card className="md:col-span-3">
+                <div className="flex flex-col">
+                    <Filter
+                        setFilterTrigger={setFilterTrigger}
+                        treatmentCode={treatmentCode}
+                        setTreatmentCode={setTreatmentCode}
+                    />
+                </div>
+            </Card>
+
+            {/*dữ liệu điều trị*/}
+            <Card className="md:col-span-9">
+                <div className="relative mb-2 flex flex-col">
+                    <InfoPatient
+                        fieldLabels={fieldLabels}
+                        recordDetails={selectedRecord}
+                        format={format}
+                        convertToDate={convertToDate}
+                        loadingRecord={loadingTreatment}
+                    />
+                </div>
+            </Card>
+            {/* Form nhập dữ liệu */}
+            {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
+            <Card className={` md:col-span-12`}>
+                <div className="relative mb-2 flex flex-col ">
+                    <Form
+                        format={format}
+                        convertToDate={convertToDate}
+                        recordDetails={recordDetails}
+                        fieldLabels={fieldLabels}
+                        setRecordDetails={setRecordDetails}
+                        accountBooks={accountBooks}
+                        setAccountBookKeyword={setAccountBookKeyword}
+                        payForms={payForms}
+                        setPayFormKeyword={setPayFormKeyword}
+                        cashierRooms={cashierRooms}
+                        setCashierRoomKeyword={setCashierRoomKeyword}
+                        validateForm={validateForm}
+                        isProcessing={isProcessing}
+                        loadingRecord={loadingRecord}
+                        handleFormSubmit={handleFormSubmit}
+                        parseNumberToLocalString={parseNumberToLocalString}
+                        loadingAccountBook={loadingAccountBook}
+                        loadingPayForm={loadingPayForm}
+                        loadingCashierRoom={loadingCashierRoom}
+                    />
+                </div>
+            </Card>
             {/* Thông báo */}
             <ManegerAlert
                 alerts={alerts}

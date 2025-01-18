@@ -28,10 +28,10 @@ const InfoPatient = ({
                         // divCss:`md:w-[30%] md:border-r`
                     },
                 ]}
-                css={'md:flex-col md:space-x-0'}
+                css={''}
             />
             <GroupFieldSpanWithText 
-                css='mt-1 md:flex-col md:space-x-0'
+                css='mt-1'
                 fields={[
                     {fieldName:fieldLabels.gender, fieldValue:recordDetails.gender, 
                         // divCss:`md:w-[20%] md:border-r`

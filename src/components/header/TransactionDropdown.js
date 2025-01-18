@@ -41,14 +41,6 @@ const Dropdown = () => {
               Tạm ứng
             </Link>
           </li>
-          <li>
-            <Link
-              to="/"
-              className="li-nav-header-category"
-            >
-              Thanh toán
-            </Link>
-          </li>
         </ul>
       )}
     </li>

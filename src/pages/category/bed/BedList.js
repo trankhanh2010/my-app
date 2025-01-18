@@ -90,9 +90,8 @@ const BedList = () => {
 
 
     return (
-        <div className={`grid grid-cols-12 gap-1 w-full`}>
-            <div className="col-span-12 md:col-span-8 flex flex-col md:mr-1 md:border-r md:pr-2">
-                <Card className={`${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}>
+        <div className={`grid grid-cols-1 md:grid-cols-12 grid-row-2 gap-2 mt-2 w-full`}>
+                <Card className={`${isProcessing ? 'opacity-50 cursor-not-allowed' : ''} md:col-span-9`}>
                     <div class={`min-h-[20vh] ${isProcessing ? 'pointer-events-none' : ''}`}>
                         <Filter
                             page={page}
@@ -112,8 +111,8 @@ const BedList = () => {
                         />
                     </div>
                 </Card>
-                <Card>
-                    <div class="mt-1 relative md:overflow-x-auto overflow-y-auto min-h-[70vh] md:max-h-[70vh] flex flex-row border">
+                <Card className="md:col-span-9 md:order-2">
+                    <div class="mt-1 relative md:overflow-x-auto overflow-y-auto h-[70vh] flex flex-row border">
                         <BedTable
                             fieldLabels={fieldLabels}
                             format={format}
@@ -131,11 +130,9 @@ const BedList = () => {
                         />
                     </div>
                 </Card>
-            </div>
 
-            <div className="col-span-12 md:col-span-4 flex flex-col flex-grow mt-4 md:mt-0">
                 {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
-                <Card className={`${loadingRecord || isProcessing ? "flex" : ""} flex-grow`}>
+                <Card className={`${loadingRecord || isProcessing ? "flex" : ""} md:col-span-3 md:row-span-2 md:order-1`}>
                     <div class="flex-grow relative overflow-x-auto max-h-[100vh] flex flex-col">
                         <BedDetails
                             fieldLabels={fieldLabels}
@@ -156,7 +153,6 @@ const BedList = () => {
                         />
                     </div>
                 </Card>
-            </div>
             {/* Thông báo */}
             <ManegerAlert
                 alerts={alerts}

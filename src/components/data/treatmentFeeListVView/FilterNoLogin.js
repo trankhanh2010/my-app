@@ -24,22 +24,22 @@ const Filter = ({
     return (
         <>
             <CardElement>
-                <div className="flex flex-col xl:flex-row xl:space-x-2 border p-2">
-                    <div className="mt-1 w-full flex flex-col xl:w-[1/3]">
+                <div className="flex flex-col border p-2">
+                    <div className="mt-1 w-full flex flex-col">
                         {/* Chọn số bản ghi trên mỗi trang */}
                         <RecordPerPage
                             limit={limitCursor}
                             setLimit={setLimitCursor}
                         />
                     </div>
-                    <div className="mt-1 w-full flex flex-col xl:w-[1/3]">
+                    <div className="mt-1 w-full flex flex-col">
                         <Search
                             keyword={treatmentCode}
                             setKeyword={setTreatmentCode}
                             label={"Nhập mã điều trị"}
                         />
                     </div>
-                    <div className="mt-1 w-full flex flex-col xl:w-[1/3]">
+                    <div className="mt-1 w-full flex flex-col">
                         <Search
                             keyword={patientCode}
                             setKeyword={setPatientCode}
@@ -50,8 +50,8 @@ const Filter = ({
             </CardElement>
 
             <CardElement>
-                <div className="mt-1 flex flex-col md:flex-row md:space-x-2 border p-2">
-                    <div className="mt-1 w-full flex flex-col md:w-[1/2]">
+                <div className="mt-1 flex flex-col border p-2">
+                    <div className="mt-1 w-full flex flex-col">
                         {/* Nút Lọc */}
                         <button
                             onClick={() => {
@@ -63,7 +63,7 @@ const Filter = ({
                             Lọc
                         </button>
                     </div>
-                    <div className="mt-1 w-full flex flex-col md:w-[1/2]">
+                    <div className="mt-1 w-full flex flex-col">
                         {/* Nút Tải thêm */}
                         <button
                             onClick={handleLoadMore}

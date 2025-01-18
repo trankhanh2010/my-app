@@ -4,9 +4,21 @@ import HamburgerMenu from './header/HamburgerMenu';
 import NavMenuAuth from './header/NavMenuAuth';
 import NavMenuContainer from './header/NavMenuContainer';
 import { useMenuContext } from "../context/MenuContext";
+import { useLocation } from "react-router-dom";
+import useMasterService from "../services/master/useMasterService";
 
 const Header = () => {
   const { selectedMenu, setSelectedMenu } = useMenuContext();
+  const location = useLocation();
+  const urlGuest = [        
+    "/result-payment-thanh-toan",
+    "/result-payment-tam-ung",
+    "/treatment-fee-list-no-login",
+  ];
+  const [authToken, setAuthToken] = useState(useMasterService.getAuthToken());
+  const currentPath = location.pathname;
+  // Khách là khi không có token và vào trang dành cho khách
+  const isGuest = urlGuest.includes(currentPath) && !authToken
   // Nếu đang chọn Menu thì mở nav nhỏ
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(selectedMenu);
 
@@ -16,20 +28,20 @@ const Header = () => {
         {/* Logo */}
         <Logo />
         {/* Container for NavMenuAuth and HamburgerMenu */}
-        <div className="flex items-center space-x-6">
+        {!isGuest && <div className="flex items-center space-x-6">
           <NavMenuAuth />
           <HamburgerMenu
             isOpen={isMobileMenuOpen}
             toggleMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           />
-        </div>
+        </div>}
       </nav>
 
       {/* Nav Menu Container */}
-      <NavMenuContainer 
-      isMobileMenuOpen={isMobileMenuOpen} 
-      setIsMobileMenuOpen={setIsMobileMenuOpen}
-      />
+      {!isGuest && <NavMenuContainer 
+        isMobileMenuOpen={isMobileMenuOpen} 
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+      />}
     </header>
   );
 };
