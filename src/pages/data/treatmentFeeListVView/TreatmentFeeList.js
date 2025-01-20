@@ -175,6 +175,7 @@ const Page = () => {
                     {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
                     <div className={`w-full ${loadingRecord ? "flex" : ""} flex-grow whitespace-pre-line break-words relative overflow-x-auto md:h-[50vh] overflow-y-auto`}>
                         <TestServiceReqTypeListTable
+                            recordDetails={recordDetails}
                             fieldLabels={fieldLabels}
                             recordDetail={recordDetails}
                             testServiceTypeList={testServiceTypeList}

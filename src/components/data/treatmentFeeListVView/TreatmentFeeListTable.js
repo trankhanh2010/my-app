@@ -1,5 +1,6 @@
 import React from "react";
 import Loading from "../../common/Info/Loading";
+import NoRecord from "../../common/Info/NoRecord";
 import Thead from "../../common/Data/TableList/Thead";
 import GroupTd from "../../common/Data/TableList/GroupTd";
 
@@ -15,16 +16,23 @@ const TestServiceReqListTable = ({
     setReload,
 }) => {
     if (loading) return <Loading/>
+    if (data.length == 0) return <NoRecord/>
     const getTextColor = (record) => {
-        // Màu khi khóa viện phí
-        if (record.feeLockTime) return "text-red-500";
+        // Nếu đang khóa
+        if(record.isActive == 0) return "text-red-500";
         return "text-gray-500"; // Màu mặc định
+    };
+    const getTreatmentSTT = (record) => {
+        if(record.feeLockTime) return <span className="text-red-500 font-semibold">Đã khóa viện phí</span>
+        if(record.treatmentEndTypeId) return <span className="text-blue-500 font-semibold">Đã ra viện</span>
+        return <span className="text-green-500 font-semibold">Đang điều trị</span> // Màu mặc định
     };
     return (
             <table className="table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <Thead 
                     fields={[
                             {fieldName:fieldLabels.treatmentCode, css:`w-[10%] sticky left-0 z-10`},
+                            {fieldName:"Trạng thái", css:`w-[5%]`},
                             {fieldName:fieldLabels.patientName, css:`w-[5%]`},
                             {fieldName:fieldLabels.gender, css:`w-[5%]`},
                             {fieldName:fieldLabels.dateOfBirth, css:`w-[5%]`},
@@ -59,6 +67,7 @@ const TestServiceReqListTable = ({
                             <GroupTd
                                 fields={[
                                     {fieldValue:record.treatmentCode, css:`font-bold sticky left-0 border-l-0 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} ${getTextColor(record)} truncate`},
+                                    {fieldValue:getTreatmentSTT(record), css:`${getTextColor(record)} truncate`},
                                     {fieldValue:record.patientName, css:`${getTextColor(record)} truncate`},
                                     {fieldValue:record.gender, css:`${getTextColor(record)} truncate`},
                                     {fieldValue:record.dateOfBirth ? format(convertToDate(record.dateOfBirth), "dd/MM/yyyy") : "", css:`${getTextColor(record)} truncate`},

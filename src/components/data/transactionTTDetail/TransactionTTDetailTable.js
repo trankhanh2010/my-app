@@ -84,16 +84,16 @@ const Component = ({
                 <Thead
                     fields={[
                         { fieldName: fieldLabels.testServiceTypeList.tdlServiceCode, css: `w-[5%] pl-8 truncate sticky left-0 z-10` },
-                        { fieldName: fieldLabels.testServiceTypeList.amount, css: `w-[5%] pl-8 truncate` },
-                        { fieldName: fieldLabels.testServiceTypeList.price, css: `w-[10%] pl-8 truncate` },
-                        { fieldName: fieldLabels.testServiceTypeList.virTotalPrice, css: `w-[15%] pl-8 truncate` },
-                        { fieldName: fieldLabels.testServiceTypeList.virTotalHeinPrice, css: `w-[15%] pl-8 truncate` },
-                        { fieldName: fieldLabels.testServiceTypeList.virTotalPatientPrice, css: `w-[15%] pl-8 truncate` },
-                        { fieldName: fieldLabels.testServiceTypeList.vatRatio, css: `w-[2%] pl-8 truncate` },
-                        { fieldName: fieldLabels.testServiceTypeList.tdlServiceName, css: `w-[23%] pl-8 truncate` },
-                        { fieldName: fieldLabels.testServiceTypeList.discount, css: `w-[5%] pl-8 truncate` },
-                        { fieldName: fieldLabels.testServiceTypeList.isExpend, css: `w-[5%] pl-8 truncate` },
-                        { fieldName: fieldLabels.testServiceTypeList.tdlServiceReqCode, css: `w-[5%] pl-8 truncate` },
+                        { fieldName: fieldLabels.testServiceTypeList.amount, css: `w-[5%]  truncate` },
+                        { fieldName: fieldLabels.testServiceTypeList.price, css: `w-[10%]  truncate` },
+                        { fieldName: fieldLabels.testServiceTypeList.virTotalPrice, css: `w-[15%]  truncate` },
+                        { fieldName: fieldLabels.testServiceTypeList.virTotalHeinPrice, css: `w-[15%]  truncate` },
+                        { fieldName: fieldLabels.testServiceTypeList.virTotalPatientPrice, css: `w-[15%]  truncate` },
+                        { fieldName: fieldLabels.testServiceTypeList.vatRatio, css: `w-[2%]  truncate` },
+                        { fieldName: fieldLabels.testServiceTypeList.tdlServiceName, css: `w-[23%]  truncate` },
+                        { fieldName: fieldLabels.testServiceTypeList.discount, css: `w-[5%]  truncate` },
+                        { fieldName: fieldLabels.testServiceTypeList.isExpend, css: `w-[5%]  truncate` },
+                        { fieldName: fieldLabels.testServiceTypeList.tdlServiceReqCode, css: `w-[5%]  truncate` },
                     ]}
                 />
                 <tbody>
@@ -114,7 +114,7 @@ const Component = ({
                                 {/* Hiển thị tổng các cột tổng */}
                                 {(
                                     <td className="bg-yellow-100  text-red-600 font-bold py-2 pl-2">
-                                        <span className="pl-6 ">
+                                        <span className="">
                                             {/* Tổng virTotalPrice */}
                                             {patientGroup.services && Object.values(patientGroup.services).flat().reduce((total, record) => total + (Number(record.virTotalPrice) || 0), 0).toLocaleString()}
                                         </span>
@@ -122,7 +122,7 @@ const Component = ({
                                 )}
                                 {(
                                     <td className="bg-yellow-100  text-red-600 font-bold py-2 pl-2">
-                                        <span className="pl-6">
+                                        <span className="">
                                             {/* Tổng virTotalHeinPrice */}
                                             {patientGroup.services && Object.values(patientGroup.services).flat().reduce((total, record) => total + (Number(record.virTotalHeinPrice) || 0), 0).toLocaleString()}
                                         </span>
@@ -130,7 +130,7 @@ const Component = ({
                                 )}
                                 {(
                                     <td className="bg-yellow-100  text-red-600 font-bold py-2 pl-2">
-                                        <span className="pl-6">
+                                        <span className="">
                                             {/* Tổng virTotalPatientPrice */}
                                             {patientGroup.services && Object.values(patientGroup.services).flat().reduce((total, record) => total + (Number(record.virTotalPatientPrice) || 0), 0).toLocaleString()}
                                         </span>
@@ -156,7 +156,7 @@ const Component = ({
                                         {/* Hiển thị tổng các cột tổng */}
                                         {(
                                             <td className="bg-gray-100 text-blue-600 font-bold py-2 pl-2">
-                                                <span className="pl-6">
+                                                <span className="">
                                                     {patientGroup.services[serviceType] && patientGroup.services[serviceType].reduce(
                                                         (total, record) => total + (Number(record.virTotalPrice) || 0), 0
                                                     ).toLocaleString()}
@@ -165,7 +165,7 @@ const Component = ({
                                         )}
                                         {(
                                             <td className="bg-gray-100 text-blue-600 font-bold py-2 pl-2">
-                                                <span className="pl-6">
+                                                <span className="">
                                                     {patientGroup.services[serviceType] && patientGroup.services[serviceType].reduce(
                                                         (total, record) => total + (Number(record.virTotalHeinPrice) || 0), 0
                                                     ).toLocaleString()}
@@ -174,7 +174,7 @@ const Component = ({
                                         )}
                                         {(
                                             <td className="bg-gray-100 text-blue-600 font-bold py-2 pl-2">
-                                                <span className="pl-6">
+                                                <span className="">
                                                     {patientGroup.services[serviceType] && patientGroup.services[serviceType].reduce(
                                                         (total, record) => total + (Number(record.virTotalPatientPrice) || 0), 0
                                                     ).toLocaleString()}
@@ -190,16 +190,16 @@ const Component = ({
                                             <GroupTd
                                                 fields={[
                                                     {fieldValue:record.tdlServiceCode, css:`${getTextColor(record)} pl-8 truncate sticky left-0 border-l-0 bg-white`},
-                                                    {fieldValue:Number(record.amount).toLocaleString(), css:`${getTextColor(record)} pl-8 `},
-                                                    {fieldValue:Number(record.price).toLocaleString(), css:`${getTextColor(record)} pl-8 `},
-                                                    {fieldValue:Number(record.virTotalPrice).toLocaleString(), css:`${getTextColor(record)} pl-8 `},
-                                                    {fieldValue:Number(record.virTotalHeinPrice).toLocaleString(), css:`${getTextColor(record)} pl-8 `},
-                                                    {fieldValue:Number(record.virTotalPatientPrice).toLocaleString(), css:`${getTextColor(record)} pl-8 `},
-                                                    {fieldValue:record.vatRatio, css:`${getTextColor(record)} pl-8 `},
-                                                    {fieldValue:record.tdlServiceName, css:`${getTextColor(record)} pl-8  truncate`},
-                                                    {fieldValue:Number(record.discount).toLocaleString(), css:`${getTextColor(record)} pl-8`},
-                                                    {fieldValue:<span className={`${record.isExpend == 1 ? 'text-green-600' : 'text-red-600'}`}>{record.isExpend == 1 ? '✓' : '✘'}</span>, css:`pl-8`},
-                                                    {fieldValue:record.tdlServiceReqCode, css:`${getTextColor(record)} pl-8 `},
+                                                    {fieldValue:Number(record.amount).toLocaleString(), css:`${getTextColor(record)}  `},
+                                                    {fieldValue:Number(record.price).toLocaleString(), css:`${getTextColor(record)}  `},
+                                                    {fieldValue:Number(record.virTotalPrice).toLocaleString(), css:`${getTextColor(record)}  `},
+                                                    {fieldValue:Number(record.virTotalHeinPrice).toLocaleString(), css:`${getTextColor(record)}  `},
+                                                    {fieldValue:Number(record.virTotalPatientPrice).toLocaleString(), css:`${getTextColor(record)}  `},
+                                                    {fieldValue:record.vatRatio, css:`${getTextColor(record)}  `},
+                                                    {fieldValue:record.tdlServiceName, css:`${getTextColor(record)}   truncate`},
+                                                    {fieldValue:Number(record.discount).toLocaleString(), css:`${getTextColor(record)} `},
+                                                    {fieldValue:<span className={`${record.isExpend == 1 ? 'text-green-600' : 'text-red-600'}`}>{record.isExpend == 1 ? '✓' : '✘'}</span>, css:``},
+                                                    {fieldValue:record.tdlServiceReqCode, css:`${getTextColor(record)}  `},
                                                 ]}
                                             />          
                                         </tr>

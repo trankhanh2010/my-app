@@ -84,10 +84,13 @@ const TestServiceReqList = () => {
         scrollContainerRef,
         handleLoadMore,
         setReload,
+        reload,
         loadingRecord,
         setSelectedRecord,
         openModalOtherLinkPayment,
         setOpenModalOtherLinkPayment,
+        setTreatmentFeeDetail,
+        setTestServiceTypeList,
     }
         = useTestServiceReqList();
     // Các api của trang này k cần đăng nhập
@@ -97,22 +100,26 @@ const TestServiceReqList = () => {
         setIsApiNoAuth(true);
         hasSetNoAuth.current = true;
     }
-    // Nếu có data thì chọn cái có ngày điều trị gần nhất
-    useEffect(() => {
-        if (!selectedRecord) {
-            if (dataCursor && dataCursor.length > 0) {
-                // Tìm đối tượng có `inTime` lớn nhất
-                const maxTimeRecord = dataCursor.reduce((max, current) => {
-                    return current.inTime > max.inTime ? current : max;
-                });
 
-                // Xử lý đối tượng được chọn
-                handleRecordSelect(maxTimeRecord);
-                setTreatmentId(maxTimeRecord.id);
-                setReload(true);
-            }
+    // Lọc qua trước khi dùng
+    // Chỉ lấy các bản ghi có đang điều trị và chưa khóa viện phí
+    const filteredDataCursor = dataCursor.filter(item => item.feeLockTime === null && item.treatmentEndTypeId === null);
+
+    useEffect(() => {
+        if (filteredDataCursor.length > 0 && (!selectedRecord || selectedRecord.id !== filteredDataCursor[0].id)) {
+            // Tìm đối tượng có `inTime` lớn nhất
+            const maxInTimeRecord = filteredDataCursor.reduce((max, current) => {
+                return current.inTime > max.inTime ? current : max;
+            });
+            // Xử lý đối tượng được chọn
+            handleRecordSelect(maxInTimeRecord);
+            setTreatmentId(maxInTimeRecord.id);
+            setReload(true);
         }
-    }, [dataCursor]); // Gọi lại khi có thay đổi
+        if (filteredDataCursor.length == 0) {
+            handleRecordSelect()
+        }
+    }, [filteredDataCursor, selectedRecord]); // Gọi lại khi data hoặc selectedRecord thay đổi
 
     return (
         <div className={`grid grid-cols-1 md:grid-cols-12 grid-row-2 gap-2 mt-2 w-full ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
@@ -121,27 +128,12 @@ const TestServiceReqList = () => {
                 <SectionHeader title="Bộ lọc" />
                 <div className="">
                     <FilterNoLogin
-                        dataCursor={dataCursor}
-                        isProcessing={isProcessing}
-                        limitCursor={limitCursor}
-                        setLastId={setLastId}
-                        recordDetails={recordDetails}
-                        fromTime={fromTime}
-                        setFromTime={setFromTime}
-                        toTime={toTime}
-                        setToTime={setToTime}
-                        setLimitCursor={setLimitCursor}
                         setApplyFilterCursor={setApplyFilterCursor}
                         patientCode={patientCode}
                         setPatientCode={setPatientCode}
                         treatmentCode={treatmentCode}
                         setTreatmentCode={setTreatmentCode}
-                        setRefreshTrigger={setRefreshTrigger}
                         setFilterTrigger={setFilterTrigger}
-                        handleRawChange={handleRawChange}
-                        scrollContainerRef={scrollContainerRef}
-                        setScrollPosition={setScrollPosition}
-                        handleLoadMore={handleLoadMore}
                     />
                 </div>
             </Card>
@@ -156,7 +148,7 @@ const TestServiceReqList = () => {
                     <TreatmentFeeListTable
                         fieldLabels={fieldLabels}
                         format={format}
-                        data={dataCursor}
+                        data={filteredDataCursor}
                         convertToDate={convertToDate}
                         handleRecordSelect={handleRecordSelect}
                         selectedRecord={selectedRecord}
@@ -193,8 +185,9 @@ const TestServiceReqList = () => {
                 />
                 <div className="flex flex-col md:flex-row md:space-x-2 border">
                     {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
-                    <div className={`w-full ${loadingRecord ? "flex" : ""} whitespace-pre-line break-words relative overflow-x-auto overflow-y-auto `}>
+                    <div className={`w-full ${loadingRecord ? "flex" : ""} whitespace-pre-line break-words relative md:h-[60vh] overflow-x-auto overflow-y-auto `}>
                         <TestServiceReqTypeListTable
+                            recordDetails={recordDetails}
                             fieldLabels={fieldLabels}
                             recordDetail={recordDetails}
                             testServiceTypeList={testServiceTypeList}
@@ -222,7 +215,7 @@ const TestServiceReqList = () => {
                     <ButtonListNoLogin
                         selectedRecord={selectedRecord}
                     />
-                    {treatmentFeeDetail
+                    {treatmentFeeDetail && recordDetails
                         && Number(treatmentFeeDetail.fee) > 0
                         && (
                             <button

@@ -1,5 +1,7 @@
 import api, { encodeParams } from '../api/api';
 import config from "../../config";
+import apiNoAuth from "../api/apiNoAuth";
+
 
 // Dịch vụ để gọi API lấy danh sách giường bệnh
 const get = async (start, limit, orderBy, orderDirection, keyword) => {
@@ -174,7 +176,7 @@ const getAllSelect = async (keyword) => {
   // console.log(paramBase64);
 
   try {
-    const response = await api.get(`/api/v1/transaction-type?param=${paramBase64}`);
+    const response = await apiNoAuth.get(`/api/v1/transaction-type?param=${paramBase64}`);
     return response.data;  // Trả về dữ liệu nhận được từ API
   } catch (error) {
     throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài

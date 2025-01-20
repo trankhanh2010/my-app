@@ -138,6 +138,10 @@ const useTreatmentFeeList = () => {
         treatmentResultName: "Kết quả điều trị",
         rightRouteCode: "Loại",
         treatmentEndTypeName: "Loại ra viện",
+        endRoomCode: "Mã phòng ra viện",
+        endRoomName: "Tên phòng ra viện",
+        endRoom: "Phòng kết thúc điều trị",
+        startRoom: "Phòng bắt đầu khám",
         testServiceTypeList: "Danh sách dịch vụ",
         testServiceTypeList:
         {
@@ -155,7 +159,8 @@ const useTreatmentFeeList = () => {
             isExpend: "Hao phí",
             tdlServiceReqCode: "Mã YC",
             tdlServiceCode: "Mã DV",
-            tdlServiceName: "Tên DV"
+            tdlServiceName: "Tên DV",
+            serviceReqStt: "Trạng thái",
         },
     };
     // Thanh toán MoMo
@@ -579,9 +584,12 @@ const useTreatmentFeeList = () => {
         scrollContainerRef,
         handleLoadMore, 
         setReload,
+        reload,
         loadingRecord,
         openModalOtherLinkPayment, 
         setOpenModalOtherLinkPayment,
+        setTreatmentFeeDetail,
+        setTestServiceTypeList,
     };
 };
 

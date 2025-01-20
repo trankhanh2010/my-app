@@ -19,7 +19,8 @@ const Middleware = ({ children }) => {
         "/result-payment-thanh-toan",
         "/result-payment-tam-ung",
         "/treatment-fee-list-no-login",
-        "/transaction-list-no-login"
+        "/transaction-list-no-login",
+        "/transaction-tt-detail-no-login"
     ]; // Các route không cần xác thực
 
     useEffect(() => {

@@ -55,9 +55,10 @@ const InfoPatient = ({
             <GroupFieldSpanWithText 
                 css='mt-1'
                 fields={[
-                    {fieldName:fieldLabels.requestRoomName, fieldValue:recordDetails.requestRoomName, divCss:`md:w-[40%] md:border-r whitespace-pre-line break-words`},
+                    {fieldName:fieldLabels.startRoom, fieldValue:(recordDetails.startRoomCode&&recordDetails.startRoomName)?recordDetails.startRoomCode +' - '+ recordDetails.startRoomName:"", divCss:`md:w-[25%] md:border-r whitespace-pre-line break-words`},
+                    {fieldName:fieldLabels.endRoom, fieldValue:(recordDetails.endRoomCode&&recordDetails.endRoomName)?recordDetails.endRoomCode +' - '+ recordDetails.endRoomName:"", divCss:`md:w-[25%] md:border-r whitespace-pre-line break-words`},
                     {fieldName:fieldLabels.treatmentEndTypeName, fieldValue:recordDetails.treatmentEndTypeName, divCss:`md:w-[25%] md:border-r whitespace-pre-line break-words`},
-                    {fieldName:fieldLabels.treatmentResultName, fieldValue:recordDetails.treatmentResultName, divCss:`md:w-[35%] whitespace-pre-line break-words`},
+                    {fieldName:fieldLabels.treatmentResultName, fieldValue:recordDetails.treatmentResultName, divCss:`md:w-[25%] whitespace-pre-line break-words`},
                 ]}
             />
         </>
