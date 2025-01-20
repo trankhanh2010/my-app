@@ -52,7 +52,13 @@ const InfoTransaction = ({
             <GroupFieldSpanWithText
                 css='mt-1'
                 fields={[
-                    { fieldName: 'Đã thu', fieldValue: Number(treatmentFeeDetail.daThu).toLocaleString(), divCss: `md:w-[50%] md:border-r`, pCss:`text-blue-500 font-semibold` },
+                    { fieldName: 'Đã thu', fieldValue: Number(treatmentFeeDetail.daThu).toLocaleString(), divCss: `md:w-[100%]`, pCss:`text-blue-500 font-semibold` },
+                ]}
+            />
+            <GroupFieldSpanWithText
+                css='mt-1'
+                fields={[
+                    { fieldName: 'Thanh toán', fieldValue: Number(treatmentFeeDetail.totalBillAmount).toLocaleString(), divCss: `md:w-[50%] md:border-r` },
                     { fieldName: 'Tạm thu DV', fieldValue: Number(treatmentFeeDetail.totalServiceDepositAmount).toLocaleString(), divCss: `md:w-[50%] md:border-r` },
                     { fieldName: 'Tạm ứng', fieldValue: Number(treatmentFeeDetail.tamUng).toLocaleString(), divCss: `md:w-[50%]` },
                 ]}
@@ -60,8 +66,7 @@ const InfoTransaction = ({
             <GroupFieldSpanWithText
                 css='mt-1'
                 fields={[
-                    { fieldName: 'Thanh toán', fieldValue: Number(treatmentFeeDetail.totalBillAmount).toLocaleString(), divCss: `md:w-[50%] md:border-r` },
-                    { fieldName: 'BN cần nộp thêm', fieldValue: Number(treatmentFeeDetail.fee).toLocaleString(), divCss: `md:w-[50%]`, pCss:`text-red-500 font-semibold`},
+                    { fieldName: 'BN cần nộp thêm', fieldValue: Number(treatmentFeeDetail.fee).toLocaleString(), divCss: `md:w-[100%]`, pCss:`text-red-500 font-semibold`},
                 ]}
             />
         </>

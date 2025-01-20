@@ -20,7 +20,9 @@ import ResultPaymentThanhToan from './pages/transaction/ResultPaymentThanhToan'
 import ResultPaymentTamUng from './pages/transaction/ResultPaymentTamUng'
 
 import TransactionList from './pages/data/transactionListVView/TransactionList';
-import TransactionDetail from './pages/data/transactionTTDetail/TransactionTTDetail';
+import TransactionListNoLogin from './pages/data/transactionListVView/TransactionListNoLogin';
+import TransactionTTDetail from './pages/data/transactionTTDetail/TransactionTTDetail';
+import TransactionTTDetailNoLogin from './pages/data/transactionTTDetail/TransactionTTDetailNoLogin';
 import TransactionTamUng from './pages/transaction/TransactionTamUng';
 
 const App = () => {
@@ -42,7 +44,9 @@ const App = () => {
               <Route path="/result-payment-tam-ung" element={<ResultPaymentTamUng />} />
 
               <Route path="/transaction-list" element={<TransactionList />} />
-              <Route path="/transaction-tt-detail" element={<TransactionDetail />} />
+              <Route path="/transaction-list-no-login" element={<TransactionListNoLogin />} />
+              <Route path="/transaction-tt-detail" element={<TransactionTTDetail />} />
+              <Route path="/transaction-tt-detail-no-login" element={<TransactionTTDetailNoLogin />} />
               <Route path="/transaction-tam-ung" element={<TransactionTamUng />} />
 
               <Route path="/info-401" element={<Info401 />} />

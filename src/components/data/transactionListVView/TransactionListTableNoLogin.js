@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import Loading from "../../common/Info/Loading";
 import Thead from "../../common/Data/TableList/Thead";
 import GroupTd from "../../common/Data/TableList/GroupTd";
-import ModalPageTransactionTTDetail from '../../common/Modal/Page/ModalPageTransactionTTDetail';
+import ModalPageTransactionTTDetailNoLogin from '../../common/Modal/Page/ModalPageTransactionTTDetailNoLogin';
 
 
 const TestServiceReqListTable = ({
@@ -152,7 +152,7 @@ const TestServiceReqListTable = ({
             </table>
 
             {/* Modal Chi tiết*/}
-            <ModalPageTransactionTTDetail
+            <ModalPageTransactionTTDetailNoLogin
                 isOpen={isModalChiTietTTOpen}
                 onClose={closeModalChiTietTT}
                 paramBillCode={selectedRecord?.transactionCode ?? ""}

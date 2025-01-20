@@ -221,6 +221,40 @@ const useMasterCategoryList = (
         }
     };
     
+    // Lấy tất cả dữ liệu 
+    const fetchDataAll = async () => {
+        try {
+            setLoading(true);
+            let response = null;
+            if(isApiNoAuth){
+                response = await apiService.getNoLoginAll(filter);
+            }else{
+                response = await apiService.getAll(filter);
+            }
+            // Nếu có data
+            if(response && response.data){
+                if (isDB) {
+                    setData(response.data);
+                }
+                if (isElastic) {
+                    setData(
+                        response.data.map((item) => ({
+                            ...item._source, // Lấy dữ liệu chính
+                            highlight: item.highlight || {}, // Lấy highlight nếu có
+                        }))
+                    );
+                }
+                setTotalItems(response.param.Count); // Tổng bản ghi
+            }
+            setLoading(false);
+
+        } catch (err) {
+            console.error("Fetch error:", err);
+            setError("Lỗi khi tải dữ liệu.");
+            setLoading(false);
+        }
+    };
+
     const checkUniqueCode = async (code, id = null) => {
         if(code != ""){
             try {
@@ -472,6 +506,7 @@ const useMasterCategoryList = (
         setDeleted,
         parseNumberToLocalString,
         convertDateToString,
+        fetchDataAll,
     };
 };
 

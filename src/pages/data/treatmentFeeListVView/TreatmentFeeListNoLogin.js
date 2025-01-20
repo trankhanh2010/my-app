@@ -12,6 +12,7 @@ import ResultPaymentModal from "../../../components/common/Modal/Payment/ResultP
 import Card from "../../../components/common/Master/Card";
 import NoFeeModal from "../../../components/common/Modal/Payment/NoFeeModal";
 import SectionHeader from "../../../components/common/Data/InfoRecord/SectionHeader";
+import ButtonListNoLogin from "../../../components/data/treatmentFeeListVView/ButtonListNoLogin";
 
 const TestServiceReqList = () => {
     const {
@@ -218,11 +219,14 @@ const TestServiceReqList = () => {
                         loadingFetchTreatmentFeeDetail={loadingFetchTreatmentFeeDetail}
                         errorFetchTreatmentFeeDetail={errorFetchTreatmentFeeDetail}
                     />
+                    <ButtonListNoLogin
+                        selectedRecord={selectedRecord}
+                    />
                     {treatmentFeeDetail
                         && Number(treatmentFeeDetail.fee) > 0
                         && (
                             <button
-                                className="py-2 px-4 rounded bg-blue-600 hover:bg-blue-500 mt-1 mb-1 text-white"
+                                className="py-2 px-4 rounded bg-pink-500 hover:bg-pink-600 mt-1 mb-1 text-white"
                                 onClick={() => setOpentShowAllPayment(true)}>
                                 Thanh toán
                             </button>

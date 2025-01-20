@@ -75,24 +75,58 @@ const getById = async (id) => {
   }
 };
 
-const getNoLoginCursor = async (lastId = 0, limit = 20, filter) => {
+// const getNoLoginCursor = async (lastId = 0, limit = 20, filter) => {
+//   let param;
+//     param = {
+//       CommonParam: {
+//         CursorPaginate: true,
+//         LastId: lastId,
+//         Limit: limit,
+//         Elastic: false,
+//       },
+//       ApiData: {        
+//         TreatmentCode: filter.treatmentCode,
+//         PatientCode: filter.patientCode,
+
+//         OrderBy: {
+//           ["id"]: "asc",  
+//         },
+//       }
+//   }
+//   // console.log(param)
+//   const paramBase64 = encodeParams(param);
+//   // console.log(paramBase64);
+
+//   try {
+//     const response = await apiNoAuth.get(`/api/v1/transaction-list-v-view-no-login?param=${paramBase64}`);
+//     return response.data;  // Trả về dữ liệu nhận được từ API
+//   } catch (error) {
+//     throw error;  // Nếu có lỗi xảy ra, ném lỗi ra ngoài
+//   }
+// };
+
+const getNoLoginAll = async (filter) => {
+  // Nếu không có treatmentCode hoặc transactionCode, không gọi api
+  if(filter.treatmentCode == null && filter.transactionCode == null) return;
   let param;
+  // Lấy dữ liệu từ DB
     param = {
       CommonParam: {
-        CursorPaginate: true,
-        LastId: lastId,
-        Limit: limit,
+        GetAll: true,
         Elastic: false,
       },
-      ApiData: {        
+      ApiData: {
+        IsDelete: 0,
+        FromTime: Number(filter.fromTime),
+        ToTime:   Number(filter.toTime),
+        TransactionTypeIds: filter.listTransactionType,
+        TransactionCode: filter.transactionCode,
         TreatmentCode: filter.treatmentCode,
-        PatientCode: filter.patientCode,
-
         OrderBy: {
-          ["id"]: "asc",  
+          ["createTime"]: "desc",  
         },
-      }
-  }
+      },
+    };
   // console.log(param)
   const paramBase64 = encodeParams(param);
   // console.log(paramBase64);
@@ -107,5 +141,6 @@ const getNoLoginCursor = async (lastId = 0, limit = 20, filter) => {
 export default {
   getCusor,
   getById,
-  getNoLoginCursor,
+  // getNoLoginCursor,
+  getNoLoginAll,
 };
