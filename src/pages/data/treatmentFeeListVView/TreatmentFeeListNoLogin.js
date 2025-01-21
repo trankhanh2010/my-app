@@ -123,6 +123,11 @@ const TestServiceReqList = () => {
 
     return (
         <div className={`grid grid-cols-1 md:grid-cols-12 grid-row-2 gap-2 mt-2 w-full ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
+            {/* Tên trang*/}
+            <Card className="md:order-1 md:col-span-12">
+                <SectionHeader title="Thông tin viện phí" />
+            </Card>
+
             {/* Phần điều khiển và lọc */}
             <Card className="md:order-1 md:col-span-4">
                 <SectionHeader title="Bộ lọc" />

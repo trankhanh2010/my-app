@@ -5,17 +5,18 @@ import NavMenuAuth from './header/NavMenuAuth';
 import NavMenuContainer from './header/NavMenuContainer';
 import { useMenuContext } from "../context/MenuContext";
 import { useLocation } from "react-router-dom";
-import useMasterService from "../services/master/useMasterService";
+import { useAuth } from '../context/AuthContext';
 
 const Header = () => {
   const { selectedMenu, setSelectedMenu } = useMenuContext();
   const location = useLocation();
-  const urlGuest = [        
+  const urlGuest = [ 
+    "/home",       
     "/result-payment-thanh-toan",
     "/result-payment-tam-ung",
     "/treatment-fee-list-no-login",
   ];
-  const [authToken, setAuthToken] = useState(useMasterService.getAuthToken());
+  const { authToken } = useAuth();
   const currentPath = location.pathname;
   // Khách là khi không có token và vào trang dành cho khách
   const isGuest = urlGuest.includes(currentPath) && !authToken
