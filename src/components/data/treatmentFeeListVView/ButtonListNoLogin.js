@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CardElement from "../../common/Master/CardElement";
 import ModalPageTransactionListNoLogin from '../../common/Modal/Page/ModalPageTransactionListNoLogin';
-
+import ListIcon from "../../common/Icon/ListIcon";
 const Component = ({
     selectedRecord,
 }) => {
@@ -12,6 +12,7 @@ const Component = ({
     const closeModalLSGD = () => {
         setIsModalLSGDOpen(false) // Đóng modal
     }
+    if(!selectedRecord) return
     return (
         <>
             <div className="mt-1 w-full flex flex-col">
@@ -20,9 +21,12 @@ const Component = ({
                         if (!isLSGD) return;  // Nếu isLSGD là false, không làm gì cả
                         setIsModalLSGDOpen(true);  // Nếu isLSGD là true, mở modal
                     }}
-                    className={`${!isLSGD ? "opacity-50 cursor-not-allowed" : ""} px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed truncate`}
+                    className={`${!isLSGD ? "opacity-50 cursor-not-allowed" : ""} relative px-4 py-2 pl-8 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                    Nhấn vào đây để xem lịch sử giao dịch
+                    <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
+                        <ListIcon />
+                    </span>
+                    Xem lịch sử thanh toán
                 </button>
             </div>
             {/* Modal LSGD*/}

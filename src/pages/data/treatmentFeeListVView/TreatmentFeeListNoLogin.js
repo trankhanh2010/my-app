@@ -12,9 +12,13 @@ import ResultPaymentModal from "../../../components/common/Modal/Payment/ResultP
 import Card from "../../../components/common/Master/Card";
 import NoFeeModal from "../../../components/common/Modal/Payment/NoFeeModal";
 import SectionHeader from "../../../components/common/Data/InfoRecord/SectionHeader";
+import PageHeader from "../../../components/common/Data/InfoRecord/PageHeader";
+import ElementHeader from "../../../components/common/Data/InfoRecord/ElementHeader";
 import ButtonListNoLogin from "../../../components/data/treatmentFeeListVView/ButtonListNoLogin";
 import ButtonDepositReqListNoLogin from "../../../components/data/treatmentFeeListVView/ButtonDepositReqListNoLogin";
-import DepositReqListCardNoLogin from "../../../pages/data/depositReqListVView/DepositReqListCardNoLogin";
+import ButtonDepositReqListCardNoLogin from "../../../components/data/treatmentFeeListVView/ButtonDepositReqListCardNoLogin";
+import ButtonPayFeeNoLogin from "../../../components/data/treatmentFeeListVView/ButtonPayFeeNoLogin";
+
 const TestServiceReqList = () => {
     const {
         fieldLabels,
@@ -92,8 +96,12 @@ const TestServiceReqList = () => {
         setOpenModalOtherLinkPayment,
         setTreatmentFeeDetail,
         setTestServiceTypeList,
+        loaiThanhToan,
+        numDepositReqList,
+        countFeeDepositReqList,
     }
         = useTestServiceReqList();
+        
     // Các api của trang này k cần đăng nhập
     // chỉ gán giá trị 1 lần
     const hasSetNoAuth = useRef(false);
@@ -126,7 +134,7 @@ const TestServiceReqList = () => {
         <div className={`grid grid-cols-1 md:grid-cols-12 grid-row-2 gap-2 mt-2 w-full ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
             {/* Tên trang*/}
             <Card className="md:order-1 md:col-span-12">
-                <SectionHeader title="Thông tin viện phí" />
+                <PageHeader title="Thông tin viện phí" />
             </Card>
 
             {/* Phần điều khiển và lọc */}
@@ -168,7 +176,7 @@ const TestServiceReqList = () => {
             </Card>
 
             {/*Thông tin bệnh nhân*/}
-            <Card className="md:order-2 md:col-span-12">
+            <Card className="md:order-2 md:col-span-6 md:row-span-2">
                 <SectionHeader title="Thông tin bệnh nhân" />
                 {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
                 <div className={`w-full ${loadingRecord ? "flex" : ""} md:min-h-[35vh] relative md:overflow-x-auto overflow-y-auto`}>
@@ -183,7 +191,7 @@ const TestServiceReqList = () => {
             </Card>
 
             {/* Phần bảng thông tin dịch vụ */}
-            <Card className="md:flex-grow md:order-4 md:col-span-12">
+            <Card className="md:flex-grow md:order-5 md:col-span-12">
                 <SectionHeader title="Thông tin các dịch vụ" />
                 <SearchTestServiceReqTypeListTable
                     searchTerm={searchTerm}
@@ -207,18 +215,6 @@ const TestServiceReqList = () => {
                 </div>
             </Card>
 
-            {/*Thông tin yêu cầu tạm ứng*/}
-            <Card className="md:order-2 md:col-span-6">
-                <SectionHeader title="Danh sách các yêu cầu tạm ứng chưa được thanh toán" />
-                <DepositReqListCardNoLogin
-                    paramTreatmentId={selectedRecord?treatmentId:""}
-                    paramIsDeposit={0}
-                />
-                <ButtonDepositReqListNoLogin
-                    selectedRecord={selectedRecord}
-                />
-            </Card>
-
             {/* Thông tin giao dịch */}
             <Card className=" md:order-3 md:col-span-6">
                 <SectionHeader title="Thông tin viện phí" />
@@ -230,19 +226,36 @@ const TestServiceReqList = () => {
                         loadingFetchTreatmentFeeDetail={loadingFetchTreatmentFeeDetail}
                         errorFetchTreatmentFeeDetail={errorFetchTreatmentFeeDetail}
                     />
+                </div>
+            </Card>
+
+            {/*Các khoản cần thanh toán*/}
+            <Card className="md:order-4 md:col-span-6 grid grid-cols-1 gap-2">
+                <SectionHeader title="Các khoản phí cần thanh toán" />
+                <Card className="col-span">
+                    <ElementHeader title="Yêu cầu tạm ứng" />
+                    <ButtonDepositReqListCardNoLogin
+                        selectedRecord={selectedRecord}
+                        setReload={setReload}
+                        numDepositReqList={numDepositReqList}
+                        countFeeDepositReqList={countFeeDepositReqList}
+                    />
+                    <ButtonDepositReqListNoLogin
+                        selectedRecord={selectedRecord}
+                    />
+                </Card>
+                <Card className="col-span ">
+                    <ElementHeader title="Viện phí" />
+                    <ButtonPayFeeNoLogin
+                        treatmentFeeDetail={treatmentFeeDetail}
+                        recordDetails={recordDetails}
+                        setOpentShowAllPayment={setOpentShowAllPayment}
+                    />
                     <ButtonListNoLogin
                         selectedRecord={selectedRecord}
                     />
-                    {treatmentFeeDetail && recordDetails
-                        && Number(treatmentFeeDetail.fee) > 0
-                        && (
-                            <button
-                                className="py-2 px-4 rounded bg-pink-500 hover:bg-pink-600 mt-1 mb-1 text-white"
-                                onClick={() => setOpentShowAllPayment(true)}>
-                                Thanh toán viện phí còn thiếu
-                            </button>
-                        )}
-                </div>
+                </Card>
+
             </Card>
             <ShowAllPayment
                 creatingPayment={creatingPayment}
@@ -262,6 +275,7 @@ const TestServiceReqList = () => {
                 getPaymentMoMoTheATMNoiDia={getPaymentMoMoTheATMNoiDia}
                 payment={payment}
                 handleOpenMoMoPayment={handleOpenMoMoPayment}
+                loaiThanhToan={loaiThanhToan}
             />
             <ResultPaymentModal
                 openModalResultPayment={openModalResultPayment}

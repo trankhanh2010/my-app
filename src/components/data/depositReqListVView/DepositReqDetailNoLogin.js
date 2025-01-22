@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import Loading from "../../common/Info/Loading";
 import GroupFieldSpanWithText from "../../common/Data/InfoRecord/GroupFieldSpanWithText";
-
+import NoRecord from "../../../components/common/Info/NoRecord";
+import PayIcon from "../../common/Icon/PayIcon";
 const TestServiceReqListTable = ({
     fieldLabels,
     format,
@@ -12,8 +13,10 @@ const TestServiceReqListTable = ({
     setTreatmentId,
     loading,
     setReload,
+    setOpentShowAllPayment,
 }) => {
     if (loading) return <Loading />
+    if (!data) return <NoRecord />
     const getTextColor = (record) => {
         return "text-gray-500"; // Màu mặc định
     };
@@ -58,10 +61,13 @@ const TestServiceReqListTable = ({
             {data && Number(data.amount) > 0
                 && (
                     <button
-                        className="py-2 px-4 rounded bg-pink-500 hover:bg-pink-600 mt-1 mb-1 text-white"
-                        // onClick={() => setOpentShowAllPayment(true)}
+                        className="relative px-4 py-2 pl-8 rounded bg-pink-500 hover:bg-pink-600 mt-1 mb-1 text-white"
+                        onClick={() => setOpentShowAllPayment(true)}
                     >
-                        Thanh toán 
+                        <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
+                            <PayIcon />
+                        </span>
+                        Thanh toán
                     </button>
                 )}
         </>

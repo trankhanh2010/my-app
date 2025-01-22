@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import config from "../../../config";
 import useMasterList from '../../master/useMasterList';
+import usePaymentMomo from '../../transaction/usePaymentMomo';
+import depositReqListService from "../../../services/data/depositReqListService";
 import treatmentFeeListService from "../../../services/data/treatmentFeeListService";
 import testServiceTypeListService from "../../../services/data/testServiceTypeListService";
 import treatmentFeeDetailService from "../../../services/data/treatmentFeeDetailService";
-import treatmentFeePaymentService from "../../../services/transaction/treatmentFeePaymentService";
 import pusher from '../../../websocket/pusher';
 const useTreatmentFeeList = () => {
     const isDB = config.apiService.testServiceReqListVView.typeGetApi === 'db';
@@ -12,31 +13,17 @@ const useTreatmentFeeList = () => {
     const treatmentFeeDetailVViewIsDB = config.apiService.treatmentFeeDetailVView.typeGetApi === 'db';
 
     const [isApiNoAuth, setIsApiNoAuth] = useState(false)
-    const [opentShowAllPayment, setOpentShowAllPayment] = useState(false)
-    const [openModalResultPayment, setOpenModalResultPayment] = useState(false)
-    const [creatingPayment, setCreatingPayment] = useState(false)
-    const [gettingResultPayment, setGettingResultPayment] = useState(false)
-    const [openModalNoFee, setOpenModalNoFee] = useState(false)
-    const [openModalPaymentMoMoQRCode, setOpenModalPaymentMoMoQRCode] = useState(false)
-    const [openModalPaymentMoMoTheQuocTe, setOpenModalPaymentMoMoTheQuocTe] = useState(false)
-    const [openModalPaymentMoMoTheATMNoiDia, setOpenModalPaymentMoMoTheATMNoiDia] = useState(false)
-    const [openModalOtherLinkPayment, setOpenModalOtherLinkPayment] = useState(false)
-    const [payment, setPayment] = useState({
-        checkOtherLink: null,
-        deeplink: null,
-        payUrl: null,
-        qcCodeUrl: null,
-        orderId: null,
-        amount: null,
-        orderInfo: null,
-        resultCode: null,
-        message: null,
-        transactionTypeCode: null,
-    });
+
+    const loaiThanhToan = 'ThanhToanTamUngVienPhiConThieu'
+
     /// Xử lý khi scroll và lấy thêm dữ liệu mới vẫn giữ vị trí scroll cũ
     const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
 
     // Data bảng phụ
+    const [depositReqList, setDepositReqList] = useState([]);
+    const [numDepositReqList, setNumDepositReqList] = useState(0);
+    const [countFeeDepositReqList, setCountFeeDepositReqList] = useState(0);
+
     const [testServiceTypeList, setTestServiceTypeList] = useState([]);
     const [treatmentFeeDetail, setTreatmentFeeDetail] = useState([]);
     const [treatmentId, setTreatmentId] = useState();
@@ -81,6 +68,8 @@ const useTreatmentFeeList = () => {
         patientType: {},
         serviceType: {}
     });
+    const [loadingFetchDepositReqList, setLoadingFetchDepositReqList] = useState(false);
+    const [errorFetchDepositReqList, setErrorFetchDepositReqList] = useState(false);
     const [loadingFetchTestServiceTypeList, setLoadingFetchTestServiceTypeList] = useState(false);
     const [errorFetchTestServiceTypeList, setErrorFetchTestServiceTypeList] = useState(false);
     const [loadingFetchTreatmentFeeDetail, setLoadingFetchTreatmentFeeDetail] = useState(true);
@@ -163,105 +152,29 @@ const useTreatmentFeeList = () => {
             serviceReqStt: "Trạng thái",
         },
     };
-    // Thanh toán MoMo
-    const getPaymentMoMoQRCode = async (treatmentCode) => {
+
+    const fetchDepositReqList = async () => {
         try {
-            setCreatingPayment(true)
-            const response = await treatmentFeePaymentService.getPaymentMoMoTamUngQRCode(treatmentCode);
-            // Nếu có phí cần thanh toán
-            const newPaymentMoMo = {}
-            if (response.data.success) {
-                newPaymentMoMo.checkOtherLink = response.data.checkOtherLink
-                newPaymentMoMo.deeplink = response.data.deeplink
-                newPaymentMoMo.payUrl = response.data.payUrl
-                newPaymentMoMo.qrCodeUrl = response.data.qrCodeUrl
-                newPaymentMoMo.orderId = response.data.orderId
-                newPaymentMoMo.amount = response.data.amount
-                newPaymentMoMo.orderInfo = response.data.orderInfo
-                newPaymentMoMo.transactionTypeCode = response.data.transactionTypeCode
-            }
-            setPayment(newPaymentMoMo)
-            // Nếu có link khác thì hiện thông báo
-            if(newPaymentMoMo.checkOtherLink){
-                setOpenModalOtherLinkPayment(true)
-                return
-            }
-            if (response.data.success) {
-                setOpenModalPaymentMoMoQRCode(true)
-            }
-            // Nếu k thể tạo payment hiện ra thông báo
-            if (!response.data.success) {
-                setOpenModalNoFee(true)
+            if (treatmentId) {
+                setLoadingFetchDepositReqList(true)
+                const depositReqList = await depositReqListService.getNoLoginAll({
+                    treatmentId: treatmentId,
+                    isDeposit: 0,
+                });
+                const totalAmount = depositReqList.data.reduce((sum, item) => {
+                    return sum + (Number(item.amount) || 0); // Nếu amount null/undefined, thêm 0
+                }, 0);
+                setNumDepositReqList(depositReqList.param.Count)
+                setCountFeeDepositReqList(totalAmount)
+                setDepositReqList(depositReqList.data);
+                setLoadingFetchDepositReqList(false)
+                setErrorFetchDepositReqList(false)
             }
         } catch (err) {
-            console.error("Lỗi khi lấy Link thanh toán:", err);
+            setErrorFetchDepositReqList(true)
+            console.error("Lỗi khi tải DepositReqList:", err);
         } finally {
-            setCreatingPayment(false)
-        }
-    };
-    const getPaymentMoMoTheQuocTe = async (treatmentCode) => {
-        try {
-            setCreatingPayment(true)
-            const response = await treatmentFeePaymentService.getPaymentMoMoTamUngTheQuocTe(treatmentCode);
-            const newPaymentMoMo = {}
-            if (response.data.success) {
-                newPaymentMoMo.checkOtherLink = response.data.checkOtherLink
-                newPaymentMoMo.payUrl = response.data.payUrl
-                newPaymentMoMo.orderId = response.data.orderId
-                newPaymentMoMo.amount = response.data.amount
-                newPaymentMoMo.orderInfo = response.data.orderInfo
-                newPaymentMoMo.transactionTypeCode = response.data.transactionTypeCode
-            }
-            setPayment(newPaymentMoMo)
-            // Nếu có link khác thì hiện thông báo
-            if(newPaymentMoMo.checkOtherLink){
-                setOpenModalOtherLinkPayment(true)
-                return
-            }
-            if (response.data.success) {
-                setOpenModalPaymentMoMoTheQuocTe(true)
-            }
-            // Nếu k thể tạo payment hiện ra thông báo
-            if (!response.data.success) {
-                setOpenModalNoFee(true)
-            }
-        } catch (err) {
-            console.error("Lỗi khi lấy Link thanh toán:", err);
-        } finally {
-            setCreatingPayment(false)
-        }
-    };
-    const getPaymentMoMoTheATMNoiDia = async (treatmentCode) => {
-        try {
-            setCreatingPayment(true)
-            const response = await treatmentFeePaymentService.getPaymentMoMoTamUngTheATMNoiDia(treatmentCode);
-            const newPaymentMoMo = {}
-            if (response.data.success) {
-                newPaymentMoMo.checkOtherLink = response.data.checkOtherLink
-                newPaymentMoMo.payUrl = response.data.payUrl
-                newPaymentMoMo.qrCodeUrl = response.data.qrCodeUrl
-                newPaymentMoMo.orderId = response.data.orderId
-                newPaymentMoMo.amount = response.data.amount
-                newPaymentMoMo.orderInfo = response.data.orderInfo
-                newPaymentMoMo.transactionTypeCode = response.data.transactionTypeCode
-            }
-            setPayment(newPaymentMoMo)
-            // Nếu có link khác thì hiện thông báo
-            if(newPaymentMoMo.checkOtherLink){
-                setOpenModalOtherLinkPayment(true)
-                return
-            }
-            if (response.data.success) {
-                setOpenModalPaymentMoMoTheATMNoiDia(true)
-            }
-            // Nếu k thể tạo payment hiện ra thông báo
-            if (!response.data.success) {
-                setOpenModalNoFee(true)
-            }
-        } catch (err) {
-            console.error("Lỗi khi lấy Link thanh toán:", err);
-        } finally {
-            setCreatingPayment(false)
+            setLoadingFetchDepositReqList(false)
         }
     };
     const fetchTestServiceTypeList = async () => {
@@ -304,6 +217,34 @@ const useTreatmentFeeList = () => {
         setSelectedRecord(record);
         setRecordDetails(record);
     };
+    // Lấy từ hookPaymentMomo qua
+    const {
+        opentShowAllPayment, 
+        setOpentShowAllPayment,
+        openModalResultPayment, 
+        setOpenModalResultPayment,
+        creatingPayment, 
+        setCreatingPayment,
+        gettingResultPayment, 
+        setGettingResultPayment,
+        openModalNoFee, 
+        setOpenModalNoFee,
+        openModalPaymentMoMoQRCode, 
+        setOpenModalPaymentMoMoQRCode,
+        openModalPaymentMoMoTheQuocTe, 
+        setOpenModalPaymentMoMoTheQuocTe,
+        openModalPaymentMoMoTheATMNoiDia, 
+        setOpenModalPaymentMoMoTheATMNoiDia,
+        openModalOtherLinkPayment, 
+        setOpenModalOtherLinkPayment,
+        payment, 
+        setPayment,
+        getPaymentMoMoQRCode,
+        getPaymentMoMoTheQuocTe,
+        getPaymentMoMoTheATMNoiDia,
+    } = usePaymentMomo(
+        loaiThanhToan
+    );
 
     // Lấy từ hookMaster qua
     const {
@@ -458,6 +399,7 @@ const useTreatmentFeeList = () => {
                 // Gọi cả hai API song song
                 await Promise.all([
                     fetchAndUpdate(), // Lấy dữ liệu mới cho bản ghi được chọn
+                    fetchDepositReqList(),
                     fetchTestServiceTypeList(),
                     fetchTreatmentFeeDetail(), 
                 ]);
@@ -472,6 +414,7 @@ const useTreatmentFeeList = () => {
         }
     }, [reload]); // Gọi lại khi có thay đổi
 
+    // Nhận dữ liệu từ websocket để hiện thông báo khi trạng thái giao dịch thay đổi
     useEffect(() => {
         if (payment.orderId) {
             const channel = pusher.subscribe('momo-status-payment-tam-ung-channel');
@@ -498,6 +441,7 @@ const useTreatmentFeeList = () => {
     useEffect(() => {
         if (!openModalResultPayment && selectedRecord) {
             // Cập nhật lại thông tin transaction
+            fetchDepositReqList()
             fetchTreatmentFeeDetail()
             fetchTestServiceTypeList()
         }
@@ -590,6 +534,9 @@ const useTreatmentFeeList = () => {
         setOpenModalOtherLinkPayment,
         setTreatmentFeeDetail,
         setTestServiceTypeList,
+        loaiThanhToan,
+        numDepositReqList,
+        countFeeDepositReqList,
     };
 };
 

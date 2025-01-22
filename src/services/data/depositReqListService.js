@@ -32,6 +32,8 @@ const getNoLoginAll = async (filter) => {
   }
 };
 const getNoLoginById = async (id) => {
+  // Nếu không có id, không gọi api
+  if(id == null) return;
   let param;
 
   // Lấy dữ liệu từ DB

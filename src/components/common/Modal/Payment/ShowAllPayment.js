@@ -23,6 +23,7 @@ const PaymentModal = ({
   getPaymentMoMoTheATMNoiDia,
   payment,
   handleOpenMoMoPayment,
+  loaiThanhToan,
 }) => {
   const [showMoMoOptions, setShowMoMoOptions] = useState(false);
   const [showVNPayOptions, setShowVNPayOptions] = useState(false);
@@ -30,6 +31,8 @@ const PaymentModal = ({
   const handleCloseModal = () => {
     setOpentShowAllPayment(false);
   };
+
+
   // Nếu đang đợi api lấy link thanh toán thì khóa thao tác
   if (creatingPayment) return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500/75">
@@ -38,6 +41,14 @@ const PaymentModal = ({
   );
   if (!opentShowAllPayment) return null; // Không hiển thị nếu modal không mở
 
+  // Chọn mã để dùng trong api gọi lấy link thanh toán
+  let code
+  if(loaiThanhToan == 'ThanhToanTamUngVienPhiConThieu'){
+    code = selectedRecord.treatmentCode
+  }
+  if(loaiThanhToan == 'ThanhToanTamUngDepositReq'){
+    code = selectedRecord.depositReqCode
+  }
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500/75">
       <div className="relative bg-white p-6 rounded-lg w-full md:w-[30%]">
@@ -63,7 +74,7 @@ const PaymentModal = ({
             <ul className="space-y-2">
               <li>
                 <button
-                  onClick={() => getPaymentMoMoQRCode(selectedRecord.treatmentCode)}
+                  onClick={() => getPaymentMoMoQRCode(code)}
                   className="w-full rounded-md bg-pink-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
                 >
                   Thanh toán qua mã QR MoMo
@@ -71,7 +82,7 @@ const PaymentModal = ({
               </li>
               <li>
                 <button
-                  onClick={() => getPaymentMoMoTheQuocTe(selectedRecord.treatmentCode)}
+                  onClick={() => getPaymentMoMoTheQuocTe(code)}
                   className="w-full rounded-md bg-pink-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
                 >
                   Thanh toán qua thẻ quốc tế
@@ -79,7 +90,7 @@ const PaymentModal = ({
               </li>
               <li>
                 <button
-                  onClick={() => getPaymentMoMoTheATMNoiDia(selectedRecord.treatmentCode)}
+                  onClick={() => getPaymentMoMoTheATMNoiDia(code)}
                   className="w-full rounded-md bg-pink-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
                 >
                   Thanh toán qua thẻ ATM nội địa

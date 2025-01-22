@@ -4,11 +4,12 @@ import RecordPerPage from "../../../components/common/Paginate/RecordPerPage";
 import Search from "../../../components/common/Filter/Search";
 import SpanFieldName from "../../common/Data/InfoRecord/SpanFieldName";
 import CardElement from "../../common/Master/CardElement";
+import SearchIcon from "../../common/Icon/SearchIcon";
 const Filter = ({
     setApplyFilterCursor,
-    patientCode, 
+    patientCode,
     setPatientCode,
-    treatmentCode, 
+    treatmentCode,
     setTreatmentCode,
     setFilterTrigger,
 }) => {
@@ -43,9 +44,12 @@ const Filter = ({
                                 setApplyFilterCursor(true);
                                 setFilterTrigger(true);
                             }}
-                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed truncate"
+                            className="relative px-4 py-2 pl-8 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed truncate flex items-center justify-center"
                         >
-                            Lọc
+                            <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
+                                <SearchIcon />
+                            </span>
+                            Tìm kiếm
                         </button>
                     </div>
                 </div>

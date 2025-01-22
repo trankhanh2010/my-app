@@ -59,7 +59,7 @@ const Page = ({
     }, [paramTreatmentId, paramIsDeposit]);
 
     if (!paramTreatmentId) return  <NoRecordInfo/>
-    if (data.length == 0) return  <NoRecord/>
+    // if (data.length == 0) return  <NoRecord/>
     return (
         <div className={`grid grid-cols-1 md:grid-cols-12 grid-row-2 gap-2 mt-2 ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
             {/* Danh sách dữ liệu */}

@@ -4,7 +4,10 @@ import useDepositReqDetailNoLogin from "../../../hooks/data/depositReqListVView/
 import DepositReqDetailNoLogin from "../../../components/data/depositReqListVView/DepositReqDetailNoLogin";
 import NoRecordInfo from "../../../components/common/Info/NoRecordInfo";
 import NoRecord from "../../../components/common/Info/NoRecord";
+import ShowAllPayment from "../../../components/common/Modal/Payment/ShowAllPayment";
+import ResultPaymentModal from "../../../components/common/Modal/Payment/ResultPaymentModal";
 import Card from "../../../components/common/Master/Card";
+import NoFeeModal from "../../../components/common/Modal/Payment/NoFeeModal";
 
 const Page = ({
     paramDepositReqId,
@@ -40,8 +43,30 @@ const Page = ({
         handleRawChange,
         setReload,
         loadingRecord,
-        depositReqId, 
+        depositReqId,
         setDepositReqId,
+        getPaymentMoMoQRCode,
+        getPaymentMoMoTheQuocTe,
+        getPaymentMoMoTheATMNoiDia,
+        payment,
+        openModalPaymentMoMoQRCode,
+        setOpenModalPaymentMoMoQRCode,
+        openModalPaymentMoMoTheQuocTe,
+        setOpenModalPaymentMoMoTheQuocTe,
+        openModalPaymentMoMoTheATMNoiDia,
+        setOpenModalPaymentMoMoTheATMNoiDia,
+        opentShowAllPayment,
+        setOpentShowAllPayment,
+        openModalResultPayment,
+        setOpenModalResultPayment,
+        gettingResultPayment,
+        handleOpenMoMoPayment,
+        openModalNoFee,
+        setOpenModalNoFee,
+        creatingPayment,
+        openModalOtherLinkPayment,
+        setOpenModalOtherLinkPayment,
+        loaiThanhToan
     }
         = useDepositReqDetailNoLogin();
     // Nếu có param từ trang khác truyền vào thì xử lý
@@ -59,7 +84,7 @@ const Page = ({
             {/* Danh sách dữ liệu */}
             <Card className="md:col-span-12">
                 <div
-                    className={`relative overflow-x-auto overflow-y-auto ${isFullScreen!=null ? (isFullScreen ? 'md:h-[90vh]' : 'md:h-auto') : ''} mb-2 flex flex-col `}
+                    className={`relative overflow-x-auto overflow-y-auto ${isFullScreen != null ? (isFullScreen ? 'md:h-[90vh]' : 'md:h-auto') : ''} mb-2 flex flex-col `}
                 >
                     <DepositReqDetailNoLogin
                         fieldLabels={fieldLabels}
@@ -70,9 +95,41 @@ const Page = ({
                         selectedRecord={selectedRecord}
                         loading={loadingRecord}
                         setReload={setReload}
+                        setOpentShowAllPayment={setOpentShowAllPayment}
                     />
                 </div>
             </Card>
+
+            <ShowAllPayment
+                creatingPayment={creatingPayment}
+                selectedRecord={data}
+                opentShowAllPayment={opentShowAllPayment}
+                setOpentShowAllPayment={setOpentShowAllPayment}
+                openModalPaymentMoMoQRCode={openModalPaymentMoMoQRCode}
+                setOpenModalPaymentMoMoQRCode={setOpenModalPaymentMoMoQRCode}
+                openModalPaymentMoMoTheQuocTe={openModalPaymentMoMoTheQuocTe}
+                setOpenModalPaymentMoMoTheQuocTe={setOpenModalPaymentMoMoTheQuocTe}
+                openModalPaymentMoMoTheATMNoiDia={openModalPaymentMoMoTheATMNoiDia}
+                setOpenModalPaymentMoMoTheATMNoiDia={setOpenModalPaymentMoMoTheATMNoiDia}
+                openModalOtherLinkPayment={openModalOtherLinkPayment}
+                setOpenModalOtherLinkPayment={setOpenModalOtherLinkPayment}
+                getPaymentMoMoQRCode={getPaymentMoMoQRCode}
+                getPaymentMoMoTheQuocTe={getPaymentMoMoTheQuocTe}
+                getPaymentMoMoTheATMNoiDia={getPaymentMoMoTheATMNoiDia}
+                payment={payment}
+                handleOpenMoMoPayment={handleOpenMoMoPayment}
+                loaiThanhToan={loaiThanhToan}
+            />
+            <ResultPaymentModal
+                openModalResultPayment={openModalResultPayment}
+                setOpenModalResultPayment={setOpenModalResultPayment}
+                payment={payment}
+                gettingResultPayment={gettingResultPayment}
+            />
+            <NoFeeModal
+                openModalNoFee={openModalNoFee}
+                setOpenModalNoFee={setOpenModalNoFee}
+            />
         </div>
     );
 };

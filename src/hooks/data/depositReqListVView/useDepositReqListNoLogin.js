@@ -166,7 +166,14 @@ const useDepositReqList = () => {
 
         setFilterTrigger(false)
     }, [filterTrigger]);
-
+    // Tải lại dữ liệu mỗi lần nhấn vào 
+    useEffect(() => {
+        if (reload) {
+            // Cập nhật lại thông tin 
+            fetchDataAll();
+            setReload(false);
+        }
+    }, [reload]); // Gọi lại khi có thay đổi
     return {
         fieldLabels,
         format,

@@ -3,7 +3,7 @@ import Loading from "../../common/Info/Loading";
 import Thead from "../../common/Data/TableList/Thead";
 import GroupTd from "../../common/Data/TableList/GroupTd";
 import ModalPageDepositReqDetailNoLogin from '../../common/Modal/Page/ModalPageDepositReqDetailNoLogin';
-
+import PayIcon from "../../common/Icon/PayIcon";
 const TestServiceReqListTable = ({
     fieldLabels,
     format,
@@ -19,6 +19,7 @@ const TestServiceReqListTable = ({
 
     const closeModalChiTietTT = () => {
         setIsModalChiTietTTOpen(false) // Đóng modal
+        setReload(true) // Tải lại dữ liệu
     }
 
     const handleOpenModalPage = (record) => {
@@ -35,6 +36,7 @@ const TestServiceReqListTable = ({
                 <Thead
                     fields={[
                         { fieldName: fieldLabels.amount },
+                        { fieldName: 'Thao tác'},
                         { fieldName: fieldLabels.depositReqCode},
                         { fieldName: fieldLabels.treatmentCode },
                         { fieldName: fieldLabels.tdlPatientCode },
@@ -46,7 +48,6 @@ const TestServiceReqListTable = ({
                         { fieldName: fieldLabels.creator },
                         { fieldName: fieldLabels.modifyTime },
                         { fieldName: fieldLabels.modifier },
-                        { fieldName: 'Thao tác',css: `w-[10%] sticky right-0 z-10` },
                     ]}
                 />
                 <tbody className="text-xs">
@@ -61,6 +62,7 @@ const TestServiceReqListTable = ({
                             <GroupTd
                                 fields={[
                                     { fieldValue: Number(record.amount).toLocaleString(), css: `${getTextColor(record)} truncate text-red-500 font-semibold` },
+                                    { fieldValue: <button onClick={() => {handleOpenModalPage(record)}} className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded "><PayIcon/> Thanh toán</button> , css: `font-bold ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} truncate`},
                                     { fieldValue: record.depositReqCode, css: `${getTextColor(record)} truncate`},
                                     { fieldValue: record.treatmentCode, css: `${getTextColor(record)} truncate` },
                                     { fieldValue: record.tdlPatientCode, css: `${getTextColor(record)} truncate` },
@@ -72,7 +74,6 @@ const TestServiceReqListTable = ({
                                     { fieldValue: record.creator, css: `${getTextColor(record)} truncate` },
                                     { fieldValue: record.modifyTime ? format(convertToDate(record.modifyTime), "dd/MM/yyyy") : "", css: `${getTextColor(record)} truncate` },
                                     { fieldValue: record.modifier, css: `${getTextColor(record)} truncate` },
-                                    { fieldValue: <button onClick={() => {handleOpenModalPage(record)}} className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded "> Chi tiết</button> , css: `font-bold sticky right-0 border-l-0 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} truncate`},
                                 ]}
                             />
                         </tr>

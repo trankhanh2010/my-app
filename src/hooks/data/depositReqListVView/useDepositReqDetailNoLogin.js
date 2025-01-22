@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import depositReqListService from "../../../services/data/depositReqListService";
+import usePaymentMomo from '../../transaction/usePaymentMomo';
+import pusher from '../../../websocket/pusher';
+
 import config from "../../../config";
 import { format } from "date-fns";
 
@@ -8,6 +11,7 @@ const useHook = () => {
     const [loadingRecord, setLoadingRecord] = useState(false);
     const [error, setError] = useState(null);
 
+    const loaiThanhToan = 'ThanhToanTamUngDepositReq'
     // Data bảng phụ
     const [depositReqId, setDepositReqId] = useState();
 
@@ -85,7 +89,11 @@ const useHook = () => {
         try {
             setLoadingRecord(true);
             const response = await depositReqListService.getNoLoginById(depositReqId);
-            setData(response.data);
+            if(response && response.data){
+                setData(response.data);
+            }else{
+                setData()
+            }
             setLoadingRecord(false);
 
         } catch (err) {
@@ -94,7 +102,57 @@ const useHook = () => {
             setLoadingRecord(false);
         }
     };
-
+    // Lấy từ hookPaymentMomo qua
+    const {
+        opentShowAllPayment, 
+        setOpentShowAllPayment,
+        openModalResultPayment, 
+        setOpenModalResultPayment,
+        creatingPayment, 
+        setCreatingPayment,
+        gettingResultPayment, 
+        setGettingResultPayment,
+        openModalNoFee, 
+        setOpenModalNoFee,
+        openModalPaymentMoMoQRCode, 
+        setOpenModalPaymentMoMoQRCode,
+        openModalPaymentMoMoTheQuocTe, 
+        setOpenModalPaymentMoMoTheQuocTe,
+        openModalPaymentMoMoTheATMNoiDia, 
+        setOpenModalPaymentMoMoTheATMNoiDia,
+        openModalOtherLinkPayment, 
+        setOpenModalOtherLinkPayment,
+        payment, 
+        setPayment,
+        getPaymentMoMoQRCode,
+        getPaymentMoMoTheQuocTe,
+        getPaymentMoMoTheATMNoiDia,
+    } = usePaymentMomo(
+        loaiThanhToan
+    );
+        // Nhận dữ liệu từ websocket để hiện thông báo khi trạng thái giao dịch thay đổi
+        useEffect(() => {
+            if (payment.orderId) {
+                const channel = pusher.subscribe('momo-status-payment-tam-ung-channel');
+                channel.bind('momo-status-payment-tam-ung-event', function (data) {
+                    // Nếu khớp orderId
+                    if (data.data.orderId == payment.orderId) {
+                        setGettingResultPayment(true)
+                        setOpenModalResultPayment(true);
+                        setPayment((prevState) => ({
+                            ...prevState, // Giữ lại các giá trị hiện có
+                            resultCode: data.data.resultCode, // Ghi đè giá trị mới
+                            message: data.data.message, // Ghi đè giá trị mới
+                        }));
+                        setOpentShowAllPayment(false)
+                        setOpenModalPaymentMoMoTheATMNoiDia(false)
+                        setOpenModalPaymentMoMoTheQuocTe(false)
+                        setOpenModalPaymentMoMoQRCode(false)
+                        setGettingResultPayment(false)
+                    }
+                });
+            }
+        }, [payment.orderId]);
     useEffect(() => {
         if (filterTrigger) {
             if(depositReqId){
@@ -103,7 +161,21 @@ const useHook = () => {
         }
         setFilterTrigger(false)
     }, [filterTrigger]);
+    
+    // tải lại dữ liệu khi thanh toán xong
+    useEffect(() => {
+        if (!openModalResultPayment && data) {
+            // Cập nhật lại thông tin yêu cầu tạm ứng
+            fetchData()
+        }
+    }, [openModalResultPayment]); // Gọi lại khi có thay đổi
 
+    // Đóng bảng chọn phương thức thanh toán thì đóng bảng thông báo
+    useEffect(() => {
+        if (!opentShowAllPayment) {
+            setOpenModalOtherLinkPayment(false)
+        }
+    }, [opentShowAllPayment]); // Gọi lại khi có thay đổi
     return {
         data,
         depositReqId, 
@@ -114,6 +186,30 @@ const useHook = () => {
         fieldLabels,
         convertToDate,
         format,
+        opentShowAllPayment, 
+        setOpentShowAllPayment,
+        openModalResultPayment, 
+        setOpenModalResultPayment,
+        creatingPayment, 
+        setCreatingPayment,
+        gettingResultPayment, 
+        setGettingResultPayment,
+        openModalNoFee, 
+        setOpenModalNoFee,
+        openModalPaymentMoMoQRCode, 
+        setOpenModalPaymentMoMoQRCode,
+        openModalPaymentMoMoTheQuocTe, 
+        setOpenModalPaymentMoMoTheQuocTe,
+        openModalPaymentMoMoTheATMNoiDia, 
+        setOpenModalPaymentMoMoTheATMNoiDia,
+        openModalOtherLinkPayment, 
+        setOpenModalOtherLinkPayment,
+        payment, 
+        setPayment,
+        getPaymentMoMoQRCode,
+        getPaymentMoMoTheQuocTe,
+        getPaymentMoMoTheATMNoiDia,
+        loaiThanhToan,
     };
 };
 

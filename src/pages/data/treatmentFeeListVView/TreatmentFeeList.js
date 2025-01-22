@@ -85,6 +85,7 @@ const Page = () => {
         handleLoadMore,
         setReload,
         loadingRecord,
+        loaiThanhToan,
     }
         = useTreatmentFeeList();
 
@@ -229,6 +230,7 @@ const Page = () => {
                 getPaymentMoMoTheATMNoiDia={getPaymentMoMoTheATMNoiDia}
                 payment={payment}
                 handleOpenMoMoPayment={handleOpenMoMoPayment}
+                loaiThanhToan={loaiThanhToan}
             />
             <ResultPaymentModal
                 openModalResultPayment={openModalResultPayment}
