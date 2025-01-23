@@ -18,6 +18,7 @@ import ButtonListNoLogin from "../../../components/data/treatmentFeeListVView/Bu
 import ButtonDepositReqListNoLogin from "../../../components/data/treatmentFeeListVView/ButtonDepositReqListNoLogin";
 import ButtonDepositReqListCardNoLogin from "../../../components/data/treatmentFeeListVView/ButtonDepositReqListCardNoLogin";
 import ButtonPayFeeNoLogin from "../../../components/data/treatmentFeeListVView/ButtonPayFeeNoLogin";
+import ModalInfoFee from "../../../components/data/treatmentFeeListVView/ModalInfoFee";
 
 const TestServiceReqList = () => {
     const {
@@ -99,9 +100,18 @@ const TestServiceReqList = () => {
         loaiThanhToan,
         numDepositReqList,
         countFeeDepositReqList,
+        fee,
+        firstLoadPage,
+        setFirstLoadPage,
+        isHelpInputFiler,
+        setIsHelpInputFiler,
+        isHelpButtonSearch,
+        setIsHelpButtonSearch,
+        isHelpTreatmentList,
+        setIsHelpTreatmentList,
     }
         = useTestServiceReqList();
-        
+
     // Các api của trang này k cần đăng nhập
     // chỉ gán giá trị 1 lần
     const hasSetNoAuth = useRef(false);
@@ -113,6 +123,14 @@ const TestServiceReqList = () => {
     // Lọc qua trước khi dùng
     // Chỉ lấy các bản ghi có đang điều trị và chưa khóa viện phí
     const filteredDataCursor = dataCursor.filter(item => item.feeLockTime === null && item.treatmentEndTypeId === null);
+
+    // Modal hiện thông tin phí
+    const [isOpenModalInfoFee, setIsOpenModalInfoFee] = useState(true);
+    const closeModalInfoFee = () => {
+        // Đóng modal 
+        setIsOpenModalInfoFee(false)
+        // Cuộn đến phần thông tin phí 
+    }
 
     useEffect(() => {
         if (filteredDataCursor.length > 0 && (!selectedRecord || selectedRecord.id !== filteredDataCursor[0].id)) {
@@ -130,6 +148,19 @@ const TestServiceReqList = () => {
         }
     }, [filteredDataCursor, selectedRecord]); // Gọi lại khi data hoặc selectedRecord thay đổi
 
+    useEffect(() => {
+        if (
+            selectedRecord
+            && numDepositReqList !== undefined
+            && countFeeDepositReqList !== undefined
+            && fee !== undefined
+        ) {
+            setIsOpenModalInfoFee(true)
+        }
+    }, [selectedRecord]); // Gọi lại khi data hoặc selectedRecord thay đổi
+
+
+
     return (
         <div className={`grid grid-cols-1 md:grid-cols-12 grid-row-2 gap-2 mt-2 w-full ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
             {/* Tên trang*/}
@@ -138,7 +169,7 @@ const TestServiceReqList = () => {
             </Card>
 
             {/* Phần điều khiển và lọc */}
-            <Card className="md:order-1 md:col-span-4">
+            <Card className="md:order-1 md:col-span-4 relative">
                 <SectionHeader title="Bộ lọc" />
                 <div className="">
                     <FilterNoLogin
@@ -148,12 +179,16 @@ const TestServiceReqList = () => {
                         treatmentCode={treatmentCode}
                         setTreatmentCode={setTreatmentCode}
                         setFilterTrigger={setFilterTrigger}
+                        isHelpInputFiler={isHelpInputFiler}
+                        setIsHelpInputFiler={setIsHelpInputFiler}
+                        isHelpButtonSearch={isHelpButtonSearch}
+                        setIsHelpButtonSearch={setIsHelpButtonSearch}
                     />
                 </div>
             </Card>
 
             {/* Danh sách dữ liệu */}
-            <Card className="md:order-1 md:col-span-8">
+            <Card className="md:order-1 md:col-span-8 relative">
                 <SectionHeader title="Thông tin các lần điều trị" />
                 <div
                     className="relative overflow-x-auto overflow-y-auto max-h-[80vh] md:max-h-[30vh] md:min-h-[30vh]  mb-2 flex flex-col border"
@@ -171,8 +206,28 @@ const TestServiceReqList = () => {
                         setTreatmentId={setTreatmentId}
                         loading={loading}
                         setReload={setReload}
+                        setIsHelpTreatmentList={setIsHelpTreatmentList}
                     />
                 </div>
+                {/* Phần hướng dẫn*/}
+                {(!isHelpButtonSearch && isHelpTreatmentList) && (
+                    <div className="absolute bg-white border rounded-lg shadow-lg p-4 max-w-sm border-gray-500 right-10 top-[140px] mx-2 z-50" onClick={(e) => { setIsHelpTreatmentList(false) }}>
+                        <div className="relative">
+                            <div className="absolute -top-6 left-4 w-4 h-4 bg-white border-l border-t border-gray-500 transform rotate-45"></div>
+                            <p className="text-lg text-gray-700">
+                                Tại đây sẽ hiện danh sách các lần điều trị <span className="text-green-500 font-semibold">còn đang điều trị</span> và <span className="text-red-500 font-semibold">chưa khóa tài chính</span> của bệnh nhân! Mặc định sẽ chọn <span className="text-blue-500 font-semibold">lần gần nhất</span> để xem thông tin!
+                            </p>
+                        </div>
+                        <button
+                            onClick={(e) => { setIsHelpTreatmentList(false) }}
+                            className="absolute top-0 right-0  hover:text-red-600"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                )}
             </Card>
 
             {/*Thông tin bệnh nhân*/}
@@ -230,10 +285,10 @@ const TestServiceReqList = () => {
             </Card>
 
             {/*Các khoản cần thanh toán*/}
-            <Card className="md:order-4 md:col-span-6 grid grid-cols-1 gap-2">
+            <Card className="md:order-4 md:col-span-6 grid grid-cols-1 gap-2" >
                 <SectionHeader title="Các khoản phí cần thanh toán" />
                 <Card className="col-span">
-                    <ElementHeader title="Yêu cầu tạm ứng" />
+                    <ElementHeader title={`Yêu cầu tạm ứng`} />
                     <ButtonDepositReqListCardNoLogin
                         selectedRecord={selectedRecord}
                         setReload={setReload}
@@ -244,7 +299,7 @@ const TestServiceReqList = () => {
                         selectedRecord={selectedRecord}
                     />
                 </Card>
-                <Card className="col-span ">
+                <Card className="col-span">
                     <ElementHeader title="Viện phí" />
                     <ButtonPayFeeNoLogin
                         treatmentFeeDetail={treatmentFeeDetail}
@@ -286,6 +341,17 @@ const TestServiceReqList = () => {
             <NoFeeModal
                 openModalNoFee={openModalNoFee}
                 setOpenModalNoFee={setOpenModalNoFee}
+            />
+            {/* Modal thông tin phí */}
+            <ModalInfoFee
+                isOpen={isOpenModalInfoFee}
+                onCancel={closeModalInfoFee}
+                numDepositReqList={numDepositReqList}
+                countFeeDepositReqList={countFeeDepositReqList}
+                fee={fee}
+                selectedRecord={selectedRecord}
+                loading={loading}
+                loadingFetchTreatmentFeeDetail={loadingFetchTreatmentFeeDetail}
             />
         </div>
     );

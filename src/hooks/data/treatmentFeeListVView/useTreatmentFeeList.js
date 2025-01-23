@@ -16,13 +16,19 @@ const useTreatmentFeeList = () => {
 
     const loaiThanhToan = 'ThanhToanTamUngVienPhiConThieu'
 
+    // Phần hướng dẫn người dùng
+    const [isHelpInputFiler, setIsHelpInputFiler] = useState(true)
+    const [isHelpButtonSearch, setIsHelpButtonSearch] = useState(true)
+    const [isHelpTreatmentList, setIsHelpTreatmentList] = useState(true)
+
     /// Xử lý khi scroll và lấy thêm dữ liệu mới vẫn giữ vị trí scroll cũ
     const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
 
     // Data bảng phụ
     const [depositReqList, setDepositReqList] = useState([]);
-    const [numDepositReqList, setNumDepositReqList] = useState(0);
-    const [countFeeDepositReqList, setCountFeeDepositReqList] = useState(0);
+    const [numDepositReqList, setNumDepositReqList] = useState();
+    const [countFeeDepositReqList, setCountFeeDepositReqList] = useState();
+    const [fee, setFee] = useState();
 
     const [testServiceTypeList, setTestServiceTypeList] = useState([]);
     const [treatmentFeeDetail, setTreatmentFeeDetail] = useState([]);
@@ -202,6 +208,7 @@ const useTreatmentFeeList = () => {
                 const treatmentFeeDetail = await treatmentFeeDetailService.getAllSelect(treatmentId);
                 if (treatmentFeeDetailVViewIsDB) {
                     setTreatmentFeeDetail(treatmentFeeDetail.data);
+                    setFee(treatmentFeeDetail.data.fee)
                 }
                 setLoadingFetchTreatmentFeeDetail(false)
                 setErrorFetchTreatmentFeeDetail(false)
@@ -219,25 +226,25 @@ const useTreatmentFeeList = () => {
     };
     // Lấy từ hookPaymentMomo qua
     const {
-        opentShowAllPayment, 
+        opentShowAllPayment,
         setOpentShowAllPayment,
-        openModalResultPayment, 
+        openModalResultPayment,
         setOpenModalResultPayment,
-        creatingPayment, 
+        creatingPayment,
         setCreatingPayment,
-        gettingResultPayment, 
+        gettingResultPayment,
         setGettingResultPayment,
-        openModalNoFee, 
+        openModalNoFee,
         setOpenModalNoFee,
-        openModalPaymentMoMoQRCode, 
+        openModalPaymentMoMoQRCode,
         setOpenModalPaymentMoMoQRCode,
-        openModalPaymentMoMoTheQuocTe, 
+        openModalPaymentMoMoTheQuocTe,
         setOpenModalPaymentMoMoTheQuocTe,
-        openModalPaymentMoMoTheATMNoiDia, 
+        openModalPaymentMoMoTheATMNoiDia,
         setOpenModalPaymentMoMoTheATMNoiDia,
-        openModalOtherLinkPayment, 
+        openModalOtherLinkPayment,
         setOpenModalOtherLinkPayment,
-        payment, 
+        payment,
         setPayment,
         getPaymentMoMoQRCode,
         getPaymentMoMoTheQuocTe,
@@ -284,6 +291,8 @@ const useTreatmentFeeList = () => {
         handleRawChange,
         formatInputToDate,
         openAppMoMoPayment,
+        firstLoadPage, 
+        setFirstLoadPage,
     } = useMasterList(
         [],
         [],
@@ -378,7 +387,7 @@ const useTreatmentFeeList = () => {
                 // Gọi API để lấy dữ liệu mới
                 const response = await treatmentFeeListService.getById(selectedRecord.id);
                 const updatedRecord = response.data
-    
+
                 // Cập nhật dữ liệu trong dataCursor
                 setDataCursor((prevData) =>
                     prevData.map((item) =>
@@ -391,7 +400,7 @@ const useTreatmentFeeList = () => {
             } catch (error) {
                 setError(true)
                 console.error("Error fetching record:", error);
-            } 
+            }
         };
 
         const fetchData = async () => {
@@ -401,7 +410,7 @@ const useTreatmentFeeList = () => {
                     fetchAndUpdate(), // Lấy dữ liệu mới cho bản ghi được chọn
                     fetchDepositReqList(),
                     fetchTestServiceTypeList(),
-                    fetchTreatmentFeeDetail(), 
+                    fetchTreatmentFeeDetail(),
                 ]);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -523,20 +532,29 @@ const useTreatmentFeeList = () => {
         handleOpenMoMoPayment,
         openModalNoFee,
         setOpenModalNoFee,
-        isApiNoAuth, 
+        isApiNoAuth,
         setIsApiNoAuth,
         scrollContainerRef,
-        handleLoadMore, 
+        handleLoadMore,
         setReload,
         reload,
         loadingRecord,
-        openModalOtherLinkPayment, 
+        openModalOtherLinkPayment,
         setOpenModalOtherLinkPayment,
         setTreatmentFeeDetail,
         setTestServiceTypeList,
         loaiThanhToan,
         numDepositReqList,
         countFeeDepositReqList,
+        fee,
+        firstLoadPage, 
+        setFirstLoadPage,
+        isHelpInputFiler, 
+        setIsHelpInputFiler,
+        isHelpButtonSearch, 
+        setIsHelpButtonSearch,
+        isHelpTreatmentList, 
+        setIsHelpTreatmentList,
     };
 };
 

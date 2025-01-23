@@ -12,6 +12,10 @@ const Filter = ({
     treatmentCode,
     setTreatmentCode,
     setFilterTrigger,
+    isHelpInputFiler,
+    setIsHelpInputFiler,
+    isHelpButtonSearch,
+    setIsHelpButtonSearch,
 }) => {
 
     return (
@@ -23,6 +27,9 @@ const Filter = ({
                             keyword={treatmentCode}
                             setKeyword={setTreatmentCode}
                             label={"Nhập mã điều trị"}
+                            onFocus={(e) => {
+                                setIsHelpInputFiler(false)
+                            }}
                         />
                     </div>
                     <div className="mt-1 w-full flex flex-col">
@@ -30,6 +37,9 @@ const Filter = ({
                             keyword={patientCode}
                             setKeyword={setPatientCode}
                             label={"Nhập mã bệnh nhân"}
+                            onFocus={(e) => {
+                                setIsHelpInputFiler(false)
+                            }}
                         />
                     </div>
                 </div>
@@ -43,6 +53,8 @@ const Filter = ({
                             onClick={() => {
                                 setApplyFilterCursor(true);
                                 setFilterTrigger(true);
+                                // Tắt hướng dẫn 
+                                setIsHelpButtonSearch(false)
                             }}
                             className="relative px-4 py-2 pl-8 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed truncate flex items-center justify-center"
                         >
@@ -54,6 +66,43 @@ const Filter = ({
                     </div>
                 </div>
             </CardElement>
+            {/* Phần hướng dẫn*/}
+            {isHelpInputFiler && (
+                <div className="absolute bg-white border rounded-lg shadow-lg p-4  max-w-sm border-gray-500 right-10 top-[160px] mx-2 z-50" onClick={(e) => { setIsHelpInputFiler(false) }}>
+                    <div className="relative">
+                        <div className="absolute -top-6 left-4 w-4 h-4 bg-white border-l border-t border-gray-500 transform rotate-45"></div>
+                        <p className="text-lg text-gray-700">
+                            Nhập <span className="text-blue-500 font-semibold">mã điều trị</span> hoặc <span className="text-blue-500 font-semibold">mã bệnh nhân</span> mà bạn muốn xem thông tin vào ô tương ứng!
+                        </p>
+                    </div>
+                    <button
+                        onClick={(e) => { setIsHelpInputFiler(false) }}
+                        className="absolute top-0 right-0  hover:text-red-600"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            )}
+            {(!isHelpInputFiler && isHelpButtonSearch) && (
+                <div className="absolute bg-white border rounded-lg shadow-lg p-4 max-w-sm border-gray-500 right-10 top-[200px] mx-2 z-50" onClick={(e) => { setIsHelpButtonSearch(false) }}>
+                    <div className="relative">
+                        <div className="absolute -top-6 left-4 w-4 h-4 bg-white border-l border-t border-gray-500 transform rotate-45"></div>
+                        <p className="text-lg text-gray-700">
+                            Sau đó ấn nút <span className="text-blue-500 font-semibold">Tìm kiếm</span>!
+                        </p>
+                    </div>
+                    <button
+                        onClick={(e) => { setIsHelpButtonSearch(false) }}
+                        className="absolute top-0 right-0  hover:text-red-600"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            )}
         </>
     );
 };

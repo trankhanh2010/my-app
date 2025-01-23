@@ -4,6 +4,7 @@ const Search = ({
     keyword,
     setKeyword,
     label,
+    onFocus,
 }) => {
     return (
         <input
@@ -11,6 +12,7 @@ const Search = ({
             type="text"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)} // Cập nhật giá trị keyword
+            onFocus={onFocus}
             placeholder={`${label ? label : "Nhập từ khóa tìm kiếm..."}`}
         />
     );

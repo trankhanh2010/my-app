@@ -31,12 +31,16 @@ const Component = ({
                         if (!isLSGD) return;  // Nếu isLSGD là false, không làm gì cả
                         setIsModalLSGDOpen(true);  // Nếu isLSGD là true, mở modal
                     }}
-                    className={`${!isLSGD ? "opacity-50 cursor-not-allowed" : ""} relative px-4 py-2 pl-8 bg-pink-500 text-white rounded hover:bg-pink-600 disabled:opacity-50 disabled:cursor-not-allowed`}
+                    className={`${!isLSGD ? "opacity-50 cursor-not-allowed" : ""} relative px-4 py-2 pl-8 bg-pink-500 text-sm text-white rounded hover:bg-pink-600 disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
                     <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
                         <PayIcon />
                     </span>
                     Thanh toán các yêu cầu tạm ứng
+                    <span className="absolute top-[2px] right-[2px] transform translate-x-1/2 -translate-y-1/2 flex h-4 w-4">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
+                    </span>
                 </button>
             </div>
             {/* Modal LSGD*/}

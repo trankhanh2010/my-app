@@ -3,7 +3,7 @@ import React from 'react';
 const YourComponent = ({ onClose, zoom, setZoom, title="" }) => {
     return (
         <div className='sticky top-0 z-50 w-full min-h-8 h-auto bg-gradient-to-r from-sky-500 to-indigo-500 text-white shadow-md'>
-            <div className="absolute top-1 left-2 text-sm font-semibold">
+            <div className="pr-14 pl-2 pt-1 text-sm font-semibold">
             {title}
             </div>
             <button

@@ -21,7 +21,7 @@ const Component = ({
                         if (!isLSGD) return;  // Nếu isLSGD là false, không làm gì cả
                         setIsModalLSGDOpen(true);  // Nếu isLSGD là true, mở modal
                     }}
-                    className={`${!isLSGD ? "opacity-50 cursor-not-allowed" : ""} relative px-4 py-2 pl-8 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed`}
+                    className={`${!isLSGD ? "opacity-50 cursor-not-allowed" : ""} relative px-4 py-2 pl-8 bg-blue-500 text-sm text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
                     <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
                         <ListIcon />
