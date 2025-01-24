@@ -19,11 +19,20 @@ const useTreatmentFeeList = () => {
     // Phần hướng dẫn người dùng
     const [isHelpInputFiler, setIsHelpInputFiler] = useState(true)
     const [isHelpButtonSearch, setIsHelpButtonSearch] = useState(true)
-    const [isHelpTreatmentList, setIsHelpTreatmentList] = useState(true)
 
     /// Xử lý khi scroll và lấy thêm dữ liệu mới vẫn giữ vị trí scroll cũ
     const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
-
+    /// Xử lý chuyển người dùng đến phần thanh toán khi nhấn Thanh toán ngay
+    const sectionPayInfoRef = useRef(null);
+    const handleScrollPayInfo = () => {
+        if (sectionPayInfoRef.current) {
+            sectionPayInfoRef.current.scrollIntoView({
+            behavior: "smooth", // Cuộn mượt mà
+            block: "start", // Cuộn đến phần đầu của phần tử
+          });
+        }
+      };
+    
     // Data bảng phụ
     const [depositReqList, setDepositReqList] = useState([]);
     const [numDepositReqList, setNumDepositReqList] = useState();
@@ -450,9 +459,10 @@ const useTreatmentFeeList = () => {
     useEffect(() => {
         if (!openModalResultPayment && selectedRecord) {
             // Cập nhật lại thông tin transaction
-            fetchDepositReqList()
-            fetchTreatmentFeeDetail()
-            fetchTestServiceTypeList()
+            setReload(true)
+            // fetchDepositReqList()
+            // fetchTreatmentFeeDetail()
+            // fetchTestServiceTypeList()
         }
     }, [openModalResultPayment]); // Gọi lại khi có thay đổi
 
@@ -553,8 +563,8 @@ const useTreatmentFeeList = () => {
         setIsHelpInputFiler,
         isHelpButtonSearch, 
         setIsHelpButtonSearch,
-        isHelpTreatmentList, 
-        setIsHelpTreatmentList,
+        sectionPayInfoRef,
+        handleScrollPayInfo,
     };
 };
 

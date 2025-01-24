@@ -107,8 +107,8 @@ const TestServiceReqList = () => {
         setIsHelpInputFiler,
         isHelpButtonSearch,
         setIsHelpButtonSearch,
-        isHelpTreatmentList,
-        setIsHelpTreatmentList,
+        sectionPayInfoRef,
+        handleScrollPayInfo,
     }
         = useTestServiceReqList();
 
@@ -206,32 +206,12 @@ const TestServiceReqList = () => {
                         setTreatmentId={setTreatmentId}
                         loading={loading}
                         setReload={setReload}
-                        setIsHelpTreatmentList={setIsHelpTreatmentList}
                     />
                 </div>
-                {/* Phần hướng dẫn*/}
-                {(!isHelpButtonSearch && isHelpTreatmentList) && (
-                    <div className="absolute bg-white border rounded-lg shadow-lg p-4 max-w-sm border-gray-500 right-10 top-[140px] mx-2 z-50" onClick={(e) => { setIsHelpTreatmentList(false) }}>
-                        <div className="relative">
-                            <div className="absolute -top-6 left-4 w-4 h-4 bg-white border-l border-t border-gray-500 transform rotate-45"></div>
-                            <p className="text-lg text-gray-700">
-                                Tại đây sẽ hiện danh sách các lần điều trị <span className="text-green-500 font-semibold">còn đang điều trị</span> và <span className="text-red-500 font-semibold">chưa khóa tài chính</span> của bệnh nhân! Mặc định sẽ chọn <span className="text-blue-500 font-semibold">lần gần nhất</span> để xem thông tin!
-                            </p>
-                        </div>
-                        <button
-                            onClick={(e) => { setIsHelpTreatmentList(false) }}
-                            className="absolute top-0 right-0  hover:text-red-600"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                )}
             </Card>
 
             {/*Thông tin bệnh nhân*/}
-            <Card className="md:order-2 md:col-span-6 md:row-span-2">
+            <Card className="md:order-2 md:col-span-6 md:row-span-2 relative" >
                 <SectionHeader title="Thông tin bệnh nhân" />
                 {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
                 <div className={`w-full ${loadingRecord ? "flex" : ""} md:min-h-[35vh] relative md:overflow-x-auto overflow-y-auto`}>
@@ -286,6 +266,7 @@ const TestServiceReqList = () => {
 
             {/*Các khoản cần thanh toán*/}
             <Card className="md:order-4 md:col-span-6 grid grid-cols-1 gap-2" >
+                <div className="none" ref={sectionPayInfoRef}></div>
                 <SectionHeader title="Các khoản phí cần thanh toán" />
                 <Card className="col-span">
                     <ElementHeader title={`Yêu cầu tạm ứng`} />
@@ -305,6 +286,8 @@ const TestServiceReqList = () => {
                         treatmentFeeDetail={treatmentFeeDetail}
                         recordDetails={recordDetails}
                         setOpentShowAllPayment={setOpentShowAllPayment}
+                        countFeeDepositReqList={countFeeDepositReqList}
+                        numDepositReqList={numDepositReqList}
                     />
                     <ButtonListNoLogin
                         selectedRecord={selectedRecord}
@@ -346,6 +329,10 @@ const TestServiceReqList = () => {
             <ModalInfoFee
                 isOpen={isOpenModalInfoFee}
                 onCancel={closeModalInfoFee}
+                onOk={()=>{
+                    closeModalInfoFee() 
+                    handleScrollPayInfo() // Chuyển đến phần thanh toán
+                }}
                 numDepositReqList={numDepositReqList}
                 countFeeDepositReqList={countFeeDepositReqList}
                 fee={fee}

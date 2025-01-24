@@ -63,6 +63,12 @@ em {
   color: red;
   padding: 20px;
 }
+.info {
+  text-align: center;
+  font-size: 16px;
+  color: blue;
+  padding: 20px;
+}
 .error {
   text-align: center;
   font-size: 16px;

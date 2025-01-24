@@ -4,14 +4,18 @@ import NoRecordInfo from "../../common/Info/NoRecordInfo";
 import NoRecord from "../../common/Info/NoRecord";
 import NoFee from "../../common/Info/NoFee";
 import Fee from "../../common/Info/Fee";
+import Info from "../../common/Info/Info";
 
 const Component = ({
     treatmentFeeDetail,
     recordDetails,
     setOpentShowAllPayment,
+    countFeeDepositReqList,
+    numDepositReqList,
 }) => {
     if (!recordDetails) return <NoRecord />
     if (!treatmentFeeDetail) return <NoRecordInfo />
+    if (countFeeDepositReqList>0 || numDepositReqList>0) return <Info mess ='Bạn cần thanh toán các yêu cầu tạm ứng trước!' />
     if (treatmentFeeDetail.fee <= 0) return <NoFee />
     return (
         <>

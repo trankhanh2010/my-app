@@ -66,7 +66,7 @@ const InfoTransaction = ({
             <GroupFieldSpanWithText
                 css='mt-1'
                 fields={[
-                    { fieldName: 'BN cần nộp thêm', fieldValue: Number(treatmentFeeDetail.fee).toLocaleString(), divCss: `md:w-[100%]`, pCss:`text-red-500 font-semibold`},
+                    { fieldName: `${treatmentFeeDetail.fee >=0 ? 'BN cần nộp thêm' : 'BN sẽ được hoàn lại' }`, fieldValue: treatmentFeeDetail.fee >=0 ? Number(treatmentFeeDetail.fee).toLocaleString() : Math.abs(Number(treatmentFeeDetail.fee)).toLocaleString(), divCss: `md:w-[100%]`, pCss:`${treatmentFeeDetail.fee >=0 ? 'text-red-500 ' : 'text-blue-500' } font-semibold`},
                 ]}
             />
         </>

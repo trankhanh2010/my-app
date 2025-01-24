@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import Loading from "../../common/Info/Loading";
+import NoRecord from "../../common/Info/NoRecord";
 import Thead from "../../common/Data/TableList/Thead";
 import GroupTd from "../../common/Data/TableList/GroupTd";
 import ModalPageDepositReqDetailNoLogin from '../../common/Modal/Page/ModalPageDepositReqDetailNoLogin';
@@ -30,6 +31,7 @@ const TestServiceReqListTable = ({
     const getTextColor = (record) => {
         return "text-gray-500"; // Màu mặc định
     };
+    if(data.length == 0) return <NoRecord/>
     return (
         <>
             <table className="table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

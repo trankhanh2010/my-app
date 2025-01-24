@@ -9,6 +9,7 @@ const InfoPatient = ({
     format,
     convertToDate,
     loadingRecord,
+    setIsHelpTreatmentList,
 }) => {
     if (!recordDetails) return  <NoRecordInfo/>
     if (loadingRecord) return <Loading/>

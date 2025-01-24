@@ -14,7 +14,6 @@ const TestServiceReqListTable = ({
     setTreatmentId,
     loading,
     setReload,
-    setIsHelpTreatmentList,
 }) => {
     if (loading) return <Loading />
     if (data.length == 0) return <NoRecord />
@@ -63,8 +62,6 @@ const TestServiceReqListTable = ({
                                 handleRecordSelect(record);
                                 setTreatmentId(record.id);
                                 setReload(true);
-                                // Tắt hướng dẫn
-                                setIsHelpTreatmentList(false)
                             }
                             }
                         >
