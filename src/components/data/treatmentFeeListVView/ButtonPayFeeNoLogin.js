@@ -7,6 +7,7 @@ import Fee from "../../common/Info/Fee";
 import Info from "../../common/Info/Info";
 
 const Component = ({
+    selectedRecord,
     treatmentFeeDetail,
     recordDetails,
     setOpentShowAllPayment,
@@ -15,6 +16,8 @@ const Component = ({
 }) => {
     if (!recordDetails) return <NoRecord />
     if (!treatmentFeeDetail) return <NoRecordInfo />
+    if (selectedRecord.feeLockTime != null) return <Fee mess='Lần điều trị này đã bị khóa viện phí'/>
+    if (selectedRecord.treatmentEndTypeId != null) return <Fee mess='Đã kết thúc điều trị'/>
     if (countFeeDepositReqList>0 || numDepositReqList>0) return <Info mess ='Bạn cần thanh toán các yêu cầu tạm ứng trước!' />
     if (treatmentFeeDetail.fee <= 0) return <NoFee />
     return (

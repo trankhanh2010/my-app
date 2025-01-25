@@ -122,7 +122,8 @@ const TestServiceReqList = () => {
 
     // Lọc qua trước khi dùng
     // Chỉ lấy các bản ghi có đang điều trị và chưa khóa viện phí
-    const filteredDataCursor = dataCursor.filter(item => item.feeLockTime === null && item.treatmentEndTypeId === null);
+    // const filteredDataCursor = dataCursor.filter(item => item.feeLockTime === null && item.treatmentEndTypeId === null);
+    const filteredDataCursor = dataCursor;
 
     // Modal hiện thông tin phí
     const [isOpenModalInfoFee, setIsOpenModalInfoFee] = useState(true);
@@ -283,6 +284,7 @@ const TestServiceReqList = () => {
                 <Card className="col-span">
                     <ElementHeader title="Viện phí" />
                     <ButtonPayFeeNoLogin
+                        selectedRecord={selectedRecord}
                         treatmentFeeDetail={treatmentFeeDetail}
                         recordDetails={recordDetails}
                         setOpentShowAllPayment={setOpentShowAllPayment}

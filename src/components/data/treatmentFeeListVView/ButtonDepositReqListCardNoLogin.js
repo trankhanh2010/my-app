@@ -19,6 +19,8 @@ const Component = ({
         setReload(true) // Tải lại trang
     }
     if (!selectedRecord) return <NoRecord />
+    if (selectedRecord.feeLockTime != null) return <Fee mess='Lần điều trị này đã bị khóa viện phí'/>
+    if (selectedRecord.treatmentEndTypeId != null) return <Fee mess='Đã kết thúc điều trị'/>
     if (numDepositReqList <= 0) return <NoFee />
     return (
         <>

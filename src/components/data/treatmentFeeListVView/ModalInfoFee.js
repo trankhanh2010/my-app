@@ -16,6 +16,7 @@ const Modal = ({
     if (!isOpen) return null;
     if (!selectedRecord) return
     if (loadingFetchTreatmentFeeDetail || loading) return
+    if (selectedRecord.feeLockTime != null || selectedRecord.treatmentEndTypeId != null) return 
     if (numDepositReqList <= 0 && countFeeDepositReqList <= 0 && fee <= 0) return
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
