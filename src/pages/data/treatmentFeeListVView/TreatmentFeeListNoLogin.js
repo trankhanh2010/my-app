@@ -109,6 +109,8 @@ const TestServiceReqList = () => {
         setIsHelpButtonSearch,
         sectionPayInfoRef,
         handleScrollPayInfo,
+        isModalDepositReqFeeListOpen, 
+        setIsModalDepositReqFeeListOpen,
     }
         = useTestServiceReqList();
 
@@ -212,7 +214,7 @@ const TestServiceReqList = () => {
             </Card>
 
             {/*Thông tin bệnh nhân*/}
-            <Card className="md:order-2 md:col-span-6 md:row-span-2 relative" >
+            <Card className="md:order-2 md:col-span-12 relative" >
                 <SectionHeader title="Thông tin bệnh nhân" />
                 {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
                 <div className={`w-full ${loadingRecord ? "flex" : ""} md:min-h-[35vh] relative md:overflow-x-auto overflow-y-auto`}>
@@ -227,7 +229,7 @@ const TestServiceReqList = () => {
             </Card>
 
             {/* Phần bảng thông tin dịch vụ */}
-            <Card className="md:flex-grow md:order-5 md:col-span-12">
+            <Card className="md:flex-grow md:order-5 md:col-span-12 relative">
                 <SectionHeader title="Thông tin các dịch vụ" />
                 <SearchTestServiceReqTypeListTable
                     searchTerm={searchTerm}
@@ -252,7 +254,7 @@ const TestServiceReqList = () => {
             </Card>
 
             {/* Thông tin giao dịch */}
-            <Card className=" md:order-3 md:col-span-6">
+            <Card className=" md:order-3 md:col-span-6 relative">
                 <SectionHeader title="Thông tin viện phí" />
                 <div className="w-full flex flex-col relative whitespace-pre-line break-words">
                     <InfoTransaction
@@ -266,7 +268,7 @@ const TestServiceReqList = () => {
             </Card>
 
             {/*Các khoản cần thanh toán*/}
-            <Card className="md:order-4 md:col-span-6 grid grid-cols-1 gap-2" >
+            <Card className="md:order-4 md:col-span-6 relative">
                 <div className="none" ref={sectionPayInfoRef}></div>
                 <SectionHeader title="Các khoản phí cần thanh toán" />
                 <Card className="col-span">
@@ -276,6 +278,8 @@ const TestServiceReqList = () => {
                         setReload={setReload}
                         numDepositReqList={numDepositReqList}
                         countFeeDepositReqList={countFeeDepositReqList}
+                        isModalDepositReqFeeListOpen={isModalDepositReqFeeListOpen}
+                        setIsModalDepositReqFeeListOpen={setIsModalDepositReqFeeListOpen}
                     />
                     <ButtonDepositReqListNoLogin
                         selectedRecord={selectedRecord}

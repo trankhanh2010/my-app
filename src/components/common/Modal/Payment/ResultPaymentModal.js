@@ -8,9 +8,14 @@ const PaymentModal = ({
   openModalResultPayment, 
   setOpenModalResultPayment, 
   payment, 
-  gettingResultPayment }) => {
+  gettingResultPayment,
+  setReloadFirstPage = ()=>{},
+  setIsModalDepositReqFeeListOpen = ()=>{},
+ }) => {
   const handleCloseModal = () => {
     setOpenModalResultPayment(false);
+    setReloadFirstPage(true);
+    setIsModalDepositReqFeeListOpen(false);
   };
   if (!openModalResultPayment) return null; // Không hiển thị nếu modal không mở
   if (gettingResultPayment) return (

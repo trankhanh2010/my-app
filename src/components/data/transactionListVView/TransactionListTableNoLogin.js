@@ -50,8 +50,8 @@ const TestServiceReqListTable = ({
             <table className="table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <Thead
                     fields={[
-                        { fieldName: <div className="space-x-4 "><div className="inline-block pr-2">{fieldLabels.transactionCode}</div><div className="inline-block text-center">{fieldLabels.amount}</div></div>, css: `w-[10%] sticky left-0 z-10` },
-                        // {fieldName:fieldLabels.amount},
+                        { fieldName: fieldLabels.transactionCode, css: `w-[10%] sticky left-0 z-10` },
+                        { fieldName: fieldLabels.amount},
                         { fieldName: `Hành động` },
                         { fieldName: 'Trạng thái giao dịch' },
                         { fieldName: fieldLabels.kcAmount },
@@ -97,8 +97,8 @@ const TestServiceReqListTable = ({
                         >
                             <GroupTd
                                 fields={[
-                                    { fieldValue: <div className={`space-x-4 h-full block truncate`}><div className={`inline-block pr-2 border-r h-full ${getTextColor(record)}`}>{record.transactionCode}</div><div className={`inline-block font-normal h-full ${getTextColor(record)}`}>{Number(record.amount).toLocaleString()}</div></div>, css: `font-bold sticky left-0 border-l-0 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} ${getTextColor(record)} truncate` },
-                                    // {fieldValue:record.amount, css:`${getTextColor(record)} truncate`},
+                                    { fieldValue: record.transactionCode, css: `font-bold sticky left-0 border-l-0 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} ${getTextColor(record)} truncate` },
+                                    {fieldValue:record.amount, css:`${getTextColor(record)} truncate`},
                                     {
                                         fieldValue: 
                                         <div className="flex flex-col md:flex-row md:space-x-2 space-y-1 md:space-y-0"> 

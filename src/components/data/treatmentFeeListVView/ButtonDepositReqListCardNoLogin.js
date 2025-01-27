@@ -9,14 +9,16 @@ const Component = ({
     setReload,
     countFeeDepositReqList,
     numDepositReqList,
+    isModalDepositReqFeeListOpen, 
+    setIsModalDepositReqFeeListOpen,
 }) => {
     let isLSGD = selectedRecord
 
-    const [isModalLSGDOpen, setIsModalLSGDOpen] = useState(false); // State để điều khiển modal lịch sử giao dịch
+    // const [isModalDepositReqFeeListOpen, setIsModalDepositReqFeeListOpen] = useState(false); // State để điều khiển modal lịch sử giao dịch
 
-    const closeModalLSGD = () => {
-        setIsModalLSGDOpen(false) // Đóng modal
-        setReload(true) // Tải lại trang
+    const closeModalDepositReqFeeList = () => {
+        setIsModalDepositReqFeeListOpen(false) // Đóng modal
+        // setReload(true) // Tải lại trang
     }
     if (!selectedRecord) return <NoRecord />
     if (selectedRecord.feeLockTime != null) return <Fee mess='Lần điều trị này đã bị khóa viện phí'/>
@@ -31,7 +33,7 @@ const Component = ({
                 <button
                     onClick={() => {
                         if (!isLSGD) return;  // Nếu isLSGD là false, không làm gì cả
-                        setIsModalLSGDOpen(true);  // Nếu isLSGD là true, mở modal
+                        setIsModalDepositReqFeeListOpen(true);  // Nếu isLSGD là true, mở modal
                     }}
                     className={`${!isLSGD ? "opacity-50 cursor-not-allowed" : ""} relative px-4 py-2 pl-8 bg-pink-500 text-sm text-white rounded hover:bg-pink-600 disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
@@ -47,10 +49,12 @@ const Component = ({
             </div>
             {/* Modal LSGD*/}
             <ModalPageDepositReqListCardNoLogin
-                isOpen={isModalLSGDOpen}
-                onClose={closeModalLSGD}
+                isOpen={isModalDepositReqFeeListOpen}
+                onClose={closeModalDepositReqFeeList}
                 paramTreatmentId={selectedRecord?.id ?? ""}
                 paramIsDeposit={0}
+                setReloadPageFeeList={setReload}
+                setIsModalDepositReqFeeListOpen={setIsModalDepositReqFeeListOpen}
             />
         </>
     );

@@ -114,6 +114,8 @@ const useDepositReqList = () => {
         fetchDataAll,
         filter, 
         setFilter,
+        firstLoadPage, 
+        setFirstLoadPage,
     } = useMasterList(
         [],
         [],
@@ -208,6 +210,8 @@ const useDepositReqList = () => {
         setTreatmentId,
         isDeposit, 
         setIsDeposit,
+        firstLoadPage, 
+        setFirstLoadPage,
     };
 };
 

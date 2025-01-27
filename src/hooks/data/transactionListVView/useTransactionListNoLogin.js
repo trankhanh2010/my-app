@@ -103,7 +103,7 @@ const useTransactionList = () => {
                 }
                 setLoadingTransactionType(false)
             } catch (err) {
-                console.error("Lỗi khi tải buồng bệnh:", err);
+                console.error("Lỗi khi tải danh sách loại giao dịch:", err);
                 setError(true)
                 setLoadingTransactionType(false)
             } 

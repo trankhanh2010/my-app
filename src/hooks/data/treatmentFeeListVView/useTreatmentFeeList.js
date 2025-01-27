@@ -16,6 +16,8 @@ const useTreatmentFeeList = () => {
 
     const loaiThanhToan = 'ThanhToanTamUngVienPhiConThieu'
 
+    const [isModalDepositReqFeeListOpen, setIsModalDepositReqFeeListOpen] = useState(false); // State để điều khiển modal lịch sử giao dịch
+
     // Phần hướng dẫn người dùng
     const [isHelpInputFiler, setIsHelpInputFiler] = useState(true)
     const [isHelpButtonSearch, setIsHelpButtonSearch] = useState(true)
@@ -565,6 +567,8 @@ const useTreatmentFeeList = () => {
         setIsHelpButtonSearch,
         sectionPayInfoRef,
         handleScrollPayInfo,
+        isModalDepositReqFeeListOpen, 
+        setIsModalDepositReqFeeListOpen,
     };
 };
 

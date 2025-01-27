@@ -15,6 +15,10 @@ const TestServiceReqListTable = ({
     setTreatmentId,
     loading,
     setReload,
+    firstLoadPage, 
+    setFirstLoadPage,
+    setReloadPageFeeList,
+    setIsModalDepositReqFeeListOpen,
 }) => {
     const [isModalChiTietTTOpen, setIsModalChiTietTTOpen] = useState(false); // State để điều khiển modal chi tiết giao dịch
 
@@ -27,11 +31,19 @@ const TestServiceReqListTable = ({
         setIsModalChiTietTTOpen(true);  // Nếu isLSGD là true, mở modal
     }
 
+    // Tự động chọn bản ghi nếu chỉ có một bản ghi
+    useEffect(() => {
+        if (data.length === 1 && firstLoadPage) {
+            handleRecordSelect(data[0]);
+            handleOpenModalPage(data[0]);
+            setFirstLoadPage(false);
+        }
+    }, [data]);  
     if (loading) return <Loading />
     const getTextColor = (record) => {
         return "text-gray-500"; // Màu mặc định
     };
-    if(data.length == 0) return <NoRecord/>
+    if(data.length == 0) return <NoRecord/>  
     return (
         <>
             <table className="table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -88,6 +100,8 @@ const TestServiceReqListTable = ({
                 isOpen={isModalChiTietTTOpen}
                 onClose={closeModalChiTietTT}
                 paramDepositReqId={selectedRecord?.id ?? ""}
+                setReloadPageFeeList={setReloadPageFeeList}
+                setIsModalDepositReqFeeListOpen={setIsModalDepositReqFeeListOpen}
             />
         </>
     );

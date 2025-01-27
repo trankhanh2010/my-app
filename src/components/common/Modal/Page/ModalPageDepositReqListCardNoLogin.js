@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DepositReqListCardNoLogin from "../../../../pages/data/depositReqListVView/DepositReqListCardNoLogin";
 import ButtonModal from "../../../common/Button/ButtonModal";
 
-const Modal = ({ isOpen, onClose, children, paramTreatmentId, paramIsDeposit }) => {
+const Modal = ({ isOpen, onClose, children, paramTreatmentId, paramIsDeposit, setReloadPageFeeList, setIsModalDepositReqFeeListOpen }) => {
     const [zoom, setZoom] = useState(false);
     if (!isOpen) return null; // Nếu modal không mở thì không hiển thị gì
     return (
@@ -19,6 +19,8 @@ const Modal = ({ isOpen, onClose, children, paramTreatmentId, paramIsDeposit }) 
                     paramTreatmentId={paramTreatmentId}
                     paramIsDeposit={paramIsDeposit}
                     isFullScreen={zoom}
+                    setReloadPageFeeList={setReloadPageFeeList}
+                    setIsModalDepositReqFeeListOpen={setIsModalDepositReqFeeListOpen}
                 />
             </div>
         </div>

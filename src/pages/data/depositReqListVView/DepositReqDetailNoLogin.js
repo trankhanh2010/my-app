@@ -12,6 +12,8 @@ import NoFeeModal from "../../../components/common/Modal/Payment/NoFeeModal";
 const Page = ({
     paramDepositReqId,
     isFullScreen = false,
+    setReloadPageFeeList = ()=>{},
+    setIsModalDepositReqFeeListOpen = ()=>{},
 }) => {
     const {
         fieldLabels,
@@ -125,6 +127,8 @@ const Page = ({
                 setOpenModalResultPayment={setOpenModalResultPayment}
                 payment={payment}
                 gettingResultPayment={gettingResultPayment}
+                setReloadFirstPage={setReloadPageFeeList}
+                setIsModalDepositReqFeeListOpen={setIsModalDepositReqFeeListOpen}
             />
             <NoFeeModal
                 openModalNoFee={openModalNoFee}

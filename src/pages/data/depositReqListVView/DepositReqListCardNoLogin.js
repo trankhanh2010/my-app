@@ -9,6 +9,8 @@ import Card from "../../../components/common/Master/Card";
 const Page = ({
     paramTreatmentId,
     paramIsDeposit,
+    setReloadPageFeeList = ()=>{},
+    setIsModalDepositReqFeeListOpen = ()=>{},
 }) => {
     const {
         fieldLabels,
@@ -44,6 +46,8 @@ const Page = ({
         setTreatmentId,
         isDeposit, 
         setIsDeposit,
+        firstLoadPage, 
+        setFirstLoadPage,
     }
         = useDepositReqListNoLogin();
     // Nếu có param từ trang khác truyền vào thì xử lý
@@ -76,6 +80,10 @@ const Page = ({
                         selectedRecord={selectedRecord}
                         loading={loading}
                         setReload={setReload}
+                        firstLoadPage={firstLoadPage}
+                        setFirstLoadPage={setFirstLoadPage}
+                        setReloadPageFeeList={setReloadPageFeeList}
+                        setIsModalDepositReqFeeListOpen={setIsModalDepositReqFeeListOpen}
                     />
                 </div>
             </Card>
