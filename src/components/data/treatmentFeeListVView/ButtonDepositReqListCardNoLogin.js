@@ -4,6 +4,8 @@ import PayIcon from "../../common/Icon/PayIcon";
 import NoRecord from "../../common/Info/NoRecord";
 import NoFee from "../../common/Info/NoFee";
 import Fee from "../../common/Info/Fee";
+import AuthOtp from "../../common/Info/AuthOtp";
+
 const Component = ({
     selectedRecord,
     setReload,
@@ -11,6 +13,8 @@ const Component = ({
     numDepositReqList,
     isModalDepositReqFeeListOpen, 
     setIsModalDepositReqFeeListOpen,
+    authOtp = true,
+
 }) => {
     let isLSGD = selectedRecord
 
@@ -24,6 +28,8 @@ const Component = ({
     if (selectedRecord.feeLockTime != null) return <Fee mess='Lần điều trị này đã bị khóa viện phí'/>
     if (selectedRecord.treatmentEndTypeId != null) return <Fee mess='Đã kết thúc điều trị'/>
     if (numDepositReqList <= 0) return <NoFee />
+    if (!authOtp) return <AuthOtp />
+
     return (
         <>
             <Fee

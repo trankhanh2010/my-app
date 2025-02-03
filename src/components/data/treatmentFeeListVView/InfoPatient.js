@@ -2,6 +2,7 @@ import React from "react";
 import Loading from "../../common/Info/Loading";
 import NoRecordInfo from "../../common/Info/NoRecordInfo";
 import GroupFieldSpanWithText from "../../common/Data/InfoRecord/GroupFieldSpanWithText";
+import AuthOtp from "../../common/Info/AuthOtp";
 
 const InfoPatient = ({
     fieldLabels,
@@ -10,9 +11,12 @@ const InfoPatient = ({
     convertToDate,
     loadingRecord,
     setIsHelpTreatmentList,
+    authOtp = true,
+
 }) => {
     if (!recordDetails) return <NoRecordInfo />
     if (loadingRecord) return <Loading />
+    if (!authOtp) return <AuthOtp />
 
     return (
         <>

@@ -2,6 +2,7 @@ import React from "react";
 import NoFee from "../../common/Info/NoFee";
 import Fee from "../../common/Info/Fee";
 import PayIcon from "../../common/Icon/PayIcon";
+
 const Modal = ({
     isOpen,
     onCancel,
@@ -12,12 +13,16 @@ const Modal = ({
     selectedRecord,
     loadingFetchTreatmentFeeDetail,
     loading,
+    authOtp = true,
+
 }) => {
     if (!isOpen) return null;
     if (!selectedRecord) return
     if (loadingFetchTreatmentFeeDetail || loading) return
     if (selectedRecord.feeLockTime != null || selectedRecord.treatmentEndTypeId != null) return 
     if (numDepositReqList <= 0 && countFeeDepositReqList <= 0 && fee <= 0) return
+    if (!authOtp) return 
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
             <div className="bg-white rounded-lg shadow-lg w-full h-auto md:w-auto md:min-w-[50%] max-w-screen max-h-screen p-4 overflow-auto">

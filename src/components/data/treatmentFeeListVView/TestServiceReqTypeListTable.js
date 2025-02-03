@@ -4,6 +4,8 @@ import ErrorInfo from "../../common/Info/ErrorInfo";
 import NoRecordInfo from "../../common/Info/NoRecordInfo";
 import Thead from "../../common/Data/TableList/Thead";
 import GroupTd from "../../common/Data/TableList/GroupTd";
+import AuthOtp from "../../common/Info/AuthOtp";
+
 
 const TestServiceReqTypeListTable = ({
     recordDetails,
@@ -14,10 +16,14 @@ const TestServiceReqTypeListTable = ({
     setExpandedGroups,
     loadingFetchTestServiceTypeList,
     errorFetchTestServiceTypeList,
+    authOtp = true,
+
 }) => {
     if (!recordDetails) return <NoRecordInfo />
     if (loadingFetchTestServiceTypeList) return <Loading />
     if (errorFetchTestServiceTypeList) return <ErrorInfo />
+    if (!authOtp) return <AuthOtp />
+
     // Lọc danh sách dựa trên từ khóa tìm kiếm
     const filteredList = testServiceTypeList.filter((record) =>
         record.tdlServiceName.toLowerCase().includes(searchTerm.toLowerCase()) ||

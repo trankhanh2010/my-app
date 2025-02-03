@@ -3,6 +3,7 @@ import NoRecordInfo from "../../common/Info/NoRecordInfo";
 import Loading from "../../common/Info/Loading";
 import ErrorInfo from "../../common/Info/ErrorInfo";
 import GroupFieldSpanWithText from "../../common/Data/InfoRecord/GroupFieldSpanWithText";
+import AuthOtp from "../../common/Info/AuthOtp";
 
 const InfoTransaction = ({
     recordDetails,
@@ -10,10 +11,14 @@ const InfoTransaction = ({
     selectedRecord,
     loadingFetchTreatmentFeeDetail,
     errorFetchTreatmentFeeDetail,
+    authOtp = true,
+
 }) => {
     if (!recordDetails) return <NoRecordInfo />
     if (loadingFetchTreatmentFeeDetail) return <Loading />
     if (errorFetchTreatmentFeeDetail) return <ErrorInfo />
+    if (!authOtp) return <AuthOtp />
+
 
     return (
         <>

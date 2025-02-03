@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import CardElement from "../../common/Master/CardElement";
 import ModalPageDepositReqListNoLogin from '../../common/Modal/Page/ModalPageDepositReqListNoLogin';
 import ListIcon from "../../common/Icon/ListIcon";
+import AuthOtp from "../../common/Info/AuthOtp";
+
 const Component = ({
     selectedRecord,
+    authOtp = true,
+
 }) => {
     let isLSGD = selectedRecord
 
@@ -13,6 +17,8 @@ const Component = ({
         setIsModalLSGDOpen(false) // Đóng modal
     }
     if(!selectedRecord) return
+    if (!authOtp) return <AuthOtp />
+
     return (
         <>
             <div className="mt-1 w-full flex flex-col">

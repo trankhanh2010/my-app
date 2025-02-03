@@ -29,6 +29,8 @@ const useMasterCategoryList = (
     //   }, [navigate]);
     const [firstLoadPage, setFirstLoadPage] = useState(true);
 
+    const [authOtp, setAuthOtp] = useState();
+    const [opentFormOtp, setOpentFormOtp] = useState(false);
     const [changes, setChanges] = useState([]);
 
     const [data, setData] = useState([]);
@@ -213,6 +215,8 @@ const useMasterCategoryList = (
             if (isDB) {
                 setDataCursor((prevData) => [...prevData, ...response.data]); // Nối dữ liệu mới với dữ liệu hiện tại
             }
+            // Kiểm tra xem có xác thực OTP chưa
+            setAuthOtp(response.param.authOtp)
             setLoading(false); // Kết thúc tải dữ liệu
         } catch (err) {
             console.error("Fetch error:", err);
@@ -507,6 +511,10 @@ const useMasterCategoryList = (
         parseNumberToLocalString,
         convertDateToString,
         fetchDataAll,
+        authOtp, 
+        setAuthOtp,
+        opentFormOtp, 
+        setOpentFormOtp,
     };
 };
 

@@ -3,6 +3,7 @@ import Loading from "../../common/Info/Loading";
 import NoRecord from "../../common/Info/NoRecord";
 import Thead from "../../common/Data/TableList/Thead";
 import GroupTd from "../../common/Data/TableList/GroupTd";
+import AuthOtp from "../../common/Info/AuthOtp";
 
 const TestServiceReqListTable = ({
     fieldLabels,
@@ -14,9 +15,12 @@ const TestServiceReqListTable = ({
     setTreatmentId,
     loading,
     setReload,
+    authOtp = true,
 }) => {
     if (loading) return <Loading />
     if (data.length == 0) return <NoRecord />
+    if (!authOtp) return <AuthOtp />
+
     const getTextColor = (record) => {
         // Nếu đang khóa
         if (record.isActive == 0) return "text-red-500";

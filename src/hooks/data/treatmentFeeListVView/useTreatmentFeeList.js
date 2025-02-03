@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import config from "../../../config";
 import useMasterList from '../../master/useMasterList';
 import usePaymentMomo from '../../transaction/usePaymentMomo';
+import useOtpTreatmentFee from '../../otp/useOtpTreatmentFee';
 import depositReqListService from "../../../services/data/depositReqListService";
 import treatmentFeeListService from "../../../services/data/treatmentFeeListService";
 import testServiceTypeListService from "../../../services/data/testServiceTypeListService";
@@ -304,6 +305,10 @@ const useTreatmentFeeList = () => {
         openAppMoMoPayment,
         firstLoadPage, 
         setFirstLoadPage,
+        authOtp, 
+        setAuthOtp,
+        opentFormOtp, 
+        setOpentFormOtp,
     } = useMasterList(
         [],
         [],
@@ -319,6 +324,14 @@ const useTreatmentFeeList = () => {
         filterCursor,
         isApiNoAuth,
     );
+
+    const {
+        otpTreatmentFeeData,
+        setOtpTreatmentFeeData,
+        loadingOtpTreatmentFee,
+        errorOtpTreatmentFee,
+        checkOtpTreatmentFee,
+    } = useOtpTreatmentFee();
     // ghi đè lên master
     const handleOpenMoMoPayment = () => {
         if (payment) {
@@ -338,6 +351,11 @@ const useTreatmentFeeList = () => {
             setRefreshTrigger(true);
         }
     };
+    const onConfirmOtp = async (otpCode) => {
+        if(otpCode){
+            const checkOtp = await checkOtpTreatmentFee(selectedRecord.patientPhone, otpCode, selectedRecord.patientCode)
+        }
+    }
     useEffect(() => {
         // Kiểm tra tất cả các trường trong filterCursor khác null
         const allFieldsNotNull = Object.values(filterCursor).every(value => value !== null);
@@ -350,6 +368,14 @@ const useTreatmentFeeList = () => {
     /// Xử lý khi scroll và lấy thêm dữ liệu mới vẫn giữ vị trí scroll cũ
     useEffect(() => {
         scrollContainerRef.current.scrollTop = scrollPosition; // Gán lại scrollTop của div
+    }, [dataCursor]); // Chạy lại khi data thay đổi
+
+    /// Xử lý hiện xác thực otp
+    useEffect(() => {
+        // Nếu có dữ liệu và dữ liệu chưa được xác thực ở thiết bị này thì hiện form
+        if((dataCursor.length > 0) && (authOtp === false)){
+            setOpentFormOtp(true)
+       }
     }, [dataCursor]); // Chạy lại khi data thay đổi
 
     useEffect(() => {
@@ -569,6 +595,15 @@ const useTreatmentFeeList = () => {
         handleScrollPayInfo,
         isModalDepositReqFeeListOpen, 
         setIsModalDepositReqFeeListOpen,
+        authOtp, 
+        setAuthOtp,
+        opentFormOtp, 
+        setOpentFormOtp,
+        otpTreatmentFeeData,
+        loadingOtpTreatmentFee,
+        errorOtpTreatmentFee,
+        onConfirmOtp,
+        setOtpTreatmentFeeData,
     };
 };
 
