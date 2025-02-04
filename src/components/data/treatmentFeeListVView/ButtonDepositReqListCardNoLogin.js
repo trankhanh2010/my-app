@@ -26,9 +26,9 @@ const Component = ({
         // setReload(true) // Tải lại trang
         setPayNow(false) // không mở lại
     }
-    // Nếu có bản ghi và đã ấn thanh toán ngay thì mở
+    // Nếu có bản ghi và đã ấn thanh toán ngay và chắc chắn có yêu cầu tạm ứng thì mở
     useEffect(() => {
-        if (selectedRecord && selectedRecord.id && payNow) {
+        if (selectedRecord && selectedRecord.id && payNow && (numDepositReqList>0)) {
             setIsModalDepositReqFeeListOpen(true); // Mở modal
             setPayNow(false); // Đánh dấu đã mở modal
         }

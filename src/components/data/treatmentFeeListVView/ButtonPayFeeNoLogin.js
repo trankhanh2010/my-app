@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PayIcon from "../../common/Icon/PayIcon";
 import NoRecordInfo from "../../common/Info/NoRecordInfo";
 import NoRecord from "../../common/Info/NoRecord";
@@ -19,19 +19,22 @@ const Component = ({
     setPayNow,
     loaiThanhToan,
 }) => {
+    // Nếu có bản ghi và loại thanh toán là thanh toán tạm ứng viện phí còn thiếu (không có phiếu thu theo yêu cầu) và đã ấn thanh toán ngay thì mở
+    useEffect(() => {
+        if (selectedRecord?.id && payNow && countFeeDepositReqList == 0) {
+            setOpentShowAllPayment(true); // Mở modal
+            setPayNow(false); // Không mở lại
+        }
+    }, [selectedRecord, payNow, countFeeDepositReqList]);
+
     if (!recordDetails) return <NoRecord />
     if (!treatmentFeeDetail) return <NoRecordInfo />
     if (!authOtp) return <AuthOtp />
-    if (selectedRecord.feeLockTime != null) return <Fee mess='Lần điều trị này đã bị khóa viện phí'/>
-    if (selectedRecord.treatmentEndTypeId != null) return <Fee mess='Đã kết thúc điều trị'/>
-    if (countFeeDepositReqList>0 || numDepositReqList>0) return <Info mess ='Bạn cần thanh toán các yêu cầu tạm ứng trước!' />
+    if (selectedRecord.feeLockTime != null) return <Fee mess='Lần điều trị này đã bị khóa viện phí' />
+    if (selectedRecord.treatmentEndTypeId != null) return <Fee mess='Đã kết thúc điều trị' />
+    if (countFeeDepositReqList > 0 || numDepositReqList > 0) return <Info mess='Bạn cần thanh toán các yêu cầu tạm ứng trước!' />
     if (treatmentFeeDetail.fee <= 0) return <NoFee />
 
-    // Nếu có bản ghi và loại thanh toán là thanh toán tạm ứng viện phí còn thiếu và đã ấn thanh toán ngay thì mở
-    if(selectedRecord && selectedRecord.id && payNow && (loaiThanhToan == 'ThanhToanTamUngVienPhiConThieu')){
-        setOpentShowAllPayment(true) // mở modal
-        setPayNow(false) // không mở lại
-    }
     return (
         <>
             <Fee

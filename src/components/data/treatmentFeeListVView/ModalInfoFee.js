@@ -60,7 +60,7 @@ const Modal = ({
                         <button
                             onClick={() => {
                                 onOk()
-                                setPayNow(true)
+                                // Đã kiểm tra và setPayNow trong onOk()
                             }}
                             className="relative md:order-1 md:col-span-6 py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-blue-500 rounded-lg border border-gray-200 hover:bg-blue-600 hover:text-white focus:z-10 focus:ring-4"
                         >

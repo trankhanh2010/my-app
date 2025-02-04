@@ -30,10 +30,29 @@ const useTreatmentFeeList = () => {
     const sectionPayInfoRef = useRef(null);
     const handleScrollPayInfo = () => {
         if (sectionPayInfoRef.current) {
+            const startY = window.scrollY; // Vị trí trước khi cuộn
+    
             sectionPayInfoRef.current.scrollIntoView({
-            behavior: "smooth", // Cuộn mượt mà
-            block: "start", // Cuộn đến phần đầu của phần tử
-          });
+                behavior: "smooth",
+                block: "start"
+            });
+    
+            // Kiểm tra có cần cuộn không
+            setTimeout(() => {
+                if (window.scrollY === startY) {
+                    // Nếu không cuộn (vị trí cuộn không đổi), mở ngay lập tức
+                    setPayNow(true);
+                } else {
+                    // Nếu có cuộn, chờ sự kiện scrollend
+                    const onScrollEnd = () => {
+                        setPayNow(true);
+                        window.removeEventListener("scrollend", onScrollEnd);
+                    };
+                    window.addEventListener("scrollend", onScrollEnd);
+                }
+            }, 100); // Đợi 100ms để kiểm tra nếu có thay đổi vị trí cuộn
+        } else {
+            setPayNow(true); // Nếu không có ref thì mở luôn
         }
       };
     
@@ -50,16 +69,16 @@ const useTreatmentFeeList = () => {
     const [filterCursor, setFilterCursor] = useState({
         fromTime: null,
         toTime: null,
-        patientCode: null,
-        treatmentCode: null,
+        patientCode: '',
+        treatmentCode: '',
         executeDepartmentCode: null,
         isSpecimen: null,
         isNoExcute: null,
     });
     const [fromTime, setFromTime] = useState();
     const [toTime, setToTime] = useState();
-    const [treatmentCode, setTreatmentCode] = useState();
-    const [patientCode, setPatientCode] = useState();
+    const [treatmentCode, setTreatmentCode] = useState('');
+    const [patientCode, setPatientCode] = useState('');
 
     const [scrollPosition, setScrollPosition] = useState(0); // Lưu trữ vị trí cuộn
 
