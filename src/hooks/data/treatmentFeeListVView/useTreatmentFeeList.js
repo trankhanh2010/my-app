@@ -26,6 +26,7 @@ const useTreatmentFeeList = () => {
     /// Xử lý khi scroll và lấy thêm dữ liệu mới vẫn giữ vị trí scroll cũ
     const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
     /// Xử lý chuyển người dùng đến phần thanh toán khi nhấn Thanh toán ngay
+    const [payNow, setPayNow] = useState(false);
     const sectionPayInfoRef = useRef(null);
     const handleScrollPayInfo = () => {
         if (sectionPayInfoRef.current) {
@@ -604,6 +605,8 @@ const useTreatmentFeeList = () => {
         errorOtpTreatmentFee,
         onConfirmOtp,
         setOtpTreatmentFeeData,
+        payNow, 
+        setPayNow,
     };
 };
 

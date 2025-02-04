@@ -14,6 +14,8 @@ const Modal = ({
     loadingFetchTreatmentFeeDetail,
     loading,
     authOtp = true,
+    payNow, 
+    setPayNow,
 
 }) => {
     if (!isOpen) return null;
@@ -47,13 +49,19 @@ const Modal = ({
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-2 item-center">
                         <button
-                            onClick={onCancel}
+                            onClick={() => {
+                                onCancel()
+                                setPayNow(false)
+                            }}
                             className="relative md:order-1 md:col-span-6 py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4"
                         >
                             Đóng
                         </button>
                         <button
-                            onClick={onOk}
+                            onClick={() => {
+                                onOk()
+                                setPayNow(true)
+                            }}
                             className="relative md:order-1 md:col-span-6 py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-blue-500 rounded-lg border border-gray-200 hover:bg-blue-600 hover:text-white focus:z-10 focus:ring-4"
                         >
                             <span className="absolute left-2 top-1/2 transform -translate-y-1/2">

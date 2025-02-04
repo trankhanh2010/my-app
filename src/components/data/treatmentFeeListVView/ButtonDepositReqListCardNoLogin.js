@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ModalPageDepositReqListCardNoLogin from '../../common/Modal/Page/ModalPageDepositReqListCardNoLogin';
 import PayIcon from "../../common/Icon/PayIcon";
 import NoRecord from "../../common/Info/NoRecord";
@@ -11,10 +11,11 @@ const Component = ({
     setReload,
     countFeeDepositReqList,
     numDepositReqList,
-    isModalDepositReqFeeListOpen, 
+    isModalDepositReqFeeListOpen,
     setIsModalDepositReqFeeListOpen,
     authOtp = true,
-
+    setPayNow,
+    payNow,
 }) => {
     let isLSGD = selectedRecord
 
@@ -23,10 +24,18 @@ const Component = ({
     const closeModalDepositReqFeeList = () => {
         setIsModalDepositReqFeeListOpen(false) // Đóng modal
         // setReload(true) // Tải lại trang
+        setPayNow(false) // không mở lại
     }
+    // Nếu có bản ghi và đã ấn thanh toán ngay thì mở
+    useEffect(() => {
+        if (selectedRecord && selectedRecord.id && payNow) {
+            setIsModalDepositReqFeeListOpen(true); // Mở modal
+            setPayNow(false); // Đánh dấu đã mở modal
+        }
+    }, [selectedRecord, payNow]); // Chạy khi `selectedRecord` hoặc `payNow` thay đổi
     if (!selectedRecord) return <NoRecord />
-    if (selectedRecord.feeLockTime != null) return <Fee mess='Lần điều trị này đã bị khóa viện phí'/>
-    if (selectedRecord.treatmentEndTypeId != null) return <Fee mess='Đã kết thúc điều trị'/>
+    if (selectedRecord.feeLockTime != null) return <Fee mess='Lần điều trị này đã bị khóa viện phí' />
+    if (selectedRecord.treatmentEndTypeId != null) return <Fee mess='Đã kết thúc điều trị' />
     if (numDepositReqList <= 0) return <NoFee />
     if (!authOtp) return <AuthOtp />
 

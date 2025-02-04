@@ -15,7 +15,9 @@ const Component = ({
     countFeeDepositReqList,
     numDepositReqList,
     authOtp = true,
-
+    payNow,
+    setPayNow,
+    loaiThanhToan,
 }) => {
     if (!recordDetails) return <NoRecord />
     if (!treatmentFeeDetail) return <NoRecordInfo />
@@ -25,6 +27,11 @@ const Component = ({
     if (countFeeDepositReqList>0 || numDepositReqList>0) return <Info mess ='Bạn cần thanh toán các yêu cầu tạm ứng trước!' />
     if (treatmentFeeDetail.fee <= 0) return <NoFee />
 
+    // Nếu có bản ghi và loại thanh toán là thanh toán tạm ứng viện phí còn thiếu và đã ấn thanh toán ngay thì mở
+    if(selectedRecord && selectedRecord.id && payNow && (loaiThanhToan == 'ThanhToanTamUngVienPhiConThieu')){
+        setOpentShowAllPayment(true) // mở modal
+        setPayNow(false) // không mở lại
+    }
     return (
         <>
             <Fee

@@ -121,6 +121,8 @@ const TestServiceReqList = () => {
         errorOtpTreatmentFee,
         onConfirmOtp,
         setOtpTreatmentFeeData,
+        payNow, 
+        setPayNow,
     }
         = useTestServiceReqList();
 
@@ -134,8 +136,8 @@ const TestServiceReqList = () => {
 
     // Lọc qua trước khi dùng
     // Chỉ lấy các bản ghi có đang điều trị và chưa khóa viện phí
-    // const filteredDataCursor = dataCursor.filter(item => item.feeLockTime === null && item.treatmentEndTypeId === null);
-    const filteredDataCursor = dataCursor;
+    const filteredDataCursor = dataCursor.filter(item => item.feeLockTime === null && item.treatmentEndTypeId === null);
+    // const filteredDataCursor = dataCursor;
 
     // Modal hiện thông tin phí
     const [isOpenModalInfoFee, setIsOpenModalInfoFee] = useState(true);
@@ -300,6 +302,8 @@ const TestServiceReqList = () => {
                         isModalDepositReqFeeListOpen={isModalDepositReqFeeListOpen}
                         setIsModalDepositReqFeeListOpen={setIsModalDepositReqFeeListOpen}
                         authOtp={authOtp}
+                        payNow={payNow}
+                        setPayNow={setPayNow}
                     />
                     <ButtonDepositReqListNoLogin
                         selectedRecord={selectedRecord}
@@ -316,6 +320,9 @@ const TestServiceReqList = () => {
                         countFeeDepositReqList={countFeeDepositReqList}
                         numDepositReqList={numDepositReqList}
                         authOtp={authOtp}
+                        setPayNow={setPayNow}
+                        payNow={payNow}
+                        loaiThanhToan={loaiThanhToan}
                     />
                     <ButtonListNoLogin
                         selectedRecord={selectedRecord}
@@ -369,6 +376,8 @@ const TestServiceReqList = () => {
                 loading={loading}
                 loadingFetchTreatmentFeeDetail={loadingFetchTreatmentFeeDetail}
                 authOtp={authOtp}
+                setPayNow={setPayNow}
+                payNow={payNow}
             />
             {/* Xác thực OTP */}
             <ModalOtp

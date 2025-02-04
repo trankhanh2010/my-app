@@ -52,13 +52,13 @@ const TestServiceReqListTable = ({
                     fields={[
                         { fieldName: fieldLabels.transactionCode, css: `w-[10%] sticky left-0 z-10` },
                         { fieldName: fieldLabels.amount},
-                        { fieldName: `Hành động` },
+                        // { fieldName: `Hành động` },
                         { fieldName: 'Trạng thái giao dịch' },
                         { fieldName: fieldLabels.kcAmount },
-                        { fieldName: fieldLabels.tdlBillFundAmount },
+                        // { fieldName: fieldLabels.tdlBillFundAmount },
                         { fieldName: fieldLabels.exemption },
                         { fieldName: fieldLabels.exemptionReason },
-                        { fieldName: fieldLabels.roundedTotalPrice },
+                        // { fieldName: fieldLabels.roundedTotalPrice },
                         { fieldName: fieldLabels.swipeAmount },
                         { fieldName: fieldLabels.transferAmount },
                         { fieldName: fieldLabels.payFormName },
@@ -74,15 +74,15 @@ const TestServiceReqListTable = ({
                         { fieldName: fieldLabels.cancelReason },
                         { fieldName: fieldLabels.cancelUsername },
                         { fieldName: fieldLabels.cancelTime },
-                        { fieldName: fieldLabels.tdlTreatmentCode },
-                        { fieldName: fieldLabels.tdlPatientName },
-                        { fieldName: fieldLabels.tdlPatientDob },
-                        { fieldName: fieldLabels.tdlPatientGenderName },
-                        { fieldName: fieldLabels.tdlPatientCode },
-                        { fieldName: fieldLabels.createTime },
-                        { fieldName: fieldLabels.creator },
-                        { fieldName: fieldLabels.modifyTime },
-                        { fieldName: fieldLabels.modifier },
+                        // { fieldName: fieldLabels.tdlTreatmentCode },
+                        // { fieldName: fieldLabels.tdlPatientName },
+                        // { fieldName: fieldLabels.tdlPatientDob },
+                        // { fieldName: fieldLabels.tdlPatientGenderName },
+                        // { fieldName: fieldLabels.tdlPatientCode },
+                        // { fieldName: fieldLabels.createTime },
+                        // { fieldName: fieldLabels.creator },
+                        // { fieldName: fieldLabels.modifyTime },
+                        // { fieldName: fieldLabels.modifier },
 
                     ]}
                 />
@@ -99,26 +99,26 @@ const TestServiceReqListTable = ({
                                 fields={[
                                     { fieldValue: record.transactionCode, css: `font-bold sticky left-0 border-l-0 ${selectedRecord?.id === record.id ? "bg-blue-100" : "bg-white"} ${getTextColor(record)} truncate` },
                                     {fieldValue:record.amount, css:`${getTextColor(record)} truncate`},
-                                    {
-                                        fieldValue: 
-                                        <div className="flex flex-col md:flex-row md:space-x-2 space-y-1 md:space-y-0"> 
-                                            <button
-                                                onClick={() => {
-                                                    handleOpenModalPage(record)
-                                                }}
-                                                className={`${!getShowButtonOpenModal(record) ? "opacity-0 cursor-not-allowed" : ""} px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 truncate`}
-                                            >
-                                                Chi tiết
-                                            </button>
-                                        </div>, 
-                                        css: `truncate`
-                                    },
+                                    // {
+                                    //     fieldValue: 
+                                    //     <div className="flex flex-col md:flex-row md:space-x-2 space-y-1 md:space-y-0"> 
+                                    //         <button
+                                    //             onClick={() => {
+                                    //                 handleOpenModalPage(record)
+                                    //             }}
+                                    //             className={`${!getShowButtonOpenModal(record) ? "opacity-0 cursor-not-allowed" : ""} px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 truncate`}
+                                    //         >
+                                    //             Chi tiết
+                                    //         </button>
+                                    //     </div>, 
+                                    //     css: `truncate`
+                                    // },
                                     { fieldValue: `${record.isCancel ? 'Đã hủy' : ""}`, css: `${getTextColor(record)} truncate` },
                                     { fieldValue: record.kcAmount, css: `${getTextColor(record)} truncate` },
-                                    { fieldValue: record.tdlBillFundAmount, css: `${getTextColor(record)} truncate` },
+                                    // { fieldValue: record.tdlBillFundAmount, css: `${getTextColor(record)} truncate` },
                                     { fieldValue: record.exemption, css: `${getTextColor(record)} truncate` },
                                     { fieldValue: record.exemptionReason, css: `${getTextColor(record)} truncate` },
-                                    { fieldValue: record.roundedTotalPrice, css: `${getTextColor(record)} truncate` },
+                                    // { fieldValue: record.roundedTotalPrice, css: `${getTextColor(record)} truncate` },
                                     { fieldValue: record.swipeAmount, css: `${getTextColor(record)} truncate` },
                                     { fieldValue: record.transferAmount, css: `${getTextColor(record)} truncate` },
                                     { fieldValue: record.payFormName, css: `${getTextColor(record)} truncate` },
@@ -134,15 +134,15 @@ const TestServiceReqListTable = ({
                                     { fieldValue: record.cancelReason, css: `${getTextColor(record)} truncate` },
                                     { fieldValue: `${record.cancelLoginname != null ? record.cancelLoginname : ""} ${record.cancelUsername != null ? record.cancelUsername : ""}`, css: `${getTextColor(record)} truncate` },
                                     { fieldValue: record.cancelTime ? format(convertToDate(record.cancelTime), "dd/MM/yyyy HH:mm:ss") : "", css: `${getTextColor(record)} truncate` },
-                                    { fieldValue: record.tdlTreatmentCode, css: `${getTextColor(record)} truncate` },
-                                    { fieldValue: record.tdlPatientName, css: `${getTextColor(record)} truncate` },
-                                    { fieldValue: record.tdlPatientDob ? format(convertToDate(record.tdlPatientDob), "dd/MM/yyyy") : "", css: `${getTextColor(record)} truncate` },
-                                    { fieldValue: record.tdlPatientGenderName, css: `${getTextColor(record)} truncate` },
-                                    { fieldValue: record.tdlPatientCode, css: `${getTextColor(record)} truncate` },
-                                    { fieldValue: record.createTime ? format(convertToDate(record.createTime), "dd/MM/yyyy HH:mm:ss") : "", css: `${getTextColor(record)} truncate` },
-                                    { fieldValue: record.creator, css: `${getTextColor(record)} truncate` },
-                                    { fieldValue: record.modifyTime ? format(convertToDate(record.modifyTime), "dd/MM/yyyy HH:mm:ss") : "", css: `${getTextColor(record)} truncate` },
-                                    { fieldValue: record.modifier, css: `${getTextColor(record)} truncate` },
+                                    // { fieldValue: record.tdlTreatmentCode, css: `${getTextColor(record)} truncate` },
+                                    // { fieldValue: record.tdlPatientName, css: `${getTextColor(record)} truncate` },
+                                    // { fieldValue: record.tdlPatientDob ? format(convertToDate(record.tdlPatientDob), "dd/MM/yyyy") : "", css: `${getTextColor(record)} truncate` },
+                                    // { fieldValue: record.tdlPatientGenderName, css: `${getTextColor(record)} truncate` },
+                                    // { fieldValue: record.tdlPatientCode, css: `${getTextColor(record)} truncate` },
+                                    // { fieldValue: record.createTime ? format(convertToDate(record.createTime), "dd/MM/yyyy HH:mm:ss") : "", css: `${getTextColor(record)} truncate` },
+                                    // { fieldValue: record.creator, css: `${getTextColor(record)} truncate` },
+                                    // { fieldValue: record.modifyTime ? format(convertToDate(record.modifyTime), "dd/MM/yyyy HH:mm:ss") : "", css: `${getTextColor(record)} truncate` },
+                                    // { fieldValue: record.modifier, css: `${getTextColor(record)} truncate` },
 
                                 ]}
                             />
