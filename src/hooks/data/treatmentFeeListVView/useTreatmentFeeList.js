@@ -242,6 +242,10 @@ const useTreatmentFeeList = () => {
                     setTreatmentFeeDetail(treatmentFeeDetail.data);
                     setFee(treatmentFeeDetail.data.fee)
                 }
+                // nếu chưa xác thực OTP thì hiện form
+                if(treatmentFeeDetail.param.authOtp === false){
+                    setAuthOtp(false)
+                }
                 setLoadingFetchTreatmentFeeDetail(false)
                 setErrorFetchTreatmentFeeDetail(false)
             }

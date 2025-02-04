@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Loading from '../../Info/Loading';
+import { FaPaperPlane } from 'react-icons/fa'; // Import icon gửi
 
 const Modal = ({
     authOtp,
@@ -121,6 +122,19 @@ const Modal = ({
                             >
                                 Đóng
                             </button>
+                            {!otpTreatmentFeeData.success && (
+                                <a
+                                    onClick={() => {
+                                        // Reload lại trang
+                                        setApplyFilterCursor(true);
+                                        setFilterTrigger(true);
+                                    }}
+                                    className="flex items-center justify-center py-2.5 text-sm font-medium underline text-blue-600"
+                                >
+                                    <FaPaperPlane className="mr-2" />
+                                    Gửi lại mã OTP
+                                </a>
+                            )}
                         </>
                     )}
 
