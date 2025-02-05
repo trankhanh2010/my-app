@@ -116,11 +116,17 @@ const TestServiceReqList = () => {
         setAuthOtp,
         opentFormOtp, 
         setOpentFormOtp,
-        otpTreatmentFeeData,
-        loadingOtpTreatmentFee,
-        errorOtpTreatmentFee,
+        verifyOtpTreatmentFeeData,
+        loadingVerifyOtpTreatmentFee,
+        errorVerifyOtpTreatmentFee,
         onConfirmOtp,
-        setOtpTreatmentFeeData,
+        setVerifyOtpTreatmentFeeData,
+        sendOtpTreatmentFeeData,
+        setSendOtpTreatmentFeeData,
+        loadingSendOtpTreatmentFee,
+        errorSendOtpTreatmentFee,
+        sendOtpTreatmentFee,
+        onSendOtp,
         payNow, 
         setPayNow,
     }
@@ -384,14 +390,17 @@ const TestServiceReqList = () => {
                 authOtp={authOtp}
                 isOpen={opentFormOtp}
                 onCancel={()=>{setOpentFormOtp(false)}}
-                loadingOtpTreatmentFee={loadingOtpTreatmentFee}
-                errorOtpTreatmentFee={errorOtpTreatmentFee}
+                loadingVerifyOtpTreatmentFee={loadingVerifyOtpTreatmentFee}
+                errorVerifyOtpTreatmentFee={errorVerifyOtpTreatmentFee}
                 onConfirmOtp={onConfirmOtp}
                 selectedRecord={selectedRecord}
-                otpTreatmentFeeData={otpTreatmentFeeData}
-                setOtpTreatmentFeeData={setOtpTreatmentFeeData}
+                verifyOtpTreatmentFeeData={verifyOtpTreatmentFeeData}
+                setVerifyOtpTreatmentFeeData={setVerifyOtpTreatmentFeeData}
                 setApplyFilterCursor={setApplyFilterCursor}
                 setFilterTrigger={setFilterTrigger}
+                loadingSendOtpTreatmentFee={loadingSendOtpTreatmentFee}
+                errorSendOtpTreatmentFee={errorSendOtpTreatmentFee}
+                onSendOtp={onSendOtp}
             />
         </div>
     );

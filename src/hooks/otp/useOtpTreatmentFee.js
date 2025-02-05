@@ -1,30 +1,54 @@
 import { useState, useEffect } from "react";
 import otpService from "../../services/otp/otpService";
 const useHook = () => {
-    const [otpTreatmentFeeData, setOtpTreatmentFeeData] = useState([]);
-    const [loadingOtpTreatmentFee, setLoadingOtpTreatmentFee] = useState(false);
-    const [errorOtpTreatmentFee, setErrorOtpTreatmentFee] = useState(false);
+    const [verifyOtpTreatmentFeeData, setVerifyOtpTreatmentFeeData] = useState([]);
+    const [loadingVerifyOtpTreatmentFee, setLoadingVerifyOtpTreatmentFee] = useState(false);
+    const [errorVerifyOtpTreatmentFee, setErrorVerifyOtpTreatmentFee] = useState(false);
+
+    const [sendOtpTreatmentFeeData, setSendOtpTreatmentFeeData] = useState([]);
+    const [loadingSendOtpTreatmentFee, setLoadingSendOtpTreatmentFee] = useState(false);
+    const [errorSendOtpTreatmentFee, setErrorSendOtpTreatmentFee] = useState(false);
 
     const checkOtpTreatmentFee = async (phone, otp, patientCode) => {
         try {
             if (otp) {
-                setLoadingOtpTreatmentFee(true)
+                setLoadingVerifyOtpTreatmentFee(true)
                 const response = await otpService.checkOtpTreatmentFee(phone, otp, patientCode);
-                setOtpTreatmentFeeData(response.data)
-                setLoadingOtpTreatmentFee(false)
+                setVerifyOtpTreatmentFeeData(response.data)
+                setLoadingVerifyOtpTreatmentFee(false)
             }
         } catch (err) {
-            setErrorOtpTreatmentFee(true)
-            setLoadingOtpTreatmentFee(false)
-            console.error("Lỗi khi gọi api xác thực token:", err);
+            setErrorVerifyOtpTreatmentFee(true)
+            setLoadingVerifyOtpTreatmentFee(false)
+            console.error("Lỗi khi gọi api xác thực otp:", err);
+        }
+    };
+
+    const sendOtpTreatmentFee = async (patientCode) => {
+        try {
+            if (patientCode) {
+                setLoadingSendOtpTreatmentFee(true)
+                const response = await otpService.sendOtpTreatmentFee(patientCode);
+                setSendOtpTreatmentFeeData(response.data)
+                setLoadingSendOtpTreatmentFee(false)
+            }
+        } catch (err) {
+            setErrorSendOtpTreatmentFee(true)
+            setLoadingSendOtpTreatmentFee(false)
+            console.error("Lỗi khi gọi api gửi otp:", err);
         }
     };
     return {
-        otpTreatmentFeeData,
-        setOtpTreatmentFeeData,
-        loadingOtpTreatmentFee,
-        errorOtpTreatmentFee,
+        verifyOtpTreatmentFeeData,
+        setVerifyOtpTreatmentFeeData,
+        loadingVerifyOtpTreatmentFee,
+        errorVerifyOtpTreatmentFee,
         checkOtpTreatmentFee,
+        sendOtpTreatmentFeeData,
+        setSendOtpTreatmentFeeData,
+        loadingSendOtpTreatmentFee,
+        errorSendOtpTreatmentFee,
+        sendOtpTreatmentFee,
     };
 };
 

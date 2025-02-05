@@ -350,11 +350,16 @@ const useTreatmentFeeList = () => {
     );
 
     const {
-        otpTreatmentFeeData,
-        setOtpTreatmentFeeData,
-        loadingOtpTreatmentFee,
-        errorOtpTreatmentFee,
+        verifyOtpTreatmentFeeData,
+        setVerifyOtpTreatmentFeeData,
+        loadingVerifyOtpTreatmentFee,
+        errorVerifyOtpTreatmentFee,
         checkOtpTreatmentFee,
+        sendOtpTreatmentFeeData,
+        setSendOtpTreatmentFeeData,
+        loadingSendOtpTreatmentFee,
+        errorSendOtpTreatmentFee,
+        sendOtpTreatmentFee,
     } = useOtpTreatmentFee();
     // ghi đè lên master
     const handleOpenMoMoPayment = () => {
@@ -378,6 +383,11 @@ const useTreatmentFeeList = () => {
     const onConfirmOtp = async (otpCode) => {
         if(otpCode){
             const checkOtp = await checkOtpTreatmentFee(selectedRecord.patientPhone, otpCode, selectedRecord.patientCode)
+        }
+    }
+    const onSendOtp = async (patientCode) => {
+        if(patientCode){
+            const checkOtp = await sendOtpTreatmentFee(patientCode)
         }
     }
     useEffect(() => {
@@ -623,13 +633,19 @@ const useTreatmentFeeList = () => {
         setAuthOtp,
         opentFormOtp, 
         setOpentFormOtp,
-        otpTreatmentFeeData,
-        loadingOtpTreatmentFee,
-        errorOtpTreatmentFee,
+        verifyOtpTreatmentFeeData,
+        loadingVerifyOtpTreatmentFee,
+        errorVerifyOtpTreatmentFee,
         onConfirmOtp,
-        setOtpTreatmentFeeData,
+        setVerifyOtpTreatmentFeeData,
         payNow, 
         setPayNow,
+        sendOtpTreatmentFeeData,
+        setSendOtpTreatmentFeeData,
+        loadingSendOtpTreatmentFee,
+        errorSendOtpTreatmentFee,
+        sendOtpTreatmentFee,
+        onSendOtp,
     };
 };
 

@@ -1,19 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Loading from '../../Info/Loading';
+import Fail from '../../Info/Fail';
 import { FaPaperPlane } from 'react-icons/fa'; // Import icon gửi
 
 const Modal = ({
     authOtp,
     isOpen,
     onCancel,
-    loadingOtpTreatmentFee,
-    errorOtpTreatmentFee,
+    loadingVerifyOtpTreatmentFee,
+    errorVerifyOtpTreatmentFee,
     onConfirmOtp,
     selectedRecord,
-    otpTreatmentFeeData,
-    setOtpTreatmentFeeData,
+    verifyOtpTreatmentFeeData,
+    setVerifyOtpTreatmentFeeData,
     setApplyFilterCursor,
     setFilterTrigger,
+    loadingSendOtpTreatmentFee,
+    errorSendOtpTreatmentFee,
+    onSendOtp,
 }) => {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const inputRefs = useRef([]);
@@ -49,8 +53,9 @@ const Modal = ({
     if (!isOpen) return null;
     if (!selectedRecord) return null;
     if (authOtp) return null;
-    if (errorOtpTreatmentFee) return null;
-    // if (loadingOtpTreatmentFee) return <Loading/>;
+    if (errorVerifyOtpTreatmentFee) return null;
+    if (errorSendOtpTreatmentFee) return null;
+    // if (loadingVerifyOtpTreatmentFee) return <Loading/>;
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
             <div className="bg-white rounded-lg shadow-lg w-full h-full md:w-auto md:h-auto md:min-w-[50%] max-w-screen max-h-screen p-4 overflow-auto">
@@ -71,7 +76,7 @@ const Modal = ({
                         />
                     </svg>
                     <h3 className="mb-5 text-lg font-normal text-gray-700">{`Nhập mã OTP được gửi đến số điện thoại mà bạn đã cung cấp!`}</h3>
-                    {loadingOtpTreatmentFee ? (
+                    {loadingVerifyOtpTreatmentFee ? (
                         <Loading />
                     ) : (
                         <>
@@ -90,17 +95,20 @@ const Modal = ({
                                     />
                                 ))}
                             </div>
-                            {Object.keys(otpTreatmentFeeData).length > 0 && (
-                                otpTreatmentFeeData.success ? (
-                                    <p className="text-green-600 font-medium text-lg">Xác thực thành công!</p>
-                                ) : (
-                                    <p className="text-red-600 font-medium text-lg">
-                                        Xác thực không thành công! Mã OTP không đúng hoặc hết hạn!
-                                    </p>
-                                )
-                            )}
 
-                            {!otpTreatmentFeeData.success && (
+                            <>
+                                {Object.keys(verifyOtpTreatmentFeeData).length > 0 && (
+                                    verifyOtpTreatmentFeeData.success ? (
+                                        <p className="text-green-600 font-medium text-lg">Xác thực thành công!</p>
+                                    ) : (
+                                        <p className="text-red-600 font-medium text-lg">
+                                            Xác thực không thành công! Mã OTP không đúng hoặc hết hạn!
+                                        </p>
+                                    )
+                                )}
+                            </>
+
+                            {!verifyOtpTreatmentFeeData.success && (
                                 <button
                                     onClick={() => onConfirmOtp(otp.join(""))}
                                     className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 mr-2"
@@ -108,11 +116,12 @@ const Modal = ({
                                     Xác thực
                                 </button>
                             )}
+
                             <button
                                 onClick={() => {
                                     onCancel()
-                                    setOtpTreatmentFeeData([])
-                                    if (otpTreatmentFeeData.success) {
+                                    setVerifyOtpTreatmentFeeData([])
+                                    if (verifyOtpTreatmentFeeData.success) {
                                         // Reload lại trang
                                         setApplyFilterCursor(true);
                                         setFilterTrigger(true);
@@ -122,22 +131,27 @@ const Modal = ({
                             >
                                 Đóng
                             </button>
-                            {!otpTreatmentFeeData.success && (
-                                <a
-                                    onClick={() => {
-                                        // Reload lại trang
-                                        setApplyFilterCursor(true);
-                                        setFilterTrigger(true);
-                                    }}
-                                    className="flex items-center justify-center py-2.5 text-sm font-medium underline text-blue-600"
-                                >
-                                    <FaPaperPlane className="mr-2" />
-                                    Gửi lại mã OTP
-                                </a>
-                            )}
+
+                            {loadingSendOtpTreatmentFee ? (<Loading />)
+                                : (
+                                    <>
+                                        {!verifyOtpTreatmentFeeData.success && (
+                                            <a
+                                                onClick={() => {
+                                                    // Gửi lại otp
+                                                    onSendOtp(selectedRecord.patientCode)
+                                                }}
+                                                className="flex items-center justify-center py-2.5 text-sm font-medium underline text-blue-600"
+                                            >
+                                                <FaPaperPlane className="mr-2" />
+                                                Gửi lại mã OTP
+                                            </a>
+                                        )}
+                                    </>
+                                )
+                            }
                         </>
                     )}
-
                 </div>
             </div>
         </div>
