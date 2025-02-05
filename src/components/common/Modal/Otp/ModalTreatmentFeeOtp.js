@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Loading from '../../Info/Loading';
 import Fail from '../../Info/Fail';
-import { FaPaperPlane } from 'react-icons/fa'; // Import icon gửi
+import { FaPaperPlane, FaRegEnvelope } from 'react-icons/fa'; // Import icon gửi
 
 const Modal = ({
     authOtp,
@@ -15,13 +15,17 @@ const Modal = ({
     setVerifyOtpTreatmentFeeData,
     setApplyFilterCursor,
     setFilterTrigger,
-    loadingSendOtpTreatmentFee,
-    errorSendOtpTreatmentFee,
-    onSendOtp,
+    loadingSendOtpPhoneTreatmentFee,
+    errorSendOtpPhoneTreatmentFee,
+    onSendPhoneOtp,
+    loadingSendOtpMailTreatmentFee,
+    errorSendOtpMailTreatmentFee,
+    onSendMailOtp,
 }) => {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const inputRefs = useRef([]);
     const [resendTimeout, setResendTimeout] = useState(15); // Đếm ngược giây
+    const [resendMailTimeout, setResendMailTimeout] = useState(30); // Đếm ngược giây
 
     const handleChange = (index, value) => {
         if (!/^[0-9]?$/.test(value)) return; // Chỉ cho phép nhập số
@@ -59,9 +63,33 @@ const Modal = ({
 
     const handleResendOtp = () => {
         if (resendTimeout === 0) {
-            onSendOtp(selectedRecord.patientCode);
+            onSendPhoneOtp(selectedRecord.patientCode);
             setResendTimeout(15); // Reset lại bộ đếm
         }
+    };
+    useEffect(() => {
+        let timer;
+        if (resendMailTimeout > 0) {
+            timer = setInterval(() => {
+                setResendMailTimeout(prev => prev - 1);
+            }, 1000);
+        }
+        return () => clearInterval(timer);
+    }, [resendMailTimeout]);
+
+    const handleResendMailOtp = () => {
+        if (resendMailTimeout === 0) {
+            onSendMailOtp(selectedRecord.patientCode);
+            setResendMailTimeout(30); // Reset lại bộ đếm
+        }
+    };
+
+    const maskEmail = (email) => {
+        if (!email) return "";
+
+        return email.replace(/(^\w{2})([\w.-]+)(\w{2})(@.+)/, (_, first, middle, last, domain) => {
+            return first + "*".repeat(middle.length) + last + domain;
+        });
     };
 
     useEffect(() => {
@@ -79,14 +107,15 @@ const Modal = ({
 
     if (!isOpen) return null;
     if (!selectedRecord) return null;
-    if (!selectedRecord.patientPhone) return null;
+    if (!selectedRecord.patientPhone && !selectedRecord.patientEmail) return null;
     if (authOtp) return null;
     if (errorVerifyOtpTreatmentFee) return null;
-    if (errorSendOtpTreatmentFee) return null;
+    if (errorSendOtpPhoneTreatmentFee) return null;
+    if (errorSendOtpMailTreatmentFee) return null;
     // if (loadingVerifyOtpTreatmentFee) return <Loading/>;
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg w-full h-full md:w-auto md:h-auto md:min-w-[50%] max-w-screen max-h-screen p-4 overflow-auto relative">
+            <div className="bg-white rounded-lg shadow-lg w-full h-full md:w-auto md:h-auto md:min-w-[50%] max-w-screen max-h-screen overflow-auto p-4 relative">
                 <div className="text-center">
                     <svg
                         className="mx-auto mb-4 text-gray-400 w-12 h-12"
@@ -103,16 +132,13 @@ const Modal = ({
                             d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                         />
                     </svg>
-                    <h3 className="text-lg font-normal text-gray-700">{`Nhập mã OTP được gửi đến số điện thoại mà bạn đã cung cấp!`}</h3>
-                    <h3 className="mb-5 text-lg font-semibold text-gray-700">    {selectedRecord.patientPhone
-                        ? selectedRecord.patientPhone.replace(/\d(?=\d{2})/g, "x")
-                        : ""}</h3>
+                    <h3 className="text-lg mb-5 font-semibold text-gray-700">{`Nhập mã OTP được gửi đến bạn!`}</h3>
                     {loadingVerifyOtpTreatmentFee ? (
                         <Loading />
                     ) : (
                         <>
                             <p className="text-blue-600 text-lg mb-1">
-                                (Bạn chỉ có thể nhận được mã OTP <span className='underline font-semibold'>mỗi 2 phút!</span>)
+                                (Bạn chỉ có thể nhận được <span className='font-semibold'>1</span> mã OTP <span className='font-semibold'>mỗi 2 phút!</span>)
                             </p>
                             <div className="flex justify-center gap-2 mb-2">
                                 {otp.map((digit, index) => (
@@ -160,24 +186,66 @@ const Modal = ({
                                     Xác thực
                                 </button>
                             )}
-                            {loadingSendOtpTreatmentFee ? (<Loading />)
+                            {loadingSendOtpPhoneTreatmentFee ? (<Loading />)
                                 : (
                                     <>
                                         {!verifyOtpTreatmentFeeData.success && (
-                                            <button
-                                                onClick={handleResendOtp}
-                                                disabled={resendTimeout > 0}
-                                                className={`flex items-center justify-center py-2.5 font-semibold text-lg ${resendTimeout > 0
-                                                    ? "text-gray-400 cursor-not-allowed"
-                                                    : "text-blue-600 hover:text-blue-800"
-                                                    }`}
-                                            >
-                                                <FaPaperPlane className="mr-2 font-semibold" />
-                                                {resendTimeout > 0 ? `Gửi lại OTP (Thử lại sau ${resendTimeout}s)` : "Gửi lại mã OTP "}
-                                            </button>
+                                            <>
+                                                <button
+                                                    onClick={handleResendOtp}
+                                                    disabled={resendTimeout > 0}
+                                                    className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendTimeout > 0
+                                                        ? "text-gray-400 cursor-not-allowed"
+                                                        : "text-blue-600 hover:text-blue-800"
+                                                        }`}
+                                                >
+                                                    <span>
+                                                        <FaPaperPlane className="mr-2 font-semibold inline" />
+                                                        {`Gửi lại OTP tới điện thoại `}
+                                                        <span className="font-semibold text-black">
+                                                            {selectedRecord.patientPhone ? selectedRecord.patientPhone.replace(/\d(?=\d{2})/g, "x") : ""}
+                                                        </span>
+                                                    </span>
+                                                    {resendTimeout > 0 ? ` (Thử lại sau ${resendTimeout}s)` : ""}
+
+                                                </button>
+                                            </>
                                         )}
                                     </>
                                 )
+                            }
+                            {selectedRecord.patientEmail ? (
+                                <>
+                                    {loadingSendOtpMailTreatmentFee ? (<Loading />)
+                                        : (
+                                            <>
+                                                {!verifyOtpTreatmentFeeData.success && (
+                                                    <div>
+                                                        <button
+                                                            onClick={handleResendMailOtp}
+                                                            disabled={resendMailTimeout > 0}
+                                                            className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendMailTimeout > 0
+                                                                ? "text-gray-400 cursor-not-allowed"
+                                                                : "text-blue-600 hover:text-blue-800"
+                                                                }`}
+                                                        >
+                                                            <span>
+                                                                <FaRegEnvelope className="mr-2 font-semibold inline" />
+                                                                {`Gửi lại OTP tới email `}
+                                                                <span className="font-semibold text-black">
+                                                                    {selectedRecord.patientEmail ? maskEmail(selectedRecord.patientEmail) : ""}
+                                                                </span>
+                                                            </span>
+                                                            {resendMailTimeout > 0 ? ` (Thử lại sau ${resendMailTimeout}s)` : ""}
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </>
+                                        )
+                                    }
+                                </>
+                            )
+                                : (<> </>)
                             }
                             <button
                                 onClick={() => {

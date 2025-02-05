@@ -1,10 +1,11 @@
 import React from "react";
 
-const ErrorInfo = ({phone='' }) => {
-    if(!phone) {
+const ErrorInfo = ({selectedRecord}) => {
+    if(!selectedRecord) return null
+    if(!selectedRecord.patientPhone && !selectedRecord.patientEmail) {
         return (
             <div className="error">
-                <p>Bạn chưa cung cấp số điện thoại! Không thể xác thực OTP để xem.</p>
+                <p>Bạn chưa cung cấp số điện thoại và Email! Không thể xác thực OTP để xem.</p>
             </div>
         );
     }

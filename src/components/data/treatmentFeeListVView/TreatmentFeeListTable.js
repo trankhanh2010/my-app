@@ -20,7 +20,7 @@ const TestServiceReqListTable = ({
     if (loading) return <Loading />
     if (data.length == 0) return <NoRecord />
     if (!authOtp) return <AuthOtp
-        phone={selectedRecord?.patientPhone}
+        selectedRecord={selectedRecord}
     />
 
     const getTextColor = (record) => {

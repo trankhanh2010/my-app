@@ -122,12 +122,18 @@ const TestServiceReqList = () => {
         errorVerifyOtpTreatmentFee,
         onConfirmOtp,
         setVerifyOtpTreatmentFeeData,
-        sendOtpTreatmentFeeData,
-        setSendOtpTreatmentFeeData,
-        loadingSendOtpTreatmentFee,
-        errorSendOtpTreatmentFee,
-        sendOtpTreatmentFee,
-        onSendOtp,
+        sendOtpPhoneTreatmentFeeData,
+        setSendOtpPhoneTreatmentFeeData,
+        loadingSendOtpPhoneTreatmentFee,
+        errorSendOtpPhoneTreatmentFee,
+        sendOtpPhoneTreatmentFee,
+        onSendPhoneOtp,
+        sendOtpMailTreatmentFeeData,
+        setSendOtpMailTreatmentFeeData,
+        loadingSendOtpMailTreatmentFee,
+        errorSendOtpMailTreatmentFee,
+        sendOtpMailTreatmentFee,
+        onSendMailOtp,
         payNow, 
         setPayNow,
         alerts,
@@ -409,9 +415,12 @@ const TestServiceReqList = () => {
                 setVerifyOtpTreatmentFeeData={setVerifyOtpTreatmentFeeData}
                 setApplyFilterCursor={setApplyFilterCursor}
                 setFilterTrigger={setFilterTrigger}
-                loadingSendOtpTreatmentFee={loadingSendOtpTreatmentFee}
-                errorSendOtpTreatmentFee={errorSendOtpTreatmentFee}
-                onSendOtp={onSendOtp}
+                loadingSendOtpPhoneTreatmentFee={loadingSendOtpPhoneTreatmentFee}
+                errorSendOtpPhoneTreatmentFee={errorSendOtpPhoneTreatmentFee}
+                onSendPhoneOtp={onSendPhoneOtp}
+                loadingSendOtpMailTreatmentFee={loadingSendOtpMailTreatmentFee}
+                errorSendOtpMailTreatmentFee={errorSendOtpMailTreatmentFee}
+                onSendMailOtp={onSendMailOtp}
             />
         </div>
     );

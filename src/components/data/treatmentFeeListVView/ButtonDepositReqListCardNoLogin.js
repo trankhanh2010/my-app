@@ -37,7 +37,7 @@ const Component = ({
     if (selectedRecord.feeLockTime != null) return <Fee mess='Lần điều trị này đã bị khóa viện phí' />
     if (selectedRecord.treatmentEndTypeId != null) return <Fee mess='Đã kết thúc điều trị' />
     if (!authOtp) return <AuthOtp
-        phone={selectedRecord?.patientPhone}
+        selectedRecord={selectedRecord}
     />
     if (numDepositReqList <= 0) return <NoFee />
 

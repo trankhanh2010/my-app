@@ -17,7 +17,7 @@ const InfoPatient = ({
     if (!recordDetails) return <NoRecordInfo />
     if (loadingRecord) return <Loading />
     if (!authOtp) return <AuthOtp
-        phone={selectedRecord?.patientPhone}
+        selectedRecord={selectedRecord}
     />
 
     return (

@@ -5,15 +5,19 @@ const useHook = () => {
     const [loadingVerifyOtpTreatmentFee, setLoadingVerifyOtpTreatmentFee] = useState(false);
     const [errorVerifyOtpTreatmentFee, setErrorVerifyOtpTreatmentFee] = useState(false);
 
-    const [sendOtpTreatmentFeeData, setSendOtpTreatmentFeeData] = useState([]);
-    const [loadingSendOtpTreatmentFee, setLoadingSendOtpTreatmentFee] = useState(false);
-    const [errorSendOtpTreatmentFee, setErrorSendOtpTreatmentFee] = useState(false);
+    const [sendOtpPhoneTreatmentFeeData, setSendOtpPhoneTreatmentFeeData] = useState([]);
+    const [loadingSendOtpPhoneTreatmentFee, setLoadingSendOtpPhoneTreatmentFee] = useState(false);
+    const [errorSendOtpPhoneTreatmentFee, setErrorSendOtpPhoneTreatmentFee] = useState(false);
+
+    const [sendOtpMailTreatmentFeeData, setSendOtpMailTreatmentFeeData] = useState([]);
+    const [loadingSendOtpMailTreatmentFee, setLoadingSendOtpMailTreatmentFee] = useState(false);
+    const [errorSendOtpMailTreatmentFee, setErrorSendOtpMailTreatmentFee] = useState(false);
 
     const checkOtpTreatmentFee = async (phone, otp, patientCode) => {
         try {
             if (otp) {
                 setLoadingVerifyOtpTreatmentFee(true)
-                const response = await otpService.checkOtpTreatmentFee(phone, otp, patientCode);
+                const response = await otpService.checkOtpTreatmentFee(otp, patientCode);
                 setVerifyOtpTreatmentFeeData(response.data)
                 setLoadingVerifyOtpTreatmentFee(false)
             }
@@ -24,18 +28,33 @@ const useHook = () => {
         }
     };
 
-    const sendOtpTreatmentFee = async (patientCode) => {
+    const sendOtpPhoneTreatmentFee = async (patientCode) => {
         try {
             if (patientCode) {
-                setLoadingSendOtpTreatmentFee(true)
-                const response = await otpService.sendOtpTreatmentFee(patientCode);
-                setSendOtpTreatmentFeeData(response.data)
-                setLoadingSendOtpTreatmentFee(false)
+                setLoadingSendOtpPhoneTreatmentFee(true)
+                const response = await otpService.sendOtpPhoneTreatmentFee(patientCode);
+                setSendOtpPhoneTreatmentFeeData(response.data)
+                setLoadingSendOtpPhoneTreatmentFee(false)
             }
         } catch (err) {
-            setErrorSendOtpTreatmentFee(true)
-            setLoadingSendOtpTreatmentFee(false)
-            console.error("Lỗi khi gọi api gửi otp:", err);
+            setErrorSendOtpPhoneTreatmentFee(true)
+            setLoadingSendOtpPhoneTreatmentFee(false)
+            console.error("Lỗi khi gọi api gửi otp qua sms:", err);
+        }
+    };
+
+    const sendOtpMailTreatmentFee = async (patientCode) => {
+        try {
+            if (patientCode) {
+                setLoadingSendOtpMailTreatmentFee(true)
+                const response = await otpService.sendOtpMailTreatmentFee(patientCode);
+                setSendOtpMailTreatmentFeeData(response.data)
+                setLoadingSendOtpMailTreatmentFee(false)
+            }
+        } catch (err) {
+            setErrorSendOtpMailTreatmentFee(true)
+            setLoadingSendOtpMailTreatmentFee(false)
+            console.error("Lỗi khi gọi api gửi otp qua mail:", err);
         }
     };
     return {
@@ -44,11 +63,16 @@ const useHook = () => {
         loadingVerifyOtpTreatmentFee,
         errorVerifyOtpTreatmentFee,
         checkOtpTreatmentFee,
-        sendOtpTreatmentFeeData,
-        setSendOtpTreatmentFeeData,
-        loadingSendOtpTreatmentFee,
-        errorSendOtpTreatmentFee,
-        sendOtpTreatmentFee,
+        sendOtpPhoneTreatmentFeeData,
+        setSendOtpPhoneTreatmentFeeData,
+        loadingSendOtpPhoneTreatmentFee,
+        errorSendOtpPhoneTreatmentFee,
+        sendOtpPhoneTreatmentFee,
+        sendOtpMailTreatmentFeeData,
+        setSendOtpMailTreatmentFeeData,
+        loadingSendOtpMailTreatmentFee,
+        errorSendOtpMailTreatmentFee,
+        sendOtpMailTreatmentFee,
     };
 };
 

@@ -24,7 +24,7 @@ const TestServiceReqTypeListTable = ({
     if (loadingFetchTestServiceTypeList) return <Loading />
     if (errorFetchTestServiceTypeList) return <ErrorInfo />
     if (!authOtp) return <AuthOtp
-        phone={selectedRecord?.patientPhone}
+        selectedRecord={selectedRecord}
     />
 
     // Lọc danh sách dựa trên từ khóa tìm kiếm

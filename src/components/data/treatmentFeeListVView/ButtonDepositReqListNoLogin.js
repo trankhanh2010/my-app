@@ -18,7 +18,7 @@ const Component = ({
     }
     if (!selectedRecord) return
     if (!authOtp) return <AuthOtp
-        phone={selectedRecord?.patientPhone}
+        selectedRecord={selectedRecord}
     />
 
     return (

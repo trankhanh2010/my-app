@@ -18,7 +18,7 @@ const InfoTransaction = ({
     if (loadingFetchTreatmentFeeDetail) return <Loading />
     if (errorFetchTreatmentFeeDetail) return <ErrorInfo />
     if (!authOtp) return <AuthOtp
-        phone={selectedRecord?.patientPhone}
+        selectedRecord={selectedRecord}
     />
 
 
