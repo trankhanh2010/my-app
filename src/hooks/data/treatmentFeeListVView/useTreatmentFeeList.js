@@ -391,6 +391,17 @@ const useTreatmentFeeList = () => {
         }
     }
     useEffect(() => {
+        // Hiện thông báo gửi OTP
+        // Nếu có data
+        if(Object.keys(sendOtpTreatmentFeeData).length > 0){
+            if(sendOtpTreatmentFeeData.success){
+                addAlert("Gửi mã OTP thành công!", "success"); 
+            }else{
+                addAlert("Gửi mã OTP không thành công!", "error"); 
+            }
+        }
+    }, [sendOtpTreatmentFeeData]); // Gọi lại khi có thay đổi
+    useEffect(() => {
         // Kiểm tra tất cả các trường trong filterCursor khác null
         const allFieldsNotNull = Object.values(filterCursor).every(value => value !== null);
 
@@ -408,10 +419,11 @@ const useTreatmentFeeList = () => {
     useEffect(() => {
         // Nếu có dữ liệu và dữ liệu chưa được xác thực ở thiết bị này thì hiện form
         if((dataCursor.length > 0) && (authOtp === false)){
+            // Hiện form
             setOpentFormOtp(true)
        }
     }, [dataCursor]); // Chạy lại khi data thay đổi
-
+    
     useEffect(() => {
         if (refreshTrigger) {
             fetchDataCursor();
@@ -646,6 +658,8 @@ const useTreatmentFeeList = () => {
         errorSendOtpTreatmentFee,
         sendOtpTreatmentFee,
         onSendOtp,
+        alerts,
+        removeAlert,
     };
 };
 

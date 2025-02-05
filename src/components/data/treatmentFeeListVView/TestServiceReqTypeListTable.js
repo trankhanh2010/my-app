@@ -17,12 +17,15 @@ const TestServiceReqTypeListTable = ({
     loadingFetchTestServiceTypeList,
     errorFetchTestServiceTypeList,
     authOtp = true,
+    selectedRecord,
 
 }) => {
     if (!recordDetails) return <NoRecordInfo />
     if (loadingFetchTestServiceTypeList) return <Loading />
     if (errorFetchTestServiceTypeList) return <ErrorInfo />
-    if (!authOtp) return <AuthOtp />
+    if (!authOtp) return <AuthOtp
+        phone={selectedRecord?.patientPhone}
+    />
 
     // Lọc danh sách dựa trên từ khóa tìm kiếm
     const filteredList = testServiceTypeList.filter((record) =>
@@ -88,24 +91,25 @@ const TestServiceReqTypeListTable = ({
         return "font-semibold"
     };
     const getServiceReqStt = (record) => {
-        if (record.serviceReqSttCode == '01') return <span className="text-gray-500">               
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" />
-                </svg>
-                    {record.serviceReqSttName}
-            </span>;
-        if (record.serviceReqSttCode == '02') return <span className="text-orange-500">               
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
-                    <circle cx="12" cy="12" r="9" />
-                </svg>
-                    {record.serviceReqSttName}
-            </span>;
-        if (record.serviceReqSttCode == '03') return <span className="text-red-600">               
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
-            <circle cx="12" cy="12" r="9" />
-        </svg>
+        if (record.serviceReqSttCode == '01') return <span className="text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" />
+            </svg>
             {record.serviceReqSttName}
-    </span>;    };
+        </span>;
+        if (record.serviceReqSttCode == '02') return <span className="text-orange-500">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
+                <circle cx="12" cy="12" r="9" />
+            </svg>
+            {record.serviceReqSttName}
+        </span>;
+        if (record.serviceReqSttCode == '03') return <span className="text-red-600">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
+                <circle cx="12" cy="12" r="9" />
+            </svg>
+            {record.serviceReqSttName}
+        </span>;
+    };
     return (
         <>
             {/* Phần bảng dưới */}
@@ -219,20 +223,20 @@ const TestServiceReqTypeListTable = ({
                                         <tr key={record.id} className="hover:bg-gray-50 cursor-pointer">
                                             <GroupTd
                                                 fields={[
-                                                    {fieldValue:record.tdlServiceCode, css:`${getTextColor(record)} pl-8 truncate sticky left-0 border-l-0 bg-white`},
-                                                    {fieldValue:getServiceReqStt(record), css:`${getTextColor(record)} truncate `},
-                                                    {fieldValue:Number(record.amount).toLocaleString(), css:`${getTextColor(record)}  `},
-                                                    {fieldValue:Number(record.price).toLocaleString(), css:`${getTextColor(record)}  `},
-                                                    {fieldValue:Number(record.virTotalPrice).toLocaleString(), css:`${getTextColor(record)}  `},
-                                                    {fieldValue:Number(record.virTotalHeinPrice).toLocaleString(), css:`${getTextColor(record)}  `},
-                                                    {fieldValue:Number(record.virTotalPatientPrice).toLocaleString(), css:`${getTextColor(record)}  `},
-                                                    {fieldValue:record.vatRatio, css:`${getTextColor(record)}  `},
-                                                    {fieldValue:record.tdlServiceName, css:`${getTextColor(record)}   truncate`},
-                                                    {fieldValue:Number(record.discount).toLocaleString(), css:`${getTextColor(record)} `},
-                                                    {fieldValue:<span className={`${record.isExpend == 1 ? 'text-green-600' : 'text-red-600'}`}>{record.isExpend == 1 ? '✓' : '✘'}</span>, css:``},
-                                                    {fieldValue:record.tdlServiceReqCode, css:`${getTextColor(record)}  `},
+                                                    { fieldValue: record.tdlServiceCode, css: `${getTextColor(record)} pl-8 truncate sticky left-0 border-l-0 bg-white` },
+                                                    { fieldValue: getServiceReqStt(record), css: `${getTextColor(record)} truncate ` },
+                                                    { fieldValue: Number(record.amount).toLocaleString(), css: `${getTextColor(record)}  ` },
+                                                    { fieldValue: Number(record.price).toLocaleString(), css: `${getTextColor(record)}  ` },
+                                                    { fieldValue: Number(record.virTotalPrice).toLocaleString(), css: `${getTextColor(record)}  ` },
+                                                    { fieldValue: Number(record.virTotalHeinPrice).toLocaleString(), css: `${getTextColor(record)}  ` },
+                                                    { fieldValue: Number(record.virTotalPatientPrice).toLocaleString(), css: `${getTextColor(record)}  ` },
+                                                    { fieldValue: record.vatRatio, css: `${getTextColor(record)}  ` },
+                                                    { fieldValue: record.tdlServiceName, css: `${getTextColor(record)}   truncate` },
+                                                    { fieldValue: Number(record.discount).toLocaleString(), css: `${getTextColor(record)} ` },
+                                                    { fieldValue: <span className={`${record.isExpend == 1 ? 'text-green-600' : 'text-red-600'}`}>{record.isExpend == 1 ? '✓' : '✘'}</span>, css: `` },
+                                                    { fieldValue: record.tdlServiceReqCode, css: `${getTextColor(record)}  ` },
                                                 ]}
-                                            />          
+                                            />
                                         </tr>
                                     ))}
                                 </React.Fragment>

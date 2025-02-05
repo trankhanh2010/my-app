@@ -16,8 +16,10 @@ const Component = ({
     const closeModalLSGD = () => {
         setIsModalLSGDOpen(false) // Đóng modal
     }
-    if(!selectedRecord) return
-    if (!authOtp) return <AuthOtp />
+    if (!selectedRecord) return
+    if (!authOtp) return <AuthOtp
+        phone={selectedRecord?.patientPhone}
+    />
 
     return (
         <>

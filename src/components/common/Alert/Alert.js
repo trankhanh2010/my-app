@@ -22,7 +22,7 @@ const Alert = ({ message, type = "success", onClose }) => {
     const bgColor = type === "success" ? "bg-green-600" : "bg-red-600";
 
     return (
-        <div className={`flex items-center p-3 text-white ${bgColor} rounded shadow-md 
+        <div className={`flex items-center p-3 text-white ${bgColor} rounded shadow-md text-lg md:text-sm
                 transition-transform duration-500 ease-in-out
                 ${visible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"}
                 `}>

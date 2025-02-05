@@ -28,7 +28,7 @@ const Component = ({
     }
     // Nếu có bản ghi và đã ấn thanh toán ngay và chắc chắn có yêu cầu tạm ứng thì mở
     useEffect(() => {
-        if (selectedRecord && selectedRecord.id && payNow && (numDepositReqList>0)) {
+        if (selectedRecord && selectedRecord.id && payNow && (numDepositReqList > 0)) {
             setIsModalDepositReqFeeListOpen(true); // Mở modal
             setPayNow(false); // Đánh dấu đã mở modal
         }
@@ -36,8 +36,10 @@ const Component = ({
     if (!selectedRecord) return <NoRecord />
     if (selectedRecord.feeLockTime != null) return <Fee mess='Lần điều trị này đã bị khóa viện phí' />
     if (selectedRecord.treatmentEndTypeId != null) return <Fee mess='Đã kết thúc điều trị' />
+    if (!authOtp) return <AuthOtp
+        phone={selectedRecord?.patientPhone}
+    />
     if (numDepositReqList <= 0) return <NoFee />
-    if (!authOtp) return <AuthOtp />
 
     return (
         <>

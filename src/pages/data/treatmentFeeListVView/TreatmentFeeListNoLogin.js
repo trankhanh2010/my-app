@@ -20,6 +20,7 @@ import ButtonDepositReqListCardNoLogin from "../../../components/data/treatmentF
 import ButtonPayFeeNoLogin from "../../../components/data/treatmentFeeListVView/ButtonPayFeeNoLogin";
 import ModalInfoFee from "../../../components/data/treatmentFeeListVView/ModalInfoFee";
 import ModalOtp from "../../../components/common/Modal/Otp/ModalTreatmentFeeOtp";
+import ManegerAlert from "../../../components/common/Alert/ManegerAlert";
 
 const TestServiceReqList = () => {
     const {
@@ -129,6 +130,8 @@ const TestServiceReqList = () => {
         onSendOtp,
         payNow, 
         setPayNow,
+        alerts,
+        removeAlert,
     }
         = useTestServiceReqList();
 
@@ -248,6 +251,7 @@ const TestServiceReqList = () => {
                         convertToDate={convertToDate}
                         loadingRecord={loadingRecord}
                         authOtp={authOtp}
+                        selectedRecord={selectedRecord}
                     />
                 </div>
             </Card>
@@ -273,6 +277,7 @@ const TestServiceReqList = () => {
                             loadingFetchTestServiceTypeList={loadingFetchTestServiceTypeList}
                             errorFetchTestServiceTypeList={errorFetchTestServiceTypeList}
                             authOtp={authOtp}
+                            selectedRecord={selectedRecord}
                         />
                     </div>
                 </div>
@@ -337,6 +342,12 @@ const TestServiceReqList = () => {
                 </Card>
 
             </Card>
+            {/* Thông báo */}
+            <ManegerAlert
+                className="top-4"
+                alerts={alerts}
+                removeAlert={removeAlert}
+            />
             <ShowAllPayment
                 creatingPayment={creatingPayment}
                 selectedRecord={selectedRecord}

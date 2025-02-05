@@ -29,7 +29,9 @@ const Component = ({
 
     if (!recordDetails) return <NoRecord />
     if (!treatmentFeeDetail) return <NoRecordInfo />
-    if (!authOtp) return <AuthOtp />
+    if (!authOtp) return <AuthOtp
+        phone={selectedRecord?.patientPhone}
+    />
     if (selectedRecord.feeLockTime != null) return <Fee mess='Lần điều trị này đã bị khóa viện phí' />
     if (selectedRecord.treatmentEndTypeId != null) return <Fee mess='Đã kết thúc điều trị' />
     if (countFeeDepositReqList > 0 || numDepositReqList > 0) return <Info mess='Bạn cần thanh toán các yêu cầu tạm ứng trước!' />

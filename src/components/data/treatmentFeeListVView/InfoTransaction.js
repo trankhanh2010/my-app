@@ -17,16 +17,18 @@ const InfoTransaction = ({
     if (!recordDetails) return <NoRecordInfo />
     if (loadingFetchTreatmentFeeDetail) return <Loading />
     if (errorFetchTreatmentFeeDetail) return <ErrorInfo />
-    if (!authOtp) return <AuthOtp />
+    if (!authOtp) return <AuthOtp
+        phone={selectedRecord?.patientPhone}
+    />
 
 
     return (
         <>
             <GroupFieldSpanWithText
                 fields={[
-                    { fieldName: 'Tổng chi phí', fieldValue: Number(treatmentFeeDetail.totalPrice).toLocaleString(), divCss: `md:w-[50%] md:border-r`, pCss:`text-red-500 font-semibold` },
-                    { fieldName: 'BHYT thanh toán', fieldValue: Number(treatmentFeeDetail.totalHeinPrice).toLocaleString(), divCss: `md:w-[50%] md:border-r`, pCss:`text-blue-500 font-semibold` },
-                    { fieldName: 'BN phải thanh toán', fieldValue: Number(treatmentFeeDetail.totalPatientPrice).toLocaleString(), divCss: `md:w-[50%]`, pCss:`text-red-500 font-semibold` },
+                    { fieldName: 'Tổng chi phí', fieldValue: Number(treatmentFeeDetail.totalPrice).toLocaleString(), divCss: `md:w-[50%] md:border-r`, pCss: `text-red-500 font-semibold` },
+                    { fieldName: 'BHYT thanh toán', fieldValue: Number(treatmentFeeDetail.totalHeinPrice).toLocaleString(), divCss: `md:w-[50%] md:border-r`, pCss: `text-blue-500 font-semibold` },
+                    { fieldName: 'BN phải thanh toán', fieldValue: Number(treatmentFeeDetail.totalPatientPrice).toLocaleString(), divCss: `md:w-[50%]`, pCss: `text-red-500 font-semibold` },
 
                 ]}
             />
@@ -57,7 +59,7 @@ const InfoTransaction = ({
             <GroupFieldSpanWithText
                 css='mt-1'
                 fields={[
-                    { fieldName: 'Đã thu', fieldValue: Number(treatmentFeeDetail.daThu).toLocaleString(), divCss: `md:w-[100%]`, pCss:`text-blue-500 font-semibold` },
+                    { fieldName: 'Đã thu', fieldValue: Number(treatmentFeeDetail.daThu).toLocaleString(), divCss: `md:w-[100%]`, pCss: `text-blue-500 font-semibold` },
                 ]}
             />
             <GroupFieldSpanWithText
@@ -71,7 +73,7 @@ const InfoTransaction = ({
             <GroupFieldSpanWithText
                 css='mt-1'
                 fields={[
-                    { fieldName: `${treatmentFeeDetail.fee >=0 ? 'BN cần nộp thêm' : 'BN sẽ được hoàn lại' }`, fieldValue: treatmentFeeDetail.fee >=0 ? Number(treatmentFeeDetail.fee).toLocaleString() : Math.abs(Number(treatmentFeeDetail.fee)).toLocaleString(), divCss: `md:w-[100%]`, pCss:`${treatmentFeeDetail.fee >=0 ? 'text-red-500 ' : 'text-blue-500' } font-semibold`},
+                    { fieldName: `${treatmentFeeDetail.fee >= 0 ? 'BN cần nộp thêm' : 'BN sẽ được hoàn lại'}`, fieldValue: treatmentFeeDetail.fee >= 0 ? Number(treatmentFeeDetail.fee).toLocaleString() : Math.abs(Number(treatmentFeeDetail.fee)).toLocaleString(), divCss: `md:w-[100%]`, pCss: `${treatmentFeeDetail.fee >= 0 ? 'text-red-500 ' : 'text-blue-500'} font-semibold` },
                 ]}
             />
         </>

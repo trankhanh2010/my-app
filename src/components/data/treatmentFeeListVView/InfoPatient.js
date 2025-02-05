@@ -12,11 +12,13 @@ const InfoPatient = ({
     loadingRecord,
     setIsHelpTreatmentList,
     authOtp = true,
-
+    selectedRecord,
 }) => {
     if (!recordDetails) return <NoRecordInfo />
     if (loadingRecord) return <Loading />
-    if (!authOtp) return <AuthOtp />
+    if (!authOtp) return <AuthOtp
+        phone={selectedRecord?.patientPhone}
+    />
 
     return (
         <>

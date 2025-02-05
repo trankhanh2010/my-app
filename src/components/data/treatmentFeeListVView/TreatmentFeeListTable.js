@@ -19,7 +19,9 @@ const TestServiceReqListTable = ({
 }) => {
     if (loading) return <Loading />
     if (data.length == 0) return <NoRecord />
-    if (!authOtp) return <AuthOtp />
+    if (!authOtp) return <AuthOtp
+        phone={selectedRecord?.patientPhone}
+    />
 
     const getTextColor = (record) => {
         // Nếu đang khóa

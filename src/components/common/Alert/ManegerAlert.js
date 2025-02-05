@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import Alert from "../Alert/Alert";
 
-const Maneger = ({alerts, removeAlert }) => {
+const Maneger = ({alerts, removeAlert, className = "" }) => {
     return (
-        <div className="fixed bottom-4 right-4 space-y-4">
+        <div className={`fixed bottom-4 right-4 space-y-4 z-[99999] ${className}`}>
         {alerts.map((alert) => (
             <Alert
                 key={alert.id}
