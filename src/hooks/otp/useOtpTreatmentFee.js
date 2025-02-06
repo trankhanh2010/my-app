@@ -13,6 +13,14 @@ const useHook = () => {
     const [loadingSendOtpMailTreatmentFee, setLoadingSendOtpMailTreatmentFee] = useState(false);
     const [errorSendOtpMailTreatmentFee, setErrorSendOtpMailTreatmentFee] = useState(false);
 
+    const [sendOtpPatientRelativePhoneTreatmentFeeData, setSendOtpPatientRelativePhoneTreatmentFeeData] = useState([]);
+    const [loadingSendOtpPatientRelativePhoneTreatmentFee, setLoadingSendOtpPatientRelativePhoneTreatmentFee] = useState(false);
+    const [errorSendOtpPatientRelativePhoneTreatmentFee, setErrorSendOtpPatientRelativePhoneTreatmentFee] = useState(false);
+
+    const [sendOtpPatientRelativeMobileTreatmentFeeData, setSendOtpPatientRelativeMobileTreatmentFeeData] = useState([]);
+    const [loadingSendOtpPatientRelativeMobileTreatmentFee, setLoadingSendOtpPatientRelativeMobileTreatmentFee] = useState(false);
+    const [errorSendOtpPatientRelativeMobileTreatmentFee, setErrorSendOtpPatientRelativeMobileTreatmentFee] = useState(false);
+
     const checkOtpTreatmentFee = async (phone, otp, patientCode) => {
         try {
             if (otp) {
@@ -57,22 +65,66 @@ const useHook = () => {
             console.error("Lỗi khi gọi api gửi otp qua mail:", err);
         }
     };
+
+    const sendOtpPatientRelativePhoneTreatmentFee = async (patientCode) => {
+        try {
+            if (patientCode) {
+                setLoadingSendOtpPatientRelativePhoneTreatmentFee(true)
+                const response = await otpService.sendOtpPatientRelativePhoneTreatmentFee(patientCode);
+                setSendOtpPatientRelativePhoneTreatmentFeeData(response.data)
+                setLoadingSendOtpPatientRelativePhoneTreatmentFee(false)
+            }
+        } catch (err) {
+            setErrorSendOtpPatientRelativePhoneTreatmentFee(true)
+            setLoadingSendOtpPatientRelativePhoneTreatmentFee(false)
+            console.error("Lỗi khi gọi api gửi otp qua sms:", err);
+        }
+    };
+
+    const sendOtpPatientRelativeMobileTreatmentFee = async (patientCode) => {
+        try {
+            if (patientCode) {
+                setLoadingSendOtpPatientRelativeMobileTreatmentFee(true)
+                const response = await otpService.sendOtpPatientRelativeMobileTreatmentFee(patientCode);
+                setSendOtpPatientRelativeMobileTreatmentFeeData(response.data)
+                setLoadingSendOtpPatientRelativeMobileTreatmentFee(false)
+            }
+        } catch (err) {
+            setErrorSendOtpPatientRelativeMobileTreatmentFee(true)
+            setLoadingSendOtpPatientRelativeMobileTreatmentFee(false)
+            console.error("Lỗi khi gọi api gửi otp qua sms:", err);
+        }
+    };
     return {
         verifyOtpTreatmentFeeData,
         setVerifyOtpTreatmentFeeData,
         loadingVerifyOtpTreatmentFee,
         errorVerifyOtpTreatmentFee,
         checkOtpTreatmentFee,
+
         sendOtpPhoneTreatmentFeeData,
         setSendOtpPhoneTreatmentFeeData,
         loadingSendOtpPhoneTreatmentFee,
         errorSendOtpPhoneTreatmentFee,
         sendOtpPhoneTreatmentFee,
+
         sendOtpMailTreatmentFeeData,
         setSendOtpMailTreatmentFeeData,
         loadingSendOtpMailTreatmentFee,
         errorSendOtpMailTreatmentFee,
         sendOtpMailTreatmentFee,
+
+        sendOtpPatientRelativePhoneTreatmentFeeData,
+        setSendOtpPatientRelativePhoneTreatmentFeeData,
+        loadingSendOtpPatientRelativePhoneTreatmentFee,
+        errorSendOtpPatientRelativePhoneTreatmentFee,
+        sendOtpPatientRelativePhoneTreatmentFee,
+
+        sendOtpPatientRelativeMobileTreatmentFeeData,
+        setSendOtpPatientRelativeMobileTreatmentFeeData,
+        loadingSendOtpPatientRelativeMobileTreatmentFee,
+        errorSendOtpPatientRelativeMobileTreatmentFee,
+        sendOtpPatientRelativeMobileTreatmentFee,
     };
 };
 

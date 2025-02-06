@@ -21,11 +21,19 @@ const Modal = ({
     loadingSendOtpMailTreatmentFee,
     errorSendOtpMailTreatmentFee,
     onSendMailOtp,
+    loadingSendOtpPatientRelativePhoneTreatmentFee,
+    errorSendOtpPatientRelativePhoneTreatmentFee,
+    onSendPatientRelativePhoneOtp,
+    loadingSendOtpPatientRelativeMobileTreatmentFee,
+    errorSendOtpPatientRelativeMobileTreatmentFee,
+    onSendPatientRelativeMobileOtp,
 }) => {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const inputRefs = useRef([]);
-    const [resendTimeout, setResendTimeout] = useState(15); // Đếm ngược giây
+    const [resendPhoneTimeout, setResendPhoneTimeout] = useState(15); // Đếm ngược giây
     const [resendMailTimeout, setResendMailTimeout] = useState(30); // Đếm ngược giây
+    const [resendPatientRelativePhoneTimeout, setResendPatientRelativePhoneTimeout] = useState(15); // Đếm ngược giây
+    const [resendPatientRelativeMobileTimeout, setResendPatientRelativeMobileTimeout] = useState(15); // Đếm ngược giây
 
     const handleChange = (index, value) => {
         if (!/^[0-9]?$/.test(value)) return; // Chỉ cho phép nhập số
@@ -51,22 +59,24 @@ const Modal = ({
     };
 
     // Tự động giảm thời gian mỗi giây
+    // sms người bệnh
     useEffect(() => {
         let timer;
-        if (resendTimeout > 0) {
+        if (resendPhoneTimeout > 0) {
             timer = setInterval(() => {
-                setResendTimeout(prev => prev - 1);
+                setResendPhoneTimeout(prev => prev - 1);
             }, 1000);
         }
         return () => clearInterval(timer);
-    }, [resendTimeout]);
+    }, [resendPhoneTimeout]);
 
-    const handleResendOtp = () => {
-        if (resendTimeout === 0) {
+    const handleResendPhoneOtp = () => {
+        if (resendPhoneTimeout === 0) {
             onSendPhoneOtp(selectedRecord.patientCode);
-            setResendTimeout(15); // Reset lại bộ đếm
+            setResendPhoneTimeout(15); // Reset lại bộ đếm
         }
     };
+    // mail người bệnh
     useEffect(() => {
         let timer;
         if (resendMailTimeout > 0) {
@@ -83,6 +93,40 @@ const Modal = ({
             setResendMailTimeout(30); // Reset lại bộ đếm
         }
     };
+    // sms phone người thân
+    useEffect(() => {
+        let timer;
+        if (resendPatientRelativePhoneTimeout > 0) {
+            timer = setInterval(() => {
+                setResendPatientRelativePhoneTimeout(prev => prev - 1);
+            }, 1000);
+        }
+        return () => clearInterval(timer);
+    }, [resendPatientRelativePhoneTimeout]);
+
+    const handleResendPatientRelativePhoneOtp = () => {
+        if (resendPatientRelativePhoneTimeout === 0) {
+            onSendPatientRelativePhoneOtp(selectedRecord.patientCode);
+            setResendPatientRelativePhoneTimeout(15); // Reset lại bộ đếm
+        }
+    };
+    // sms mobile người thân
+    useEffect(() => {
+        let timer;
+        if (resendPatientRelativeMobileTimeout > 0) {
+            timer = setInterval(() => {
+                setResendPatientRelativeMobileTimeout(prev => prev - 1);
+            }, 1000);
+        }
+        return () => clearInterval(timer);
+    }, [resendPatientRelativeMobileTimeout]);
+
+    const handleResendPatientRelativeMobileOtp = () => {
+        if (resendPatientRelativeMobileTimeout === 0) {
+            onSendPatientRelativeMobileOtp(selectedRecord.patientCode);
+            setResendPatientRelativeMobileTimeout(15); // Reset lại bộ đếm
+        }
+    };
 
     const maskEmail = (email) => {
         if (!email) return "";
@@ -95,7 +139,7 @@ const Modal = ({
     useEffect(() => {
         if (!isOpen) {
             setOtp(["", "", "", "", "", ""]);
-            setResendTimeout(15); // Reset thời gian khi đóng modal
+            setResendPhoneTimeout(15); // Reset thời gian khi đóng modal
         }
     }, [isOpen]);
 
@@ -107,11 +151,13 @@ const Modal = ({
 
     if (!isOpen) return null;
     if (!selectedRecord) return null;
-    if (!selectedRecord.patientPhone && !selectedRecord.patientEmail) return null;
+    if (!selectedRecord.patientPhone && !selectedRecord.patientEmail && !selectedRecord.patientRelativePhone && !selectedRecord.patientRelativeMobile) return null;
     if (authOtp) return null;
     if (errorVerifyOtpTreatmentFee) return null;
     if (errorSendOtpPhoneTreatmentFee) return null;
     if (errorSendOtpMailTreatmentFee) return null;
+    if (errorSendOtpPatientRelativePhoneTreatmentFee) return null;
+    if (errorSendOtpPatientRelativeMobileTreatmentFee) return null;
     // if (loadingVerifyOtpTreatmentFee) return <Loading/>;
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -146,9 +192,9 @@ const Modal = ({
                                         key={index}
                                         ref={(el) => {
                                             (inputRefs.current[index] = el)
-                                            if (index === 0 && otp.every(d => d === "")) {
-                                                setTimeout(() => el?.focus(), 0);
-                                            }
+                                            // if (index === 0 && otp.every(d => d === "")) {
+                                            //     setTimeout(() => el?.focus(), 0);
+                                            // }
                                         }}
                                         type="text"
                                         maxLength="1"
@@ -162,7 +208,7 @@ const Modal = ({
                             </div>
                             {otp.some(digit => digit === "") && (
                                 <span className="block text-red-500 text-sm ">
-                                    Cần nhập đủ <span className='underline font-semibold'>6 số</span> của mã OTP để xác thực!
+                                    Cần nhập đủ <span className='font-semibold'>6 số</span> của mã OTP để xác thực!
                                 </span>
                             )}
                             <>
@@ -180,39 +226,45 @@ const Modal = ({
                             {!verifyOtpTreatmentFeeData.success && (
                                 <button
                                     onClick={() => onConfirmOtp(otp.join(""))}
-                                    className={`mt-1 text-white font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 mr-2 
+                                    className={`mt-1 mb-1 text-white font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 mr-2 
                                         ${otp.some(digit => digit === "") ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"}
                                     `}                                >
                                     Xác thực
                                 </button>
                             )}
-                            {loadingSendOtpPhoneTreatmentFee ? (<Loading />)
-                                : (
-                                    <>
-                                        {!verifyOtpTreatmentFeeData.success && (
+                            {selectedRecord.patientPhone ? (
+                                <>
+                                    {loadingSendOtpPhoneTreatmentFee ? (<Loading />)
+                                        : (
                                             <>
-                                                <button
-                                                    onClick={handleResendOtp}
-                                                    disabled={resendTimeout > 0}
-                                                    className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendTimeout > 0
-                                                        ? "text-gray-400 cursor-not-allowed"
-                                                        : "text-blue-600 hover:text-blue-800"
-                                                        }`}
-                                                >
-                                                    <span>
-                                                        <FaPaperPlane className="mr-2 font-semibold inline" />
-                                                        {`Gửi lại OTP tới điện thoại `}
-                                                        <span className="font-semibold text-black">
-                                                            {selectedRecord.patientPhone ? selectedRecord.patientPhone.replace(/\d(?=\d{2})/g, "x") : ""}
-                                                        </span>
-                                                    </span>
-                                                    {resendTimeout > 0 ? ` (Thử lại sau ${resendTimeout}s)` : ""}
+                                                {!verifyOtpTreatmentFeeData.success && (
+                                                    <>
+                                                        <button
+                                                            onClick={handleResendPhoneOtp}
+                                                            disabled={resendPhoneTimeout > 0}
+                                                            className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendPhoneTimeout > 0
+                                                                ? "text-gray-400 cursor-not-allowed"
+                                                                : "text-blue-600 hover:text-blue-800"
+                                                                }`}
+                                                        >
+                                                            <span>
+                                                                <FaPaperPlane className="mr-2 font-semibold inline" />
+                                                                {`Gửi lại OTP tới điện thoại người bệnh `}
+                                                                <span className="font-semibold text-black">
+                                                                    {selectedRecord.patientPhone ? selectedRecord.patientPhone.replace(/\d(?=\d{4})/g, "x") : ""}
+                                                                </span>
+                                                            </span>
+                                                            {resendPhoneTimeout > 0 ? ` (Thử lại sau ${resendPhoneTimeout}s)` : ""}
 
-                                                </button>
+                                                        </button>
+                                                    </>
+                                                )}
                                             </>
-                                        )}
-                                    </>
-                                )
+                                        )
+                                    }
+                                </>
+                            )
+                                : (<> </>)
                             }
                             {selectedRecord.patientEmail ? (
                                 <>
@@ -231,7 +283,7 @@ const Modal = ({
                                                         >
                                                             <span>
                                                                 <FaRegEnvelope className="mr-2 font-semibold inline" />
-                                                                {`Gửi lại OTP tới email `}
+                                                                {`Gửi lại OTP tới email người bệnh `}
                                                                 <span className="font-semibold text-black">
                                                                     {selectedRecord.patientEmail ? maskEmail(selectedRecord.patientEmail) : ""}
                                                                 </span>
@@ -239,6 +291,74 @@ const Modal = ({
                                                             {resendMailTimeout > 0 ? ` (Thử lại sau ${resendMailTimeout}s)` : ""}
                                                         </button>
                                                     </div>
+                                                )}
+                                            </>
+                                        )
+                                    }
+                                </>
+                            )
+                                : (<> </>)
+                            }
+                            {selectedRecord.patientRelativePhone ? (
+                                <>
+                                    {loadingSendOtpPatientRelativePhoneTreatmentFee ? (<Loading />)
+                                        : (
+                                            <>
+                                                {!verifyOtpTreatmentFeeData.success && (
+                                                    <>
+                                                        <button
+                                                            onClick={handleResendPatientRelativePhoneOtp}
+                                                            disabled={resendPatientRelativePhoneTimeout > 0}
+                                                            className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendPatientRelativePhoneTimeout > 0
+                                                                ? "text-gray-400 cursor-not-allowed"
+                                                                : "text-blue-600 hover:text-blue-800"
+                                                                }`}
+                                                        >
+                                                            <span>
+                                                                <FaPaperPlane className="mr-2 font-semibold inline" />
+                                                                {`Gửi lại OTP tới điện thoại người thân `}
+                                                                <span className="font-semibold text-black">
+                                                                    {selectedRecord.patientRelativePhone ? selectedRecord.patientRelativePhone.replace(/\d(?=\d{4})/g, "x") : ""}
+                                                                </span>
+                                                            </span>
+                                                            {resendPatientRelativePhoneTimeout > 0 ? ` (Thử lại sau ${resendPatientRelativePhoneTimeout}s)` : ""}
+
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </>
+                                        )
+                                    }
+                                </>
+                            )
+                                : (<> </>)
+                            }
+                            {selectedRecord.patientRelativeMobile ? (
+                                <>
+                                    {loadingSendOtpPatientRelativeMobileTreatmentFee ? (<Loading />)
+                                        : (
+                                            <>
+                                                {!verifyOtpTreatmentFeeData.success && (
+                                                    <>
+                                                        <button
+                                                            onClick={handleResendPatientRelativeMobileOtp}
+                                                            disabled={resendPatientRelativeMobileTimeout > 0}
+                                                            className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendPatientRelativeMobileTimeout > 0
+                                                                ? "text-gray-400 cursor-not-allowed"
+                                                                : "text-blue-600 hover:text-blue-800"
+                                                                }`}
+                                                        >
+                                                            <span>
+                                                                <FaPaperPlane className="mr-2 font-semibold inline" />
+                                                                {`Gửi lại OTP tới di động người thân `}
+                                                                <span className="font-semibold text-black">
+                                                                    {selectedRecord.patientRelativeMobile ? selectedRecord.patientRelativeMobile.replace(/\d(?=\d{4})/g, "x") : ""}
+                                                                </span>
+                                                            </span>
+                                                            {resendPatientRelativeMobileTimeout > 0 ? ` (Thử lại sau ${resendPatientRelativeMobileTimeout}s)` : ""}
+
+                                                        </button>
+                                                    </>
                                                 )}
                                             </>
                                         )

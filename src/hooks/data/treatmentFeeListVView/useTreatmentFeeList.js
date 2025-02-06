@@ -365,6 +365,16 @@ const useTreatmentFeeList = () => {
         loadingSendOtpMailTreatmentFee,
         errorSendOtpMailTreatmentFee,
         sendOtpMailTreatmentFee,
+        sendOtpPatientRelativePhoneTreatmentFeeData,
+        setSendOtpPatientRelativePhoneTreatmentFeeData,
+        loadingSendOtpPatientRelativePhoneTreatmentFee,
+        errorSendOtpPatientRelativePhoneTreatmentFee,
+        sendOtpPatientRelativePhoneTreatmentFee,
+        sendOtpPatientRelativeMobileTreatmentFeeData,
+        setSendOtpPatientRelativeMobileTreatmentFeeData,
+        loadingSendOtpPatientRelativeMobileTreatmentFee,
+        errorSendOtpPatientRelativeMobileTreatmentFee,
+        sendOtpPatientRelativeMobileTreatmentFee,
     } = useOtpTreatmentFee();
     // ghi đè lên master
     const handleOpenMoMoPayment = () => {
@@ -400,6 +410,16 @@ const useTreatmentFeeList = () => {
             const checkOtp = await sendOtpMailTreatmentFee(patientCode)
         }
     }
+    const onSendPatientRelativePhoneOtp = async (patientCode) => {
+        if(patientCode){
+            const checkOtp = await sendOtpPatientRelativePhoneTreatmentFee(patientCode)
+        }
+    }
+    const onSendPatientRelativeMobileOtp = async (patientCode) => {
+        if(patientCode){
+            const checkOtp = await sendOtpPatientRelativeMobileTreatmentFee(patientCode)
+        }
+    }
     useEffect(() => {
         // Hiện thông báo gửi OTP
         // Nếu có data
@@ -422,6 +442,28 @@ const useTreatmentFeeList = () => {
             }
         }
     }, [sendOtpMailTreatmentFeeData]); // Gọi lại khi có thay đổi
+    useEffect(() => {
+        // Hiện thông báo gửi OTP
+        // Nếu có data
+        if(Object.keys(sendOtpPatientRelativePhoneTreatmentFeeData).length > 0){
+            if(sendOtpPatientRelativePhoneTreatmentFeeData.success){
+                addAlert("Gửi mã OTP qua SMS thành công!", "success"); 
+            }else{
+                addAlert("Gửi mã OTP qua SMS không thành công! Thử lại sau ít phút!", "error"); 
+            }
+        }
+    }, [sendOtpPatientRelativePhoneTreatmentFeeData]); // Gọi lại khi có thay đổi
+    useEffect(() => {
+        // Hiện thông báo gửi OTP
+        // Nếu có data
+        if(Object.keys(sendOtpPatientRelativeMobileTreatmentFeeData).length > 0){
+            if(sendOtpPatientRelativeMobileTreatmentFeeData.success){
+                addAlert("Gửi mã OTP qua SMS thành công!", "success"); 
+            }else{
+                addAlert("Gửi mã OTP qua SMS không thành công! Thử lại sau ít phút!", "error"); 
+            }
+        }
+    }, [sendOtpPatientRelativeMobileTreatmentFeeData]); // Gọi lại khi có thay đổi
     useEffect(() => {
         // Kiểm tra tất cả các trường trong filterCursor khác null
         const allFieldsNotNull = Object.values(filterCursor).every(value => value !== null);
@@ -685,6 +727,18 @@ const useTreatmentFeeList = () => {
         errorSendOtpMailTreatmentFee,
         sendOtpMailTreatmentFee,
         onSendMailOtp,
+        sendOtpPatientRelativePhoneTreatmentFeeData,
+        setSendOtpPatientRelativePhoneTreatmentFeeData,
+        loadingSendOtpPatientRelativePhoneTreatmentFee,
+        errorSendOtpPatientRelativePhoneTreatmentFee,
+        sendOtpPatientRelativePhoneTreatmentFee,
+        onSendPatientRelativePhoneOtp,
+        sendOtpPatientRelativeMobileTreatmentFeeData,
+        setSendOtpPatientRelativeMobileTreatmentFeeData,
+        loadingSendOtpPatientRelativeMobileTreatmentFee,
+        errorSendOtpPatientRelativeMobileTreatmentFee,
+        sendOtpPatientRelativeMobileTreatmentFee,
+        onSendPatientRelativeMobileOtp,
         alerts,
         removeAlert,
     };

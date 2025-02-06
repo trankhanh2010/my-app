@@ -34,8 +34,32 @@ const sendOtpMailTreatmentFee = async (patientCode) => {
         throw error; // Ném lỗi để xử lý ở cấp cao hơn
     }
 };
+const sendOtpPatientRelativePhoneTreatmentFee = async (patientCode) => {
+
+    if(!patientCode) return { success : false}
+    try {
+        const response = await apiNoAuth.get(`/api/v1/send-otp-patient-relative-phone-treatment-fee?patientCode=${patientCode}`);
+        return response.data; // Trả về dữ liệu từ API
+    } catch (error) {
+        console.error("Lỗi khi gửi mã xác thực otp qua sms:", error);
+        throw error; // Ném lỗi để xử lý ở cấp cao hơn
+    }
+};
+const sendOtpPatientRelativeMobileTreatmentFee = async (patientCode) => {
+
+    if(!patientCode) return { success : false}
+    try {
+        const response = await apiNoAuth.get(`/api/v1/send-otp-patient-relative-mobile-treatment-fee?patientCode=${patientCode}`);
+        return response.data; // Trả về dữ liệu từ API
+    } catch (error) {
+        console.error("Lỗi khi gửi mã xác thực otp qua sms:", error);
+        throw error; // Ném lỗi để xử lý ở cấp cao hơn
+    }
+};
 export default {
     checkOtpTreatmentFee,
     sendOtpPhoneTreatmentFee,
     sendOtpMailTreatmentFee,
+    sendOtpPatientRelativePhoneTreatmentFee,
+    sendOtpPatientRelativeMobileTreatmentFee,
 };

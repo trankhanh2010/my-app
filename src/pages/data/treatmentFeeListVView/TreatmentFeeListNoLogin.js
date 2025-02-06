@@ -134,6 +134,18 @@ const TestServiceReqList = () => {
         errorSendOtpMailTreatmentFee,
         sendOtpMailTreatmentFee,
         onSendMailOtp,
+        sendOtpPatientRelativePhoneTreatmentFeeData,
+        setSendOtpPatientRelativePhoneTreatmentFeeData,
+        loadingSendOtpPatientRelativePhoneTreatmentFee,
+        errorSendOtpPatientRelativePhoneTreatmentFee,
+        sendOtpPatientRelativePhoneTreatmentFee,
+        onSendPatientRelativePhoneOtp,
+        sendOtpPatientRelativeMobileTreatmentFeeData,
+        setSendOtpPatientRelativeMobileTreatmentFeeData,
+        loadingSendOtpPatientRelativeMobileTreatmentFee,
+        errorSendOtpPatientRelativeMobileTreatmentFee,
+        sendOtpPatientRelativeMobileTreatmentFee,
+        onSendPatientRelativeMobileOtp,
         payNow, 
         setPayNow,
         alerts,
@@ -421,6 +433,12 @@ const TestServiceReqList = () => {
                 loadingSendOtpMailTreatmentFee={loadingSendOtpMailTreatmentFee}
                 errorSendOtpMailTreatmentFee={errorSendOtpMailTreatmentFee}
                 onSendMailOtp={onSendMailOtp}
+                loadingSendOtpPatientRelativePhoneTreatmentFee={loadingSendOtpPatientRelativePhoneTreatmentFee}
+                errorSendOtpPatientRelativePhoneTreatmentFee={errorSendOtpPatientRelativePhoneTreatmentFee}
+                onSendPatientRelativePhoneOtp={onSendPatientRelativePhoneOtp}
+                loadingSendOtpPatientRelativeMobileTreatmentFee={loadingSendOtpPatientRelativeMobileTreatmentFee}
+                errorSendOtpPatientRelativeMobileTreatmentFee={errorSendOtpPatientRelativeMobileTreatmentFee}
+                onSendPatientRelativeMobileOtp={onSendPatientRelativeMobileOtp}
             />
         </div>
     );
