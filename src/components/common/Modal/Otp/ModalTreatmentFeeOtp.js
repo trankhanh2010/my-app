@@ -212,11 +212,18 @@ const Modal = ({
                                 {Object.keys(verifyOtpTreatmentFeeData).length > 0 && (
                                     verifyOtpTreatmentFeeData.success ? (
                                         <p className="text-green-600 font-medium text-lg">Xác thực thành công!</p>
-                                    ) : (
-                                        <p className="text-red-600 font-medium text-lg">
-                                            Xác thực không thành công! Mã OTP không đúng hoặc hết hạn!
-                                        </p>
-                                    )
+                                    ) : (<>
+                                        {verifyOtpTreatmentFeeData.limitRequest ? (
+                                            <p className="text-red-600 font-medium text-lg">
+                                                Đã đạt giới hạn số lần nhập sai mã OTP! Vui lòng <span className='font-semibold'>nhận 1 mã OTP khác</span> và thử lại!
+                                            </p>
+                                        )
+                                            : (
+                                                <p className="text-red-600 font-medium text-lg">
+                                                    Xác thực không thành công! Mã OTP không đúng hoặc hết hạn!
+                                                </p>)
+                                        }
+                                    </>)
                                 )}
                             </>
 
