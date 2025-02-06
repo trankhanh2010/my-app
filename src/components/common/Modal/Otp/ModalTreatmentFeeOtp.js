@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Loading from '../../Info/Loading';
 import Fail from '../../Info/Fail';
-import { FaPaperPlane, FaRegEnvelope } from 'react-icons/fa'; // Import icon gửi
+import { FaPaperPlane, FaRegEnvelope, FaShieldAlt, FaMobileAlt } from 'react-icons/fa'; // Import icon gửi
 
 const Modal = ({
     authOtp,
@@ -192,9 +192,6 @@ const Modal = ({
                                         key={index}
                                         ref={(el) => {
                                             (inputRefs.current[index] = el)
-                                            // if (index === 0 && otp.every(d => d === "")) {
-                                            //     setTimeout(() => el?.focus(), 0);
-                                            // }
                                         }}
                                         type="text"
                                         maxLength="1"
@@ -202,7 +199,7 @@ const Modal = ({
                                         onChange={(e) => handleChange(index, e.target.value)}
                                         onKeyDown={(e) => handleKeyDown(index, e)}
                                         onFocus={() => handleFocus(index)}
-                                        className="w-6 h-6 md:w-12 md:h-12 text-center text-lg border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-9 h-9 md:w-12 md:h-12 text-center text-lg border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     />
                                 ))}
                             </div>
@@ -229,6 +226,7 @@ const Modal = ({
                                     className={`mt-1 mb-1 text-white font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 mr-2 
                                         ${otp.some(digit => digit === "") ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"}
                                     `}                                >
+                                    <FaShieldAlt className="mr-2 font-semibold inline" />
                                     Xác thực
                                 </button>
                             )}
@@ -349,7 +347,7 @@ const Modal = ({
                                                                 }`}
                                                         >
                                                             <span>
-                                                                <FaPaperPlane className="mr-2 font-semibold inline" />
+                                                                <FaMobileAlt className="mr-2 font-semibold inline" />
                                                                 {`Gửi lại OTP tới di động người thân `}
                                                                 <span className="font-semibold text-black">
                                                                     {selectedRecord.patientRelativeMobile ? selectedRecord.patientRelativeMobile.replace(/\d(?=\d{4})/g, "x") : ""}

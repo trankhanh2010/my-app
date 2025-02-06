@@ -427,7 +427,11 @@ const useTreatmentFeeList = () => {
             if(sendOtpPhoneTreatmentFeeData.success){
                 addAlert("Gửi mã OTP qua SMS thành công!", "success"); 
             }else{
-                addAlert("Gửi mã OTP qua SMS không thành công! Thử lại sau ít phút!", "error"); 
+                if(sendOtpPhoneTreatmentFeeData.limitRequest){
+                    addAlert("Thiết bị của bạn yêu cầu quá nhiều mã OTP trong 24h qua! Thử lại sau 24h!", "error"); 
+                }else{
+                    addAlert("Gửi mã OTP qua SMS không thành công! Thử lại sau ít phút!", "error"); 
+                }
             }
         }
     }, [sendOtpPhoneTreatmentFeeData]); // Gọi lại khi có thay đổi
@@ -438,7 +442,11 @@ const useTreatmentFeeList = () => {
             if(sendOtpMailTreatmentFeeData.success){
                 addAlert("Gửi mã OTP qua Mail thành công!", "success"); 
             }else{
-                addAlert("Gửi mã OTP qua Mail không thành công! Thử lại sau ít phút!", "error"); 
+                if(sendOtpMailTreatmentFeeData.limitRequest){
+                    addAlert("Thiết bị của bạn yêu cầu quá nhiều mã OTP trong 24h qua! Thử lại sau 24h!", "error"); 
+                }else{
+                    addAlert("Gửi mã OTP qua Mail không thành công! Thử lại sau ít phút!", "error"); 
+                }
             }
         }
     }, [sendOtpMailTreatmentFeeData]); // Gọi lại khi có thay đổi
@@ -449,7 +457,11 @@ const useTreatmentFeeList = () => {
             if(sendOtpPatientRelativePhoneTreatmentFeeData.success){
                 addAlert("Gửi mã OTP qua SMS thành công!", "success"); 
             }else{
-                addAlert("Gửi mã OTP qua SMS không thành công! Thử lại sau ít phút!", "error"); 
+                if(sendOtpPatientRelativePhoneTreatmentFeeData.limitRequest){
+                    addAlert("Thiết bị của bạn yêu cầu quá nhiều mã OTP trong 24h qua! Thử lại sau 24h!", "error"); 
+                }else{
+                    addAlert("Gửi mã OTP qua SMS không thành công! Thử lại sau ít phút!", "error"); 
+                }
             }
         }
     }, [sendOtpPatientRelativePhoneTreatmentFeeData]); // Gọi lại khi có thay đổi
@@ -460,7 +472,11 @@ const useTreatmentFeeList = () => {
             if(sendOtpPatientRelativeMobileTreatmentFeeData.success){
                 addAlert("Gửi mã OTP qua SMS thành công!", "success"); 
             }else{
-                addAlert("Gửi mã OTP qua SMS không thành công! Thử lại sau ít phút!", "error"); 
+                if(sendOtpPatientRelativeMobileTreatmentFeeData.limitRequest){
+                    addAlert("Thiết bị của bạn yêu cầu quá nhiều mã OTP trong 24h qua! Thử lại sau 24h!", "error"); 
+                }else{
+                    addAlert("Gửi mã OTP qua SMS không thành công! Thử lại sau ít phút!", "error"); 
+                }
             }
         }
     }, [sendOtpPatientRelativeMobileTreatmentFeeData]); // Gọi lại khi có thay đổi
