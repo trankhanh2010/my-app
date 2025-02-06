@@ -128,6 +128,18 @@ const Modal = ({
         }
     };
 
+    const disabledSendOtp = () => {
+        if (loadingVerifyOtpTreatmentFee
+            || loadingSendOtpPhoneTreatmentFee
+            || loadingSendOtpMailTreatmentFee
+            || loadingSendOtpPatientRelativePhoneTreatmentFee
+            || loadingSendOtpPatientRelativeMobileTreatmentFee
+        ) {
+            return true
+        } else {
+            return false
+        }
+    }
     const maskEmail = (email) => {
         if (!email) return "";
 
@@ -218,10 +230,16 @@ const Modal = ({
                                                 Đã đạt giới hạn số lần nhập sai mã OTP! Vui lòng <span className='font-semibold'>nhận 1 mã OTP khác</span> và thử lại!
                                             </p>
                                         )
-                                            : (
+                                            : (<>
                                                 <p className="text-red-600 font-medium text-lg">
                                                     Xác thực không thành công! Mã OTP không đúng hoặc hết hạn!
-                                                </p>)
+                                                </p>
+                                                <p className="text-red-600 font-medium text-lg">
+                                                    {verifyOtpTreatmentFeeData.totalRetryVerify > 0
+                                                        ? ((`Bạn còn ${verifyOtpTreatmentFeeData.totalRetryVerify} lần nhập sai!`))
+                                                        : (`Vui lòng nhận 1 mã OTP khác và thử lại!`)}
+                                                </p>
+                                            </>)
                                         }
                                     </>)
                                 )}
@@ -229,9 +247,10 @@ const Modal = ({
 
                             {!verifyOtpTreatmentFeeData.success && (
                                 <button
+                                    disabled={disabledSendOtp()}
                                     onClick={() => onConfirmOtp(otp.join(""))}
                                     className={`mt-1 mb-1 text-white font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 mr-2 
-                                        ${otp.some(digit => digit === "") ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"}
+                                        ${(otp.some(digit => digit === "") || disabledSendOtp()) ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"}
                                     `}                                >
                                     <FaShieldAlt className="mr-2 font-semibold inline" />
                                     Xác thực
@@ -246,8 +265,8 @@ const Modal = ({
                                                     <>
                                                         <button
                                                             onClick={handleResendPhoneOtp}
-                                                            disabled={resendPhoneTimeout > 0}
-                                                            className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendPhoneTimeout > 0
+                                                            disabled={resendPhoneTimeout > 0 || disabledSendOtp()}
+                                                            className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendPhoneTimeout > 0 || disabledSendOtp()
                                                                 ? "text-gray-400 cursor-not-allowed"
                                                                 : "text-blue-600 hover:text-blue-800"
                                                                 }`}
@@ -280,8 +299,8 @@ const Modal = ({
                                                     <div>
                                                         <button
                                                             onClick={handleResendMailOtp}
-                                                            disabled={resendMailTimeout > 0}
-                                                            className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendMailTimeout > 0
+                                                            disabled={resendMailTimeout > 0 || disabledSendOtp()}
+                                                            className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendMailTimeout > 0 || disabledSendOtp()
                                                                 ? "text-gray-400 cursor-not-allowed"
                                                                 : "text-blue-600 hover:text-blue-800"
                                                                 }`}
@@ -313,8 +332,8 @@ const Modal = ({
                                                     <>
                                                         <button
                                                             onClick={handleResendPatientRelativePhoneOtp}
-                                                            disabled={resendPatientRelativePhoneTimeout > 0}
-                                                            className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendPatientRelativePhoneTimeout > 0
+                                                            disabled={resendPatientRelativePhoneTimeout > 0 || disabledSendOtp()}
+                                                            className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendPatientRelativePhoneTimeout > 0 || disabledSendOtp()
                                                                 ? "text-gray-400 cursor-not-allowed"
                                                                 : "text-blue-600 hover:text-blue-800"
                                                                 }`}
@@ -347,8 +366,8 @@ const Modal = ({
                                                     <>
                                                         <button
                                                             onClick={handleResendPatientRelativeMobileOtp}
-                                                            disabled={resendPatientRelativeMobileTimeout > 0}
-                                                            className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendPatientRelativeMobileTimeout > 0
+                                                            disabled={resendPatientRelativeMobileTimeout > 0 || disabledSendOtp()}
+                                                            className={`flex items-center justify-center text-left py-2.5 font-semibold text-lg ${resendPatientRelativeMobileTimeout > 0 || disabledSendOtp()
                                                                 ? "text-gray-400 cursor-not-allowed"
                                                                 : "text-blue-600 hover:text-blue-800"
                                                                 }`}
