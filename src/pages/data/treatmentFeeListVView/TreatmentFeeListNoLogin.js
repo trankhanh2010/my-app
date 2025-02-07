@@ -439,6 +439,10 @@ const TestServiceReqList = () => {
                 loadingSendOtpPatientRelativeMobileTreatmentFee={loadingSendOtpPatientRelativeMobileTreatmentFee}
                 errorSendOtpPatientRelativeMobileTreatmentFee={errorSendOtpPatientRelativeMobileTreatmentFee}
                 onSendPatientRelativeMobileOtp={onSendPatientRelativeMobileOtp}
+                sendOtpPatientRelativeMobileTreatmentFeeData={sendOtpPatientRelativeMobileTreatmentFeeData}
+                sendOtpPatientRelativePhoneTreatmentFeeData={sendOtpPatientRelativePhoneTreatmentFeeData}
+                sendOtpMailTreatmentFeeData={sendOtpMailTreatmentFeeData}
+                sendOtpPhoneTreatmentFeeData={sendOtpPhoneTreatmentFeeData}
             />
         </div>
     );

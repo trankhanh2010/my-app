@@ -403,21 +403,25 @@ const useTreatmentFeeList = () => {
     const onSendPhoneOtp = async (patientCode) => {
         if(patientCode){
             const checkOtp = await sendOtpPhoneTreatmentFee(patientCode)
+            setVerifyOtpTreatmentFeeData({});
         }
     }
     const onSendMailOtp = async (patientCode) => {
         if(patientCode){
             const checkOtp = await sendOtpMailTreatmentFee(patientCode)
+            setVerifyOtpTreatmentFeeData({});
         }
     }
     const onSendPatientRelativePhoneOtp = async (patientCode) => {
         if(patientCode){
             const checkOtp = await sendOtpPatientRelativePhoneTreatmentFee(patientCode)
+            setVerifyOtpTreatmentFeeData({});
         }
     }
     const onSendPatientRelativeMobileOtp = async (patientCode) => {
         if(patientCode){
             const checkOtp = await sendOtpPatientRelativeMobileTreatmentFee(patientCode)
+            setVerifyOtpTreatmentFeeData({});
         }
     }
     useEffect(() => {
