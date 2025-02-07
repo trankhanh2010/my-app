@@ -7,6 +7,7 @@ const Component = ({
     inputRefs,
     handleKeyDown,
     handleFocus,
+    handlePaste,
     verifyOtpTreatmentFeeData,
 }) => {
     if (verifyOtpTreatmentFeeData.success) return null
@@ -26,7 +27,8 @@ const Component = ({
                         onChange={(e) => handleChange(index, e.target.value)}
                         onKeyDown={(e) => handleKeyDown(index, e)}
                         onFocus={() => handleFocus(index)}
-                        className="w-9 h-9 md:w-12 md:h-12 text-center text-lg border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        onPaste={index === 0 ? handlePaste : null} // Chỉ cần bắt sự kiện paste ở ô đầu tiên
+                        className="w-10 h-10 md:w-12 md:h-12 text-center text-lg border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 ))}
             </div>

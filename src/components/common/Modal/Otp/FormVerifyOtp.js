@@ -28,6 +28,7 @@ const Component = ({
     inputRefs,
     handleKeyDown,
     handleFocus,
+    handlePaste,
     disabledSendOtp,
     handleResendPhoneOtp,
     resendPhoneTimeout,
@@ -56,6 +57,7 @@ const Component = ({
                 inputRefs={inputRefs}
                 handleKeyDown={handleKeyDown}
                 handleFocus={handleFocus}
+                handlePaste={handlePaste}
                 verifyOtpTreatmentFeeData={verifyOtpTreatmentFeeData}
             />
 

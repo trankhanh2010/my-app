@@ -8,6 +8,7 @@ import treatmentFeeListService from "../../../services/data/treatmentFeeListServ
 import testServiceTypeListService from "../../../services/data/testServiceTypeListService";
 import treatmentFeeDetailService from "../../../services/data/treatmentFeeDetailService";
 import pusher from '../../../websocket/pusher';
+import { useAuthOtpContext } from "../../../context/AuthOtpContext";
 const useTreatmentFeeList = () => {
     const isDB = config.apiService.testServiceReqListVView.typeGetApi === 'db';
     const testServiceTypeListVViewIsDB = config.apiService.testServiceTypeListVView.typeGetApi === 'db';
@@ -244,7 +245,7 @@ const useTreatmentFeeList = () => {
                 }
                 // nếu chưa xác thực OTP thì hiện form
                 if(treatmentFeeDetail.param.authOtp === false){
-                    setAuthOtp(false)
+                    setAuthOtpTreatmentFee(false)
                 }
                 setLoadingFetchTreatmentFeeDetail(false)
                 setErrorFetchTreatmentFeeDetail(false)
@@ -289,6 +290,12 @@ const useTreatmentFeeList = () => {
         loaiThanhToan
     );
 
+    // Lấy trạng thái xác thực OTP từ context qua
+    const {
+        authOtpTreatmentFee,
+        setAuthOtpTreatmentFee,
+    } = useAuthOtpContext()
+
     // Lấy từ hookMaster qua
     const {
         format,
@@ -329,10 +336,10 @@ const useTreatmentFeeList = () => {
         openAppMoMoPayment,
         firstLoadPage, 
         setFirstLoadPage,
-        authOtp, 
-        setAuthOtp,
         opentFormOtp, 
         setOpentFormOtp,
+        paramData, 
+        setParamData,
     } = useMasterList(
         [],
         [],
@@ -501,7 +508,7 @@ const useTreatmentFeeList = () => {
     /// Xử lý hiện xác thực otp
     useEffect(() => {
         // Nếu có dữ liệu và dữ liệu chưa được xác thực ở thiết bị này thì hiện form
-        if((dataCursor.length > 0) && (authOtp === false)){
+        if((dataCursor.length > 0) && (authOtpTreatmentFee === false)){
             // Hiện form
             setOpentFormOtp(true)
        }
@@ -629,6 +636,11 @@ const useTreatmentFeeList = () => {
             setOpenModalOtherLinkPayment(false)
         }
     }, [opentShowAllPayment]); // Gọi lại khi có thay đổi
+
+    // Cập nhật lại context 
+    useEffect(() => {
+        setAuthOtpTreatmentFee(paramData.authOtp)
+    }, [paramData]); // Gọi lại khi có thay đổi
     return {
         fieldLabels,
         format,
@@ -724,8 +736,8 @@ const useTreatmentFeeList = () => {
         handleScrollPayInfo,
         isModalDepositReqFeeListOpen, 
         setIsModalDepositReqFeeListOpen,
-        authOtp, 
-        setAuthOtp,
+        authOtpTreatmentFee, 
+        setAuthOtpTreatmentFee,
         opentFormOtp, 
         setOpentFormOtp,
         verifyOtpTreatmentFeeData,

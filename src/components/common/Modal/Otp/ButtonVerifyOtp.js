@@ -11,10 +11,10 @@ const Component = ({
     return (
         <>
             <button
-                disabled={disabledSendOtp()}
+                disabled={otp.some(digit => digit === "") || disabledSendOtp() || verifyOtpTreatmentFeeData.totalRetryVerify <= 0}
                 onClick={() => onConfirmOtp(otp.join(""))}
                 className={`mt-1 mb-1 text-white font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 mr-2 
-                    ${(otp.some(digit => digit === "") || disabledSendOtp()) ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"}
+                    ${(otp.some(digit => digit === "") || disabledSendOtp() || verifyOtpTreatmentFeeData.totalRetryVerify <= 0) ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"}
                 `}                                >
                 <FaShieldAlt className="mr-2 font-semibold inline" />
                 Xác thực

@@ -33,10 +33,10 @@ const Modal = ({
 }) => {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const inputRefs = useRef([]);
-    const [resendPhoneTimeout, setResendPhoneTimeout] = useState(15); // Đếm ngược giây
-    const [resendMailTimeout, setResendMailTimeout] = useState(15); // Đếm ngược giây
-    const [resendPatientRelativePhoneTimeout, setResendPatientRelativePhoneTimeout] = useState(15); // Đếm ngược giây
-    const [resendPatientRelativeMobileTimeout, setResendPatientRelativeMobileTimeout] = useState(15); // Đếm ngược giây
+    const [resendPhoneTimeout, setResendPhoneTimeout] = useState(0); // Đếm ngược giây
+    const [resendMailTimeout, setResendMailTimeout] = useState(0); // Đếm ngược giây
+    const [resendPatientRelativePhoneTimeout, setResendPatientRelativePhoneTimeout] = useState(0); // Đếm ngược giây
+    const [resendPatientRelativeMobileTimeout, setResendPatientRelativeMobileTimeout] = useState(0); // Đếm ngược giây
 
     const handleChange = (index, value) => {
         if (!/^[0-9]?$/.test(value)) return; // Chỉ cho phép nhập số
@@ -60,6 +60,33 @@ const Modal = ({
     const handleFocus = (index) => {
         inputRefs.current[index].select();
     };
+    // Dán mã OTP khi ctrl v
+    const handlePaste = (e) => {
+        e.preventDefault();
+        const pasteData = e.clipboardData.getData("text"); // Lấy nội dung clipboard
+        const digits = pasteData.replace(/\D/g, "").slice(0, 6); // Lọc chỉ lấy số và giới hạn 6 số
+
+        if (digits.length === 6) {
+            setOtp(digits.split(""));
+            digits.split("").forEach((digit, i) => {
+                if (inputRefs.current[i]) {
+                    inputRefs.current[i].value = digit;
+                }
+            });
+
+            // Focus vào ô cuối cùng
+            inputRefs.current[5]?.focus();
+        }
+    };
+
+    // Mở modal thì gửi otp qua phone 
+    useEffect(() => {
+        if(isOpen && !authOtp){
+            if(selectedRecord && selectedRecord.patientCode && resendPhoneTimeout <=0){
+                handleResendPhoneOtp()
+            }
+        }
+    }, [isOpen, selectedRecord]);
 
     // Tự động giảm thời gian mỗi giây
     // sms người bệnh
@@ -154,7 +181,6 @@ const Modal = ({
     useEffect(() => {
         if (!isOpen) {
             setOtp(["", "", "", "", "", ""]);
-            setResendPhoneTimeout(15); // Reset thời gian khi đóng modal
         }
     }, [isOpen]);
     useEffect(() => {
@@ -230,6 +256,7 @@ const Modal = ({
                         inputRefs={inputRefs}
                         handleKeyDown={handleKeyDown}
                         handleFocus={handleFocus}
+                        handlePaste={handlePaste}
                         disabledSendOtp={disabledSendOtp}
                         handleResendPhoneOtp={handleResendPhoneOtp}
                         resendPhoneTimeout={resendPhoneTimeout}

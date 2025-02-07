@@ -111,11 +111,11 @@ const TestServiceReqList = () => {
         setIsHelpButtonSearch,
         sectionPayInfoRef,
         handleScrollPayInfo,
-        isModalDepositReqFeeListOpen, 
+        isModalDepositReqFeeListOpen,
         setIsModalDepositReqFeeListOpen,
-        authOtp, 
-        setAuthOtp,
-        opentFormOtp, 
+        authOtpTreatmentFee,
+        setAuthOtpTreatmentFee,
+        opentFormOtp,
         setOpentFormOtp,
         verifyOtpTreatmentFeeData,
         loadingVerifyOtpTreatmentFee,
@@ -146,7 +146,7 @@ const TestServiceReqList = () => {
         errorSendOtpPatientRelativeMobileTreatmentFee,
         sendOtpPatientRelativeMobileTreatmentFee,
         onSendPatientRelativeMobileOtp,
-        payNow, 
+        payNow,
         setPayNow,
         alerts,
         removeAlert,
@@ -202,10 +202,10 @@ const TestServiceReqList = () => {
     }, [selectedRecord]); // Gọi lại khi data hoặc selectedRecord thay đổi
     // Nếu chưa xác thực OTP mở form nhập OTP
     useEffect(() => {
-        if (!authOtp) {
+        if (!authOtpTreatmentFee) {
             setOpentFormOtp(true)
         }
-    }, [authOtp]); // Gọi lại khi có thay đổi
+    }, [authOtpTreatmentFee]); // Gọi lại khi có thay đổi
 
     return (
         <div className={`grid grid-cols-1 md:grid-cols-12 grid-row-2 gap-2 mt-2 w-full ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
@@ -252,7 +252,7 @@ const TestServiceReqList = () => {
                         setTreatmentId={setTreatmentId}
                         loading={loading}
                         setReload={setReload}
-                        authOtp={authOtp}
+                        authOtp={authOtpTreatmentFee}
                     />
                 </div>
             </Card>
@@ -268,7 +268,7 @@ const TestServiceReqList = () => {
                         format={format}
                         convertToDate={convertToDate}
                         loadingRecord={loadingRecord}
-                        authOtp={authOtp}
+                        authOtp={authOtpTreatmentFee}
                         selectedRecord={selectedRecord}
                     />
                 </div>
@@ -294,7 +294,7 @@ const TestServiceReqList = () => {
                             setExpandedGroups={setExpandedGroups}
                             loadingFetchTestServiceTypeList={loadingFetchTestServiceTypeList}
                             errorFetchTestServiceTypeList={errorFetchTestServiceTypeList}
-                            authOtp={authOtp}
+                            authOtp={authOtpTreatmentFee}
                             selectedRecord={selectedRecord}
                         />
                     </div>
@@ -311,8 +311,7 @@ const TestServiceReqList = () => {
                         selectedRecord={selectedRecord}
                         loadingFetchTreatmentFeeDetail={loadingFetchTreatmentFeeDetail}
                         errorFetchTreatmentFeeDetail={errorFetchTreatmentFeeDetail}
-                        authOtp={authOtp}
-
+                        authOtp={authOtpTreatmentFee}
                     />
                 </div>
             </Card>
@@ -330,13 +329,13 @@ const TestServiceReqList = () => {
                         countFeeDepositReqList={countFeeDepositReqList}
                         isModalDepositReqFeeListOpen={isModalDepositReqFeeListOpen}
                         setIsModalDepositReqFeeListOpen={setIsModalDepositReqFeeListOpen}
-                        authOtp={authOtp}
+                        authOtp={authOtpTreatmentFee}
                         payNow={payNow}
                         setPayNow={setPayNow}
                     />
                     <ButtonDepositReqListNoLogin
                         selectedRecord={selectedRecord}
-                        authOtp={authOtp}
+                        authOtp={authOtpTreatmentFee}
                     />
                 </Card>
                 <Card className="col-span mt-2">
@@ -348,14 +347,14 @@ const TestServiceReqList = () => {
                         setOpentShowAllPayment={setOpentShowAllPayment}
                         countFeeDepositReqList={countFeeDepositReqList}
                         numDepositReqList={numDepositReqList}
-                        authOtp={authOtp}
+                        authOtp={authOtpTreatmentFee}
                         setPayNow={setPayNow}
                         payNow={payNow}
                         loaiThanhToan={loaiThanhToan}
                     />
                     <ButtonListNoLogin
                         selectedRecord={selectedRecord}
-                        authOtp={authOtp}
+                        authOtp={authOtpTreatmentFee}
                     />
                 </Card>
 
@@ -400,8 +399,8 @@ const TestServiceReqList = () => {
             <ModalInfoFee
                 isOpen={isOpenModalInfoFee}
                 onCancel={closeModalInfoFee}
-                onOk={()=>{
-                    closeModalInfoFee() 
+                onOk={() => {
+                    closeModalInfoFee()
                     handleScrollPayInfo() // Chuyển đến phần thanh toán
                 }}
                 numDepositReqList={numDepositReqList}
@@ -410,15 +409,15 @@ const TestServiceReqList = () => {
                 selectedRecord={selectedRecord}
                 loading={loading}
                 loadingFetchTreatmentFeeDetail={loadingFetchTreatmentFeeDetail}
-                authOtp={authOtp}
+                authOtp={authOtpTreatmentFee}
                 setPayNow={setPayNow}
                 payNow={payNow}
             />
             {/* Xác thực OTP */}
             <ModalOtp
-                authOtp={authOtp}
+                authOtp={authOtpTreatmentFee}
                 isOpen={opentFormOtp}
-                onCancel={()=>{setOpentFormOtp(false)}}
+                onCancel={() => { setOpentFormOtp(false) }}
                 loadingVerifyOtpTreatmentFee={loadingVerifyOtpTreatmentFee}
                 errorVerifyOtpTreatmentFee={errorVerifyOtpTreatmentFee}
                 onConfirmOtp={onConfirmOtp}

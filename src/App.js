@@ -3,12 +3,15 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { MenuProvider } from "./context/MenuContext";
 import { AuthProvider } from './context/AuthContext';
+import { AuthOtpProvider } from './context/AuthOtpContext';
+
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Login from './pages/auth/Login';
 import Info401 from './pages/error/Info401';
 import Info403 from './pages/error/Info403';
+import Info404 from './pages/error/Info404';
 import Info500 from './pages/error/Info500';
 
 import CheckTokenMiddleware from "./components/middleware/CheckTokenMiddleware";
@@ -30,32 +33,38 @@ const App = () => {
     <Router>
       <AuthProvider>
         <MenuProvider>
-          <CheckTokenMiddleware>
-            <Header />
-            <Routes>
-              <Route path="/home" element={<Home />} />
-              <Route path="/login" element={<Login />} />
+          <AuthOtpProvider>
+            <CheckTokenMiddleware>
+              <Header />
+              <Routes>
+                <Route path="/home" element={<Home />} />
+                <Route path="/login" element={<Login />} />
 
-              <Route path="/bed" element={<BedList />} />
+                <Route path="/bed" element={<BedList />} />
 
-              <Route path="/treatment-fee-list" element={<TreatmentFeeList />} />
-              <Route path="/treatment-fee-list-no-login" element={<TreatmentFeeListNoLogin />} />
-              <Route path="/result-payment-thanh-toan" element={<ResultPaymentThanhToan />} />
-              <Route path="/result-payment-tam-ung" element={<ResultPaymentTamUng />} />
+                <Route path="/treatment-fee-list" element={<TreatmentFeeList />} />
+                <Route path="/treatment-fee-list-no-login" element={<TreatmentFeeListNoLogin />} />
+                <Route path="/result-payment-thanh-toan" element={<ResultPaymentThanhToan />} />
+                <Route path="/result-payment-tam-ung" element={<ResultPaymentTamUng />} />
 
-              <Route path="/transaction-list" element={<TransactionList />} />
-              <Route path="/transaction-list-no-login" element={<TransactionListNoLogin />} />
-              <Route path="/transaction-tt-detail" element={<TransactionTTDetail />} />
-              <Route path="/transaction-tt-detail-no-login" element={<TransactionTTDetailNoLogin />} />
-              <Route path="/transaction-tam-ung" element={<TransactionTamUng />} />
+                <Route path="/transaction-list" element={<TransactionList />} />
+                <Route path="/transaction-list-no-login" element={<TransactionListNoLogin />} />
+                <Route path="/transaction-tt-detail" element={<TransactionTTDetail />} />
+                <Route path="/transaction-tt-detail-no-login" element={<TransactionTTDetailNoLogin />} />
+                <Route path="/transaction-tam-ung" element={<TransactionTamUng />} />
 
-              <Route path="/info-401" element={<Info401 />} />
-              <Route path="/info-403" element={<Info403 />} />
-              <Route path="/info-500" element={<Info500 />} />
+                <Route path="/info-401" element={<Info401 />} />
+                <Route path="/info-403" element={<Info403 />} />
+                <Route path="/info-404" element={<Info404 />} /> 
+                <Route path="/info-500" element={<Info500 />} />
 
-            </Routes>
-            <Footer />
-          </CheckTokenMiddleware>
+                {/* Nếu không khớp bất kì url nào trả về 404 */}
+                <Route path="*" element={<Info404 />} /> 
+
+              </Routes>
+              <Footer />
+            </CheckTokenMiddleware>
+          </AuthOtpProvider>
         </MenuProvider>
       </AuthProvider>
     </Router>
