@@ -27,7 +27,7 @@ const Component = ({
             >
                 <span>
                     <FaMobileAlt className="mr-2 font-semibold inline" />
-                    {`Gửi lại OTP tới di động người thân `}
+                    {`Gửi mã OTP tới di động người thân `}
                     <span className="font-semibold text-black">
                         {selectedRecord.patientRelativeMobile ? selectedRecord.patientRelativeMobile.replace(/\d(?=\d{4})/g, "x") : ""}
                     </span>

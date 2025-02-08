@@ -1,6 +1,6 @@
 import React from "react";
 import { FaShieldAlt } from 'react-icons/fa'; // Import icon gửi
-
+import MaxLimitRequestVerifyOtp from '../Otp/MaxLimitRequestVerifyOtp'
 const Component = ({
     otp,
     verifyOtpTreatmentFeeData,
@@ -19,17 +19,26 @@ const Component = ({
                 <FaShieldAlt className="mr-2 font-semibold inline" />
                 Xác thực
             </button>
-            <p className="text-red-600 font-medium text-lg">
-                {verifyOtpTreatmentFeeData.totalRetryVerify !== undefined
-                    ? (<>
-                        {verifyOtpTreatmentFeeData.totalRetryVerify > 0
-                            ? ((`(Bạn còn ${verifyOtpTreatmentFeeData.totalRetryVerify} lần thử xác thực!)`))
-                            : (`(Vui lòng nhận 1 mã OTP khác và thử lại!)`)
-                        }
-                    </>)
-                    : (<></>)
-                }
-            </p>
+            {verifyOtpTreatmentFeeData.totalRetryVerify !== undefined
+                ? (<>
+                    {verifyOtpTreatmentFeeData.totalRetryVerify > 0
+                        ? (
+                            <p className="text-red-600 font-semibold text-lg">
+                                (Bạn còn {verifyOtpTreatmentFeeData.totalRetryVerify} lần thử xác thực!)
+                            </p>
+                        )
+                        : (
+                            <>
+                                <p className="font-semibold text-red-600 text-lg">
+                                    (Vui lòng nhận 1 mã OTP khác và thử lại!)
+                                </p>
+                                <MaxLimitRequestVerifyOtp />
+                            </>
+                        )
+                    }
+                </>)
+                : (<></>)
+            }
         </>
     )
 }

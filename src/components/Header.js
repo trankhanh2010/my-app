@@ -6,16 +6,14 @@ import NavMenuContainer from './header/NavMenuContainer';
 import { useMenuContext } from "../context/MenuContext";
 import { useLocation } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
+import routes from "../../src/routes"; 
 
 const Header = () => {
   const { selectedMenu, setSelectedMenu } = useMenuContext();
   const location = useLocation();
-  const urlGuest = [ 
-    "/home",       
-    "/result-payment-thanh-toan",
-    "/result-payment-tam-ung",
-    "/treatment-fee-list-no-login",
-  ];
+  // Lấy danh sách route dành cho khách
+  const urlGuest = routes.filter(route => route.public).map(route => route.path);
+
   const { authToken } = useAuth();
   const currentPath = location.pathname;
   // Khách là khi không có token và vào trang dành cho khách

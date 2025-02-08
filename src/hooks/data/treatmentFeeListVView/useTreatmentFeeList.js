@@ -24,6 +24,8 @@ const useTreatmentFeeList = () => {
     const [isHelpInputFiler, setIsHelpInputFiler] = useState(true)
     const [isHelpButtonSearch, setIsHelpButtonSearch] = useState(true)
 
+    const [maxLimitRequestSendOtp, setMaxLimitRequestSendOtp] = useState()
+
     /// Xử lý khi scroll và lấy thêm dữ liệu mới vẫn giữ vị trí scroll cũ
     const scrollContainerRef = useRef(null); // Dùng ref để tham chiếu đến thẻ div
     /// Xử lý chuyển người dùng đến phần thanh toán khi nhấn Thanh toán ngay
@@ -440,6 +442,7 @@ const useTreatmentFeeList = () => {
             }else{
                 if(sendOtpPhoneTreatmentFeeData.limitRequest){
                     addAlert("Thiết bị của bạn yêu cầu quá nhiều mã OTP trong 24h qua! Thử lại sau 24h!", "error"); 
+                    setMaxLimitRequestSendOtp(true)
                 }else{
                     addAlert("Gửi mã OTP qua SMS không thành công! Thử lại sau ít phút!", "error"); 
                 }
@@ -455,6 +458,7 @@ const useTreatmentFeeList = () => {
             }else{
                 if(sendOtpMailTreatmentFeeData.limitRequest){
                     addAlert("Thiết bị của bạn yêu cầu quá nhiều mã OTP trong 24h qua! Thử lại sau 24h!", "error"); 
+                    setMaxLimitRequestSendOtp(true)
                 }else{
                     addAlert("Gửi mã OTP qua Mail không thành công! Thử lại sau ít phút!", "error"); 
                 }
@@ -470,6 +474,7 @@ const useTreatmentFeeList = () => {
             }else{
                 if(sendOtpPatientRelativePhoneTreatmentFeeData.limitRequest){
                     addAlert("Thiết bị của bạn yêu cầu quá nhiều mã OTP trong 24h qua! Thử lại sau 24h!", "error"); 
+                    setMaxLimitRequestSendOtp(true)
                 }else{
                     addAlert("Gửi mã OTP qua SMS không thành công! Thử lại sau ít phút!", "error"); 
                 }
@@ -485,6 +490,7 @@ const useTreatmentFeeList = () => {
             }else{
                 if(sendOtpPatientRelativeMobileTreatmentFeeData.limitRequest){
                     addAlert("Thiết bị của bạn yêu cầu quá nhiều mã OTP trong 24h qua! Thử lại sau 24h!", "error"); 
+                    setMaxLimitRequestSendOtp(true)
                 }else{
                     addAlert("Gửi mã OTP qua SMS không thành công! Thử lại sau ít phút!", "error"); 
                 }
@@ -773,6 +779,8 @@ const useTreatmentFeeList = () => {
         onSendPatientRelativeMobileOtp,
         alerts,
         removeAlert,
+        maxLimitRequestSendOtp, 
+        setMaxLimitRequestSendOtp,
     };
 };
 

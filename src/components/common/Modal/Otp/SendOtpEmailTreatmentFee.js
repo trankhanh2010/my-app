@@ -27,7 +27,7 @@ const Component = ({
             >
                 <span>
                     <FaRegEnvelope className="mr-2 font-semibold inline" />
-                    {`Gửi lại OTP tới email người bệnh `}
+                    {`Gửi mã OTP tới email người bệnh `}
                     <span className="font-semibold text-black">
                         {selectedRecord.patientEmail ? maskEmail(selectedRecord.patientEmail) : ""}
                     </span>

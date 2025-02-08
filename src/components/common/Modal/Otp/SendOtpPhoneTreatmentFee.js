@@ -27,7 +27,7 @@ const Component = ({
             >
                 <span>
                     <FaPaperPlane className="mr-2 font-semibold inline" />
-                    {`Gửi lại OTP tới điện thoại người bệnh `}
+                    {`Gửi mã OTP tới điện thoại người bệnh `}
                     <span className="font-semibold text-black">
                         {selectedRecord.patientPhone ? selectedRecord.patientPhone.replace(/\d(?=\d{4})/g, "x") : ""}
                     </span>

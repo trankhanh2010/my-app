@@ -150,6 +150,8 @@ const TestServiceReqList = () => {
         setPayNow,
         alerts,
         removeAlert,
+        maxLimitRequestSendOtp, 
+        setMaxLimitRequestSendOtp,
     }
         = useTestServiceReqList();
 
@@ -442,6 +444,8 @@ const TestServiceReqList = () => {
                 sendOtpPatientRelativePhoneTreatmentFeeData={sendOtpPatientRelativePhoneTreatmentFeeData}
                 sendOtpMailTreatmentFeeData={sendOtpMailTreatmentFeeData}
                 sendOtpPhoneTreatmentFeeData={sendOtpPhoneTreatmentFeeData}
+                maxLimitRequestSendOtp={maxLimitRequestSendOtp}
+                setMaxLimitRequestSendOtp={setMaxLimitRequestSendOtp}
             />
         </div>
     );

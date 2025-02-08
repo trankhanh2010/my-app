@@ -2,43 +2,36 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useMasterService from "../../services/master/useMasterService";
 import Authenticating from "../common/Info/Authenticating";
-import Info401 from "../../pages/error/Info401";
-import Info403 from "../../pages/error/Info403";
-import Info500 from "../../pages/error/Info500";
+import routes from "../../routes"; // Import danh sách route
 
 const Middleware = ({ children }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const [isAuthenticating, setIsAuthenticating] = useState(true); // Mặc định là true, tức là đang xác thực
-    const noAuthRoutes = [
-        "/home",
-        "/login", 
-        "/info-401",
-        "/info-403",
-        "/info-404",
-        "/info-500",
-        "/result-payment-thanh-toan",
-        "/result-payment-tam-ung",
-        "/treatment-fee-list-no-login",
-        "/transaction-list-no-login",
-        "/transaction-tt-detail-no-login",
-
-    ]; // Các route không cần xác thực
+    // Lấy route hiện tại từ danh sách route
+    const currentRoute = routes.find(route => route.path === location.pathname);
 
     useEffect(() => {
-        const currentPath = location.pathname;
-
+        // Nếu URL không hợp lệ, điều hướng về 404
+        if (!currentRoute) {
+            navigate("/info-404");
+            return;
+        }
+        
         // Nếu là route không cần xác thực, bỏ qua xác thực
-        if (noAuthRoutes.includes(currentPath)) {
+        if (currentRoute.public) {
             setIsAuthenticating(false);
             return;
         }
 
-        // Nếu không có token và URL cần xác thực thì điều hướng về trang 401
-        if (!noAuthRoutes.includes(location.pathname) && !useMasterService.getAuthToken()) {
-            navigate("/info-401")
-            return; 
+        // Nếu không có token và cần xác thực, điều hướng về 401
+        if (!useMasterService.getAuthToken()) {
+            navigate("/info-401");
+            return;
         }
+
+        // Nếu có token và cần xác thực, nhưng token không có quyền thì trả về 403
+        {/*Thêm sau */}
 
         // Kiểm tra token và xác thực
         const validateToken = async () => {
@@ -66,11 +59,6 @@ const Middleware = ({ children }) => {
     if (isAuthenticating) {
         return <Authenticating />;
     }
-
-    // // Nếu không có token và URL cần xác thực thì điều hướng về trang 401
-    // if (!noAuthRoutes.includes(location.pathname) && !useMasterService.getAuthToken()) {
-    //     return <Info401 />;
-    // }
 
     // Hiển thị nội dung children khi xác thực xong
     return <>{children}</>;

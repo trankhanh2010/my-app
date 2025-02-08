@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import FormVerifyOtp from "../Otp/FormVerifyOtp"
+import MaxLimitRequestSendOtp from "../Otp/MaxLimitRequestSendOtp"
 import { FaCheck, FaTimes } from "react-icons/fa";
 
 const Modal = ({
@@ -30,6 +31,8 @@ const Modal = ({
     sendOtpPatientRelativePhoneTreatmentFeeData,
     sendOtpMailTreatmentFeeData,
     sendOtpPhoneTreatmentFeeData,
+    maxLimitRequestSendOtp, 
+    setMaxLimitRequestSendOtp,
 }) => {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const inputRefs = useRef([]);
@@ -38,6 +41,9 @@ const Modal = ({
     const [resendPatientRelativePhoneTimeout, setResendPatientRelativePhoneTimeout] = useState(0); // Đếm ngược giây
     const [resendPatientRelativeMobileTimeout, setResendPatientRelativeMobileTimeout] = useState(0); // Đếm ngược giây
 
+    const onCloseMaxLimitRequestSendOtp = () => {
+        setMaxLimitRequestSendOtp(false);
+    }
     const handleChange = (index, value) => {
         if (!/^[0-9]?$/.test(value)) return; // Chỉ cho phép nhập số
 
@@ -269,6 +275,11 @@ const Modal = ({
                         resendPatientRelativeMobileTimeout={resendPatientRelativeMobileTimeout}
                     />
                 </div>
+                {maxLimitRequestSendOtp && <MaxLimitRequestSendOtp
+                    openModal={maxLimitRequestSendOtp}
+                    onClose={onCloseMaxLimitRequestSendOtp}
+                />
+                }
             </div>
         </div>
     );
