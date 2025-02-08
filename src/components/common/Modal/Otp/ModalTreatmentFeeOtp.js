@@ -31,7 +31,7 @@ const Modal = ({
     sendOtpPatientRelativePhoneTreatmentFeeData,
     sendOtpMailTreatmentFeeData,
     sendOtpPhoneTreatmentFeeData,
-    maxLimitRequestSendOtp, 
+    maxLimitRequestSendOtp,
     setMaxLimitRequestSendOtp,
 }) => {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -87,8 +87,8 @@ const Modal = ({
 
     // Mở modal thì gửi otp qua phone 
     useEffect(() => {
-        if(isOpen && !authOtp){
-            if(selectedRecord && selectedRecord.patientCode && resendPhoneTimeout <=0){
+        if (isOpen && !authOtp) {
+            if (selectedRecord && selectedRecord.patientCode && resendPhoneTimeout <= 0) {
                 handleResendPhoneOtp()
             }
         }
@@ -109,7 +109,7 @@ const Modal = ({
     const handleResendPhoneOtp = () => {
         if (resendPhoneTimeout === 0) {
             onSendPhoneOtp(selectedRecord.patientCode);
-            setResendPhoneTimeout(15); // Reset lại bộ đếm
+            setResendPhoneTimeout(5); // Reset lại bộ đếm
         }
     };
     // mail người bệnh
@@ -126,7 +126,7 @@ const Modal = ({
     const handleResendMailOtp = () => {
         if (resendMailTimeout === 0) {
             onSendMailOtp(selectedRecord.patientCode);
-            setResendMailTimeout(15); // Reset lại bộ đếm
+            setResendMailTimeout(5); // Reset lại bộ đếm
         }
     };
     // sms phone người thân
@@ -143,7 +143,7 @@ const Modal = ({
     const handleResendPatientRelativePhoneOtp = () => {
         if (resendPatientRelativePhoneTimeout === 0) {
             onSendPatientRelativePhoneOtp(selectedRecord.patientCode);
-            setResendPatientRelativePhoneTimeout(15); // Reset lại bộ đếm
+            setResendPatientRelativePhoneTimeout(5); // Reset lại bộ đếm
         }
     };
     // sms mobile người thân
@@ -160,7 +160,7 @@ const Modal = ({
     const handleResendPatientRelativeMobileOtp = () => {
         if (resendPatientRelativeMobileTimeout === 0) {
             onSendPatientRelativeMobileOtp(selectedRecord.patientCode);
-            setResendPatientRelativeMobileTimeout(15); // Reset lại bộ đếm
+            setResendPatientRelativeMobileTimeout(5); // Reset lại bộ đếm
         }
     };
 
@@ -242,7 +242,7 @@ const Modal = ({
 
                     <h3 className="text-lg font-semibold text-gray-700">{`Nhập mã OTP được gửi đến bạn!`}</h3>
                     <p className="text-blue-600 text-lg italic mb-5">
-                        (Tối đa 1 mã OTP mỗi 2 phút)
+                        {sendOtpPhoneTreatmentFeeData && sendOtpPhoneTreatmentFeeData.otpTTL && `(Mỗi mã OTP có hiệu lực ${sendOtpPhoneTreatmentFeeData.otpTTL} phút)`}
                     </p>
                     <FormVerifyOtp
                         onCancel={onCancel}
@@ -278,6 +278,12 @@ const Modal = ({
                 {maxLimitRequestSendOtp && <MaxLimitRequestSendOtp
                     openModal={maxLimitRequestSendOtp}
                     onClose={onCloseMaxLimitRequestSendOtp}
+                    otpMaxRequestsPerDay={
+                        sendOtpPhoneTreatmentFeeData?.otpMaxRequestsPerDay
+                        ?? sendOtpMailTreatmentFeeData?.otpMaxRequestsPerDay
+                        ?? sendOtpPatientRelativePhoneTreatmentFeeData?.otpMaxRequestsPerDay
+                        ?? sendOtpPatientRelativeMobileTreatmentFeeData?.otpMaxRequestsPerDay
+                    }
                 />
                 }
             </div>
