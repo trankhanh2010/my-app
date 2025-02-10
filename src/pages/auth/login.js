@@ -5,7 +5,7 @@ import useMasterList from "../../hooks/master/useMasterList";
 import ManegetAlert from "../../components/common/Alert/ManegerAlert";
 import useMasterService from "../../services/master/useMasterService";
 import config from "../../config";
-
+import Logo from "../../components/header/Logo"
 const Login = () => {
     const tokenAppApiUrl = config.tokenAppApiUrl;
     const [username, setUsername] = useState("");
@@ -60,21 +60,18 @@ const Login = () => {
     };
 
     return (
-        <div className="w-[100%] drop-shadow-md">
+        <div className="w-[100%] drop-shadow-md min-h-[70vh] bg-gray-50">
             {/* Lớp phủ để khóa màn hình khi đang hiển thị alert và chuyển hướng */}
             {(isLoading || isRedirecting) && (
-                <div className="absolute inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
+                <div className="absolute inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50 h-full">
                     <div className="text-white text-lg">Đang chuyển hướng...</div>
                 </div>
             )}
-            <div className="relative flex flex-col sm:flex-row item-center justify-center pt-10 pb-5 ">
-                {/*thông tin*/}
-                <div className="bg-gradient-to-r from-sky-500 to-indigo-500 p-8  drop-shadow-md w-full md:w-[70%] max-w-sm min-h-[70vh]">
+            <div className="flex item-center justify-center pt-10">
 
-                </div>
                 {/*form đăng nhập*/}
-                <div className="bg-white p-8  drop-shadow-2xl w-full max-w-sm md:w-[30%] min-h-[70vh]">
-                    <div className="text-2xl font-semibold text-center mb-6 uppercase">Đăng nhập hệ thống</div>
+                <div className="bg-white p-8 drop-shadow-2xl w-full sm:w-[40%] sm:order-1 h-auto rounded-lg">
+                    <div className="text-2xl font-semibold text-center mb-6 uppercase">Đăng nhập</div>
                     <form onSubmit={handleLogin} className="space-y-4">
                         <div className="drop-shadow-sm">
                             <label className="block text-sm font-medium text-gray-700 mb-1">Tài khoản:</label>
@@ -112,6 +109,7 @@ const Login = () => {
             <ManegetAlert
                 alerts={alerts}
                 removeAlert={removeAlert}
+                className="top-4"
             />
         </div>
     );

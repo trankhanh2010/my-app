@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import ArrowIcon from "./ArrowIcon";
+import ArrowIcon from "../ArrowIcon";
 
 const Dropdown = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -11,7 +11,7 @@ const Dropdown = () => {
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         className="flex li-nav-header"
       >
-        Danh mục
+        Giao dịch
         <ArrowIcon isRotated={isDropdownOpen}/>     
 
       </button>
@@ -19,10 +19,26 @@ const Dropdown = () => {
         <ul className="mt-2 ml-2 bg-transparent whitespace-nowrap">
           <li>
             <Link
-              to="/bed"
+              to="/transaction-list"
               className="li-nav-header-category"
             >
-              Buồng bệnh
+              Danh sách giao dịch
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/transaction-tt-detail"
+              className="li-nav-header-category"
+            >
+              Chi tiết thanh toán
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/transaction-tam-ung"
+              className="li-nav-header-category"
+            >
+              Tạm ứng
             </Link>
           </li>
         </ul>

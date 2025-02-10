@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import CategoryDropdown from "./CategoryDropdown";
-import { useAuth } from '../../context/AuthContext';
+import CategoryDropdown from "../dropdown/CategoryDropdown";
+import { useAuth } from '../../../context/AuthContext';
 
 const NavMenu = ({ isMobileMenuOpen }) => {
     const { authToken } = useAuth();

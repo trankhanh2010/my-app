@@ -11,11 +11,11 @@ const Modal = ({ openModal, onClose, otpMaxRequestsPerDay }) => {
                     <FaExclamationTriangle className="mx-auto mb-4 text-red-600 w-12 h-12" />
                 </div>
                 <p className="text-lg font-semibold text-black uppercase mb-2">Thiết bị của bạn đã gửi quá nhiều yêu cầu nhận mã OTP!</p>
-                <p className="text-lg text-red-500">{otpMaxRequestsPerDay && `Bạn đã yêu cầu vượt quá ${otpMaxRequestsPerDay} mã OTP trong 24h!`}</p>
+                <p className="text-lg text-red-500 font-semibold">{otpMaxRequestsPerDay && `Bạn đã yêu cầu vượt quá ${otpMaxRequestsPerDay} mã OTP trong 24h!`}</p>
                 <p className="text-lg text-red-500 mb-4 font-semibold">Vui lòng thử lại sau!</p>
                 <button
                     onClick={onClose}
-                    className="bg-gray-500 text-white px-5 py-2.5 rounded-lg text-sm hover:bg-gray-600 transition"
+                    className="bg-blue-500 text-white px-5 py-2.5 rounded-lg text-sm hover:bg-blue-600 transition"
                 >
                     OK
                 </button>

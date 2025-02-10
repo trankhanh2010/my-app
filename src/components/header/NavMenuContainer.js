@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react";
 import { useMenuContext } from "../../context/MenuContext";
 import ArrowIcon from "./ArrowIcon";
-import NavMenuKhac from "./NavMenuKhac";
-import NavMenuThuNgan from "./NavMenuThuNgan";
+import NavMenuKhac from "./navMenu/NavMenuKhac";
+import NavMenuThuNgan from "./navMenu/NavMenuThuNgan";
+import NavMenuXacThuc from "./navMenu/NavMenuXacThuc";
 
 const NavMenuContainer = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { selectedMenu, setSelectedMenu } = useMenuContext();
@@ -45,6 +46,8 @@ const NavMenuContainer = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         return <NavMenuKhac isMobileMenuOpen={isMobileMenuOpen} />;
       case "thuNgan":
         return <NavMenuThuNgan isMobileMenuOpen={isMobileMenuOpen} />;
+      case "xacThuc":
+        return <NavMenuXacThuc isMobileMenuOpen={isMobileMenuOpen} />;
       default:
         return null;
     }
@@ -77,25 +80,33 @@ const NavMenuContainer = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         >
           <button
             onClick={() => handleOnClick("khac")}
-            className={`px-4 py-2 ${
-              selectedMenu === "khac"
+            className={`px-4 py-2 ${selectedMenu === "khac"
                 ? "bg-indigo-500 text-white"
                 : "bg-white text-indigo-500"
-            } uppercase font-bold flex border-x-2`}
+              } uppercase font-bold flex border-x-2`}
           >
             Khác
             <ArrowIcon isRotated={selectedMenu === "khac"} />
           </button>
           <button
             onClick={() => handleOnClick("thuNgan")}
-            className={`px-4 py-2 ${
-              selectedMenu === "thuNgan"
+            className={`px-4 py-2 ${selectedMenu === "thuNgan"
                 ? "bg-indigo-500 text-white"
                 : "bg-white text-indigo-500"
-            } uppercase font-bold flex border-x-2`}
+              } uppercase font-bold flex border-x-2`}
           >
             Thu Ngân
             <ArrowIcon isRotated={selectedMenu === "thuNgan"} />
+          </button>
+          <button
+            onClick={() => handleOnClick("xacThuc")}
+            className={`px-4 py-2 ${selectedMenu === "xacThuc"
+                ? "bg-indigo-500 text-white"
+                : "bg-white text-indigo-500"
+              } uppercase font-bold flex border-x-2`}
+          >
+            Xác thực
+            <ArrowIcon isRotated={selectedMenu === "xacThuc"} />
           </button>
         </div>
 

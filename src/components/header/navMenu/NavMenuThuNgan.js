@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useAuth } from '../../context/AuthContext';
-import TransactionDropdown from './TransactionDropdown';
+import { useAuth } from '../../../context/AuthContext';
+import TransactionDropdown from '../dropdown/TransactionDropdown';
 const NavMenu = ({ isMobileMenuOpen }) => {
     const { authToken } = useAuth();
 
