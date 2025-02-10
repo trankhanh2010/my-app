@@ -18,7 +18,7 @@ const NavMenu = ({ isMobileMenuOpen }) => {
                             to="/device-get-otp-treatment-fee-list"
                             className=" block li-nav-header"
                         >
-                            Quản lý thiết bị nhận mã OTP xem viện phí
+                            Danh sách thiết bị đang bị chặn nhận mã OTP xem viện phí
                         </Link>
                     </li>
                 </>

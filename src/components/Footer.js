@@ -3,7 +3,7 @@ import { FaPhoneAlt, FaMapMarkerAlt, FaClock, FaHospital } from 'react-icons/fa'
 
 const Footer = () => {
   return (
-    <footer className="bg-blue-600 text-white py-6">
+    <footer className="bg-gradient-to-r from-sky-500 to-indigo-500 text-white py-6 mt-2">
       <div className="max-w-4xl mx-auto px-4">
         {/* Thông tin liên hệ */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">

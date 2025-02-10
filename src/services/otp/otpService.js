@@ -1,4 +1,5 @@
-import apiNoAuth, { encodeParams } from '../api/api';
+import apiNoAuth, { encodeParams } from '../api/apiNoAuth';
+import api from '../api/api'
 import config from "../../config";
 
 const checkOtpTreatmentFee = async (otp, patientCode) => {
@@ -56,10 +57,22 @@ const sendOtpPatientRelativeMobileTreatmentFee = async (patientCode) => {
         throw error; // Ném lỗi để xử lý ở cấp cao hơn
     }
 };
+
+const getDeviceGetOtpTreatmentFeeList = async () => {
+
+    try {
+        const response = await api.get(`/api/v1/device-get-otp-treatment-fee-list`);
+        return response.data; // Trả về dữ liệu từ API
+    } catch (error) {
+        console.error("Lỗi khi lấy ds thiết bị nhận otp:", error);
+        throw error; // Ném lỗi để xử lý ở cấp cao hơn
+    }
+};
 export default {
     checkOtpTreatmentFee,
     sendOtpPhoneTreatmentFee,
     sendOtpMailTreatmentFee,
     sendOtpPatientRelativePhoneTreatmentFee,
     sendOtpPatientRelativeMobileTreatmentFee,
+    getDeviceGetOtpTreatmentFeeList,
 };

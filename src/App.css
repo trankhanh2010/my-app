@@ -149,3 +149,19 @@ em {
 .no-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari, and Opera */
 }
+
+/* Tùy chỉnh thanh cuộn */
+::-webkit-scrollbar {
+  width: 4px; /* Độ rộng thanh cuộn dọc */
+  height: 4px; /* Độ cao thanh cuộn ngang */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Màu thanh cuộn */
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+ /**/

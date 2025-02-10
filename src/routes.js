@@ -17,6 +17,7 @@ import TransactionListNoLogin from "./pages/data/transactionListVView/Transactio
 import TransactionTTDetail from "./pages/data/transactionTTDetail/TransactionTTDetail";
 import TransactionTTDetailNoLogin from "./pages/data/transactionTTDetail/TransactionTTDetailNoLogin";
 import TransactionTamUng from "./pages/transaction/TransactionTamUng";
+import DeviceGetOtpTreatmentFeeLise from "./pages/auth/DeviceGetOtpTreatmentFeeList";
 
 const routes = [
     { path: "/home", component: Home, public: true },
@@ -37,7 +38,8 @@ const routes = [
     { path: "/transaction-tam-ung", component: TransactionTamUng, public: false },
 
     // OTP
-    
+    { path: "/device-get-otp-treatment-fee-list", component: DeviceGetOtpTreatmentFeeLise, public: false },
+
     // Trang thông tin lỗi
     { path: "/info-401", component: Info401, public: true },
     { path: "/info-403", component: Info403, public: true },

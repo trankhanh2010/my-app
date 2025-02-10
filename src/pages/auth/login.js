@@ -6,6 +6,7 @@ import ManegetAlert from "../../components/common/Alert/ManegerAlert";
 import useMasterService from "../../services/master/useMasterService";
 import config from "../../config";
 import Logo from "../../components/header/Logo"
+import Loading from "../../components/common/Info/Loading";
 const Login = () => {
     const tokenAppApiUrl = config.tokenAppApiUrl;
     const [username, setUsername] = useState("");
@@ -58,15 +59,25 @@ const Login = () => {
             setIsLoading(false); // Kết thúc loading khi xong
         }
     };
-
+    if (isLoading || isRedirecting)
+        return (
+            <div className="w-[100%] drop-shadow-md min-h-[70vh] flex">
+                <Loading />
+                {/* Component hiển thị thông báo */}
+                <ManegetAlert
+                    alerts={alerts}
+                    removeAlert={removeAlert}
+                    className="top-4"
+                />
+            </div>)
     return (
-        <div className="w-[100%] drop-shadow-md min-h-[70vh] bg-gray-50">
-            {/* Lớp phủ để khóa màn hình khi đang hiển thị alert và chuyển hướng */}
+        <div className="w-[100%] drop-shadow-md min-h-[70vh]">
+            {/* Lớp phủ để khóa màn hình khi đang hiển thị alert và chuyển hướng
             {(isLoading || isRedirecting) && (
-                <div className="absolute inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50 h-full">
-                    <div className="text-white text-lg">Đang chuyển hướng...</div>
+                <div className="absolute inset-0 bg-opacity-50 flex items-center justify-center z-50 h-full">
+                    <div className="text-black text-lg">Đang chuyển hướng...</div>
                 </div>
-            )}
+            )} */}
             <div className="flex item-center justify-center pt-10">
 
                 {/*form đăng nhập*/}
