@@ -153,11 +153,11 @@ em {
 /* Tùy chỉnh thanh cuộn */
 ::-webkit-scrollbar {
   width: 4px; /* Độ rộng thanh cuộn dọc */
-  height: 4px; /* Độ cao thanh cuộn ngang */
+  height: 12px; /* Độ cao thanh cuộn ngang */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #888; /* Màu thanh cuộn */
+  background-color: #888888; /* Màu thanh cuộn */
   border-radius: 6px;
 }
 

@@ -68,6 +68,16 @@ const getDeviceGetOtpTreatmentFeeList = async () => {
         throw error; // Ném lỗi để xử lý ở cấp cao hơn
     }
 };
+const unlockDeviceLimitTotalRequestSendOtp = async (selectedRecord) => {
+    if(!selectedRecord || !selectedRecord.ip || !selectedRecord.device) return 
+    try {
+        const response = await api.get(`/api/v1/unlock-device-get-otp-treatment-fee-list?deviceInfo=${selectedRecord.device}&ipAddress=${selectedRecord.ip}`);
+        return response.data; // Trả về dữ liệu từ API
+    } catch (error) {
+        console.error("Lỗi khi mở chặn thiết bị nhận otp:", error);
+        throw error; // Ném lỗi để xử lý ở cấp cao hơn
+    }
+};
 export default {
     checkOtpTreatmentFee,
     sendOtpPhoneTreatmentFee,
@@ -75,4 +85,5 @@ export default {
     sendOtpPatientRelativePhoneTreatmentFee,
     sendOtpPatientRelativeMobileTreatmentFee,
     getDeviceGetOtpTreatmentFeeList,
+    unlockDeviceLimitTotalRequestSendOtp,
 };
