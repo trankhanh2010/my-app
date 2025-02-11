@@ -57,7 +57,7 @@ const PaymentModal = ({
         </div>
         <div className="mb-4 text-sm">
           Để <span className='text-blue-600 font-semibold'>tiếp tục quá trình thanh toán</span> bạn phải:   
-          <ul class="list-disc ml-6">
+          <ul className="list-disc ml-6">
               <li>Hoặc <a href={payment.payUrl} target="_blank">
                 <span className='text-red-600 font-semibold hover:underline'>hủy giao dịch trước đó </span>
                 </a>(<span className='italic'>nhấn nút <span className='text-pink-500 not-italic font-semibold'>Quay về</span> phía dưới thời gian hết hạn đơn hàng trong trang thanh toán MOMO</span>). <span className='text-blue-600 font-semibold'>Sau đó thực hiện lại thao tác thanh toán.</span>

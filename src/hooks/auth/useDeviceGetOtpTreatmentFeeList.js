@@ -95,7 +95,10 @@ const useDeviceGetOtpTreatmentFeeList = () => {
            hanldeReload()
         }
     }, [filterTrigger]);
-
+    // Tải dữ liệu lần đầu
+    useEffect(() => {
+        hanldeReload()
+    }, []);
     return {
         fieldLabels,
         data,

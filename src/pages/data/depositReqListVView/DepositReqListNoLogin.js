@@ -66,7 +66,7 @@ const Page = ({
             {/* Danh sách dữ liệu */}
             <Card className="md:col-span-12">
                 <div
-                    className={`relative overflow-x-auto overflow-y-auto ${isFullScreen!=null ? (isFullScreen ? 'md:h-[90vh]' : 'md:h-[75vh]') : ''} mb-2 flex flex-col border`}
+                    className={`relative overflow-x-auto overflow-y-auto min-h-[80vh] ${isFullScreen!=null ? (isFullScreen ? 'md:h-[90vh]' : 'md:h-[75vh]') : ''} mb-2 flex flex-col border`}
                 >
                     <DepositReqListTableNoLogin
                         fieldLabels={fieldLabels}

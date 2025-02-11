@@ -19,26 +19,27 @@ const DeviceGetOtpTreatmentFeeListTable = ({
     if (loading) return <Loading />;
     if (error) return <ErrorInfo />;
     if (isProcessing) return <Loading />;
-    if (!data) return <NoRecord />
+    if (!data || data.length == 0) return <NoRecord />
 
     return (
         <div>
             <table className="table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <Thead
                     fields={[
-                        { fieldName: fieldLabels.totalRequests },
-                        { fieldName: 'Hành động' },
-                        { fieldName: fieldLabels.ttl },
-                        { fieldName: fieldLabels.device },
-                        { fieldName: fieldLabels.ip },
-                        { fieldName: fieldLabels.firstRequestAt },
-                        { fieldName: fieldLabels.lastRequestAt },
+                        { fieldName: fieldLabels.totalRequests, css: `w-[15%]` },
+                        { fieldName: 'Hành động', css: `w-[15%]` },
+                        { fieldName: fieldLabels.ttl, css: `w-[15%]` },
+                        { fieldName: fieldLabels.device, css: `w-[15%]` },
+                        { fieldName: fieldLabels.ip, css: `w-[15%]` },
+                        { fieldName: fieldLabels.firstRequestAt, css: `w-[15%]` },
+                        { fieldName: fieldLabels.lastRequestAt, css: `w-[15%]` },
                     ]}
                 />
                 <tbody>
-                    {data.map((record) => (
+                    {data.map((record, index) => (
                         <tr
                             className={`hover:bg-gray-50 cursor-pointer ${selectedRecord?.device === record.device && selectedRecord?.ip === record.ip ? "bg-blue-100" : ""}`}
+                            key={index}
                             onClick={() => {
                                 handleRecordSelect(record)
                             }}

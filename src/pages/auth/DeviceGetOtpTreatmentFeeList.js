@@ -33,7 +33,7 @@ const DeviceGetOtpTreatmentFeeList = () => {
         <div className={`grid grid-cols-1 md:grid-cols-12 grid-row-2 gap-2 mt-2 w-full`}>
             <Card className={`md:col-span-3 md:row-span-1 h-auto`}>
                 <SectionHeader title="Bộ lọc" />
-                <div class="relative overflow-x-auto flex flex-col">
+                <div className="relative overflow-x-auto flex flex-col">
                     <Filter
                         loading={loading}
                         setFilterTrigger={setFilterTrigger}
@@ -42,7 +42,7 @@ const DeviceGetOtpTreatmentFeeList = () => {
             </Card>
             <Card className={`md:col-span-3 md:row-span-11  md:order-2`}>
                 <SectionHeader title="Thông tin chi tiết" />
-                <div class="flex-grow relative overflow-x-auto max-h-[100vh] flex flex-col">
+                <div className="flex-grow relative overflow-x-auto max-h-[100vh] flex flex-col">
                     <DeviceGetOtpTreatmentFeeListDetails
                         selectedRecord={selectedRecord}
                     />
@@ -50,7 +50,7 @@ const DeviceGetOtpTreatmentFeeList = () => {
             </Card>
             <Card className="md:col-span-9 md:row-span-12">
                 <SectionHeader title="Danh sách các thiết bị đang bị chặn nhận mã OTP trong 24h gần nhất" />
-                <div class="relative overflow-auto h-[80vh] flex flex-row border">
+                <div className="relative overflow-auto h-[80vh] flex flex-row border">
                     <DeviceGetOtpTreatmentFeeListTable
                         fieldLabels={fieldLabels}
                         data={data}
