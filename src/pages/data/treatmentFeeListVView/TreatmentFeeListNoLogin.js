@@ -21,6 +21,7 @@ import ButtonPayFeeNoLogin from "../../../components/data/treatmentFeeListVView/
 import ModalInfoFee from "../../../components/data/treatmentFeeListVView/ModalInfoFee";
 import ModalOtp from "../../../components/common/Modal/Otp/ModalTreatmentFeeOtp";
 import ManegerAlert from "../../../components/common/Alert/ManegerAlert";
+import ScrollButtons from "../../../components/common/Scroll/ScrollButtons";
 
 const TestServiceReqList = () => {
     const {
@@ -447,6 +448,9 @@ const TestServiceReqList = () => {
                 maxLimitRequestSendOtp={maxLimitRequestSendOtp}
                 setMaxLimitRequestSendOtp={setMaxLimitRequestSendOtp}
             />
+            
+      {/* Thêm nút cuộn */}
+      <ScrollButtons /> 
         </div>
     );
 };
