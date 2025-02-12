@@ -50,6 +50,7 @@ const Filter = ({
                     <div className="mt-1 w-full flex flex-col">
                         {/* Nút Lọc */}
                         <button
+                            disabled={!treatmentCode&&!patientCode}
                             onClick={() => {
                                 setApplyFilterCursor(true);
                                 setFilterTrigger(true);
@@ -90,7 +91,10 @@ const Filter = ({
                     <div className="relative">
                         <div className="absolute -top-6 left-4 w-4 h-4 bg-white border-l border-t border-gray-500 transform rotate-45"></div>
                         <p className="text-lg text-gray-700">
-                            Sau đó ấn nút <span className="text-blue-500 font-semibold">Tìm kiếm</span>!
+                            Ấn nút <span className="text-blue-500 font-semibold">Tìm kiếm</span>!
+                        </p>
+                        <p className="text-lg text-gray-700">
+                            Sau đó bạn cần nhập mã OTP mà chúng tôi gửi đến bạn để xem được thông tin!
                         </p>
                     </div>
                     <button
