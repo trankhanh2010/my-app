@@ -68,7 +68,7 @@ const Filter = ({
             </CardElement>
             {/* Phần hướng dẫn*/}
             {isHelpInputFiler && (
-                <div className="absolute bg-white border rounded-lg shadow-lg p-4  max-w-sm border-gray-500 right-10 top-[160px] mx-2 z-50" onClick={(e) => { setIsHelpInputFiler(false) }}>
+                <div className="absolute bg-white border rounded-lg shadow-lg p-4  max-w-sm border-gray-500 right-10 top-[160px] mx-2 z-40" onClick={(e) => { setIsHelpInputFiler(false) }}>
                     <div className="relative">
                         <div className="absolute -top-6 left-4 w-4 h-4 bg-white border-l border-t border-gray-500 transform rotate-45"></div>
                         <p className="text-lg text-gray-700">
@@ -86,7 +86,7 @@ const Filter = ({
                 </div>
             )}
             {(!isHelpInputFiler && isHelpButtonSearch) && (
-                <div className="absolute bg-white border rounded-lg shadow-lg p-4 max-w-sm border-gray-500 right-10 top-[200px] mx-2 z-50" onClick={(e) => { setIsHelpButtonSearch(false) }}>
+                <div className="absolute bg-white border rounded-lg shadow-lg p-4 max-w-sm border-gray-500 right-10 top-[200px] mx-2 z-40" onClick={(e) => { setIsHelpButtonSearch(false) }}>
                     <div className="relative">
                         <div className="absolute -top-6 left-4 w-4 h-4 bg-white border-l border-t border-gray-500 transform rotate-45"></div>
                         <p className="text-lg text-gray-700">

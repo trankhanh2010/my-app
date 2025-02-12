@@ -5,7 +5,7 @@ import TreatmentFeeListTable from "../../../components/data/treatmentFeeListVVie
 import InfoTransaction from "../../../components/data/treatmentFeeListVView/InfoTransaction";
 import InfoPatient from "../../../components/data/treatmentFeeListVView/InfoPatient";
 import SearchTestServiceReqTypeListTable from "../../../components/data/treatmentFeeListVView/SearchTestServiceReqTypeListTable";
-import TestServiceReqTypeListTable from "../../../components/data/treatmentFeeListVView/TestServiceReqTypeListTable";
+import TestServiceReqTypeListTableNoLogin from "../../../components/data/treatmentFeeListVView/TestServiceReqTypeListTableNoLogin";
 import FilterNoLogin from "../../../components/data/treatmentFeeListVView/FilterNoLogin";
 import ShowAllPayment from "../../../components/common/Modal/Payment/ShowAllPayment";
 import ResultPaymentModal from "../../../components/common/Modal/Payment/ResultPaymentModal";
@@ -22,6 +22,7 @@ import ModalInfoFee from "../../../components/data/treatmentFeeListVView/ModalIn
 import ModalOtp from "../../../components/common/Modal/Otp/ModalTreatmentFeeOtp";
 import ManegerAlert from "../../../components/common/Alert/ManegerAlert";
 import ScrollButtons from "../../../components/common/Scroll/ScrollButtons";
+import Banner from "../../../components/home/Banner"
 
 const TestServiceReqList = () => {
     const {
@@ -151,7 +152,7 @@ const TestServiceReqList = () => {
         setPayNow,
         alerts,
         removeAlert,
-        maxLimitRequestSendOtp, 
+        maxLimitRequestSendOtp,
         setMaxLimitRequestSendOtp,
     }
         = useTestServiceReqList();
@@ -211,7 +212,11 @@ const TestServiceReqList = () => {
     }, [authOtpTreatmentFee]); // Gọi lại khi có thay đổi
 
     return (
-        <div className={`grid grid-cols-1 md:grid-cols-12 grid-row-2 gap-2 mt-2 w-full ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
+        <div className={`grid grid-cols-1 md:grid-cols-12 grid-row-2 gap-2 mt-2 w-full xl:px-[50px] 2xl:px-[80px] ${isProcessing ? 'opacity-50 pointer-events-none' : ''}`}>
+            {/*Banner */}
+            <Card className={`md:col-span-12 h-auto`}>
+                <Banner />
+            </Card>
             {/* Tên trang*/}
             <Card className="md:order-1 md:col-span-12">
                 <PageHeader title="Thông tin viện phí" />
@@ -287,7 +292,7 @@ const TestServiceReqList = () => {
                 <div className="flex flex-col md:flex-row md:space-x-2 border">
                     {/*Nếu đang load thì đặt là flex để load nằm ở giữa */}
                     <div className={`w-full ${loadingRecord ? "flex" : ""} whitespace-pre-line break-words relative md:h-[60vh] overflow-x-auto overflow-y-auto `}>
-                        <TestServiceReqTypeListTable
+                        <TestServiceReqTypeListTableNoLogin
                             recordDetails={recordDetails}
                             fieldLabels={fieldLabels}
                             recordDetail={recordDetails}
@@ -448,9 +453,9 @@ const TestServiceReqList = () => {
                 maxLimitRequestSendOtp={maxLimitRequestSendOtp}
                 setMaxLimitRequestSendOtp={setMaxLimitRequestSendOtp}
             />
-            
-      {/* Thêm nút cuộn */}
-      <ScrollButtons /> 
+
+            {/* Thêm nút cuộn */}
+            <ScrollButtons />
         </div>
     );
 };

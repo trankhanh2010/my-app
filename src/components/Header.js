@@ -22,7 +22,7 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(selectedMenu);
 
   return (
-    <header className="bg-gradient-to-r from-sky-500 to-indigo-500 text-white shadow-md sticky top-0 z-50 sm:static">
+    <header className="bg-gradient-to-r from-white to-blue-500 text-white shadow-md sticky top-0 z-50 sm:static">
       <nav className="max-w-7xl mx-auto flex justify-between items-center px-6 py-2">
         {/* Logo */}
         <Logo />
