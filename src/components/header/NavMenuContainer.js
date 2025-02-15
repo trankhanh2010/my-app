@@ -4,6 +4,7 @@ import ArrowIcon from "./ArrowIcon";
 import NavMenuKhac from "./navMenu/NavMenuKhac";
 import NavMenuThuNgan from "./navMenu/NavMenuThuNgan";
 import NavMenuXacThuc from "./navMenu/NavMenuXacThuc";
+import NavMenuKhoa from "./navMenu/NavMenuKhoa";
 
 const NavMenuContainer = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { selectedMenu, setSelectedMenu } = useMenuContext();
@@ -48,6 +49,8 @@ const NavMenuContainer = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         return <NavMenuThuNgan isMobileMenuOpen={isMobileMenuOpen} />;
       case "xacThuc":
         return <NavMenuXacThuc isMobileMenuOpen={isMobileMenuOpen} />;
+      case "khoa":
+        return <NavMenuKhoa isMobileMenuOpen={isMobileMenuOpen} />;
       default:
         return null;
     }
@@ -81,8 +84,8 @@ const NavMenuContainer = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           <button
             onClick={() => handleOnClick("khac")}
             className={`px-4 py-2 ${selectedMenu === "khac"
-                ? "bg-indigo-500 text-white"
-                : "bg-white text-indigo-500"
+              ? "bg-indigo-500 text-white"
+              : "bg-white text-indigo-500"
               } uppercase font-bold flex border-x-2`}
           >
             Khác
@@ -91,8 +94,8 @@ const NavMenuContainer = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           <button
             onClick={() => handleOnClick("thuNgan")}
             className={`px-4 py-2 ${selectedMenu === "thuNgan"
-                ? "bg-indigo-500 text-white"
-                : "bg-white text-indigo-500"
+              ? "bg-indigo-500 text-white"
+              : "bg-white text-indigo-500"
               } uppercase font-bold flex border-x-2`}
           >
             Thu Ngân
@@ -101,12 +104,22 @@ const NavMenuContainer = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           <button
             onClick={() => handleOnClick("xacThuc")}
             className={`px-4 py-2 ${selectedMenu === "xacThuc"
-                ? "bg-indigo-500 text-white"
-                : "bg-white text-indigo-500"
+              ? "bg-indigo-500 text-white"
+              : "bg-white text-indigo-500"
               } uppercase font-bold flex border-x-2`}
           >
             Xác thực
             <ArrowIcon isRotated={selectedMenu === "xacThuc"} />
+          </button>
+          <button
+            onClick={() => handleOnClick("khoa")}
+            className={`px-4 py-2 ${selectedMenu === "khoa"
+              ? "bg-indigo-500 text-white"
+              : "bg-white text-indigo-500"
+              } uppercase font-bold flex border-x-2`}
+          >
+            Khoa
+            <ArrowIcon isRotated={selectedMenu === "khoa"} />
           </button>
         </div>
 

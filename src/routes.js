@@ -19,6 +19,8 @@ import TransactionTTDetailNoLogin from "./pages/data/transactionTTDetail/Transac
 import TransactionTamUng from "./pages/transaction/TransactionTamUng";
 import DeviceGetOtpTreatmentFeeLise from "./pages/auth/DeviceGetOtpTreatmentFeeList";
 
+import TreatmentBedRoomList from "./pages/data/treatmentBedRoomListVView.js/treatmentBedRoomList";
+
 const routes = [
     { path: "/home", component: Home, public: true },
     { path: "/login", component: Login, public: true },
@@ -26,6 +28,7 @@ const routes = [
     // Category
     { path: "/bed", component: BedList, public: false },
 
+    // Data
     { path: "/treatment-fee-list", component: TreatmentFeeList, public: false },
     { path: "/treatment-fee-list-no-login", component: TreatmentFeeListNoLogin, public: true },
     { path: "/result-payment-thanh-toan", component: ResultPaymentThanhToan, public: true },
@@ -36,6 +39,8 @@ const routes = [
     { path: "/transaction-tt-detail", component: TransactionTTDetail, public: false },
     { path: "/transaction-tt-detail-no-login", component: TransactionTTDetailNoLogin, public: true },
     { path: "/transaction-tam-ung", component: TransactionTamUng, public: false },
+
+    { path: "/treatment-bed-room-list", component: TreatmentBedRoomList, public: false },
 
     // OTP
     { path: "/device-get-otp-treatment-fee-list", component: DeviceGetOtpTreatmentFeeLise, public: false },
